@@ -1,0 +1,147 @@
+[
+  {
+    "id": "B01",
+    "status": "PASS",
+    "detail": "Fresh sample total, budget and chart use INR"
+  },
+  {
+    "id": "B02",
+    "status": "PASS",
+    "detail": "Combined tags filter the list without changing monthly summary"
+  },
+  {
+    "id": "B03",
+    "status": "PASS",
+    "detail": "Natural amount filter with text"
+  },
+  {
+    "id": "B04",
+    "status": "PASS",
+    "detail": "Search empty state"
+  },
+  {
+    "id": "B05",
+    "status": "PASS",
+    "detail": "Keyboard is the default; voice panel is closed"
+  },
+  {
+    "id": "B06",
+    "status": "PASS",
+    "detail": "Keyboard add extracts inline hashtags, deduplicates tags and updates total"
+  },
+  {
+    "id": "B07",
+    "status": "PASS",
+    "detail": "Inline tag addition"
+  },
+  {
+    "id": "B08",
+    "status": "PASS",
+    "detail": "Inline tag removal"
+  },
+  {
+    "id": "B09",
+    "status": "PASS",
+    "detail": "Editing an expense preserves tags and updates INR totals"
+  },
+  {
+    "id": "B10",
+    "status": "PASS",
+    "detail": "Expense edits and tags persist after refresh"
+  },
+  {
+    "id": "B11",
+    "status": "PASS",
+    "detail": "Budget exceeding warning uses the correct INR difference"
+  },
+  {
+    "id": "B12",
+    "status": "PASS",
+    "detail": "Delete cancellation preserves the record; confirmation removes it and restores total"
+  },
+  {
+    "id": "B13",
+    "status": "PASS",
+    "detail": "Month change isolates chart, total and budget while retaining all list records"
+  },
+  {
+    "id": "B14",
+    "status": "PASS",
+    "detail": "Whitespace-only description is rejected"
+  },
+  {
+    "id": "B15",
+    "status": "PASS",
+    "detail": "Voice panel opens only on request, explains audio handling and does not start capture"
+  },
+  {
+    "id": "B16",
+    "status": "PASS",
+    "detail": "Returning to keyboard closes voice UI without saving a draft"
+  },
+  {
+    "id": "B17",
+    "status": "PASS",
+    "detail": "Live INR/USD reference rate returned and conversion left expense total unchanged"
+  },
+  {
+    "id": "B18",
+    "status": "PASS",
+    "detail": "Manual conversion from foreign currency to INR"
+  },
+  {
+    "id": "B19",
+    "status": "PASS",
+    "detail": "Same-currency conversion uses rate 1 without network request"
+  },
+  {
+    "id": "B20",
+    "status": "PASS",
+    "detail": "Invalid search filter has an explanation"
+  },
+  {
+    "id": "B21",
+    "status": "PASS",
+    "detail": "What’s New is present with V2 features"
+  },
+  {
+    "id": "B22",
+    "status": "PASS",
+    "detail": "Simulated final speech fills amount/date/category/description/tags and never auto-saves"
+  },
+  {
+    "id": "B23",
+    "status": "PASS",
+    "detail": "Simulated permission denial preserves keyboard entry"
+  },
+  {
+    "id": "B24",
+    "status": "PASS",
+    "detail": "Closing the expense dialog cancels speech; a late event cannot save"
+  },
+  {
+    "id": "B25",
+    "status": "PASS",
+    "detail": "Network-rate failure explains fallback; a manual rate still converts"
+  },
+  {
+    "id": "B26",
+    "status": "PASS",
+    "detail": "Malformed rate response is rejected and does not replace a valid manual rate"
+  },
+  {
+    "id": "B27",
+    "status": "PASS",
+    "detail": "A delayed old-currency response cannot overwrite the new manual rate"
+  },
+  {
+    "id": "B28",
+    "status": "PASS",
+    "detail": "390px mobile layout has no page overflow after summary-card correction"
+  },
+  {
+    "id": "B29",
+    "status": "PASS",
+    "detail": "1280px desktop layout has no page overflow"
+  }
+]
