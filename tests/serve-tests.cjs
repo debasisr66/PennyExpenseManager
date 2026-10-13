@@ -12,7 +12,7 @@ http.createServer(async (request, response) => {
     const file = path.resolve(root, relative);
     if (!file.startsWith(root + path.sep) || relative.startsWith('.git/')) { response.writeHead(403); response.end(); return; }
     let data = await fs.readFile(file);
-    if (harness) data = Buffer.from(data.toString().replace('<script src="core.js">', '<script src="tests/browser-fixtures.js"></script>\n<script src="core.js">'));
+    if (harness) data = Buffer.from(data.toString().replace('<script src="core.js">', '<script src="tests/browser-fixtures.js"></script>\n<script src="core.js">').replace('<script src="app.js">','<script src="tests/translation-fixture.js"></script>\n<script src="tests/import-fixtures.js"></script>\n<script src="app.js">'));
     response.writeHead(200, { 'Content-Type': mime[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' }); response.end(data);
   } catch (e) { response.writeHead(404); response.end('Not found'); }
 }).listen(8767, '127.0.0.1', () => console.log('Test app: http://127.0.0.1:8767/\nSimulated voice: http://127.0.0.1:8767/voice-harness'));

@@ -9,6 +9,8 @@
     abort() { /* Keep reference so cancellation tests can deliver a late result. */ }
   }
   window.SpeechRecognition = FakeRecognition;
+  // Deterministic offline translation path; no language model download in tests.
+  window.Translator = {availability: async()=> 'unavailable'};
   const banner = document.createElement('section');
   banner.id = 'fixture-controls';
   banner.style.cssText = 'background:#fff4cc;border:2px solid #b98a22;padding:12px;margin:12px;font:14px sans-serif';

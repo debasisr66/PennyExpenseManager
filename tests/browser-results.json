@@ -1,147 +1,132 @@
 [
   {
-    "id": "B01",
+    "id": "V3B01",
     "status": "PASS",
-    "detail": "Fresh sample total, budget and chart use INR"
+    "detail": "IndexedDB datastore opens and test-case access is removed from the app"
   },
   {
-    "id": "B02",
+    "id": "V3B02",
     "status": "PASS",
-    "detail": "Combined tags filter the list without changing monthly summary"
+    "detail": "Saving a credit-card expense creates the reserved tag and updates INR totals"
   },
   {
-    "id": "B03",
+    "id": "V3B03",
     "status": "PASS",
-    "detail": "Natural amount filter with text"
+    "detail": "Changing payment method replaces the old reserved tag"
   },
   {
-    "id": "B04",
+    "id": "V3B04",
     "status": "PASS",
-    "detail": "Search empty state"
+    "detail": "Rail and exclusion search combine correctly"
   },
   {
-    "id": "B05",
+    "id": "V3B05",
     "status": "PASS",
-    "detail": "Keyboard is the default; voice panel is closed"
+    "detail": "Visual payment-method filter isolates matching expenses"
   },
   {
-    "id": "B06",
+    "id": "V3B06",
     "status": "PASS",
-    "detail": "Keyboard add extracts inline hashtags, deduplicates tags and updates total"
+    "detail": "Datastore retains payment edits and tags across refresh"
   },
   {
-    "id": "B07",
+    "id": "V3B07",
     "status": "PASS",
-    "detail": "Inline tag addition"
+    "detail": "CSV import validates and previews one row without mutating existing data"
   },
   {
-    "id": "B08",
+    "id": "V3B08",
     "status": "PASS",
-    "detail": "Inline tag removal"
+    "detail": "Approved CSV import commits one INR record to the local database"
   },
   {
-    "id": "B09",
+    "id": "V3B09",
     "status": "PASS",
-    "detail": "Editing an expense preserves tags and updates INR totals"
+    "detail": "Excel worker parses expenses and budgets; duplicate preview prevents repeated rows"
   },
   {
-    "id": "B10",
+    "id": "V3B10",
     "status": "PASS",
-    "detail": "Expense edits and tags persist after refresh"
+    "detail": "Undo import opens a replace preview and requires explicit confirmation"
   },
   {
-    "id": "B11",
+    "id": "V3B11",
     "status": "PASS",
-    "detail": "Budget exceeding warning uses the correct INR difference"
+    "detail": "Undo restores the pre-import expense list and budget"
   },
   {
-    "id": "B12",
+    "id": "V3B12",
     "status": "PASS",
-    "detail": "Delete cancellation preserves the record; confirmation removes it and restores total"
+    "detail": "CSV export triggers a downloadable file"
   },
   {
-    "id": "B13",
+    "id": "V3B13",
     "status": "PASS",
-    "detail": "Month change isolates chart, total and budget while retaining all list records"
+    "detail": "Excel export triggers a genuine XLSX download"
   },
   {
-    "id": "B14",
+    "id": "V3B14",
     "status": "PASS",
-    "detail": "Whitespace-only description is rejected"
+    "detail": "Portable full-data JSON backup downloads"
   },
   {
-    "id": "B15",
+    "id": "V3B15",
     "status": "PASS",
-    "detail": "Voice panel opens only on request, explains audio handling and does not start capture"
+    "detail": "Hindi simulated speech produces an accepted English draft with INR250 and UPI preserved"
   },
   {
-    "id": "B16",
+    "id": "V3B17",
     "status": "PASS",
-    "detail": "Returning to keyboard closes voice UI without saving a draft"
+    "detail": "Spanish simulated voice preserves 1.500 as INR1500 and UPI"
   },
   {
-    "id": "B17",
+    "id": "V3B16",
     "status": "PASS",
-    "detail": "Live INR/USD reference rate returned and conversion left expense total unchanged"
+    "detail": "Cancelling a translated draft leaves the pre-existing record count unchanged"
   },
   {
-    "id": "B18",
+    "id": "V3B18",
     "status": "PASS",
-    "detail": "Manual conversion from foreign currency to INR"
+    "detail": "An incomplete Spanish draft requires an actual correction, not only a checked box"
   },
   {
-    "id": "B19",
+    "id": "V3B19",
     "status": "PASS",
-    "detail": "Same-currency conversion uses rate 1 without network request"
+    "detail": "Ambiguous Hindi कल never silently chooses yesterday/tomorrow and forces manual date selection"
   },
   {
-    "id": "B20",
+    "id": "V3B20",
     "status": "PASS",
-    "detail": "Invalid search filter has an explanation"
+    "detail": "Denied speech permission leaves keyboard entry available"
   },
   {
-    "id": "B21",
+    "id": "V3B21",
     "status": "PASS",
-    "detail": "What’s New is present with V2 features"
+    "detail": "Mixed valid/invalid CSV is rejected as a whole before any import"
   },
   {
-    "id": "B22",
+    "id": "V3B22",
     "status": "PASS",
-    "detail": "Simulated final speech fills amount/date/category/description/tags and never auto-saves"
+    "detail": "Excel worker rejects a formula-bearing workbook and displays a safe error"
   },
   {
-    "id": "B23",
+    "id": "V3B23",
     "status": "PASS",
-    "detail": "Simulated permission denial preserves keyboard entry"
+    "detail": "QA records are removed and original sample INR total restored"
   },
   {
-    "id": "B24",
+    "id": "V3B24",
     "status": "PASS",
-    "detail": "Closing the expense dialog cancels speech; a late event cannot save"
+    "detail": "Budget warning still works with the transactional V3 datastore"
   },
   {
-    "id": "B25",
+    "id": "V3B25",
     "status": "PASS",
-    "detail": "Network-rate failure explains fallback; a manual rate still converts"
+    "detail": "390px mobile dashboard, entry, filters and data dialog have no horizontal page overflow; controls usable."
   },
   {
-    "id": "B26",
+    "id": "V3B26",
     "status": "PASS",
-    "detail": "Malformed rate response is rejected and does not replace a valid manual rate"
-  },
-  {
-    "id": "B27",
-    "status": "PASS",
-    "detail": "A delayed old-currency response cannot overwrite the new manual rate"
-  },
-  {
-    "id": "B28",
-    "status": "PASS",
-    "detail": "390px mobile layout has no page overflow after summary-card correction"
-  },
-  {
-    "id": "B29",
-    "status": "PASS",
-    "detail": "1280px desktop layout has no page overflow"
+    "detail": "1280px desktop dashboard has no horizontal overflow; chart, budget, list and What’s New visible."
   }
 ]

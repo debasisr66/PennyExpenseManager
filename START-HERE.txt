@@ -1,24 +1,16 @@
-PENNY V2 — START HERE
+PENNY EXPENSE MANAGER V3
 
-Open the hosted app at https://debasisr66.github.io/PennyExpenseManager/.
-To use a downloaded copy, extract the entire ZIP and open index.html. Keep its CSS and JavaScript files beside it.
+Hosted app:
+https://debasisr66.github.io/PennyExpenseManager/
 
-All expenses and budgets are in INR (₹).
+To run a downloaded copy:
+1. Keep all repository files and folders together.
+2. In this folder, run: python3 -m http.server 8767
+3. Open: http://127.0.0.1:8767/
 
-QUICK TRY-OUT
-1. Search #groceries in the top bar.
-2. Add a ₹250 expense named Test lunch #groceries, with #family in Tags.
-3. Use + Tag beside it to add #reimbursable. Use × to remove a tag.
-4. Edit the amount, then refresh to check that it is saved.
-5. Lower the monthly budget to trigger the red warning.
-6. In Add expense choose Use voice if you want to dictate. Start listening only when ready. Review the draft, then save yourself.
-7. Use the conversion bar to estimate another currency, or convert a foreign amount to INR. It does not change your expenses.
-8. Read What's New for the V2 changes.
+Use Data & backups to export CSV, Excel, or a complete JSON backup.
+All expense records and budgets use Indian rupees (INR / ₹).
 
-TEST DOCUMENTS
-TEST-CASES.md contains full steps and expected results.
-TEST-RESULTS.md records checks that passed and checks still requiring your device.
-
-Voice support depends on your browser, microphone permission, and speech service. Keyboard entry always remains available. Real microphone capture was not tested by the agent.
-
-Data stays in the same browser on the same device. V1 records retain their numerical values; the previous USD label is corrected to INR without applying an exchange rate.
+Read README.md for the feature guide, privacy notes, and test commands.
+Read TEST-CASES.md and TEST-RESULTS.md for verification evidence.
+Read SECURITY-REVIEW.md for the OWASP review and remaining limits.

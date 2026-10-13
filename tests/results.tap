@@ -1,544 +1,191 @@
-TAP version 13
-# Subtest: Amounts retain exact paise precision
-ok 1 - Amounts retain exact paise precision
-  ---
-  duration_ms: 1.762791
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount ""
-ok 2 - Reject invalid expense amount ""
-  ---
-  duration_ms: 0.101375
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount "0"
-ok 3 - Reject invalid expense amount "0"
-  ---
-  duration_ms: 0.07975
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount "-1"
-ok 4 - Reject invalid expense amount "-1"
-  ---
-  duration_ms: 0.076167
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount "NaN"
-ok 5 - Reject invalid expense amount "NaN"
-  ---
-  duration_ms: 0.80125
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount "Infinity"
-ok 6 - Reject invalid expense amount "Infinity"
-  ---
-  duration_ms: 0.07075
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount "1.999"
-ok 7 - Reject invalid expense amount "1.999"
-  ---
-  duration_ms: 0.057833
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount "1e4"
-ok 8 - Reject invalid expense amount "1e4"
-  ---
-  duration_ms: 0.052666
-  type: 'test'
-  ...
-# Subtest: Reject invalid expense amount "1000000000"
-ok 9 - Reject invalid expense amount "1000000000"
-  ---
-  duration_ms: 0.078292
-  type: 'test'
-  ...
-# Subtest: Zero budget is allowed
-ok 10 - Zero budget is allowed
-  ---
-  duration_ms: 0.134833
-  type: 'test'
-  ...
-# Subtest: Tags normalize case, commas and duplicates
-ok 11 - Tags normalize case, commas and duplicates
-  ---
-  duration_ms: 3.89325
-  type: 'test'
-  ...
-# Subtest: Unicode and hyphenated tags are supported
-ok 12 - Unicode and hyphenated tags are supported
-  ---
-  duration_ms: 1.313125
-  type: 'test'
-  ...
-# Subtest: Reject malformed or excessive tags \#bad!
-ok 13 - Reject malformed or excessive tags \#bad!
-  ---
-  duration_ms: 0.080833
-  type: 'test'
-  ...
-# Subtest: Reject malformed or excessive tags \#<script>
-ok 14 - Reject malformed or excessive tags \#<script>
-  ---
-  duration_ms: 0.051125
-  type: 'test'
-  ...
-# Subtest: Reject malformed or excessive tags \#aaaaaaaaaaaaaaaaaaa
-ok 15 - Reject malformed or excessive tags \#aaaaaaaaaaaaaaaaaaa
-  ---
-  duration_ms: 0.047791
-  type: 'test'
-  ...
-# Subtest: Reject malformed or excessive tags tag0 tag1 tag2 tag3 
-ok 16 - Reject malformed or excessive tags tag0 tag1 tag2 tag3 
-  ---
-  duration_ms: 0.066333
-  type: 'test'
-  ...
-# Subtest: Description hashtags become searchable tags
-ok 17 - Description hashtags become searchable tags
-  ---
-  duration_ms: 1.340333
-  type: 'test'
-  ...
-# Subtest: Tags alone are not a description
-ok 18 - Tags alone are not a description
-  ---
-  duration_ms: 0.119041
-  type: 'test'
-  ...
-# Subtest: Validate expense collects fields and extracts inline tags
-ok 19 - Validate expense collects fields and extracts inline tags
-  ---
-  duration_ms: 1.797959
-  type: 'test'
-  ...
-# Subtest: Reject invalid calendar date 2026-02-30
-ok 20 - Reject invalid calendar date 2026-02-30
-  ---
-  duration_ms: 0.157416
-  type: 'test'
-  ...
-# Subtest: Reject invalid calendar date 2025-02-29
-ok 21 - Reject invalid calendar date 2025-02-29
-  ---
-  duration_ms: 0.077292
-  type: 'test'
-  ...
-# Subtest: Reject invalid calendar date 2026-13-01
-ok 22 - Reject invalid calendar date 2026-13-01
-  ---
-  duration_ms: 0.064667
-  type: 'test'
-  ...
-# Subtest: Reject invalid calendar date 1899-01-01
-ok 23 - Reject invalid calendar date 1899-01-01
-  ---
-  duration_ms: 0.131417
-  type: 'test'
-  ...
-# Subtest: Reject invalid calendar date not a date
-ok 24 - Reject invalid calendar date not a date
-  ---
-  duration_ms: 0.051792
-  type: 'test'
-  ...
-# Subtest: Leap days and year rollover work
-ok 25 - Leap days and year rollover work
-  ---
-  duration_ms: 0.098
-  type: 'test'
-  ...
-# Subtest: Unknown categories are rejected
-ok 26 - Unknown categories are rejected
-  ---
-  duration_ms: 0.0915
-  type: 'test'
-  ...
-# Subtest: V1 migration preserves all amounts, IDs, dates, budgets and descriptions
-ok 27 - V1 migration preserves all amounts, IDs, dates, budgets and descriptions
-  ---
-  duration_ms: 0.703167
-  type: 'test'
-  ...
-# Subtest: V2 migration retains tags
-ok 28 - V2 migration retains tags
-  ---
-  duration_ms: 0.128584
-  type: 'test'
-  ...
-# Subtest: Corrupt state and duplicate IDs are rejected
-ok 29 - Corrupt state and duplicate IDs are rejected
-  ---
-  duration_ms: 0.27725
-  type: 'test'
-  ...
-# Subtest: Monthly totals and categories exclude other months
-ok 30 - Monthly totals and categories exclude other months
-  ---
-  duration_ms: 0.201208
-  type: 'test'
-  ...
-# Subtest: Budget warning boundaries include zero, equal and unset budgets
-ok 31 - Budget warning boundaries include zero, equal and unset budgets
-  ---
-  duration_ms: 0.092625
-  type: 'test'
-  ...
-# Subtest: Smart search ""
-ok 32 - Smart search ""
-  ---
-  duration_ms: 15.773875
-  type: 'test'
-  ...
-# Subtest: Smart search "GROCERIES"
-ok 33 - Smart search "GROCERIES"
-  ---
-  duration_ms: 21.492042
-  type: 'test'
-  ...
-# Subtest: Smart search "\#groceries"
-ok 34 - Smart search "\#groceries"
-  ---
-  duration_ms: 0.20175
-  type: 'test'
-  ...
-# Subtest: Smart search "\#grocer"
-ok 35 - Smart search "\#grocer"
-  ---
-  duration_ms: 0.066375
-  type: 'test'
-  ...
-# Subtest: Smart search "\#groceries \#family"
-ok 36 - Smart search "\#groceries \#family"
-  ---
-  duration_ms: 0.064792
-  type: 'test'
-  ...
-# Subtest: Smart search "groceries over 500"
-ok 37 - Smart search "groceries over 500"
-  ---
-  duration_ms: 0.461833
-  type: 'test'
-  ...
-# Subtest: Smart search "this month \#family"
-ok 38 - Smart search "this month \#family"
-  ---
-  duration_ms: 0.104709
-  type: 'test'
-  ...
-# Subtest: Smart search "last month"
-ok 39 - Smart search "last month"
-  ---
-  duration_ms: 0.054375
-  type: 'test'
-  ...
-# Subtest: Smart search "\\"weekly groceries\\""
-ok 40 - Smart search "\\"weekly groceries\\""
-  ---
-  duration_ms: 0.282583
-  type: 'test'
-  ...
-# Subtest: Smart search "groceris"
-ok 41 - Smart search "groceris"
-  ---
-  duration_ms: 0.317333
-  type: 'test'
-  ...
-# Subtest: Smart search "category:transport"
-ok 42 - Smart search "category:transport"
-  ---
-  duration_ms: 0.055458
-  type: 'test'
-  ...
-# Subtest: Smart search "min:322 max:450"
-ok 43 - Smart search "min:322 max:450"
-  ---
-  duration_ms: 0.045375
-  type: 'test'
-  ...
-# Subtest: Smart search "after:2026-10-04 before:2026-10-10"
-ok 44 - Smart search "after:2026-10-04 before:2026-10-10"
-  ---
-  duration_ms: 0.088667
-  type: 'test'
-  ...
-# Subtest: Smart search "month:2026-09"
-ok 45 - Smart search "month:2026-09"
-  ---
-  duration_ms: 0.038542
-  type: 'test'
-  ...
-# Subtest: Smart search "tag:family"
-ok 46 - Smart search "tag:family"
-  ---
-  duration_ms: 0.060708
-  type: 'test'
-  ...
-# Subtest: Smart search "864"
-ok 47 - Smart search "864"
-  ---
-  duration_ms: 0.247208
-  type: 'test'
-  ...
-# Subtest: Smart search "2026-10-10"
-ok 48 - Smart search "2026-10-10"
-  ---
-  duration_ms: 0.252208
-  type: 'test'
-  ...
-# Subtest: Smart search "under 400"
-ok 49 - Smart search "under 400"
-  ---
-  duration_ms: 0.042292
-  type: 'test'
-  ...
-# Subtest: Smart search "min:450 max:450"
-ok 50 - Smart search "min:450 max:450"
-  ---
-  duration_ms: 0.042917
-  type: 'test'
-  ...
-# Subtest: Smart search "nothingmatches"
-ok 51 - Smart search "nothingmatches"
-  ---
-  duration_ms: 0.267167
-  type: 'test'
-  ...
-# Subtest: Invalid search has an explanation: month:2026-13
-ok 52 - Invalid search has an explanation: month:2026-13
-  ---
-  duration_ms: 0.059958
-  type: 'test'
-  ...
-# Subtest: Invalid search has an explanation: after:2026-02-30
-ok 53 - Invalid search has an explanation: after:2026-02-30
-  ---
-  duration_ms: 0.035583
-  type: 'test'
-  ...
-# Subtest: Invalid search has an explanation: min:nope
-ok 54 - Invalid search has an explanation: min:nope
-  ---
-  duration_ms: 0.057583
-  type: 'test'
-  ...
-# Subtest: Invalid search has an explanation: "unclosed
-ok 55 - Invalid search has an explanation: "unclosed
-  ---
-  duration_ms: 0.816542
-  type: 'test'
-  ...
-# Subtest: Voice: digit amount, date, category, description and tags
-ok 56 - Voice: digit amount, date, category, description and tags
-  ---
-  duration_ms: 2.641083
-  type: 'test'
-  ...
-# Subtest: Voice: spoken number words and yesterday
-ok 57 - Voice: spoken number words and yesterday
-  ---
-  duration_ms: 1.250333
-  type: 'test'
-  ...
-# Subtest: Voice: decimals and hashtags
-ok 58 - Voice: decimals and hashtags
-  ---
-  duration_ms: 0.120916
-  type: 'test'
-  ...
-# Subtest: Voice: explicit ISO date does not become the amount
-ok 59 - Voice: explicit ISO date does not become the amount
-  ---
-  duration_ms: 0.1885
-  type: 'test'
-  ...
-# Subtest: Voice: missing amount never guesses from a date
-ok 60 - Voice: missing amount never guesses from a date
-  ---
-  duration_ms: 0.610333
-  type: 'test'
-  ...
-# Subtest: Voice: invalid amount cannot become a positive expense
-ok 61 - Voice: invalid amount cannot become a positive expense
-  ---
-  duration_ms: 0.10825
-  type: 'test'
-  ...
-# Subtest: Voice: foreign currency is not silently treated as INR
-ok 62 - Voice: foreign currency is not silently treated as INR
-  ---
-  duration_ms: 0.454667
-  type: 'test'
-  ...
-# Subtest: Voice: invalid dates require review
-ok 63 - Voice: invalid dates require review
-  ---
-  duration_ms: 0.099667
-  type: 'test'
-  ...
-# Subtest: Conversion computes exact manual examples without touching records
-ok 64 - Conversion computes exact manual examples without touching records
-  ---
-  duration_ms: 0.123667
-  type: 'test'
-  ...
-# Subtest: Invalid conversion /1
-ok 65 - Invalid conversion /1
-  ---
-  duration_ms: 0.03925
-  type: 'test'
-  ...
-# Subtest: Invalid conversion -1/1
-ok 66 - Invalid conversion -1/1
-  ---
-  duration_ms: 0.034541
-  type: 'test'
-  ...
-# Subtest: Invalid conversion 10/0
-ok 67 - Invalid conversion 10/0
-  ---
-  duration_ms: 0.026958
-  type: 'test'
-  ...
-# Subtest: Invalid conversion 10/-1
-ok 68 - Invalid conversion 10/-1
-  ---
-  duration_ms: 0.025875
-  type: 'test'
-  ...
-# Subtest: Invalid conversion 10/Infinity
-ok 69 - Invalid conversion 10/Infinity
-  ---
-  duration_ms: 0.030625
-  type: 'test'
-  ...
-# Subtest: Invalid conversion Infinity/1
-ok 70 - Invalid conversion Infinity/1
-  ---
-  duration_ms: 0.030708
-  type: 'test'
-  ...
-# Subtest: Exchange-rate payload checks currency pair, date and number
-ok 71 - Exchange-rate payload checks currency pair, date and number
-  ---
-  duration_ms: 0.219792
-  type: 'test'
-  ...
-# Subtest: Voice never starts a microphone on creation
-ok 72 - Voice never starts a microphone on creation
-  ---
-  duration_ms: 1.417875
-  type: 'test'
-  ...
-# Subtest: Unsupported speech produces a clear keyboard fallback
-ok 73 - Unsupported speech produces a clear keyboard fallback
-  ---
-  duration_ms: 0.197125
-  type: 'test'
-  ...
-# Subtest: Explicit start configures English India and single final results
-ok 74 - Explicit start configures English India and single final results
-  ---
-  duration_ms: 0.145334
-  type: 'test'
-  ...
-# Subtest: Final voice result creates a draft and ends cleanly
-ok 75 - Final voice result creates a draft and ends cleanly
-  ---
-  duration_ms: 1.247458
-  type: 'test'
-  ...
-# Subtest: Interim results do not fill a draft
-ok 76 - Interim results do not fill a draft
-  ---
-  duration_ms: 0.130041
-  type: 'test'
-  ...
-# Subtest: Voice error not-allowed keeps keyboard entry available
-ok 77 - Voice error not-allowed keeps keyboard entry available
-  ---
-  duration_ms: 0.157
-  type: 'test'
-  ...
-# Subtest: Voice error service-not-allowed keeps keyboard entry available
-ok 78 - Voice error service-not-allowed keeps keyboard entry available
-  ---
-  duration_ms: 0.080708
-  type: 'test'
-  ...
-# Subtest: Voice error audio-capture keeps keyboard entry available
-ok 79 - Voice error audio-capture keeps keyboard entry available
-  ---
-  duration_ms: 0.079708
-  type: 'test'
-  ...
-# Subtest: Voice error no-speech keeps keyboard entry available
-ok 80 - Voice error no-speech keeps keyboard entry available
-  ---
-  duration_ms: 0.085792
-  type: 'test'
-  ...
-# Subtest: Voice error network keeps keyboard entry available
-ok 81 - Voice error network keeps keyboard entry available
-  ---
-  duration_ms: 0.140083
-  type: 'test'
-  ...
-# Subtest: Voice error language-not-supported keeps keyboard entry available
-ok 82 - Voice error language-not-supported keeps keyboard entry available
-  ---
-  duration_ms: 0.089292
-  type: 'test'
-  ...
-# Subtest: Voice error aborted keeps keyboard entry available
-ok 83 - Voice error aborted keeps keyboard entry available
-  ---
-  duration_ms: 0.077792
-  type: 'test'
-  ...
-# Subtest: Voice error unknown keeps keyboard entry available
-ok 84 - Voice error unknown keeps keyboard entry available
-  ---
-  duration_ms: 0.076083
-  type: 'test'
-  ...
-# Subtest: Stop finishes listening
-ok 85 - Stop finishes listening
-  ---
-  duration_ms: 0.090083
-  type: 'test'
-  ...
-# Subtest: Cancel aborts capture and ignores late results
-ok 86 - Cancel aborts capture and ignores late results
-  ---
-  duration_ms: 0.11075
-  type: 'test'
-  ...
-# Subtest: A cancelled session cannot overwrite a new session
-ok 87 - A cancelled session cannot overwrite a new session
-  ---
-  duration_ms: 0.110042
-  type: 'test'
-  ...
-# Subtest: Speech service start failure is caught
-ok 88 - Speech service start failure is caught
-  ---
-  duration_ms: 0.147583
-  type: 'test'
-  ...
-# Subtest: A result after a speech error is ignored
-ok 89 - A result after a speech error is ignored
-  ---
-  duration_ms: 0.074542
-  type: 'test'
-  ...
-1..89
-# tests 89
-# suites 0
-# pass 89
-# fail 0
-# cancelled 0
-# skipped 0
-# todo 0
-# duration_ms 223.879875
+✔ CSV quote/newline/Unicode/apostrophe/formula-like text exact round trips (33.846583ms)
+✔ XLSX round trips text, numeric paise, rails, custom tags and budgets (54.667833ms)
+✔ XLSX formulas and hyperlinks are rejected (19.807958ms)
+✔ Malformed CSV fails before creating import state (8.557792ms)
+✔ Import of unknown/non-INR schema is rejected intact (0.505959ms)
+✔ Prototype-shaped budgets cannot pollute globals (0.809458ms)
+✔ Imported hostile ID/description remain strings and HTML is not evaluated by modules (0.583584ms)
+✔ Mixed valid/invalid rows never yield a partial plan (0.821875ms)
+✔ Duplicate merge is idempotent and conflicting IDs reject unchanged (0.809667ms)
+✔ Reserved tags have exactly one corresponding rail (0.805209ms)
+✔ Legacy conflicting rail tags are preserved, not discarded (0.39225ms)
+✔ Search AND/OR, exclusions and rail aliases work without changing monthly total (24.333167ms)
+✔ Long/malformed search is bounded and does not throw (0.784958ms)
+✔ ZIP preflight rejects corrupt/non-XLSX/trailing bytes before inflation (29.588708ms)
+✔ SheetJS rejects forged uncompressed metadata after preflight (15.589292ms)
+✔ Concurrent datastore saves reject stale revisions (3.418ms)
+✔ Datastore write failure does not claim successful local data (0.423542ms)
+✔ Linked external changes are preserved, local save remains successful (1.54775ms)
+✔ Linked file close failure is reported, with successful local copy retained (0.7855ms)
+✔ Connecting a different file never overwrites it (0.476958ms)
+✔ Import save keeps an undo snapshot (0.463166ms)
+✔ English/Spanish currency and invalid spoken amount warnings persist (10.165708ms)
+✔ Portable exports of maximum valid data are re-importable (release requirement) (2122.734792ms)
+✔ Spanish period thousands never silently becomes a fractional amount (release requirement) (5.589042ms)
+✔ Hindi ordinary payment phrase yields a recognizable UPI rail (release requirement) (2.271958ms)
+✔ Maximum Unicode expenses remain portable through JSON, CSV and XLSX (7364.141ms)
+✔ Spanish grouped and decimal voice amounts remain exact (5.915334ms)
+✔ Spanish foreign currencies never become INR amounts (0.919209ms)
+✔ Hindi common payment phrases provide English rail and numeric drafts (1.744583ms)
+✔ Unrecognized Spanish decimal vocabulary is flagged and does not invent an amount (0.14675ms)
+✔ Native Spanish translation sees normalized amounts and mismatches require correction (0.394833ms)
+✔ Hidden Unicode and fullwidth formula prefixes are protected and roundtrip (0.608209ms)
+✔ Foreign currency symbols cannot create an INR amount (3.557916ms)
+✔ Excel Sheet1 numeric date serials import as valid dates; serial leap bug rejects (7.162208ms)
+✔ Post-save notification failure never claims persisted data was rejected (0.438333ms)
+✔ Amounts retain exact paise precision (4.834458ms)
+✔ Reject invalid expense amount "" (0.22875ms)
+✔ Reject invalid expense amount "0" (0.129708ms)
+✔ Reject invalid expense amount "-1" (0.102959ms)
+✔ Reject invalid expense amount "NaN" (0.119708ms)
+✔ Reject invalid expense amount "Infinity" (0.074292ms)
+✔ Reject invalid expense amount "1.999" (0.248583ms)
+✔ Reject invalid expense amount "1e4" (0.1575ms)
+✔ Reject invalid expense amount "1000000000" (0.135ms)
+✔ Zero budget is allowed (0.343583ms)
+✔ Tags normalize case, commas and duplicates (9.76225ms)
+✔ Unicode and hyphenated tags are supported (11.175041ms)
+✔ Reject malformed or excessive tags #bad! (0.399125ms)
+✔ Reject malformed or excessive tags #<script> (0.185458ms)
+✔ Reject malformed or excessive tags #aaaaaaaaaaaaaaaaaaa (0.095708ms)
+✔ Reject malformed or excessive tags tag0 tag1 tag2 tag3  (0.134417ms)
+✔ Description hashtags become searchable tags (2.539583ms)
+✔ Tags alone are not a description (0.382208ms)
+✔ Validate expense collects fields and extracts inline tags (6.343208ms)
+✔ Reject invalid calendar date 2026-02-30 (0.305583ms)
+✔ Reject invalid calendar date 2025-02-29 (0.130084ms)
+✔ Reject invalid calendar date 2026-13-01 (0.089041ms)
+✔ Reject invalid calendar date 1899-01-01 (0.096834ms)
+✔ Reject invalid calendar date not a date (0.111584ms)
+✔ Leap days and year rollover work (1.179083ms)
+✔ Unknown categories are rejected (0.178834ms)
+✔ V1 migration preserves all amounts, IDs, dates, budgets and descriptions (0.648791ms)
+✔ V2 migration retains tags (0.151ms)
+✔ Corrupt state and duplicate IDs are rejected (0.396834ms)
+✔ Monthly totals and categories exclude other months (0.376083ms)
+✔ Budget warning boundaries include zero, equal and unset budgets (0.301542ms)
+✔ Smart search "" (29.13425ms)
+✔ Smart search "GROCERIES" (47.298ms)
+✔ Smart search "#groceries" (0.596083ms)
+✔ Smart search "#grocer" (0.198667ms)
+✔ Smart search "#groceries #family" (0.201042ms)
+✔ Smart search "groceries over 500" (1.286958ms)
+✔ Smart search "this month #family" (0.258ms)
+✔ Smart search "last month" (0.110583ms)
+✔ Smart search "\"weekly groceries\"" (0.848708ms)
+✔ Smart search "groceris" (1.203958ms)
+✔ Smart search "category:transport" (0.337416ms)
+✔ Smart search "min:322 max:450" (0.196958ms)
+✔ Smart search "after:2026-10-04 before:2026-10-10" (0.356917ms)
+✔ Smart search "month:2026-09" (0.157166ms)
+✔ Smart search "tag:family" (0.555042ms)
+✔ Smart search "864" (1.023209ms)
+✔ Smart search "2026-10-10" (1.027459ms)
+✔ Smart search "under 400" (0.283875ms)
+✔ Smart search "min:450 max:450" (0.122791ms)
+✔ Smart search "nothingmatches" (0.868541ms)
+✔ Invalid search has an explanation: month:2026-13 (0.172458ms)
+✔ Invalid search has an explanation: after:2026-02-30 (0.080583ms)
+✔ Invalid search has an explanation: min:nope (0.27175ms)
+✔ Invalid search has an explanation: "unclosed (0.075459ms)
+✔ Voice: digit amount, date, category, description and tags (4.013292ms)
+✔ Voice: spoken number words and yesterday (2.325292ms)
+✔ Voice: decimals and hashtags (0.718709ms)
+✔ Voice: explicit ISO date does not become the amount (0.660416ms)
+✔ Voice: missing amount never guesses from a date (1.108667ms)
+✔ Voice: invalid amount cannot become a positive expense (0.198416ms)
+✔ Voice: foreign currency is not silently treated as INR (1.422083ms)
+✔ Voice: invalid dates require review (0.230834ms)
+✔ Conversion computes exact manual examples without touching records (0.386125ms)
+✔ Invalid conversion /1 (0.169666ms)
+✔ Invalid conversion -1/1 (0.1485ms)
+✔ Invalid conversion 10/0 (0.05575ms)
+✔ Invalid conversion 10/-1 (0.043917ms)
+✔ Invalid conversion 10/Infinity (0.59075ms)
+✔ Invalid conversion Infinity/1 (0.270667ms)
+✔ Exchange-rate payload checks currency pair, date and number (1.524167ms)
+✔ V3 rail has a matching reserved tag (6.902833ms)
+✔ Changing payment method changes canonical tag (0.346958ms)
+✔ One reserved tag can supply an unspecified rail (0.272042ms)
+✔ Conflicting or unknown payment method rejected {"tags":"#cash #upi","paymentMethod":"cash"} (0.356916ms)
+✔ Conflicting or unknown payment method rejected {"tags":"#cash","paymentMethod":"upi"} (0.187041ms)
+✔ Conflicting or unknown payment method rejected {"paymentMethod":"bitcoin"} (0.132958ms)
+✔ V2 records migrate without numerical changes or invented payment rails (0.834125ms)
+✔ Ambiguous old payment tags are retained for review (0.798375ms)
+✔ Complete JSON backup includes budgets and payment methods (1.0745ms)
+✔ CSV preserves quoted commas, Unicode and multiline input safely (3.867375ms)
+✔ CSV formula protection roundtrip "=HYPERLINK(\"https://example.com\")" (0.718084ms)
+✔ CSV formula protection roundtrip "+SUM(1,2)" (0.275625ms)
+✔ CSV formula protection roundtrip "-1+1" (0.191125ms)
+✔ CSV formula protection roundtrip "@SUM(1,2)" (0.418792ms)
+✔ CSV formula protection roundtrip " =cmd" (0.624375ms)
+✔ CSV formula protection roundtrip "\t=cmd" (1.033834ms)
+✔ CSV formula protection roundtrip "'=formula" (0.208833ms)
+✔ CSV export includes all records and explicit INR currency (0.401958ms)
+✔ Invalid CSV is rejected without partial results date,amount,category,description
+2026-10 (16.164291ms)
+✔ Invalid CSV is rejected without partial results date,amount,category,description
+2026-02 (0.583792ms)
+✔ Invalid CSV is rejected without partial results date,amount,category,description,currenc (0.148166ms)
+✔ Invalid CSV is rejected without partial results date,date,amount,category,description
+20 (0.118292ms)
+✔ Invalid CSV is rejected without partial results "unterminated (0.120542ms)
+✔ Case-friendly import accepts UPI/INR and canonical category spelling (0.332125ms)
+✔ Idempotent merge skips repeated exact records (0.641375ms)
+✔ Conflicting IDs reject the entire merge (0.338ms)
+✔ Replace is explicit; budget import is separately selectable (0.7595ms)
+✔ Excel roundtrip includes expense details and monthly budgets (56.276166ms)
+✔ Excel formulas are not evaluated or imported (8.284083ms)
+✔ Excel date serials and a default Sheet1 sheet are supported (6.341041ms)
+✔ Excel import rejects raw scripts instead of parsing them as a workbook (0.237458ms)
+✔ Expanded ZIP resource limits are applied before workbook parsing (10.79225ms)
+✔ Improved search rail:upi (2.260417ms)
+✔ Improved search rail:credit (0.7475ms)
+✔ Improved search Groceries OR Train (25.597417ms)
+✔ Improved search #family -rail:cash (0.404584ms)
+✔ Improved search today -rail:credit (0.355958ms)
+✔ Improved search yesterday (0.32575ms)
+✔ Quoted OR is a phrase; empty operator values are explained (0.916083ms)
+✔ Local hi expense translation produces an English payment draft (8.591875ms)
+✔ Local es expense translation produces an English payment draft (4.032542ms)
+✔ Spanish thousands do not become decimal rupees (0.716042ms)
+✔ Spanish comma decimal preserves paise (0.275541ms)
+✔ Spanish spoken decimal preserves paise (0.402791ms)
+✔ Foreign Spanish currency is flagged instead of assumed INR (0.61025ms)
+✔ Unknown translation vocabulary is marked incomplete (0.091959ms)
+✔ On-device translator output is used without a network fallback (1.563333ms)
+✔ Unsupported on-device translation uses the explicit local fallback (0.082666ms)
+✔ Datastore compare-and-swap prevents lost concurrent edits (1.104333ms)
+✔ Import save preserves the previous document as an undo backup (0.351958ms)
+✔ Notification failures cannot turn a successful database write into a reported failed save (0.499708ms)
+✔ Legacy invalid data is not silently replaced with seed data (0.440875ms)
+✔ On-device translation normalizes Spanish grouping before sending text to the local model (0.459292ms)
+✔ A model amount mismatch is incomplete and requires correction (0.242375ms)
+✔ Unicode-hidden and fullwidth spreadsheet formula prefixes are protected (0.253167ms)
+✔ Foreign currency symbols are never assumed to be INR (4.023167ms)
+✔ Voice never starts a microphone on creation (2.992083ms)
+✔ Unsupported speech produces a clear keyboard fallback (0.359875ms)
+✔ Explicit start configures English India and single final results (0.526875ms)
+✔ Final voice result creates a draft and ends cleanly (3.026666ms)
+✔ Interim results do not fill a draft (0.368666ms)
+✔ Voice error not-allowed keeps keyboard entry available (0.444125ms)
+✔ Voice error service-not-allowed keeps keyboard entry available (0.198667ms)
+✔ Voice error audio-capture keeps keyboard entry available (0.129083ms)
+✔ Voice error no-speech keeps keyboard entry available (0.13425ms)
+✔ Voice error network keeps keyboard entry available (0.993042ms)
+✔ Voice error language-not-supported keeps keyboard entry available (0.163291ms)
+✔ Voice error aborted keeps keyboard entry available (0.146208ms)
+✔ Voice error unknown keeps keyboard entry available (0.181125ms)
+✔ Stop finishes listening (2.609416ms)
+✔ Cancel aborts capture and ignores late results (0.649625ms)
+✔ A cancelled session cannot overwrite a new session (0.201542ms)
+✔ Speech service start failure is caught (0.199542ms)
+✔ A result after a speech error is ignored (0.124625ms)
+ℹ tests 180
+ℹ suites 0
+ℹ pass 180
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10101.149042

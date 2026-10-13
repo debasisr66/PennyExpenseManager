@@ -91,28 +91,32 @@
   }
   function parseSearch(query, referenceDate) {
     let input = normalize(query).trim(), predicates = [], errors = [];
+    if(input.length>300)return {errors:['Keep searches under 300 characters.'],matches:()=>false};
+    input=input.replace(/\b(today|yesterday)\b/g,(_,word)=>`after:${word==='today'?referenceDate:shiftDate(referenceDate,-1)} before:${word==='today'?referenceDate:shiftDate(referenceDate,-1)}`);
     input = input.replace(/\b(this|last) month\b/g, (_, when) => `month:${when === 'this' ? referenceDate.slice(0, 7) : previousMonth(referenceDate)}`);
     input = input.replace(/\b(over|under)\s+(?:₹|rs\.?\s*)?(\d+(?:\.\d{1,2})?)\b/g, (_, op, amount) => `${op}:${amount}`);
     const tokens = input.match(/(?:[^\s"]*"[^"]*"[^\s"]*|[^\s"]+)/g) || [];
     if ((input.match(/"/g) || []).length % 2) errors.push('Close the quotation mark to search a phrase.');
     for (const token of tokens) {
-      const term = token.replace(/"/g, '');
-      const match = term.match(/^(category|tag|month|after|before|min|max|over|under):(.+)$/);
+      const excluded=token.startsWith('-')&&token.length>1; const cleanedToken=excluded?token.slice(1):token; const term=cleanedToken.replace(/"/g,''); const add=predicate=>predicates.push(excluded?(x=>!predicate(x)):predicate);
+      const match = term.match(/^(category|tag|rail|payment|month|after|before|min|max|over|under):(.+)$/);
       if (match) {
         const [, key, value] = match;
         if (['min', 'max', 'over', 'under'].includes(key)) {
-          try { const amount = toPaise(value, true); predicates.push(x => key === 'min' ? x.cents >= amount : key === 'max' ? x.cents <= amount : key === 'over' ? x.cents > amount : x.cents < amount); } catch (e) { errors.push(`Invalid ${key} amount.`); }
+          try { const amount = toPaise(value, true); add(x => key === 'min' ? x.cents >= amount : key === 'max' ? x.cents <= amount : key === 'over' ? x.cents > amount : x.cents < amount); } catch (e) { errors.push(`Invalid ${key} amount.`); }
         } else if (key === 'month') {
-          if (!validMonth(value)) errors.push('Use month:YYYY-MM.'); else predicates.push(x => x.date.startsWith(value));
+          if (!validMonth(value)) errors.push('Use month:YYYY-MM.'); else add(x => x.date.startsWith(value));
         } else if (key === 'after' || key === 'before') {
-          if (!validDate(value)) errors.push(`Use ${key}:YYYY-MM-DD with a valid date.`); else predicates.push(x => key === 'after' ? x.date >= value : x.date <= value);
+          if (!validDate(value)) errors.push(`Use ${key}:YYYY-MM-DD with a valid date.`); else add(x => key === 'after' ? x.date >= value : x.date <= value);
+        } else if(key==='rail'||key==='payment'){const aliases={credit:'credit-card',debit:'debit-card',bank:'bank-transfer'}; add(x=>(x.paymentMethod||'unspecified')===(aliases[value]||value));
         } else if (key === 'tag') {
-          predicates.push(x => (x.tags || []).some(tag => normalize(tag).startsWith(value.replace(/^#/, ''))));
-        } else predicates.push(x => normalize(x.category).includes(value));
+          add(x => (x.tags || []).some(tag => normalize(tag).startsWith(value.replace(/^#/, ''))));
+        } else add(x => normalize(x.category).includes(value));
+      } else if(/^(category|tag|rail|payment|month|after|before|min|max|over|under):/.test(term)){errors.push('Add a value after the search filter colon.');
       } else if (term.startsWith('#')) {
-        predicates.push(x => (x.tags || []).some(tag => normalize(tag).startsWith(term.slice(1))));
+        add(x => (x.tags || []).some(tag => normalize(tag).startsWith(term.slice(1))));
       } else {
-        predicates.push(x => {
+        add(x => {
           const dateText = new Date(x.date + 'T12:00:00Z').toLocaleDateString('en-IN', { month: 'long', year: 'numeric', timeZone: 'UTC' });
           const haystack = normalize(`${x.description} ${x.category} ${(x.tags || []).join(' ')} ${x.date} ${dateText} ${(x.cents / 100).toFixed(2)}`);
           const cleanTerm = term.replace(/^₹/, '');
@@ -123,8 +127,9 @@
     return { errors, matches: x => !errors.length && predicates.every(predicate => predicate(x)) };
   }
   function searchExpenses(expenses, query, referenceDate) {
-    const parsed = parseSearch(query, referenceDate);
-    return { errors: parsed.errors, expenses: expenses.filter(parsed.matches).sort((a, b) => b.date.localeCompare(a.date)) };
+    if(String(query).length>300)return{errors:['Keep searches under 300 characters.'],expenses:[]};
+    const parts=[];let start=0,quoted=false;const text=String(query);for(let i=0;i<text.length;i++){if(text[i]==='\"')quoted=!quoted;if(!quoted&&/^\s+OR\s+/i.test(text.slice(i))){const match=text.slice(i).match(/^\s+OR\s+/i)[0];parts.push(text.slice(start,i));i+=match.length-1;start=i+1;}}parts.push(text.slice(start));if(parts.length>5||parts.some(part=>parts.length>1&&!part.trim()))return{errors:['Use up to five non-empty OR groups.'],expenses:[]};const parsed=parts.map(part=>parseSearch(part,referenceDate)),errors=parsed.flatMap(part=>part.errors);
+    return { errors, expenses: errors.length?[]:expenses.filter(x=>parsed.some(part=>part.matches(x))).sort((a, b) => b.date.localeCompare(a.date)) };
   }
   const numberMap = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
   const numberWords = Object.keys(numberMap).concat(['hundred', 'thousand', 'lakh', 'million', 'and', 'point']);
@@ -180,7 +185,7 @@
       ['Entertainment', /\b(entertainment|movie|cinema|concert)\b/i],
       ['Shopping', /\b(shopping|clothes|sneakers|shoes)\b/i]
     ];
-    if (/\b(dollars?|usd|euros?|eur|pounds?|gbp)\b/i.test(raw)) { amount = null; warnings.push('Voice expenses use INR. Convert the foreign amount to rupees and enter it below.'); }
+    if (/\b(dollars?|usd|euros?|eur|pounds?|gbp|pesos?|yen|yuan|francs?|rubles?)\b/i.test(raw)||/[$€£¥]/.test(raw)) { amount = null; warnings.push('Voice expenses use INR. Convert the foreign amount to rupees and enter it below.'); }
     const category = (categorySignals.find(([, pattern]) => pattern.test(text)) || [null])[0];
     return { amount, date, description: text.slice(0, 100), category, tags, warnings };
   }

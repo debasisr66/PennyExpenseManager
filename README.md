@@ -1,89 +1,68 @@
-# PennyExpenseManager — V2
+# Penny Expense Manager V3
 
-A simple, mobile-friendly personal expense manager. All expense amounts, budgets and charts use **Indian rupees (INR / ₹)**. No account, installation, dependencies, or build step is required.
+Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
 
 ## Open the app
 
-- Hosted app: [Penny Expense Manager](https://debasisr66.github.io/PennyExpenseManager/).
-- On your computer: download this repository using **Code → Download ZIP**, extract it, and open `index.html`. Keep `styles.css`, `core.js`, `voice.js`, and `app.js` in the same folder.
-- Optional local server: `python3 -m http.server 8766`, then open `http://localhost:8766`.
+- [Use the hosted app](https://debasisr66.github.io/PennyExpenseManager/)
+- Or download this repository and run `python3 -m http.server 8767`, then open `http://127.0.0.1:8767/`
 
-The app starts with sample records only when this browser has no saved Penny data. A fresh V2 sample month totals **₹13,338.50**, against a **₹18,000.00** budget. There is also one previous-month expense of **₹380.00**.
+The app starts with fictional sample records only when no saved Penny database exists. The sample October total is ₹13,338.50 against a ₹18,000 budget.
 
 ## Features in simple English
 
-1. **Add an expense:** enter its date, amount in rupees, category, and description.
-2. **See every expense:** records appear newest first. Edit or delete using the buttons beside each record. Deletion asks for confirmation.
-3. **Monthly overview:** select a month to see its total, category chart, and budget. The list still covers every month.
-4. **Set your budget:** choose your monthly spending limit. A red warning shows how far you exceed it. A zero budget is supported.
-5. **Smart search:** use the bar at the top to search descriptions, categories, tags, dates, and amounts. Combine terms to narrow results. Small spelling mistakes in longer words are tolerated.
-6. **Inline tags:** type `Weekly groceries #groceries #family` in the description, or use the Tags field. The saved description becomes `Weekly groceries`, with colored tags underneath. Use **+ Tag** beside an existing expense to add a tag; use **×** to remove one. Click a tag to search it. Existing tags are suggested as you type. Tags are lowercase, deduplicated, and limited to 12 per expense, with 1–32 letters, numbers, underscores or hyphens each.
-7. **Optional voice entry:** keyboard entry is the default. Choose **Add expense → Use voice → Start listening**, then say, for example, “Spent 250 rupees on groceries today, tags groceries and family.” Review the draft fields and choose **Save expense** yourself. Spoken amounts such as “two hundred fifty rupees” are supported. Voice never saves automatically. Stop listening, return to the keyboard, or cancel at any time.
-8. **Currency conversion bar:** convert between INR, USD, EUR and GBP. Choose the amount, From currency, and Convert to currency, then **Get latest rate**. The date and reference rate are shown. You can enter a manual rate when offline or when the service is unavailable. Estimates never modify expense amounts or budgets.
-9. **What’s New:** the app includes an in-app summary of V2 changes and a link to the test cases.
+1. **Add, edit and delete expenses.** Record the date, INR amount, category, description, tags and payment method.
+2. **See your month clearly.** The cards show monthly spending, budget and money left. The category chart explains where the money went. Penny warns you when the budget is exceeded.
+3. **Search quickly.** Search descriptions, categories, amounts, dates, tags and payment methods. Use filters or searches such as `#groceries`, `rail:upi`, `coffee OR tea`, `-rail:cash`, `min:100` and `today`.
+4. **Use inline tags.** Put tags such as `#groceries` in a description, or enter them in the Tags field. Tags can be clicked and searched.
+5. **Record how you paid.** Choose UPI, credit card, debit card, cash, bank transfer, wallet or another method. Penny adds a matching searchable tag such as `#upi`.
+6. **Move your data.** Export expenses to CSV or Excel. Excel also carries budgets. Import CSV, `.xlsx` or a Penny JSON backup only after reviewing a preview. An undo snapshot is kept for imports.
+7. **Keep a portable copy.** Modern supported browsers can connect an empty JSON file that Penny updates after each save. A full JSON backup works in other browsers.
+8. **Use optional voice entry.** Speak English, Hindi or Spanish. Hindi and Spanish are shown as an English draft for correction and explicit acceptance. Voice never saves automatically.
+9. **Convert currencies.** The conversion bar estimates INR, USD, EUR and GBP using a requested daily rate or a manual rate. Expense records always remain INR.
 
-## Search examples
+## Storage and privacy
 
-| Search | What it finds |
-| --- | --- |
-| `#groceries` | Expenses with a matching tag; tag prefixes work too |
-| `#groceries #family` | Expenses with both tags |
-| `groceries over 500` | Matching descriptions, categories or tags costing more than ₹500 |
-| `this month` / `last month` | Expenses dated in that calendar month, relative to today's date |
-| `"weekly groceries"` | That phrase |
-| `category:transport` | Matching category |
-| `min:100 max:500` | Amounts between ₹100 and ₹500, inclusive |
-| `month:2026-10` | Expenses in October 2026 |
-| `after:2026-10-01 before:2026-10-31` | Expenses in the inclusive date range |
+Penny is a static, client-side app with no account or server database. Records are stored in IndexedDB in the current browser. A localStorage fallback is used when IndexedDB is unavailable. Clearing site data can remove records, so download backups regularly.
 
-Search filters the list and shows a matching subtotal. Your selected month's overview and budget warning remain based on **all** spending for that month, so a search cannot hide an over-budget warning.
+Files and linked JSON copies are plain text and are not encrypted. Do not keep them in a shared location. Voice capture starts only after **Start listening**; the browser's speech service may send audio to its provider. Penny does not store audio. The currency service receives only a currency pair after **Get latest rate** is selected.
 
-## Data and the V1 upgrade
+## Voice support
 
-Data stays in localStorage in the same browser and on the same device. There is no server database or device sync. Clearing browser data removes saved records. Data opened from a local file and data opened from the hosted URL belong to different browser storage locations; the app does not automatically copy between them.
+Speech recognition availability varies by browser, device and language. The browser Translator API is used when available; otherwise Penny has a deliberately limited offline expense vocabulary for Hindi and Spanish and flags unknown words for correction. Ambiguous Hindi `कल` requires the date to be selected manually. Test the physical microphone and provider accuracy on the intended device before relying on voice entry.
 
-V2 uses the V1 storage key, preserves expense IDs, dates, descriptions, numerical amounts, and budgets, and adds tags without deleting records. **The V1 USD label was incorrect for this use case. Existing numerical amounts are now displayed as INR; no exchange multiplier is applied.** Fresh V2 sample amounts have been updated to rupee examples. Existing users retain their records and totals. Corrupt saved data is left untouched; a warning explains that temporary sample data cannot be saved over it.
+## Data formats
 
-## Voice compatibility and privacy
+- CSV: expenses only, with formula-leading cells protected.
+- Excel `.xlsx`: expenses and budgets; formulas, hyperlinks, macros and external links are rejected.
+- JSON: complete Penny backup, including expenses and budgets.
+- Limits: 32 MB input, 10,000 expenses and 10,000 budgets. XLSX parsing also has expanded archive and worksheet limits.
 
-Voice uses the browser's Web Speech API with English (India). Support varies by browser and platform. It can require a microphone, browser permission, HTTPS, and an internet connection. If unsupported, denied, or unavailable, the app explains the problem and keeps keyboard entry available.
+## Testing and security
 
-Listening starts only after the user selects **Start listening**. The browser's speech provider may process audio on its servers; Penny does not store audio. Transcripts are displayed as drafts and become saved expense text only after the user saves. Speech parsing is a small, local rules-based helper, not a general AI assistant. Foreign currency speech is flagged for manual conversion to INR. [Browser speech documentation](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)
+- [Test cases](TEST-CASES.md)
+- [Test results](TEST-RESULTS.md)
+- [OWASP security review](SECURITY-REVIEW.md)
+- [Independent adversarial review](ADVERSARIAL-REVIEW.md)
 
-## Exchange rates
-
-The conversion bar fetches daily reference rates from [Frankfurter](https://frankfurter.dev/). Requests include only the currency pair; the amount and all expense data remain in the browser. Requests happen only when you click **Get latest rate**. Rates have a date and are estimates; fees and actual payment rates can differ. Old or malformed responses cannot overwrite a newly selected currency pair or manual rate. There is no API key.
-
-## Tests and verification
-
-- [Test cases and manual instructions](TEST-CASES.md)
-- [Verification results and limitations](TEST-RESULTS.md)
-- [Automated TAP output](tests/results.tap)
-- [Browser check results](tests/browser-results.json)
-
-Run the dependency-free automated suite with Node.js 22 or newer:
+Run the automated suite with Node.js 22 or later:
 
 ```sh
 node --test tests/*.test.cjs
 ```
 
-For browser tests with simulated speech and network failures:
+Run the local browser test harness with `node tests/serve-tests.cjs`, then open `http://127.0.0.1:8767/voice-harness`. The test route uses simulated speech and disposable in-memory files. The normal app never loads these fixtures.
 
-```sh
-node tests/serve-tests.cjs
-```
-
-Open `http://127.0.0.1:8767/voice-harness`. This test route loads a fake speech service and clearly labeled test controls; it does not capture audio. The normal app does not load these fixtures.
-
-The automated suite, browser CRUD/search/tag/budget checks, live conversion, simulated voice integration, network-failure handling, and mobile/desktop layouts were verified. **Real microphone capture and speech-provider accuracy require a manual check on your target browser/device; they are not claimed as verified.**
+The current release passed 180 automated tests, 26 browser acceptance checks, JavaScript syntax checks and an independent adversarial review. Real microphone/provider accuracy and actual filesystem permission or disk-full conditions still require checks on the target hardware. This is targeted review evidence, not a security certification.
 
 ## Project files
 
-- `index.html`: app structure
-- `styles.css`: responsive layout and colors
-- `core.js`: validation, search, tags, migration, voice draft parsing, and conversion math
-- `voice.js`: speech lifecycle and error handling
-- `app.js`: browser interactions, storage, and rate requests
-- `tests/`: runnable tests, browser fixtures, and recorded results
+- `index.html`, `styles.css`, `app.js`: interface and browser behavior
+- `core.js`, `data.js`: calculations, validation, search and portable formats
+- `storage.js`: local database, import undo and optional linked file
+- `voice.js`, `translation.js`: speech lifecycle and English draft translation
+- `spreadsheet.js`, `import-worker.js`: bounded Excel processing
+- `vendor/`: self-hosted SheetJS CE 0.20.3 and its license
+- `tests/`: automated tests, browser fixtures and recorded results
 
-GitHub Pages serves the repository's `main` branch from `/(root)`. `.nojekyll` keeps the site as plain static files. Existing repository license: [Apache 2.0](LICENSE).
+GitHub Pages serves `main` from the repository root. The project is licensed under [Apache 2.0](LICENSE).
