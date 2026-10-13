@@ -32,6 +32,8 @@ Run `node --test tests/*.test.cjs` from the repository root.
 | V3B23–24 | Remove disposable QA records and test an exceeded budget. Sample total and budget are restored afterward. |
 | V3B25 | At 390×844, dashboard, filters, entry and data dialogs have no page overflow and remain usable. |
 | V3B26 | At 1280×900, dashboard, list, chart, budget and What's New render without page overflow. |
+| V3B27 | Deliver “250 Rs spent on groceries” in English voice mode. Amount immediately becomes ₹250.00, category becomes Food & groceries and description becomes groceries without a second draft-acceptance action. |
+| V3B28 | At 390×844 with browser speech recognition unavailable, open **Use phone keyboard microphone**, enter the dictated phrase and prepare it. The same amount/category/description fields populate without page overflow. |
 
 ## Manual release checks
 

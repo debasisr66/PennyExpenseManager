@@ -128,5 +128,15 @@
     "id": "V3B26",
     "status": "PASS",
     "detail": "1280px desktop dashboard has no horizontal overflow; chart, budget, list and What’s New visible."
+  },
+  {
+    "id": "V3B27",
+    "status": "PASS",
+    "detail": "English voice transcript “250 Rs spent on groceries” immediately fills amount 250.00, Food & groceries, and description groceries; translated Spanish still requires acceptance."
+  },
+  {
+    "id": "V3B28",
+    "status": "PASS",
+    "detail": "At 390×844 with direct browser speech recognition unavailable, phone-keyboard dictation fills amount 250.00, Food & groceries, and description groceries with no horizontal overflow."
   }
 ]

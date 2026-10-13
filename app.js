@@ -94,31 +94,38 @@
     try { const tags = C.extractTags($('description').value, $('expense-tags').value).tags; $('draft-tags').innerHTML = tags.map(tag => chip(tag, '', false)).join(''); }
     catch (e) { $('draft-tags').textContent = e.message; }
   }
+  async function processVoiceText(text){
+    if(!$('expense-dialog').open||$('voice-panel').hidden)return;
+    const generation=voiceGeneration;voiceText=text;voiceSource=$('voice-language').value;$('voice-transcript').hidden=false;$('voice-transcript').textContent='Heard: “'+text+'”';$('translation-status').textContent='Preparing an English draft…';
+    try{const result=await PennyTranslation.translate(text,voiceSource,translator);if(generation!==voiceGeneration)return;voiceDraftBase=result.text.trim();voiceNeedsCorrection=!result.complete;$('voice-english').value=result.text;$('voice-draft-label').hidden=false;$('voice-accept').checked=false;if(voiceSource==='en'){$('voice-accept-label').hidden=true;$('apply-voice').hidden=true;applyVoiceFields(result.text);$('translation-status').textContent='English transcript applied to the form. Check every field before saving.';}else{$('voice-status').textContent='English draft ready. Check it before using it.';$('voice-accept-label').hidden=false;$('apply-voice').hidden=false;$('apply-voice').disabled=true;$('translation-status').textContent=result.complete?'English draft · '+result.source+'. Check it before using it.':(result.source==='on-device translation'?'Translation needs correction: ':'Offline vocabulary could not translate: ')+result.unknown.join(', ')+'. Correct these words to English before accepting.';if(voiceSource==='hi'&&/कल/.test(text))$('translation-status').textContent+=' कल can mean yesterday or tomorrow; choose the expense date yourself.';}}
+    catch(error){if(generation===voiceGeneration){$('translation-status').textContent='Translation failed. Use keyboard entry; no expense was saved.';}}
+  }
   const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
   const voice=PennyVoice.create(Recognition,{
     status(status,message){$('voice-status').textContent=status==='complete'?($('voice-draft-label').hidden?'Speech captured. Preparing the English draft…':'English draft ready. Check it before using it.'):message;const active=status==='starting'||status==='listening';$('start-voice').hidden=active;$('start-voice').disabled=!voice.supported;$('stop-voice').hidden=!active;},
-    async transcript(text){
-      if(!$('expense-dialog').open||$('voice-panel').hidden)return;
-      const generation=voiceGeneration;voiceText=text;voiceSource=$('voice-language').value;$('voice-transcript').hidden=false;$('voice-transcript').textContent='Heard: “'+text+'”';$('translation-status').textContent='Preparing an English draft…';
-      try{const result=await PennyTranslation.translate(text,voiceSource,translator);if(generation!==voiceGeneration)return;$('voice-status').textContent='English draft ready. Check it before using it.';voiceDraftBase=result.text.trim();voiceNeedsCorrection=!result.complete;$('voice-english').value=result.text;$('voice-draft-label').hidden=false;$('voice-accept-label').hidden=false;$('apply-voice').hidden=false;$('voice-accept').checked=false;$('apply-voice').disabled=true;$('translation-status').textContent=result.complete?'English draft · '+result.source+'. Check it before using it.':(result.source==='on-device translation'?'Translation needs correction: ':'Offline vocabulary could not translate: ')+result.unknown.join(', ')+'. Correct these words to English before accepting.';if(voiceSource==='hi'&&/कल/.test(text))$('translation-status').textContent+=' कल can mean yesterday or tomorrow; choose the expense date yourself.';}
-      catch(error){if(generation===voiceGeneration){$('translation-status').textContent='Translation failed. Use keyboard entry; no expense was saved.';}}
-    }
+    transcript:processVoiceText
   });
-  function resetVoiceDraft(){voiceGeneration++;$('voice-draft-label').hidden=true;$('voice-accept-label').hidden=true;$('apply-voice').hidden=true;$('voice-transcript').hidden=true;$('voice-accept').checked=false;$('voice-english').value='';$('translation-status').textContent='';}
+  function resetVoiceDraft(){voiceGeneration++;$('voice-draft-label').hidden=true;$('voice-accept-label').hidden=true;$('apply-voice').hidden=true;$('voice-transcript').hidden=true;$('voice-accept').checked=false;$('voice-english').value='';$('phone-dictation-label').hidden=true;$('prepare-dictation').hidden=true;$('phone-dictation').value='';$('translation-status').textContent='';}
   function closeVoice(){voiceGeneration++;voice.cancel();translator?.destroy?.();translator=null;$('voice-panel').hidden=true;$('use-voice').setAttribute('aria-expanded','false');$('start-voice').textContent='Start listening';}
   function paymentFromVoice(text){const match=text.match(/\b(?:via|by|using|with|from|through)\s+(upi|credit card|debit card|cash|bank transfer|wallet)\b/i);return match?{method:match[1].toLowerCase().replace(/ /g,'-'),text:text.replace(match[0],'').trim()}:{method:'unspecified',text};}
-  $('voice-accept').onchange=()=>{$('apply-voice').disabled=!$('voice-accept').checked||(voiceNeedsCorrection&&$('voice-english').value.trim()===voiceDraftBase);};
-  $('voice-english').oninput=()=>{$('voice-accept').checked=false;$('apply-voice').disabled=true;};
-  $('apply-voice').onclick=()=>{
-    if(!$('voice-accept').checked||(voiceNeedsCorrection&&$('voice-english').value.trim()===voiceDraftBase)){notify('Correct the incomplete English draft before accepting it.');return;}
-    const text=$('voice-english').value.trim();if(!text||/[\u0900-\u097f]/u.test(text)){notify('Correct the draft to English before applying it.');return;}
+  function applyVoiceFields(text){
     const payment=paymentFromVoice(text),draft=C.parseVoice(payment.text,today());
     $('amount').value=draft.amount!==null?draft.amount.toFixed(2):'';
     if(draft.date)$('date').value=draft.date;
     if(voiceSource==='hi'&&/कल/.test(voiceText)){$('date').value='';draft.warnings.push('Choose the date: कल can mean yesterday or tomorrow.');}
     $('description').value=draft.description;$('category').value=draft.category||'Other';$('payment-method').value=payment.method;
     $('expense-tags').value=draft.tags.filter(tag=>!D.reserved.includes(tag)).map(tag=>'#'+tag).join(' ');
-    $('form-error').hidden=!draft.warnings.length;$('form-error').textContent=draft.warnings.join(' ');draftTags();$('voice-status').textContent='Draft applied. Check the fields and save when correct.';
+    $('form-error').hidden=!draft.warnings.length;$('form-error').textContent=draft.warnings.join(' ');draftTags();$('voice-status').textContent='Voice fields filled. Check them and save when correct.';
+    return draft;
+  }
+  $('voice-accept').onchange=()=>{$('apply-voice').disabled=!$('voice-accept').checked||(voiceNeedsCorrection&&$('voice-english').value.trim()===voiceDraftBase);};
+  $('voice-english').oninput=()=>{$('voice-accept').checked=false;$('apply-voice').disabled=true;};
+  $('use-phone-dictation').onclick=()=>{voice.cancel();resetVoiceDraft();$('phone-dictation-label').hidden=false;$('prepare-dictation').hidden=false;$('voice-status').textContent='Use the microphone on your phone keyboard, then prepare the dictated expense.';$('phone-dictation').focus();};
+  $('prepare-dictation').onclick=()=>{const text=$('phone-dictation').value.trim();if(!text){notify('Dictate or type the expense first.');$('phone-dictation').focus();return;}processVoiceText(text);};
+  $('apply-voice').onclick=()=>{
+    if(!$('voice-accept').checked||(voiceNeedsCorrection&&$('voice-english').value.trim()===voiceDraftBase)){notify('Correct the incomplete English draft before accepting it.');return;}
+    const text=$('voice-english').value.trim();if(!text||/[\u0900-\u097f]/u.test(text)){notify('Correct the draft to English before applying it.');return;}
+    applyVoiceFields(text);
   };
   function openExpense(id = null) {
     editing = id; const expense = state.expenses.find(x => x.id === id);
@@ -176,7 +183,7 @@
     try { const next=D.clone(state);next.budgets[$('month').value]=C.toPaise($('budget-input').value,true);if(await commit(next,'Monthly budget saved'))$('budget-dialog').close(); }
     catch (e) { $('budget-input').setCustomValidity(e.message); $('budget-input').reportValidity(); }
   };
-  $('use-voice').onclick = () => { $('voice-panel').hidden = false; $('use-voice').setAttribute('aria-expanded', 'true'); $('start-voice').disabled = !voice.supported; $('voice-status').textContent = voice.supported ? 'Ready when you are. Select Start listening to use your microphone.' : 'Voice entry is unavailable in this browser. You can type below, or try a browser with speech recognition over HTTPS.'; };
+  $('use-voice').onclick = () => { $('voice-panel').hidden = false; $('use-voice').setAttribute('aria-expanded', 'true'); $('start-voice').disabled = !voice.supported; $('voice-status').textContent = voice.supported ? 'Ready when you are. Select Start listening to use your microphone.' : 'This mobile browser has no direct speech recognition. Use phone keyboard microphone below, or type the expense.'; };
   $('start-voice').onclick = async()=>{const generation=++voiceGeneration;const language=$('voice-language').value;$('start-voice').disabled=true;$('voice-status').textContent='Preparing '+language+' voice entry…';try{translator?.destroy?.();translator=null;let prepared=null;if(language!=='en')prepared=await PennyTranslation.prepare(window.Translator,language);if(generation!==voiceGeneration){prepared?.destroy?.();return;}translator=prepared;voice.start({en:'en-IN',hi:'hi-IN',es:'es-ES'}[language]);}catch(error){if(generation===voiceGeneration){$('voice-status').textContent='On-device translation is unavailable. Using the offline expense vocabulary; check the draft carefully.';voice.start({en:'en-IN',hi:'hi-IN',es:'es-ES'}[language]);}}finally{if(generation===voiceGeneration)$('start-voice').disabled=!voice.supported;}}; $('stop-voice').onclick = () => voice.stop(); $('return-keyboard').onclick = () => { closeVoice(); $('description').focus(); };
   $('expense-dialog').addEventListener('close', closeVoice); $('expense-dialog').addEventListener('cancel', closeVoice);
   document.addEventListener('visibilitychange', () => { if (document.hidden) voice.cancel(); });

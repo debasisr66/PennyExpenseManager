@@ -16,7 +16,7 @@
     let recognition = null, session = 0, active = false;
     const update = (status, message) => { active = status === 'listening' || status === 'starting'; if (handlers.status) handlers.status(status, message); };
     function start(language = 'en-IN') {
-      if (!Recognition) { update('unsupported', 'Voice entry is unavailable in this browser. Use keyboard entry, or try a browser with speech recognition support over HTTPS.'); return false; }
+      if (!Recognition) { update('unsupported', 'Direct speech recognition is unavailable. Use the phone keyboard microphone or keyboard entry.'); return false; }
       if (active) return false;
       const token = ++session;
       if (recognition) { try { recognition.abort(); } catch (e) {} recognition = null; }

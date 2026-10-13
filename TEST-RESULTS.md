@@ -8,9 +8,9 @@ Verified: 13 October 2026.
 
 | Check | Result |
 | --- | --- |
-| Automated Node tests | 180 passed, 0 failed, 0 skipped |
+| Automated Node tests | 181 passed, 0 failed, 0 skipped |
 | Independent adversarial subset | 35 passed, 0 failed |
-| Browser acceptance | 26 passed |
+| Browser acceptance | 28 passed |
 | JavaScript syntax | 16 first-party and test scripts passed `node --check` |
 | Responsive layout | Passed at 390×844 and 1280×900 with no horizontal page overflow |
 | Browser console | No application errors in the final local run |
@@ -21,6 +21,8 @@ The automated TAP log is in [tests/results.tap](tests/results.tap), and the reco
 ## Issues found and fixed
 
 The adversarial review initially found three medium-priority data-quality problems: maximum-size exports could exceed the old import cap, Spanish `1.500` could be read as ₹1.50, and an ordinary Hindi UPI word order could lose the payment method. Limits and parsing were corrected, then independently retested. Additional regression checks cover Spanish decimal wording, foreign currencies, Unicode-hidden spreadsheet formulas, Excel dates, cross-tab storage conflicts and linked-file failures.
+
+The V3.0.1 patch fixes English voice form population: “250 Rs spent on groceries” now fills Amount with ₹250.00 immediately. A phone-keyboard dictation path covers mobile browsers without the Web Speech recognition API. Hindi and Spanish continue to require review and acceptance of the translated English draft.
 
 ## Release limits
 
