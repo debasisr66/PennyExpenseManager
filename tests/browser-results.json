@@ -138,5 +138,20 @@
     "id": "V3B28",
     "status": "PASS",
     "detail": "At 390×844 with direct browser speech recognition unavailable, phone-keyboard dictation fills amount 250.00, Food & groceries, and description groceries with no horizontal overflow."
+  },
+  {
+    "id": "V3B29",
+    "status": "PASS",
+    "detail": "At 390×844, Hindi microphone listening starts immediately while translation preparation remains pending; bounded fallback creates a reviewed English draft and applies INR 250 with UPI."
+  },
+  {
+    "id": "V3B30",
+    "status": "PASS",
+    "detail": "At 390×844 without direct speech recognition, phone-keyboard Hindi and Spanish each translate to English, require acceptance, and apply INR 250, Food & groceries, and UPI."
+  },
+  {
+    "id": "V3B31",
+    "status": "PASS",
+    "detail": "At 390×844, the header What’s New button opens the V3.0.1 dialog with reliable mobile voice details and no horizontal page overflow."
   }
 ]

@@ -34,6 +34,9 @@ Run `node --test tests/*.test.cjs` from the repository root.
 | V3B26 | At 1280×900, dashboard, list, chart, budget and What's New render without page overflow. |
 | V3B27 | Deliver “250 Rs spent on groceries” in English voice mode. Amount immediately becomes ₹250.00, category becomes Food & groceries and description becomes groceries without a second draft-acceptance action. |
 | V3B28 | At 390×844 with browser speech recognition unavailable, open **Use phone keyboard microphone**, enter the dictated phrase and prepare it. The same amount/category/description fields populate without page overflow. |
+| V3B29 | At 390×844, make translation preparation remain pending, select Hindi and start listening. Microphone listening starts immediately; the bounded offline fallback produces an English draft that remains unsaved until accepted. |
+| V3B30 | With direct speech unavailable at 390×844, dictate Hindi and Spanish through the phone-keyboard path. Each produces the correct English draft, keeps Amount blank before acceptance, then applies ₹250.00, Food & groceries and UPI. |
+| V3B31 | At 390×844, open **What’s New** from the header. The V3.0.1 dialog is visible, mentions reliable mobile voice, closes normally and causes no page overflow. |
 
 ## Manual release checks
 
