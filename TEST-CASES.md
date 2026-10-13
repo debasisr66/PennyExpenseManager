@@ -36,7 +36,10 @@ Run `node --test tests/*.test.cjs` from the repository root.
 | V3B28 | At 390×844 with browser speech recognition unavailable, open **Use phone keyboard microphone**, enter the dictated phrase and prepare it. The same amount/category/description fields populate without page overflow. |
 | V3B29 | At 390×844, make translation preparation remain pending, select Hindi and start listening. Microphone listening starts immediately; the bounded offline fallback produces an English draft that remains unsaved until accepted. |
 | V3B30 | With direct speech unavailable at 390×844, dictate Hindi and Spanish through the phone-keyboard path. Each produces the correct English draft, keeps Amount blank before acceptance, then applies ₹250.00, Food & groceries and UPI. |
-| V3B31 | At 390×844, open **What’s New** from the header. The V3.0.1 dialog is visible, mentions reliable mobile voice, closes normally and causes no page overflow. |
+| V3B31 | At 390×844, open **What’s New** from the header. The V3.0.2 dialog is visible, explains repeatable mobile voice, closes normally and causes no page overflow. |
+| V3B32 | At 390×844, deliver only a partial Hindi transcript and end recognition without a final event. Penny keeps the captured words, creates the correct English draft and applies ₹250.00, Food & groceries and UPI only after approval. |
+| V3B33 | Without reopening the expense dialog, complete a Hindi voice attempt followed by a Spanish voice attempt. Both sessions reset cleanly and the second draft applies ₹375.00, Food & groceries and UPI. |
+| V3B34 | Simulate denied microphone permission, then immediately try voice again. The error offers the phone-keyboard fallback and the fresh voice attempt applies ₹425.00, Food & groceries and Cash without page overflow or console errors. |
 
 ## Manual release checks
 

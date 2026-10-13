@@ -152,6 +152,21 @@
   {
     "id": "V3B31",
     "status": "PASS",
-    "detail": "At 390×844, the header What’s New button opens the V3.0.1 dialog with reliable mobile voice details and no horizontal page overflow."
+    "detail": "At 390×844, the header What’s New button opens the V3.0.2 dialog with repeatable mobile voice details and no horizontal page overflow."
+  },
+  {
+    "id": "V3B32",
+    "status": "PASS",
+    "detail": "At 390×844, a Hindi partial result followed by end-of-speech remains visible, translates to the correct English draft, and applies INR 250, Food & groceries and UPI only after approval."
+  },
+  {
+    "id": "V3B33",
+    "status": "PASS",
+    "detail": "At 390×844, consecutive Hindi and Spanish voice attempts in one dialog reset cleanly; the second reviewed draft applies INR 375, Food & groceries and UPI."
+  },
+  {
+    "id": "V3B34",
+    "status": "PASS",
+    "detail": "At 390×844, denied microphone permission exposes the keyboard fallback and Try voice again; the next direct attempt applies INR 425, Food & groceries and Cash with no overflow or console errors."
   }
 ]
