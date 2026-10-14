@@ -1,6 +1,6 @@
 # Penny V3 test cases
 
-Date: 13 October 2026. These tests apply to the repository snapshot published as V3.
+Date: 14 October 2026. These tests apply to the repository snapshot published as V3.1.0.
 
 ## Automated suites
 
@@ -14,7 +14,7 @@ Run `node --test tests/*.test.cjs` from the repository root.
 | CSV/JSON | quoted and Unicode fields, formula protection, limits, round trips, duplicates and atomic validation |
 | Excel | genuine XLSX round trips, budgets, date serials, limits, ZIP preflight and hostile workbook rejection |
 | Storage | first run, IndexedDB-compatible revision checks, conflicts, import undo, linked-file changes and failures |
-| Voice/translation | English parsing, Hindi/Spanish drafts, locale numbers, rails, foreign-currency warnings and cancellations |
+| Voice/translation | English parsing, deterministic offline Hindi/Spanish expense drafts, 100 structured phrases per language, locale numbers, dates, rails, unknown-word correction, foreign-currency warnings and cancellations |
 | Adversarial | oversized valid data, injection-shaped data, prototype keys, malformed imports and concurrent writes |
 
 ## Browser acceptance cases
@@ -36,10 +36,13 @@ Run `node --test tests/*.test.cjs` from the repository root.
 | V3B28 | At 390×844 with browser speech recognition unavailable, open **Use phone keyboard microphone**, enter the dictated phrase and prepare it. The same amount/category/description fields populate without page overflow. |
 | V3B29 | At 390×844, make translation preparation remain pending, select Hindi and start listening. Microphone listening starts immediately; the bounded offline fallback produces an English draft that remains unsaved until accepted. |
 | V3B30 | With direct speech unavailable at 390×844, dictate Hindi and Spanish through the phone-keyboard path. Each produces the correct English draft, keeps Amount blank before acceptance, then applies ₹250.00, Food & groceries and UPI. |
-| V3B31 | At 390×844, open **What’s New** from the header. The V3.0.2 dialog is visible, explains repeatable mobile voice, closes normally and causes no page overflow. |
+| V3B31 | At 390×844, open **What’s New** from the header. The V3.1.0 dialog is visible, explains offline language parsing and repeatable mobile voice, closes normally and causes no page overflow. |
 | V3B32 | At 390×844, deliver only a partial Hindi transcript and end recognition without a final event. Penny keeps the captured words, creates the correct English draft and applies ₹250.00, Food & groceries and UPI only after approval. |
 | V3B33 | Without reopening the expense dialog, complete a Hindi voice attempt followed by a Spanish voice attempt. Both sessions reset cleanly and the second draft applies ₹375.00, Food & groceries and UPI. |
 | V3B34 | Simulate denied microphone permission, then immediately try voice again. The error offers the phone-keyboard fallback and the fresh voice attempt applies ₹425.00, Food & groceries and Cash without page overflow or console errors. |
+| V3B35 | At 390×844, deliver the Hindi transcript “मैंने आज दवा पर 640 रुपये खर्च किए क्रेडिट कार्ड से”. The on-device parser produces “Spent 640 rupees on medicine today via credit card”, leaves Amount blank before approval, then applies ₹640.00, Health and Credit card. |
+| V3B36 | At 390×844, deliver Spanish with an unfamiliar expense type. Penny identifies `odontología` and `expense type` as needing correction, keeps the apply action disabled until the English draft is changed and approved, and shows no misleading offline-network error. |
+| V3B37 | At 390×844, the V3.1.0 **What’s New** dialog opens from the header and the page remains exactly 390 pixels wide with no horizontal overflow. |
 
 ## Manual release checks
 

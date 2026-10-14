@@ -152,7 +152,7 @@
   {
     "id": "V3B31",
     "status": "PASS",
-    "detail": "At 390×844, the header What’s New button opens the V3.0.2 dialog with repeatable mobile voice details and no horizontal page overflow."
+    "detail": "At 390×844, the header What’s New button opens the V3.1.0 dialog with offline language parsing and repeatable mobile voice details and no horizontal page overflow."
   },
   {
     "id": "V3B32",
@@ -168,5 +168,20 @@
     "id": "V3B34",
     "status": "PASS",
     "detail": "At 390×844, denied microphone permission exposes the keyboard fallback and Try voice again; the next direct attempt applies INR 425, Food & groceries and Cash with no overflow or console errors."
+  },
+  {
+    "id": "V3B35",
+    "status": "PASS",
+    "detail": "At 390×844, Hindi medicine and credit-card speech produces “Spent 640 rupees on medicine today via credit card”, keeps Amount blank before approval, then applies INR 640.00, Health and Credit card."
+  },
+  {
+    "id": "V3B36",
+    "status": "PASS",
+    "detail": "At 390×844, unfamiliar Spanish vocabulary is identified for correction; Apply stays disabled until the English draft is edited and approved, with no misleading offline-network error."
+  },
+  {
+    "id": "V3B37",
+    "status": "PASS",
+    "detail": "At 390×844, the V3.1.0 What’s New dialog opens and document scroll width remains 390 pixels with no horizontal overflow."
   }
 ]

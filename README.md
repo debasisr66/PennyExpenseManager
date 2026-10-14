@@ -18,7 +18,7 @@ The app starts with fictional sample records only when no saved Penny database e
 5. **Record how you paid.** Choose UPI, credit card, debit card, cash, bank transfer, wallet or another method. Penny adds a matching searchable tag such as `#upi`.
 6. **Move your data.** Export expenses to CSV or Excel. Excel also carries budgets. Import CSV, `.xlsx` or a Penny JSON backup only after reviewing a preview. An undo snapshot is kept for imports.
 7. **Keep a portable copy.** Modern supported browsers can connect an empty JSON file that Penny updates after each save. A full JSON backup works in other browsers.
-8. **Use optional voice entry.** Speak English, Hindi or Spanish. Words appear while you speak, and each attempt starts with a clean microphone session. English fills the form immediately for review. Hindi and Spanish are shown as an English draft for correction and explicit acceptance. If direct recognition fails, choose **Try voice again** or use the microphone on the phone keyboard in Penny's dictated-text fallback. Voice never saves automatically.
+8. **Use optional voice entry.** Speak English, Hindi or Spanish. Words appear while you speak, and each attempt starts with a clean microphone session. English fills the form immediately for review. Hindi and Spanish use an on-device expense parser for amounts, dates, categories and payment methods, then show a controlled English draft for correction and explicit acceptance. If direct recognition fails, choose **Try voice again** or use the microphone on the phone keyboard in Penny's dictated-text fallback. Voice never saves automatically.
 9. **Convert currencies.** The conversion bar estimates INR, USD, EUR and GBP using a requested daily rate or a manual rate. Expense records always remain INR.
 
 ## Storage and privacy
@@ -29,7 +29,9 @@ Files and linked JSON copies are plain text and are not encrypted. Do not keep t
 
 ## Voice support
 
-Speech recognition availability varies by browser, device and language. Penny recreates the recognition session for every attempt, retains partial speech when a phone omits the final event, and exits stalled sessions so **Try voice again** remains usable. When the browser API is unavailable, **Use phone keyboard microphone** opens a text box where the device keyboard's own dictation can enter the phrase. The browser Translator API is used when available; otherwise Penny has a deliberately limited offline expense vocabulary for Hindi and Spanish and flags unknown words for correction. Ambiguous Hindi `कल` requires the date to be selected manually. Test the physical microphone and provider accuracy on the intended device before relying on voice entry.
+Speech recognition availability varies by browser, device and language. Penny recreates the recognition session for every attempt, retains partial speech when a phone omits the final event, and exits stalled sessions so **Try voice again** remains usable. When the browser API is unavailable, **Use phone keyboard microphone** opens a text box where the device keyboard's own dictation can enter the phrase.
+
+After a transcript is captured, Hindi and Spanish parsing works fully offline. Penny's deterministic expense parser recognizes common INR amounts, dates, expense types, tags and payment methods, then creates a controlled English draft. It flags unfamiliar words instead of guessing and requires the user to correct and approve the draft. The browser Translator API may improve wording on supported desktop browsers. This deliberately small parser is for expense phrases, not general-purpose translation; a large neural translation model is not bundled. Ambiguous Hindi `कल` requires the date to be selected manually. Test physical microphone capture and provider accuracy on the intended device before relying on voice entry.
 
 ## Data formats
 
@@ -53,7 +55,7 @@ node --test tests/*.test.cjs
 
 Run the local browser test harness with `node tests/serve-tests.cjs`, then open `http://127.0.0.1:8767/voice-harness`. The test route uses simulated speech and disposable in-memory files. The normal app never loads these fixtures.
 
-The current release passed 184 automated tests, 34 browser acceptance checks, JavaScript syntax checks and an independent adversarial review. Real microphone/provider accuracy and actual filesystem permission or disk-full conditions still require checks on the target hardware. This is targeted review evidence, not a security certification.
+The current release passed 189 automated tests, including 100 structured Hindi and 100 structured Spanish expense phrases, 37 browser acceptance checks, JavaScript syntax checks and an independent adversarial review. Real microphone/provider accuracy and actual filesystem permission or disk-full conditions still require checks on the target hardware. This is targeted review evidence, not a security certification.
 
 ## Project files
 

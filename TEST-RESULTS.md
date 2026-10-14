@@ -1,6 +1,6 @@
 # Penny V3 verification results
 
-Verified: 13 October 2026.
+Verified: 14 October 2026.
 
 ## Result
 
@@ -8,9 +8,9 @@ Verified: 13 October 2026.
 
 | Check | Result |
 | --- | --- |
-| Automated Node tests | 184 passed, 0 failed, 0 skipped |
+| Automated Node tests | 189 passed, 0 failed, 0 skipped |
 | Independent adversarial subset | 35 passed, 0 failed |
-| Browser acceptance | 34 passed |
+| Browser acceptance | 37 passed |
 | JavaScript syntax | 16 first-party and test scripts passed `node --check` |
 | Responsive layout | Passed at 390×844 and 1280×900 with no horizontal page overflow |
 | Browser console | No application errors in the final local run |
@@ -24,9 +24,11 @@ The adversarial review initially found three medium-priority data-quality proble
 
 The V3.0.2 patch fixes the mobile speech lifecycle. Each attempt uses a new recognition session, keeps partial words visible, promotes a useful partial transcript when a phone omits its final speech event, and times out stalled start/listening states. An error or completed attempt leaves a working **Try voice again** action. Browser acceptance covered back-to-back Hindi and Spanish sessions plus a denied-permission recovery attempt. Hindi and Spanish continue to require review and acceptance of the English draft.
 
+V3.1.0 adds deterministic offline expense parsing after speech capture. Automated coverage validates 100 Hindi and 100 Spanish phrases across ten expense types, five payment methods and two natural sentence orders per language. Hindi digits, common spoken amounts, dates, unknown words, foreign currencies and unsafe decimals have dedicated checks. Mobile browser checks confirmed a complete Hindi medicine/credit-card draft, mandatory correction for unfamiliar Spanish vocabulary and the V3.1.0 **What’s New** dialog without overflow.
+
 ## Release limits
 
-- Speech and translation were tested with deterministic browser fixtures. Physical microphone capture, speech-provider accuracy and language-pack availability require manual checks on each target browser/device.
+- Speech capture was tested with deterministic browser fixtures. Physical microphone capture and speech-provider accuracy require manual checks on each target browser/device. Once text is captured, the limited Hindi/Spanish expense parser runs offline and does not depend on a downloadable language pack.
 - Filesystem permission revocation and disk-full behavior were simulated; the real browser/operating-system dialogs require device checks.
 - Security review is scoped to this static client-side app and its import/export boundaries. It is not a penetration-test certificate.
 - Daily exchange rates depend on `api.frankfurter.dev`; manual rates remain available when the service or network is unavailable.
