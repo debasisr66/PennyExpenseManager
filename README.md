@@ -4,10 +4,23 @@ Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, i
 
 ## Open the app
 
+- Find **Penny** in the [Studio product hub](https://github.com/debasisr66/studio), the shared entry point for the product collection. Studio lists Penny and surfaces available release notes, source links and downloads.
 - [Use the hosted app](https://debasisr66.github.io/PennyExpenseManager/)
 - Or download this repository and run `python3 -m http.server 8767`, then open `http://127.0.0.1:8767/`
 
 The app starts with fictional sample records only when no saved Penny database exists. The sample October total is ₹13,338.50 against a ₹18,000 budget.
+
+## Studio hub integration
+
+Penny is part of Studio's hub-and-product structure: Studio is the place to discover products and their updates, while this repository contains Penny's application, tests and documentation. Penny is registered as a featured Productivity product in Studio's [`content/products.json`](https://github.com/debasisr66/studio/blob/main/content/products.json).
+
+To use Penny through the hub, open Studio, find Penny in **Products**, and follow the available product or release link. The current hub offers **View on GitHub** or **Source**, plus **Download** when a release is available. The [hosted Penny app](https://debasisr66.github.io/PennyExpenseManager/) can also be opened directly. For the local Docker setup on this Mac, use `penny --start`; Studio's product listing does not start a local container.
+
+Penny's [`Notify studio hub` workflow](https://github.com/debasisr66/PennyExpenseManager/blob/main/.github/workflows/notify-studio.yml) sends a `product-updated` event to `debasisr66/studio` when a release is published or when `README.md` or `CHANGELOG.md` changes on `main`. It can also be run manually. Dispatch requires the repository's `STUDIO_DISPATCH_TOKEN` secret to be configured with access to the Studio repository. Studio reads public repository and release metadata to refresh its product information; the notification workflow being present does not by itself confirm a successful refresh.
+
+Expense records remain in Penny's browser storage. Studio's metadata refresh does not synchronize personal expenses. When switching between hosted and local Penny, use JSON export/import if you need to move records between those separate browser origins.
+
+See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
@@ -56,6 +69,23 @@ node --test tests/*.test.cjs
 Run the local browser test harness with `node tests/serve-tests.cjs`, then open `http://127.0.0.1:8767/voice-harness`. The test route uses simulated speech and disposable in-memory files. The normal app never loads these fixtures.
 
 The current release passed 189 automated tests, including 100 structured Hindi and 100 structured Spanish expense phrases, 37 browser acceptance checks, JavaScript syntax checks and an independent adversarial review. Real microphone/provider accuracy and actual filesystem permission or disk-full conditions still require checks on the target hardware. This is targeted review evidence, not a security certification.
+
+## Docker
+
+Docker Desktop or another Docker-compatible runtime is required. Build and start Penny with:
+
+```sh
+penny --start
+```
+
+The `penny` command is installed in `~/.local/bin`, which is already on this Mac's command path. Its editable source is `scripts/penny` in this repository. Check or stop Penny with:
+
+```sh
+penny --status
+penny --stop
+```
+
+`penny --start` builds the image, waits for a healthy container and opens `http://localhost:8080/`. Expense data remains in the browser's IndexedDB; rebuilding or removing the container does not move that browser data. Back up data before clearing browser site data. A remote deployment must use HTTPS for dependable microphone access.
 
 ## Project files
 
