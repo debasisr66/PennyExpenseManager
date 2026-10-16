@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penny Journey Map</title>
+<style>
+:root{--navy:#173e3a;--green:#147d68;--mint:#e9f4ee;--sand:#f7f4ec;--ink:#173e3a;--muted:#5b716d;--line:#d7e0dc}*{box-sizing:border-box}body{margin:0;background:#f8f7f3;color:var(--ink);font:16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.page{max-width:1040px;margin:auto;padding:64px 36px 80px}.eyebrow{color:var(--green);font-size:.78rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}h1,h2,h3{line-height:1.12;margin:0;color:var(--navy)}h1{font-size:clamp(2.5rem,6vw,5.2rem);letter-spacing:-.055em;max-width:780px}h2{font-size:1.65rem;margin-top:58px;margin-bottom:18px;letter-spacing:-.03em}h3{font-size:1rem}.sub{max-width:700px;font-size:1.25rem;color:var(--muted);margin:18px 0 8px}.meta{font-size:.9rem;color:var(--muted)}.summary{margin:42px 0 18px;background:var(--mint);border-radius:18px;padding:25px 28px;max-width:850px}.summary strong{display:block;margin-bottom:5px}.timeline{border-left:2px solid var(--line);margin:25px 0 0 10px;padding-left:28px}.moment{position:relative;padding:0 0 26px}.moment:before{content:"";position:absolute;left:-36px;top:5px;width:14px;height:14px;border:4px solid #f8f7f3;background:var(--green);border-radius:50%}.date{font-size:.8rem;font-weight:800;color:var(--green);letter-spacing:.08em;text-transform:uppercase}.moment h3{margin:3px 0}.moment p{margin:3px 0;color:var(--muted)}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{padding:20px;border:1px solid var(--line);border-radius:14px;background:#fff}.card p{margin:.55rem 0 0;color:var(--muted)}.voice{margin:28px 0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fff}.voice-head{background:var(--navy);color:white;padding:23px 25px}.voice-head h2{color:white;margin:0;font-size:1.45rem}.voice-head p{margin:8px 0 0;color:#d7ece5}.voice-grid{display:grid;grid-template-columns:repeat(3,1fr)}.voice-grid>div{padding:21px;border-right:1px solid var(--line)}.voice-grid>div:last-child{border:0}.voice-grid p{margin:.4rem 0 0;color:var(--muted)}.voice-grid strong{font-size:.8rem;color:var(--green);letter-spacing:.08em;text-transform:uppercase}.architecture{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}.architecture .node{background:var(--mint);padding:17px;border-radius:12px;position:relative}.architecture .node:not(:last-child):after{content:"→";position:absolute;right:-18px;top:37%;font-size:24px;color:var(--green);z-index:1}.node p{font-size:.88rem;margin:.45rem 0 0;color:var(--muted)}.quality{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.quality .card{min-height:120px}.quote{margin-top:45px;background:var(--navy);color:#fff;padding:30px;border-radius:18px;font-size:1.2rem;line-height:1.5}.quote strong{display:block;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase;color:#a9d9ca;margin-bottom:8px}.caption{color:var(--muted);font-size:.92rem}.footer{margin-top:65px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}@media(max-width:720px){.page{padding:40px 22px}.two,.quality,.voice-grid,.architecture{grid-template-columns:1fr}.voice-grid>div{border-right:0;border-bottom:1px solid var(--line)}.architecture .node:not(:last-child):after{content:"↓";right:auto;left:50%;bottom:-25px;top:auto}.architecture{gap:31px}h2{margin-top:43px}}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="eyebrow">Penny expense manager</div>
+  <h1>Penny Journey Map</h1>
+  <p class="sub">From a simple expense idea to a tested portable local app.</p>
+  <p class="meta">14 October 2026 &nbsp;|&nbsp; A story of product choices, a voice lesson, and a practical release path</p>
+  <section class="summary"><strong>The story in one sentence</strong>Penny began as a clear promise: help a person understand everyday spending without needing to understand software. The work stayed focused on making each step feel safe, familiar and explainable, especially when voice input proved less predictable than it first appeared.</section>
+  <h2>The journey at a glance</h2>
+  <section class="timeline">
+    <article class="moment"><div class="date">12 Oct</div><h3>Conception</h3><p>A personal expense manager built for someone who does not code.</p></article>
+    <article class="moment"><div class="date">12 Oct</div><h3>Useful first version</h3><p>Add, view, edit and delete expenses. See a budget and category view.</p></article>
+    <article class="moment"><div class="date">13 Oct</div><h3>Everyday confidence</h3><p>Search, tags, payment methods, INR, imports, exports and a clearer mobile design.</p></article>
+    <article class="moment"><div class="date">13 Oct</div><h3>The voice reality check</h3><p>Mobile voice sometimes captured only part of a phrase or lost the next attempt.</p></article>
+    <article class="moment"><div class="date">14 Oct</div><h3>A better voice model</h3><p>Keep typing as the default; turn captured Hindi and Spanish speech into a reviewable expense draft.</p></article>
+    <article class="moment"><div class="date">14 Oct</div><h3>Proof and release</h3><p>Tests, adversarial checks, release notes and a public GitHub Pages deployment.</p></article>
+    <article class="moment"><div class="date">14 Oct</div><h3>Portable operation</h3><p>A Docker path and simple Penny start and stop commands for a local machine.</p></article>
+  </section>
+  <h2>Chapter one  A small promise with clear boundaries</h2>
+  <p>The first decision was to keep the product modest. Penny was not designed as a bank, a social network or an accounting system. It had one job: let a person add an expense, understand the month, and feel in control. That boundary made the interface easier to learn and easier to trust.</p>
+  <p><strong>The product choice:</strong> build the ordinary path first. Date, amount, category and description came before automation. The monthly total, budget warning and category chart made the result visible immediately.</p>
+  <h2>Chapter two  Making the app feel like daily life</h2>
+  <p>Once the basic flow worked, the app gained the details that make a personal tool feel natural: searchable tags such as #groceries, the way a payment was made, INR as the default currency, and a visible What’s New area. Import and export were included so the user always has a way to take their information with them.</p>
+  <section class="two">
+    <article class="card"><h3>Progressive enhancement</h3><p>Typing remains the reliable starting point. Voice is helpful when it works, never required.</p></article>
+    <article class="card"><h3>Human in the loop</h3><p>A voice-created draft is reviewed before it changes an expense. Penny does not save an unheard or misunderstood amount.</p></article>
+    <article class="card"><h3>Portable by default</h3><p>Browser storage keeps the app personal, while CSV, Excel and JSON exports keep the user free to move their data.</p></article>
+    <article class="card"><h3>Explainable feedback</h3><p>Search, voice and budget messages say what happened and what the person can do next.</p></article>
+  </section>
+  <section class="voice">
+    <div class="voice-head"><h2>The voice glitch that changed the design</h2><p>Voice looked like one feature. Real mobile testing showed it was a chain of different experiences.</p></div>
+    <div class="voice-grid">
+      <div><strong>What we saw</strong><p>A transcript could end early, a later attempt could fail, and language conversion could report that it was offline.</p></div>
+      <div><strong>What we learned</strong><p>Voice capture is separate from understanding the expense. A clever guess is worse than a visible question in a money app.</p></div>
+      <div><strong>What Penny does now</strong><p>Keep useful partial words, restart cleanly, read common expense facts on the device, and require review before saving.</p></div>
+    </div>
+  </section>
+  <p><strong>The turning point:</strong> Penny stopped treating voice as a promise of perfect translation. It treats voice as one way to capture text, then reads the useful facts in an expense - amount, date, category and payment method - and shows a plain English draft. The person checks it before saving.</p>
+  <h2>The architecture in plain language</h2>
+  <section class="architecture">
+    <article class="node"><h3>Penny screen</h3><p>Where a person records, searches and reviews spending.</p></article>
+    <article class="node"><h3>Browser storage</h3><p>Where expenses and budgets stay on the person’s device.</p></article>
+    <article class="node"><h3>Optional helpers</h3><p>Voice capture and requested currency rates support the main experience.</p></article>
+    <article class="node"><h3>GitHub and Docker</h3><p>Where the published app, evidence and portable local run path live.</p></article>
+  </section>
+  <p class="caption">The important architectural choice is that personal expense data remains with the browser. Penny can be published through GitHub Pages or served locally through Docker without becoming a server-side data system.</p>
+  <h2>Quality habits that became part of the product</h2>
+  <section class="quality">
+    <article class="card"><h3>Security</h3><p>Validate inputs, protect imports, avoid unsafe content, and review common web risks before release.</p></article>
+    <article class="card"><h3>Privacy</h3><p>Keep expense data in the browser, start voice only when requested, and make exports a user choice.</p></article>
+    <article class="card"><h3>Reliability</h3><p>Offer keyboard entry and clear recovery messages when voice or a network helper is unavailable.</p></article>
+    <article class="card"><h3>Mobile use</h3><p>Test the real small-screen journey, not only a desktop browser made narrow.</p></article>
+    <article class="card"><h3>GitHub discipline</h3><p>Keep the code, release notes, tests and results together so a change can be understood later.</p></article>
+    <article class="card"><h3>Release evidence</h3><p>Publish test cases and results as documents, rather than placing test controls in the app itself.</p></article>
+  </section>
+  <h2>The Docker chapter</h2>
+  <p>Docker did not change what Penny is. It made the same tested app easier to run from a machine. The container is deliberately small: it serves the Penny files, checks its own health, and does not hold anyone’s spending data. A simple Penny command starts and stops it locally when Docker Desktop is available.</p>
+  <p><strong>The principle:</strong> make the path to run the app as understandable as the path to use it. A local command should feel like a product action, not an engineering project.</p>
+  <h2>What would make this story stronger</h2>
+  <div class="two">
+    <article class="card"><h3>A two minute narrated demo</h3><p>Show one normal expense, one Hindi or Spanish voice draft, the correction step, an export, and the local start command.</p></article>
+    <article class="card"><h3>The companion release scorecard</h3><p>V3.1.0: 189 automated tests passed, 200 structured language phrases checked, 37 recorded browser acceptance checks and a verified GitHub Pages deployment. <a href="Penny-Release-Scorecard.html">Open the one-page scorecard</a> or <a href="Penny-Release-Scorecard.docx">download the Word version</a>.</p></article>
+  </div>
+  <section class="quote"><strong>The lasting lesson</strong>A personal finance app earns trust by making its uncertainty visible. The voice glitch was not a detour from the work. It showed where the design needed to become more human: clear, reversible, and always open to correction.</section>
+  <p class="footer">Penny Journey Map · V3.1.0</p>
+</main>
+</body>
+</html>
