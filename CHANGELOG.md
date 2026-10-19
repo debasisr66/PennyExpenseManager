@@ -2,6 +2,8 @@
 
 ## V3.2 — 2026-10-19
 
+- Published source/tag `fff33cc` and verified GitHub CI, Pages, 13 public runtime hashes and the anonymous source download. Post-deployment evidence is in DEPLOYMENT-VERIFICATION-v3.2.md.
+
 - Fixed Hindi-mode `spend rs.50 on donation` not filling Amount: support prefix Rs./INR notation and explicit monetary corrections in the English draft. Added 23 regression checks; full suite now 633 passing. Included in V3.2.
 
 - Implemented Settings, scoped deletion with impact preview, two-stage reset, persistent tag catalogue and ₹1,25,000 factory/default budget.

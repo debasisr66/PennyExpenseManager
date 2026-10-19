@@ -128,3 +128,5 @@ For Docker, install/start Docker Desktop, then run `./scripts/penny --start`; us
 The review build is tested separately on loopback port 8082, preserving the existing 8080 instance. Browser data is isolated by origin/port; use a full JSON backup to transfer records deliberately. CSV carries expenses only. Excel and JSON include budgets, saved tags and preferences; imported preferences require opt-in. Diagnostics never travel with financial backups.
 
 Prebuilt GHCR images are not part of this app release. Docker is verified as a local source build; the registry and multi-platform publishing specification remains separate work.
+
+Deployment verified: [v3.2 publication record](DEPLOYMENT-VERIFICATION-v3.2.md). All 13 public runtime files matched the release source; GitHub CI and Pages succeeded.
