@@ -24,6 +24,10 @@ See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
+### V3.2 planning documents
+
+V3.2 is planned, not released. Its design preserves the familiar V3.1 interface while adding safer scoped deletion/reset, essential Settings, Hindi voice corrections and local diagnostics. Read the [implementation plan](plan.md), [architecture and UI design](design.md), [requirement traceability](TRACEABILITY.md), [functional/UI test specification](V3.2-TEST-CASES.md) and [event-log test specification](EVENT-LOG-TEST-CASES.md). Planned cases do not represent executed test results.
+
 1. **Add, edit and delete expenses.** Record the date, INR amount, category, description, tags and payment method.
 2. **See your month clearly.** The cards show monthly spending, budget and money left. The category chart explains where the money went. Penny warns you when the budget is exceeded.
 3. **Search quickly.** Search descriptions, categories, amounts, dates, tags and payment methods. Use filters or searches such as `#groceries`, `rail:upi`, `coffee OR tea`, `-rail:cash`, `min:100` and `today`.

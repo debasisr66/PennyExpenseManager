@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — V3.2 planning documentation — 2026-10-19
+
+- Added the implementation plan and target design for scoped expense deletion, double-confirmed reset, ₹1,25,000 default budget, saved tags and essential Settings.
+- Made Hindi voice financial-integrity fixes release-blocking and specified expanded reviewed-language and target-device tests.
+- Specified local error-only logging, temporary debug sessions, privacy limits and reset/clear integration.
+- Added mobile/web HCI continuity requirements, functional/UI acceptance cases, detailed logging cases and requirement-to-artifact traceability.
+- Preserve V3.1's familiar dashboard and task paths. This entry publishes planning documents only; no V3.2 runtime feature or test pass is claimed.
+
 ## 2026-10-16 — Studio hub integration documentation
 
 ### Added
