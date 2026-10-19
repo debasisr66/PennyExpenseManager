@@ -1,3 +1,7 @@
+> V3.2 release update: 633 automated tests pass locally and in Docker. [Current results](V3.2-TEST-RESULTS.md) and [release notes](RELEASE-NOTES-v3.2.md) distinguish completed checks from remaining device, language, accessibility and image-publication work. Historical evidence below is preserved.
+
+> Historical V3/V3.1 evidence below. V3.2 evidence and limitations: [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md).
+
 # Penny V3 independent adversarial review
 
 Date: 13 October 2026. Scope: implementation in the repository root, modules plus browser integration code inspected; no publishing performed by this reviewer. Independent tests: `tests/adversarial.test.cjs`, run with `node --test tests/adversarial.test.cjs`.

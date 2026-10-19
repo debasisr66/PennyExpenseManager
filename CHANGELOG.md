@@ -1,6 +1,18 @@
 # Changelog
 
-## Unreleased — V3.2 planning documentation — 2026-10-19
+## V3.2 — 2026-10-19
+
+- Fixed Hindi-mode `spend rs.50 on donation` not filling Amount: support prefix Rs./INR notation and explicit monetary corrections in the English draft. Added 23 regression checks; full suite now 633 passing. Included in V3.2.
+
+- Implemented Settings, scoped deletion with impact preview, two-stage reset, persistent tag catalogue and ₹1,25,000 factory/default budget.
+- Added transactional bulk-change recovery with revision-guarded undo; reset disconnects linked files without overwriting them.
+- Added error-only diagnostics, temporary debug, safe session/action identifiers, bounded retention, reviewed export and epoch-based clear/reset.
+- Added a structured Hindi expense parser; fixed grouped-amount suffix corruption, unsafe qualifiers, multiple monetary spans, negation and partial paise amounts. Unsupported financial language stays unresolved.
+- Added source-edit approval invalidation and field-aware correction. Tightened Spanish grouping/source-validation safeguards and preserved multiple recognised items.
+- Updated schema-4 JSON/Excel portability, optional preference import, responsive dialogs and relative-path start/stop script.
+- Executed automated regression/corpus tests and independent adversarial review. See [V3.2 test results](V3.2-TEST-RESULTS.md) for evidence and remaining device/language/usability gates. Owner approved publication on 19 October 2026.
+
+## V3.2 planning documentation — 2026-10-19
 
 - Added the implementation plan and target design for scoped expense deletion, double-confirmed reset, ₹1,25,000 default budget, saved tags and essential Settings.
 - Made Hindi voice financial-integrity fixes release-blocking and specified expanded reviewed-language and target-device tests.

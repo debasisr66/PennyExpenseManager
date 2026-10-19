@@ -1,13 +1,13 @@
 # Penny V3.2 artifact traceability
 
 Date: 19 October 2026  
-Status: Requirements/design/test specification published; V3.2 implementation and execution evidence pending
+Status: Local implementation and automated evidence available; manual/device release gates pending. Publication approved on 19 October 2026.
 
 ## Source of truth and lifecycle
 
 [plan.md](plan.md) defines scope, behavior, impact and release gates. [design.md](design.md) defines implementation contracts. This matrix assigns stable requirement IDs and connects them to proposed modules, test specifications and evidence destinations. A requirement is not complete because its documentation is linked.
 
-Lifecycle: **Planned → Implemented at SHA → Tested with case/result/evidence → Reviewed → Released at SHA**. Every row below starts Planned. Document publication is separate from application release. When a case fails, retain its linked requirement and failure result; do not remove the link to create apparent coverage.
+Lifecycle: **Planned → Implemented at SHA → Tested with case/result/evidence → Reviewed → Released at SHA**. Original rows below retain their planned baseline; implementation evidence is recorded in the addendum. Document publication is separate from application release. When a case fails, retain its linked requirement and failure result; do not remove the link to create apparent coverage.
 
 <a id="requirements"></a>
 ## Functional requirements
@@ -72,3 +72,19 @@ During implementation each source change/PR description must name relevant requi
 3. Local relative document links and explicit anchors exist, including historical baseline links in the remote repository.
 4. Any deferral is recorded in plan, design and matrix consistently; required voice/data/privacy/accessibility checks are not silently dropped.
 5. No V3.2 row becomes Tested/Released until executed evidence for the relevant SHA exists.
+
+
+## Implementation evidence addendum — 19 October 2026
+
+| Requirement area | Implementation | Executed evidence | Remaining gate |
+| --- | --- | --- | --- |
+| Defaults/settings/tags/migration | `data.js`, `app.js`, `index.html` | `tests/v32.test.cjs` ACC-01/02/05/10/11, SEC checks | Owner acceptance |
+| Scoped deletion/reset/recovery | `data.js`, `storage.js`, `app.js` | ACC-03 through ACC-09; browser month-delete/undo/two-stage-reset | Additional target-device workflow |
+| Hindi monetary safety | `hindi.js`, `translation.js`, field correction in `app.js` | 250-case corpus, 0–99, adversarial span/qualifier/paise cases; browser ₹1,250 and empty-amount checks | Native-speaker corpus review and real capture |
+| Diagnostics/session/privacy/reset | `diagnostics.js`, `storage.js`, Settings | LOG-01 through LOG-08 automated; browser debug and export preview | Real device/background lifecycle matrix |
+| UI-01/02/08/09 | Existing dashboard + Settings/Start fresh | Browser workflow evidence in V3.2 results | Owner acceptance |
+| UI-03/04 | CSS reflow/touch sizes | Viewport measurements/screenshots in V3.2 results | Real zoom/device checks |
+| UI-05/06/07/10 | Native dialogs/labels/status and familiar controls | Partial browser inspection only | Full keyboard/screen reader/contrast, iPhone keyboard and uncoached usability checks |
+| Docker/static assets | `Dockerfile`, `nginx.conf`, `compose.yaml`, launcher | Build-time syntax/full test gate and runtime smoke | Release image signing/scanning/publication specification |
+
+Detailed commands, outcomes, limitations and independent review fixes: [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md). Local evidence is identified by SHA-256 manifest, not a fictitious Git commit. [V3.2-SHA256SUMS.txt](V3.2-SHA256SUMS.txt) fingerprints this candidate.

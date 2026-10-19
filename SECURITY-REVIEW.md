@@ -1,3 +1,7 @@
+> V3.2 release update: 633 automated tests pass locally and in Docker. [Current results](V3.2-TEST-RESULTS.md) and [release notes](RELEASE-NOTES-v3.2.md) distinguish completed checks from remaining device, language, accessibility and image-publication work. Historical evidence below is preserved.
+
+> Historical V3/V3.1 evidence below. V3.2 evidence and limitations: [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md).
+
 # Penny V3 security review
 
 Reviewed: 13 October 2026. The current official web application edition is [OWASP Top 10:2025](https://top10.owasp.org/2025/); it is the edition applied to this 2026 review. No separate OWASP web Top 10:2026 edition is claimed.

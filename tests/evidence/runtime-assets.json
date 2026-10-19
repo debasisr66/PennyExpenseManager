@@ -1,0 +1,67 @@
+[
+  {
+    "asset": "index.html",
+    "sha256": "af8e331fb8a65ba287de240f180c897bd1029ead298e9e5da4328187c5b9316b",
+    "match": true
+  },
+  {
+    "asset": "styles.css",
+    "sha256": "c9e122b6c77728b0d207c760a964eeaa84be1f9dbf72113bd0fde98b6b14c27b",
+    "match": true
+  },
+  {
+    "asset": "app.js",
+    "sha256": "62b5ef7d583bbce20f18bf42ce242a4ec08666dc87ae68cbd8277280528cd9d3",
+    "match": true
+  },
+  {
+    "asset": "core.js",
+    "sha256": "cafe98d853b0841a259627fb27cd8965f2323a9b565c67440ba1f29047bad4bb",
+    "match": true
+  },
+  {
+    "asset": "data.js",
+    "sha256": "7ab16b3865c4bb867fc9129cbc81e4ee2f791587966f430983f10cfeb4214867",
+    "match": true
+  },
+  {
+    "asset": "storage.js",
+    "sha256": "da74e5455686821970fd5d7a950acd7667f7f94d0b66302724de10aa7fce2ed9",
+    "match": true
+  },
+  {
+    "asset": "spreadsheet.js",
+    "sha256": "3120574ba9fea600765b61ff9fd427e4c73dd1c343cf63225b4f84a3a39af773",
+    "match": true
+  },
+  {
+    "asset": "import-worker.js",
+    "sha256": "f5371cc847990589769096b70a503567f185f16048c9233226707016b4c8a9bd",
+    "match": true
+  },
+  {
+    "asset": "voice.js",
+    "sha256": "c79ce086ef4499b87a82407203e3cca1100ce4d2f5784d83e1c68a5dbdb79e9e",
+    "match": true
+  },
+  {
+    "asset": "translation.js",
+    "sha256": "3d633c7713954fe0b7d214f850b5f21b76698827cdf744a96efe83ed7ff2be8b",
+    "match": true
+  },
+  {
+    "asset": "hindi.js",
+    "sha256": "3284d2d4927d6d7e454bd38912ccd6deb9f324b1239de831241c0d7518558572",
+    "match": true
+  },
+  {
+    "asset": "diagnostics.js",
+    "sha256": "06f0d417ff63cacdca3de4f1e8b962b38fc7857824319e31167b0ca3055ebe80",
+    "match": true
+  },
+  {
+    "asset": "vendor/xlsx-0.20.3.min.js",
+    "sha256": "0cb353f830d7288385492c83d277b058ddeac664ca51cf1393aa1fd3e2b70939",
+    "match": true
+  }
+]

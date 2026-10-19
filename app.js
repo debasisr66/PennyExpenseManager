@@ -11,37 +11,30 @@
   const dateName = date => new Date(`${date}T12:00:00`).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
   const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const tagHue = tag => { let hash = 0; for (const char of tag) hash = (hash * 31 + char.codePointAt(0)) >>> 0; return hash % 360; };
-  let state = {
-    schemaVersion: 2, currency: 'INR',
-    expenses: [
-      ['Rent', 1050000, 'Housing', 1, ['housing']],
-      ['Weekly groceries', 86400, 'Food & groceries', 3, ['groceries', 'family']],
-      ['Train pass', 45000, 'Transport', 4, ['travel']],
-      ['Coffee with a friend', 12500, 'Food & groceries', 5, ['weekend']],
-      ['New sneakers', 65000, 'Shopping', 6, ['personal']],
-      ['Movie night', 24000, 'Entertainment', 8, ['weekend', 'family']],
-      ['Pharmacy', 18750, 'Health', 9, ['medical']],
-      ['Fresh produce', 32200, 'Food & groceries', 10, ['groceries']]
-    ].map((x, i) => ({ id: `sample-${i}`, description: x[0], cents: x[1], category: x[2], date: `${current}-${String(x[3]).padStart(2, '0')}`, tags: x[4] }))
-      .concat([{ id: 'sample-previous', description: 'Dinner out', cents: 38000, category: 'Food & groceries', date: `${C.previousMonth(today())}-15`, tags: ['family'] }]),
-    budgets: { [current]: 1800000 }
-  };
+  let state=D.defaults(today());
   let editing=null,deleting=null,tagEditing=null,timer,rateRequest=0,rateController=null,rate=null;
   let store=null,ready=false,busy=false,importState=null,importName='',voiceGeneration=0,translator=null,translatorPromise=null,voiceText='',voiceSource='en',voiceDraftBase='',voiceNeedsCorrection=false;
-  let channel=null,visibleLimit=50;
+  let channel=null,visibleLimit=50,voiceStructured=null,voiceAction=null,importGeneration=0,expenseBaseline='';
+  const expenseDraft=()=>JSON.stringify(['date','amount','category','payment-method','description','expense-tags','voice-language','voice-english','phone-dictation'].map(id=>$(id).value));
+  let confirmationPending=false;
+  function askConfirmation(message,owner,label='Confirm',irreversible=false){
+    if(confirmationPending)return Promise.resolve(false);confirmationPending=true;const wasVoice=owner.id==='expense-dialog'&&!$('voice-panel').hidden;owner.close();$('confirmation-message').textContent=message;$('confirmation-ack').checked=false;$('confirmation-ack-label').hidden=!irreversible;$('confirmation-apply').textContent=label;$('confirmation-apply').disabled=irreversible;
+    return new Promise(resolve=>{let decided=false;const finish=value=>{if(decided)return;decided=true;confirmationPending=false;$('confirmation-dialog').close();owner.showModal();if(wasVoice){$('voice-panel').hidden=false;$('use-voice').setAttribute('aria-expanded','true');}resolve(value);};$('confirmation-cancel').onclick=()=>finish(false);$('confirmation-apply').onclick=()=>{if(!$('confirmation-apply').disabled)finish(true);};$('confirmation-ack').onchange=()=>{$('confirmation-apply').disabled=irreversible&&!$('confirmation-ack').checked;};$('confirmation-dialog').oncancel=event=>{event.preventDefault();finish(false);};$('confirmation-dialog').showModal();});
+  }
+  async function canClose(dialog){return dialog.id!=='expense-dialog'||expenseDraft()===expenseBaseline||await askConfirmation('Discard the unsaved expense draft? Your saved expenses will stay unchanged.',dialog,'Discard draft');}
+  const logs=PennyDiagnostics.create();
+  window.addEventListener('error',()=>logs.emit('runtime','RUNTIME_ERROR','error'));window.addEventListener('unhandledrejection',()=>logs.emit('runtime','RUNTIME_REJECTION','error'));
   function storageError(message){$('storage-error').hidden=false;$('storage-error').textContent=message;}
   function storeStatus(message){$('storage-status').textContent=message;$('data-store-detail').textContent=message;$('disconnect-file').hidden=!store?.isLinked();}
-  async function commit(next,message,backup=false){
+  async function commit(next,message,backup=false,operationOptions={}){
     if(!ready){notify('The data store is not ready. Your records have not changed.');return false;}
     if(busy){notify('Please wait for the current save.');return false;}
     busy=true;document.body.classList.add('saving');$('apply-import').disabled=true;
-    try{const result=await store.save(next,{backup});state=result.state;render();if(result.fileWarning){storageError(result.fileWarning);notify('Saved locally. The linked file needs attention.');}else{notify(message);storeStatus(store.isLinked()?'Local database + connected data file':store.getKind());}return true;}
-    catch(error){storageError(error.message);notify('Not saved: '+error.message);if(error.name==='ConflictError'){const latest=await store.load();if(latest){state=latest.state;store.adoptRevision(latest.revision);render();}}return false;}
+    try{const result=await store.save(next,{backup,...operationOptions});state=result.state;if(!operationOptions.reset)logs.emit('storage','DATA_CHANGE','debug',{});render();if(result.fileWarning){logs.emit('storage','LINK_FAILED','error');storageError(result.fileWarning);notify('Saved locally. The linked file needs attention.');}else{notify(message);storeStatus(store.isLinked()?'Local database + connected data file':store.getKind());}return true;}
+    catch(error){logs.emit('storage','SAVE_FAILED','error');storageError(error.message);notify('Not saved: '+error.message);if(error.name==='ConflictError'){const latest=await store.load();if(latest){state=latest.state;store.adoptRevision(latest.revision);render();}}return false;}
     finally{busy=false;document.body.classList.remove('saving');if($('import-dialog').open)updateImportPlan();else $('apply-import').disabled=false;}
   }
   async function initialise(){
-    const paymentExamples=['bank-transfer','upi','upi','cash','credit-card','cash','upi','upi','cash'];
-    state=D.migrateState({...state,expenses:state.expenses.map((row,i)=>({...row,paymentMethod:paymentExamples[i],tags:[...row.tags,paymentExamples[i]]}))});
     render();
     try{
       let adapter;
@@ -49,9 +42,9 @@
       catch(error){adapter=PennyStorage.fallbackAdapter(localStorage);}
       try{channel=new BroadcastChannel('penny-data-changes');}catch(error){}
       store=PennyStorage.create(adapter,{status:storeStatus,announce:revision=>channel?.postMessage({revision})});
-      state=await store.init(state,localStorage.getItem(KEY));ready=true;storeStatus(store.getKind());render();if(adapter.kind==='Browser storage fallback'&&!navigator.locks)storageError('This browser uses a storage fallback without tab locking. Keep one Penny tab open and download regular backups.');
+      state=await store.init(state,localStorage.getItem(KEY));await logs.attach(adapter);ready=true;storeStatus(store.getKind());render();if(adapter.kind==='Browser storage fallback'&&!navigator.locks)storageError('This browser uses a storage fallback without tab locking. Keep one Penny tab open and download regular backups.');
       if(state.expenses.some(x=>x.legacyRailConflict))storageError('Some older expenses have conflicting payment tags. They were preserved; edit their payment method to resolve them.');
-      if(channel)channel.onmessage=async()=>{if(!ready||busy)return;const latest=await store.load();if(!latest||latest.revision===store.getRevision())return;if($('expense-dialog').open||$('budget-dialog').open||$('import-dialog').open){storageError('Another tab changed your records. Review your open draft before saving; a stale save will be rejected.');return;}state=latest.state;store.adoptRevision(latest.revision);render();notify('Updated from another Penny tab');};
+      if(channel)channel.onmessage=async()=>{await logs.list();if(!ready||busy)return;const latest=await store.load();if(!latest||latest.revision===store.getRevision())return;if($('expense-dialog').open||$('budget-dialog').open||$('import-dialog').open){storageError('Another tab changed your records. Review your open draft before saving; a stale save will be rejected.');return;}state=latest.state;store.adoptRevision(latest.revision);render();notify('Updated from another Penny tab');};
     }catch(error){ready=false;storeStatus('Data store unavailable');storageError('Saved data was left untouched: '+error.message+' You can still export the visible records, but edits cannot be saved.');}
   }
   function notify(message) { $('notice').textContent = message; $('notice').hidden = false; clearTimeout(timer); timer = setTimeout(() => $('notice').hidden = true, 3200); }
@@ -70,11 +63,11 @@
     $('empty').textContent = filtered ? (result.errors.length ? 'Check the search format above.' : 'No matching expenses. Try fewer words, or clear your search.') : 'No expenses yet. Add your first purchase above.';
     const matchingTotal = all.reduce((sum, x) => sum + x.cents, 0);
     $('list-footer').textContent = filtered ? `${all.length} of ${state.expenses.length} expenses · Matching total ${money(matchingTotal)} · Monthly overview stays unchanged` : `${all.length} expenses · All months shown`;
-    const tags = [...new Set(state.expenses.flatMap(x => x.tags))].sort();
+    const tags = state.tagCatalog||[...new Set(state.expenses.flatMap(x => x.tags))].sort();
     $('known-tags').innerHTML = tags.map(tag => `<option value="#${escape(tag)}"></option>`).join('');
   }
   function render() {
-    const month = $('month').value, s = C.summary(state, month), hasBudget = s.budget !== undefined;
+    const month = $('month').value, s = C.summary({...state,budgets:{...state.budgets,[month]:D.effectiveBudget(state,month)}}, month), hasBudget = s.budget !== undefined;
     $('total').textContent = money(s.total); $('count').textContent = `${s.rows.length} expense${s.rows.length === 1 ? '' : 's'} in ${monthName(month)}`;
     $('budget-value').textContent = hasBudget ? money(s.budget) : 'Not set';
     $('remaining-label').textContent = s.exceeded ? 'Over budget' : 'Left to spend';
@@ -96,8 +89,8 @@
   }
   async function processVoiceText(text){
     if(!$('expense-dialog').open||$('voice-panel').hidden)return;
-    const generation=voiceGeneration;voiceText=text;voiceSource=$('voice-language').value;$('voice-transcript').hidden=false;$('voice-transcript').textContent='Heard: “'+text+'”';$('translation-status').textContent='Preparing an English draft…';
-    try{let activeTranslator=translator;if(voiceSource!=='en'&&translatorPromise&&!activeTranslator){const pending=translatorPromise;activeTranslator=await Promise.race([pending,new Promise(resolve=>setTimeout(()=>resolve(null),2500))]);}if(generation!==voiceGeneration)return;const result=await PennyTranslation.translate(text,voiceSource,activeTranslator);if(generation!==voiceGeneration)return;voiceDraftBase=result.text.trim();voiceNeedsCorrection=!result.complete;$('voice-english').value=result.text;$('voice-draft-label').hidden=false;$('voice-accept').checked=false;if(voiceSource==='en'){$('voice-accept-label').hidden=true;$('apply-voice').hidden=true;applyVoiceFields(result.text);$('translation-status').textContent='English transcript applied to the form. Check every field before saving.';}else{$('voice-status').textContent='Transcript captured. Check the English draft before using it.';$('voice-accept-label').hidden=false;$('apply-voice').hidden=false;$('apply-voice').disabled=true;if(result.complete)$('translation-status').textContent=result.source==='offline expense parser'?'Offline expense parser found the amount and expense details on this device. Check them before using this draft.':'English draft · '+result.source+'. Check it before using it.';else $('translation-status').textContent=(result.source==='on-device translation'?'Translation needs correction: ':'Transcript captured. The offline expense parser needs help with: ')+result.unknown.join(', ')+'. Correct these parts in English before accepting.';if(voiceSource==='hi'&&/कल/.test(text))$('translation-status').textContent+=' कल can mean yesterday or tomorrow; choose the expense date yourself.';}}
+    const generation=++voiceGeneration;voiceText=text;voiceSource=$('voice-language').value;$('correct-transcript').hidden=false;$('voice-transcript').hidden=false;$('voice-transcript').textContent='Heard: “'+text+'”';$('translation-status').textContent='Preparing an English draft…';
+    try{let activeTranslator=translator;if(voiceSource!=='en'&&translatorPromise&&!activeTranslator){const pending=translatorPromise;activeTranslator=await Promise.race([pending,new Promise(resolve=>setTimeout(()=>resolve(null),2500))]);}if(generation!==voiceGeneration)return;let result;try{result=await PennyTranslation.translate(text,voiceSource,activeTranslator);}catch(error){result=PennyTranslation.fallback(text,voiceSource);}if(generation!==voiceGeneration)return;voiceStructured=voiceSource==='hi'?PennyHindi.parse(text,today()):null;voiceDraftBase=result.text.trim();voiceNeedsCorrection=!result.complete;$('voice-english').value=result.text;$('voice-draft-label').hidden=false;$('voice-accept').checked=false;if(voiceSource==='en'){$('voice-accept-label').hidden=true;$('apply-voice').hidden=true;applyVoiceFields(result.text);$('translation-status').textContent='English transcript applied to the form. Check every field before saving.';}else{$('voice-status').textContent='Transcript captured. Check the English draft before using it.';$('voice-accept-label').hidden=false;$('apply-voice').hidden=false;$('apply-voice').disabled=true;logs.emit('parser','VOICE_PARSE','debug',{language:voiceSource,count:result.unknown.length},voiceAction);if(result.complete)$('translation-status').textContent=result.source==='offline expense parser'?'Offline expense parser found the amount and expense details on this device. Check them before using this draft.':'English draft · '+result.source+'. Check it before using it.';else $('translation-status').textContent=(result.source==='on-device translation'?'Translation needs correction: ':'Transcript captured. The offline expense parser needs help with: ')+result.unknown.join(', ')+'. Review the draft; unresolved fields will be left empty for you to correct in the form.';if(voiceSource==='hi'&&/कल/.test(text))$('translation-status').textContent+=' कल can mean yesterday or tomorrow; choose the expense date yourself.';}}
     catch(error){if(generation===voiceGeneration){$('translation-status').textContent='Translation failed. Use keyboard entry; no expense was saved.';}}
   }
   function beginTranslator(language,generation=voiceGeneration){
@@ -107,11 +100,11 @@
   function revealPhoneDictation(){ $('phone-dictation-label').hidden=false;$('prepare-dictation').hidden=false; }
   const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
   const voice=PennyVoice.create(Recognition,{
-    status(status,message){const fallback=status==='unsupported'||status==='error';if(fallback){revealPhoneDictation();if(!/phone keyboard/i.test(message))message+=' Use phone keyboard microphone below.';}$('voice-status').textContent=status==='complete'?($('voice-draft-label').hidden?'Speech captured. Preparing the English draft…':'English draft ready. Check it before using it.'):message;const active=status==='starting'||status==='listening';$('start-voice').hidden=active;$('start-voice').disabled=!voice.supported;$('start-voice').textContent=['complete','error','processing'].includes(status)?'Try voice again':'Start listening';$('stop-voice').hidden=!active;},
+    status(status,message){const fallback=status==='unsupported'||status==='error';if(status==='error')logs.emit('voice','VOICE_CAPTURE_FAILED','error',{},voiceAction);if(fallback){revealPhoneDictation();if(!/phone keyboard/i.test(message))message+=' Use phone keyboard microphone below.';}$('voice-status').textContent=status==='complete'?($('voice-draft-label').hidden?'Speech captured. Preparing the English draft…':'English draft ready. Check it before using it.'):message;const active=status==='starting'||status==='listening';$('start-voice').hidden=active;$('start-voice').disabled=!voice.supported;$('start-voice').textContent=['complete','error','processing'].includes(status)?'Try voice again':'Start listening';$('stop-voice').hidden=!active;},
     preview(text){$('voice-transcript').hidden=false;$('voice-transcript').textContent='Hearing: “'+text+'”';},
     transcript:processVoiceText
   });
-  function resetVoiceDraft(){voiceGeneration++;translatorPromise=null;$('voice-draft-label').hidden=true;$('voice-accept-label').hidden=true;$('apply-voice').hidden=true;$('voice-transcript').hidden=true;$('voice-accept').checked=false;$('voice-english').value='';$('phone-dictation-label').hidden=true;$('prepare-dictation').hidden=true;$('phone-dictation').value='';$('translation-status').textContent='';}
+  function resetVoiceDraft(){$('correct-transcript').hidden=true;voiceStructured=null;voiceGeneration++;translatorPromise=null;$('voice-draft-label').hidden=true;$('voice-accept-label').hidden=true;$('apply-voice').hidden=true;$('voice-transcript').hidden=true;$('voice-accept').checked=false;$('voice-english').value='';$('phone-dictation-label').hidden=true;$('prepare-dictation').hidden=true;$('phone-dictation').value='';$('translation-status').textContent='';}
   function closeVoice(){voiceGeneration++;voice.cancel();translator?.destroy?.();translator=null;translatorPromise=null;$('voice-panel').hidden=true;$('use-voice').setAttribute('aria-expanded','false');$('start-voice').textContent='Start listening';}
   function paymentFromVoice(text){const match=text.match(/\b(?:via|by|using|with|from|through)\s+(upi|credit card|debit card|cash|bank transfer|wallet)\b/i);return match?{method:match[1].toLowerCase().replace(/ /g,'-'),text:text.replace(match[0],'').trim()}:{method:'unspecified',text};}
   function applyVoiceFields(text){
@@ -124,23 +117,36 @@
     $('form-error').hidden=!draft.warnings.length;$('form-error').textContent=draft.warnings.join(' ');draftTags();$('voice-status').textContent='Voice fields filled. Check them and save when correct.';
     return draft;
   }
-  $('voice-accept').onchange=()=>{$('apply-voice').disabled=!$('voice-accept').checked||(voiceNeedsCorrection&&$('voice-english').value.trim()===voiceDraftBase);};
+  $('voice-accept').onchange=()=>{$('apply-voice').disabled=!$('voice-accept').checked;};
   $('voice-english').oninput=()=>{$('voice-accept').checked=false;$('apply-voice').disabled=true;};
+  $('phone-dictation').oninput=()=>{voiceGeneration++;voiceStructured=null;voiceText='';$('voice-accept').checked=false;$('apply-voice').disabled=true;$('apply-voice').hidden=true;$('voice-accept-label').hidden=true;$('voice-draft-label').hidden=true;$('translation-status').textContent='Source text changed. Prepare the expense again to review a fresh draft.';};
+  $('correct-transcript').onclick=()=>{$('phone-dictation-label').hidden=false;$('prepare-dictation').hidden=false;$('phone-dictation').value=voiceText;$('voice-accept').checked=false;$('apply-voice').disabled=true;$('phone-dictation').focus();};
   $('use-phone-dictation').onclick=()=>{voice.cancel();resetVoiceDraft();$('phone-dictation-label').hidden=false;$('prepare-dictation').hidden=false;$('voice-status').textContent='Use the microphone on your phone keyboard, then prepare the dictated expense.';$('phone-dictation').focus();};
-  $('prepare-dictation').onclick=()=>{const text=$('phone-dictation').value.trim();if(!text){notify('Dictate or type the expense first.');$('phone-dictation').focus();return;}beginTranslator($('voice-language').value);processVoiceText(text);};
-  $('apply-voice').onclick=()=>{
-    if(!$('voice-accept').checked||(voiceNeedsCorrection&&$('voice-english').value.trim()===voiceDraftBase)){notify('Correct the incomplete English draft before accepting it.');return;}
+  $('prepare-dictation').onclick=()=>{voiceAction=logs.action();const text=$('phone-dictation').value.trim();if(!text){notify('Dictate or type the expense first.');$('phone-dictation').focus();return;}beginTranslator($('voice-language').value);processVoiceText(text);};
+  $('apply-voice').onclick=()=>{logs.emit('voice','VOICE_APPLY','debug',{language:voiceSource},voiceAction);
+    if(!$('voice-accept').checked){notify('Correct the incomplete English draft before accepting it.');return;}
     const text=$('voice-english').value.trim();if(!text||/[\u0900-\u097f]/u.test(text)){notify('Correct the draft to English before applying it.');return;}
-    applyVoiceFields(text);
+    if(voiceSource==='hi'&&voiceStructured){
+      const f=voiceStructured.fields,issues=voiceStructured.issues;applyVoiceFields(text);const unresolved=[];
+      const reviewedPaise=PennyHindi.reviewedAmount(voiceStructured,voiceDraftBase,text);
+      if(reviewedPaise===null){$('amount').value='';unresolved.push('amount');}
+      else $('amount').value=(reviewedPaise/100).toFixed(2);
+      if(f.category===null||issues.includes('category')){$('category').value='';unresolved.push('category');}else if(text===voiceDraftBase)$('category').value=f.category;
+      if(issues.includes('payment method')){$('payment-method').value='';$('payment-method').required=true;unresolved.push('payment method');}else if(text===voiceDraftBase)$('payment-method').value=f.paymentMethod;
+      if(issues.some(x=>x.startsWith('date:'))){$('date').value='';unresolved.push('date');}else if(f.date&&text===voiceDraftBase)$('date').value=f.date;
+      const meaningful=s=>s.normalize('NFC').replace(/[\p{P}\p{Z}\s]/gu,'').toLowerCase();
+      if(voiceStructured.unknownSpans.length&&meaningful(text)===meaningful(voiceDraftBase)){$('description').value='';unresolved.push('description');}
+      if(unresolved.length){$('form-error').hidden=false;$('form-error').textContent='Needs correction: '+unresolved.join(', ')+'. These fields were left empty. Enter the correct values below before saving.';$(unresolved.includes('amount')?'amount':unresolved.includes('category')?'category':'description').focus();}
+    }else{applyVoiceFields(text);if(voiceSource==='es'&&voiceNeedsCorrection){$('amount').value='';$('category').value='';$('form-error').hidden=false;$('form-error').textContent='This Spanish draft contains unresolved details. Enter the correct amount and category below before saving.';}}
   };
   function openExpense(id = null) {
     editing = id; const expense = state.expenses.find(x => x.id === id);
-    $('expense-form').reset(); $('form-error').hidden = true; closeVoice();resetVoiceDraft(); $('voice-transcript').hidden = true;
+    $('expense-form').reset();$('payment-method').required=false; $('form-error').hidden = true; closeVoice();resetVoiceDraft(); $('voice-transcript').hidden = true;
     $('form-title').textContent = expense ? 'Edit expense' : 'Add an expense'; $('save-expense').textContent = expense ? 'Save changes' : 'Save expense';
     $('date').value = expense ? expense.date : ($('month').value === current ? today() : `${$('month').value}-01`);
     $('amount').value = expense ? (expense.cents / 100).toFixed(2) : ''; $('category').value = expense ? expense.category : C.categories[0];
     $('payment-method').value=expense?expense.paymentMethod:'unspecified';$('description').value = expense ? expense.description : ''; $('expense-tags').value = expense ? expense.tags.map(tag => `#${tag}`).join(' ') : '';
-    draftTags(); $('expense-dialog').showModal();
+    draftTags(); expenseBaseline=expenseDraft();$('expense-dialog').showModal();
   }
   $('payment-method').innerHTML=D.rails.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');$('filter-rail').innerHTML+=D.rails.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');$('filter-category').innerHTML+=C.categories.map(value=>`<option>${value}</option>`).join('');
   $('category').innerHTML = C.categories.map(x => `<option>${x}</option>`).join(''); $('month').value = current;
@@ -182,7 +188,7 @@
     } catch (e) { $('inline-tag-error').hidden = false; $('inline-tag-error').textContent = e.message; }
   };
   $('delete-form').onsubmit=async event=>{event.preventDefault();const next=D.clone(state);next.expenses=next.expenses.filter(x=>x.id!==deleting);if(await commit(next,'Expense deleted')){tagEditing=null;render();$('delete-dialog').close();}};
-  $('edit-budget').onclick = () => { $('budget-dialog-period').textContent = monthName($('month').value); $('budget-input').value = state.budgets[$('month').value] !== undefined ? (state.budgets[$('month').value] / 100).toFixed(2) : ''; $('budget-input').setCustomValidity(''); $('budget-dialog').showModal(); };
+  $('edit-budget').onclick = () => { $('budget-dialog-period').textContent = monthName($('month').value); $('budget-input').value = (D.effectiveBudget(state,$('month').value)/100).toFixed(2); $('budget-input').setCustomValidity(''); $('budget-dialog').showModal(); };
   $('budget-input').oninput = () => $('budget-input').setCustomValidity('');
   $('budget-form').onsubmit = async event => {
     event.preventDefault();
@@ -190,11 +196,11 @@
     catch (e) { $('budget-input').setCustomValidity(e.message); $('budget-input').reportValidity(); }
   };
   $('use-voice').onclick = () => { $('voice-panel').hidden = false; $('use-voice').setAttribute('aria-expanded', 'true'); $('start-voice').disabled = !voice.supported;if(!voice.supported)revealPhoneDictation();$('voice-status').textContent = voice.supported ? 'Ready when you are. Select Start listening to use your microphone.' : 'This mobile browser has no direct speech recognition. Use phone keyboard microphone below, or type the expense.'; };
-  $('start-voice').onclick = ()=>{const generation=++voiceGeneration,language=$('voice-language').value;translator?.destroy?.();translator=null;translatorPromise=null;beginTranslator(language,generation);voice.start({en:'en-IN',hi:'hi-IN',es:'es-ES'}[language]);}; $('stop-voice').onclick = () => voice.stop(); $('return-keyboard').onclick = () => { closeVoice(); $('description').focus(); };
-  $('expense-dialog').addEventListener('close', closeVoice); $('expense-dialog').addEventListener('cancel', closeVoice);
+  $('start-voice').onclick = ()=>{voiceAction=logs.action();logs.emit('voice','VOICE_START','debug',{language:$('voice-language').value},voiceAction);const generation=++voiceGeneration,language=$('voice-language').value;translator?.destroy?.();translator=null;translatorPromise=null;beginTranslator(language,generation);voice.start({en:'en-IN',hi:'hi-IN',es:'es-ES'}[language]);}; $('stop-voice').onclick = () => voice.stop(); $('return-keyboard').onclick = () => { closeVoice(); $('description').focus(); };
+  $('expense-dialog').addEventListener('close', closeVoice); $('expense-dialog').addEventListener('cancel',async event=>{event.preventDefault();if(await canClose($('expense-dialog')))$('expense-dialog').close();});
   document.addEventListener('visibilitychange', () => { if (document.hidden) voice.cancel(); });
   window.addEventListener('pagehide', () => voice.cancel());
-  document.querySelectorAll('[data-close]').forEach(button => button.onclick = () => button.closest('dialog').close());
+  document.querySelectorAll('[data-close]').forEach(button => button.onclick = async () => {const dialog=button.closest('dialog');if(await canClose(dialog))dialog.close();});
   function updateConversion() {
     const value = rate ? C.convert($('convert-amount').value, rate.rate) : null;
     $('convert-result').textContent = value === null ? '—' : foreignMoney(value, $('convert-currency').value);
@@ -232,7 +238,7 @@
       updateConversion();
     } catch (e) {
       if (token !== rateRequest) return;
-      $('rate-status').textContent = rate ? `Latest rate unavailable. ${rate.date?'Previous reference rate dated '+rate.date:'Your previous manual rate'} is still shown; enter another rate if needed.` : 'Rate unavailable. Enter a rate manually to convert, or try again.';
+      logs.emit('currency','RATE_FAILED','error');$('rate-status').textContent = rate ? `Latest rate unavailable. ${rate.date?'Previous reference rate dated '+rate.date:'Your previous manual rate'} is still shown; enter another rate if needed.` : 'Rate unavailable. Enter a rate manually to convert, or try again.';
       $('manual-rate').open = true; updateConversion();
     } finally { clearTimeout(timeout); if (token === rateRequest) { $('fetch-rate').disabled = false; $('fetch-rate').textContent = 'Get latest rate'; rateController = null; } }
   };
@@ -253,14 +259,36 @@
   $('export-backup').onclick=()=>{try{download(D.exportBackup(state),'penny-data-'+exportDate()+'.json','application/json');notify('Full backup downloaded');}catch(error){dataError(error.message);}};
   function dataError(message){$('data-error').hidden=false;$('data-error').textContent=message;}
   async function readImportFile(file){if(!file||file.size>D.MAX_FILE_BYTES)throw Error('Choose a file smaller than 32 MB.');const extension=file.name.toLowerCase().split('.').pop();if(!['csv','xlsx','json'].includes(extension))throw Error('Choose CSV, Excel (.xlsx), or JSON. Legacy .xls and macro-enabled workbooks are not supported.');if(extension==='json')return D.importBackup(await file.text());if(extension==='csv')return D.importCsv(await file.text());const buffer=await file.arrayBuffer();PennySheets.inspectZip(buffer);return new Promise((resolve,reject)=>{let worker;try{worker=new Worker('import-worker.js');}catch(error){reject(Error('Safe Excel import needs the hosted HTTPS app or a local HTTP server. CSV and JSON import are available here.'));return;}const timeout=setTimeout(()=>{worker.terminate();reject(Error('Excel parsing exceeded the safety timeout. Try a smaller workbook.'));},5000);worker.onmessage=event=>{clearTimeout(timeout);worker.terminate();if(event.data.error)reject(Error(event.data.error));else{try{resolve(D.migrateState(event.data.state));}catch(error){reject(error);}}};worker.onerror=()=>{clearTimeout(timeout);worker.terminate();reject(Error('Workbook could not be parsed safely. No records changed.'));};worker.postMessage({kind:'xlsx',buffer},[buffer]);});}
-  function reviewImport(incoming,name,restore=false){importState=D.migrateState(incoming);importName=name;$('data-dialog').close();$('import-error').hidden=true;$('import-mode').value=restore?'replace':'merge';$('import-budgets').checked=restore;$('import-budgets').disabled=Object.keys(importState.budgets).length===0;$('replace-confirm').checked=false;$('import-summary').textContent=`${name} · ${importState.expenses.length} expenses · ${Object.keys(importState.budgets).length} monthly budgets. Nothing has changed yet.`;$('import-preview').innerHTML=importState.expenses.slice(0,5).map(x=>`<div><strong>${escape(x.description)}</strong><br>${escape(x.date)} · ${money(x.cents)} · ${escape(x.category)} · ${escape(D.rails.find(r=>r[0]===x.paymentMethod)?.[1]||'Not specified')}</div>`).join('')||'<div>No expense rows. Budgets may still be imported.</div>';updateImportPlan();$('import-dialog').showModal();}
-  $('import-file').onchange=async()=>{const file=$('import-file').files[0];if(!file)return;$('data-error').hidden=true;$('import-file').disabled=true;try{const incoming=await readImportFile(file);reviewImport(incoming,file.name);}catch(error){dataError(error.message+' No records changed.');}finally{$('import-file').disabled=false;$('import-file').value='';}};
-  function updateImportPlan(){if(!importState)return;const replace=$('import-mode').value==='replace';$('replace-label').hidden=!replace;try{const plan=D.planImport(state,importState,$('import-mode').value,$('import-budgets').checked);$('import-error').hidden=true;$('import-impact').textContent=`${replace?'Replace '+plan.removed+' current expenses with':'Add'} ${plan.added} expenses · ${plan.skipped} duplicate records skipped · ${plan.changedBudgets} budgets changed. An undo copy will be kept.`;$('apply-import').disabled=busy||(replace&&!$('replace-confirm').checked);}catch(error){$('import-error').hidden=false;$('import-error').textContent=error.message;$('apply-import').disabled=true;}}
+  function reviewImport(incoming,name,restore=false){logs.emit('import','IMPORT_PREVIEW','debug');importState=D.migrateState(incoming);importName=name;$('data-dialog').close();$('import-error').hidden=true;$('import-mode').value=restore?'replace':'merge';$('import-settings').checked=false;$('import-budgets').checked=restore;$('import-budgets').disabled=Object.keys(importState.budgets).length===0;$('replace-confirm').checked=false;$('import-summary').textContent=`${name} · ${importState.expenses.length} expenses · ${Object.keys(importState.budgets).length} monthly budgets. Nothing has changed yet.`;$('import-preview').innerHTML=importState.expenses.slice(0,5).map(x=>`<div><strong>${escape(x.description)}</strong><br>${escape(x.date)} · ${money(x.cents)} · ${escape(x.category)} · ${escape(D.rails.find(r=>r[0]===x.paymentMethod)?.[1]||'Not specified')}</div>`).join('')||'<div>No expense rows. Budgets may still be imported.</div>';updateImportPlan();$('import-dialog').showModal();}
+  $('import-settings').onchange=()=>{if(importState)updateImportPlan();};
+  $('import-file').onchange=async()=>{const file=$('import-file').files[0];if(!file)return;$('data-error').hidden=true;$('import-file').disabled=true;try{const generation=++importGeneration;const incoming=await readImportFile(file);if(generation!==importGeneration)return;reviewImport(incoming,file.name);}catch(error){logs.emit('import','IMPORT_FAILED','error');dataError(error.message+' No records changed.');}finally{$('import-file').disabled=false;$('import-file').value='';}};
+  function updateImportPlan(){if(!importState)return;const replace=$('import-mode').value==='replace';$('replace-label').hidden=!replace;try{const plan=D.planImport(state,importState,$('import-mode').value,$('import-budgets').checked,$('import-settings').checked);$('import-error').hidden=true;$('import-impact').textContent=`${replace?'Replace '+plan.removed+' current expenses with':'Add'} ${plan.added} expenses · ${plan.skipped} duplicate records skipped · ${plan.changedBudgets} budgets changed. An undo copy will be kept.`;$('apply-import').disabled=busy||(replace&&!$('replace-confirm').checked);}catch(error){$('import-error').hidden=false;$('import-error').textContent=error.message;$('apply-import').disabled=true;}}
   $('import-mode').onchange=()=>{$('replace-confirm').checked=false;updateImportPlan();};$('import-budgets').onchange=updateImportPlan;$('replace-confirm').onchange=updateImportPlan;
-  $('apply-import').onclick=async()=>{if(!importState||$('apply-import').disabled)return;try{if($('import-mode').value==='replace'&&!$('replace-confirm').checked)return;const plan=D.planImport(state,importState,$('import-mode').value,$('import-budgets').checked);if(await commit(plan.state,'Import saved · '+plan.added+' new expenses',true)){$('import-dialog').close();importState=null;visibleLimit=50;render();}}catch(error){$('import-error').hidden=false;$('import-error').textContent=error.message;}};
+  $('apply-import').onclick=async()=>{if(!importState||$('apply-import').disabled)return;try{if($('import-mode').value==='replace'&&!$('replace-confirm').checked)return;const plan=D.planImport(state,importState,$('import-mode').value,$('import-budgets').checked,$('import-settings').checked);logs.emit('import','IMPORT_APPLY','debug');if(await commit(plan.state,'Import saved · '+plan.added+' new expenses',true)){$('import-dialog').close();importState=null;visibleLimit=50;render();}}catch(error){$('import-error').hidden=false;$('import-error').textContent=error.message;}};
   $('undo-import').onclick=async()=>{try{if(!store)throw Error('Data store is not ready.');const backup=await store.backup();if(!backup)throw Error('No previous import backup is available.');reviewImport(backup,'Local copy saved before your last import',true);}catch(error){dataError(error.message);}};
   $('connect-file').onclick=async()=>{try{if(!ready)throw Error('Wait for the local data store before connecting a file.');if(!window.showSaveFilePicker)throw Error('This browser cannot connect a live file. Use Download full backup to keep a portable JSON copy.');const handle=await window.showSaveFilePicker({suggestedName:'penny-data.json',types:[{description:'Penny JSON data file',accept:{'application/json':['.json']}}]});await store.connect(handle,state);$('disconnect-file').hidden=false;notify('Portable data file connected');}catch(error){if(error.name!=='AbortError')dataError(error.message);}};
   $('disconnect-file').onclick=()=>{store?.detach();$('disconnect-file').hidden=true;notify('Data file disconnected. Local database remains saved.');};
+
+
+  let freshRevision=null,resetStage=false,logExport=null;
+  function settingsError(error){$('settings-error').textContent=error?.message||'';}
+  function showCatalog(){const q=$('tag-search').value.toLowerCase();$('catalog-list').textContent=state.tagCatalog.filter(x=>x.includes(q.replace(/^#/,''))).map(x=>'#'+x).join(' · ')||'No matching tags.';}
+  async function showLogs(){const entries=await logs.list();$('debug-log').checked=logs.mode()==='debug';$('log-status').textContent=(logs.isUnavailable()?'Temporary memory logs · ':'Local logs · ')+logs.mode()+(logs.remaining()?' · '+logs.remaining()+' seconds remaining':'');const filter=$('log-filter').value;$('log-view').textContent=entries.filter(x=>(filter==='all'||x.level===filter)&&[x.code,x.component,x.sessionId,x.actionId].join(' ').toLowerCase().includes($('log-search').value.toLowerCase())).slice(0,100).map(x=>`${x.timestampUtc} ${x.level} ${x.component} ${x.code} · session ${x.sessionId} · action ${x.actionId}`).join('\n')||'No events to show.';}
+  $('settings-button').onclick=()=>{$('default-budget').value=(state.settings.defaultMonthlyBudgetPaise/100).toFixed(2);settingsError();showCatalog();showLogs();$('settings-dialog').showModal();};
+  $('tag-search').oninput=showCatalog;
+  $('save-preferences').onclick=async()=>{try{const value=C.toPaise($('default-budget').value,true);if(await commit({...state,settings:{...state.settings,defaultMonthlyBudgetPaise:value}},'Default budget saved')){logs.emit('settings','SETTINGS_SAVE','debug');settingsError();}}catch(e){settingsError(e);}};
+  $('save-tag').onclick=async()=>{try{const tags=D.catalog([...state.tagCatalog,$('new-tag').value]);if(await commit({...state,tagCatalog:tags},'Tag saved')){$('new-tag').value='';showCatalog();settingsError();}}catch(e){settingsError(e);}};
+  $('settings-data').onclick=()=>{$('settings-dialog').close();$('data-manager').click();};
+  $('debug-log').onchange=()=>{logs.setDebug($('debug-log').checked);showLogs();};$('refresh-logs').onclick=showLogs;$('log-filter').onchange=showLogs;$('log-search').oninput=showLogs;
+  $('clear-logs').onclick=async()=>{if(!await askConfirmation('Clear all stored diagnostic logs and stop debug logging? Expense records stay unchanged.',$('settings-dialog'),'Clear logs',true))return;try{await logs.clear();await showLogs();}catch(e){settingsError(Error('Logs could not be cleared. Please try again.'));}};
+  $('preview-logs').onclick=async()=>{logExport=await logs.export();$('log-export-preview').textContent=JSON.stringify(logExport,null,2);$('settings-dialog').close();$('log-export-dialog').showModal();};
+  $('download-logs').onclick=()=>{if(logExport)download(JSON.stringify(logExport,null,2),'penny-diagnostics-'+today()+'.json','application/json');$('log-export-dialog').close();logExport=null;};
+  function freshPreview(){resetStage=false;$('reset-stage').hidden=true;$('reset-phrase').value='';$('fresh-ack').checked=false;freshRevision=store?.getRevision();$('fresh-error').textContent='';updateFresh();}
+  function updateFresh(){const kind=$('fresh-scope').value;$('fresh-month-label').hidden=kind!=='month';try{const op=D.operation(state,kind,$('fresh-month').value,today());$('fresh-impact').textContent=kind==='reset'?`Reset all ${op.count} expenses and all budgets. Restore 9 sample expenses and a default monthly budget of ₹1,25,000. Keep saved tags. Clear logs, stop debug and disconnect the data file without overwriting it.`:`Delete ${op.count} expenses (${money(op.total)}). ${op.remaining} expenses remain. Budgets and tags stay unchanged.`;$('fresh-ack').nextSibling.textContent=kind==='month'?'I understand: delete expenses for '+$('fresh-month').value+' only.':kind==='all'?'I understand: delete expenses for ALL months.':'I understand: reset the entire app, budgets, expenses, preferences and logs.';$('fresh-confirm').textContent=kind==='reset'?(resetStage?'Reset entire app':'Continue to final confirmation'):kind==='all'?'Delete ALL months’ expenses':'Delete '+$('fresh-month').value+' expenses';$('fresh-confirm').disabled=busy||!ready||!$('fresh-ack').checked||(kind==='reset'&&resetStage&&$('reset-phrase').value!=='RESET PENNY')||(kind!=='reset'&&op.count===0);}catch(e){$('fresh-impact').textContent=e.message;$('fresh-confirm').disabled=true;}}
+  function openFresh(){$('settings-dialog').close();$('fresh-scope').value='month';$('fresh-month').value=today().slice(0,7);freshPreview();$('fresh-dialog').showModal();}
+  $('start-fresh').onclick=openFresh;$('settings-fresh').onclick=openFresh;$('fresh-scope').onchange=freshPreview;$('fresh-month').oninput=freshPreview;$('fresh-ack').onchange=updateFresh;$('reset-phrase').oninput=updateFresh;
+  $('fresh-confirm').onclick=async()=>{if($('fresh-confirm').disabled)return;const kind=$('fresh-scope').value;if(kind==='reset'&&!resetStage){resetStage=true;$('reset-stage').hidden=false;updateFresh();$('reset-phrase').focus();return;}if(kind==='reset'&&$('reset-phrase').value!=='RESET PENNY')return;try{if(freshRevision!==store.getRevision())throw Error('Records changed. Close and review this action again.');const op=D.operation(state,kind,$('fresh-month').value,today());if(kind==='reset'){importGeneration++;rateRequest++;rateController?.abort();closeVoice();resetVoiceDraft();}if(await commit(op.state,kind==='reset'?'Penny reset. Tags kept.':'Expenses deleted. Undo is available in Settings.',false,{recovery:kind,reset:kind==='reset',expectedRevision:freshRevision})){closeVoice();resetVoiceDraft();$('search').value='';['filter-category','filter-rail','filter-from','filter-to','filter-min','filter-max'].forEach(id=>$(id).value='');$('month').value=kind==='month'?$('fresh-month').value:today().slice(0,7);visibleLimit=50;if(kind==='reset'){await logs.afterReset();$('convert-amount').value='1000';$('convert-from').value='INR';$('convert-currency').value='USD';$('conversion-rate').value='';$('fetch-rate').disabled=false;$('fetch-rate').textContent='Get latest rate';changeCurrency();$('manual-rate').open=false;document.querySelector('.converter').open=false;$('search').value='';['filter-category','filter-rail','filter-from','filter-to','filter-min','filter-max'].forEach(id=>$(id).value='');$('month').value=today().slice(0,7);render();}else logs.emit('reset','DATA_CHANGE','debug',{scope:kind,count:op.count});render();$('fresh-dialog').close();}else freshPreview();}catch(e){$('fresh-error').textContent=e.message;$('fresh-confirm').disabled=true;}};
+  $('undo-change').onclick=async()=>{try{if(busy||!ready)return;busy=true;const result=await store.restore();state=result.state;render();settingsError();if(result.fileWarning)storageError(result.fileWarning);notify('Previous records restored. Diagnostic settings stay unchanged.');}catch(e){settingsError(e);}finally{busy=false;}};
 
   changeCurrency(); initialise();
 })();

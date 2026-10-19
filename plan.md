@@ -1,13 +1,13 @@
 # Penny V3.2 implementation plan
 
 Date: 19 October 2026  
-Plan revision: 5 — adds HCI continuity, responsive UI acceptance and artifact traceability  
+Plan revision: 6 — implementation record and actual verification evidence  
 Target application version: 3.2.0  
-Status: Plan only; implementation, destructive operations and publication have not started
+Status: Local V3.2 implementation candidate built; automated verification executed; device/language/usability release gates pending. Publication approved on 19 October 2026.
 
 ## 1. Outcome
 
-**Release priority:** correcting Hindi voice expense understanding is mandatory in V3.2. Do not release Settings/reset improvements while confirmed voice amount corruption remains. This update is planning and diagnosis only; production voice code has not been fixed in this turn. See `design.md` for the proposed architecture and contracts.
+**Release priority:** correcting Hindi voice expense understanding is mandatory in V3.2. Do not release Settings/reset improvements while confirmed voice amount corruption remains. The local candidate implements the diagnosed fixes; the published release is unchanged. See `design.md` for the proposed architecture and contracts.
 
 Allow a person opening Penny with sample or existing expenses to start fresh by selected month or across all months, and manage the app through a Settings area. Full reset requires two distinct confirmations. All destructive operations preserve saved tags.
 
@@ -546,3 +546,20 @@ Run a lightweight uncoached walkthrough with the user and, if available, a perso
 Maintain `TRACEABILITY.md` as the requirement-to-artifact index. Link stable requirement IDs from cases and implementation reviews; use explicit HTML anchors in plan/design where needed. New requirements or reduced scope must update the matrix and corresponding tests before being called complete. Historical V3.1 artifacts remain reference evidence, not proof of V3.2 compliance.
 
 Publishing this document set records approved planning updates only. It does not authorize or claim a V3.2 app release, user testing, runtime security testing or data reset. UI acceptance and the focused artifact-link check use the existing testing/documentation allocation; keep the 350,000-token estimate and reassess only if observed implementation work requires it.
+
+
+## 17. Implementation record — 19 October 2026
+
+See [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md) for executed evidence and pending checks. Changes are isolated in a V3.2 source copy; the V3.1 checkout and installed launcher remain intact. Current implementation uses the reduced Settings scope: default budget, saved-tag search/add, backups, diagnostics, About and Start fresh. Bulk rename/delete of tags, configurable categories and a universal offline translation model remain excluded.
+
+Actual design decisions: schema 4 stores integer-paise defaults and independent tags. IndexedDB retains its existing `documents` store and uses separate main/recovery/diagnostics keys in a single transaction, avoiding a database-version upgrade. Fallback uses one envelope with Web Locks when available. Unresolved Hindi financial fields are emptied on Apply and must be corrected in the normal required form controls. Source edits invalidate pending/approved drafts. Rupee-plus-paise word compositions currently require explicit manual entry rather than guessing.
+
+The 250-case corpus is synthetic, with separate 0–99 number checks and adversarial cases; native-speaker review is still required. Publication requires the target-device, language and usability evidence specified above and the owner's approval. No public release is authorised by this implementation record.
+
+
+Voice follow-up implemented: prefix Rs./INR/Hindi rupee notation and explicit monetary corrections in the English draft now populate Amount. Exact report `spend rs.50 on donation` is a permanent regression. This replaces the overly restrictive rule that every unresolved source amount must always be retyped in the Amount field, even after a valid English correction. Unchanged guesses remain blocked; see design and test results.
+
+
+## Release authorisation
+
+On 19 October 2026 the owner explicitly requested a GitHub push, document updates and release. That authorises V3.2 application publication with the device/language/usability limitations disclosed in RELEASE-NOTES-v3.2.md. Earlier publication-hold statements describe the candidate phase. No unexecuted check is converted to a pass. GHCR/multi-platform image publication remains separate.

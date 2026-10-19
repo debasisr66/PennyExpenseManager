@@ -1,0 +1,117 @@
+#!/bin/sh
+set -eu
+
+PENNY_VERSION="3.2.0"
+PENNY_DIR="${PENNY_DIR:-$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)}"
+COMPOSE_FILE="$PENNY_DIR/compose.yaml"
+PENNY_URL="http://localhost:8080/"
+
+usage() {
+  cat <<EOF
+Penny Expense Manager V$PENNY_VERSION
+
+Usage:
+  penny --start    Build, start and open Penny
+  penny --stop     Stop Penny
+  penny --status   Show container status
+  penny --open     Open Penny in the default browser
+  penny --logs     Follow Penny container logs
+  penny --version  Show the Penny version
+  penny --help     Show this help
+EOF
+}
+
+compose() {
+  docker compose --project-directory "$PENNY_DIR" -f "$COMPOSE_FILE" "$@"
+}
+
+require_docker() {
+  if ! command -v docker >/dev/null 2>&1; then
+    echo "Docker is not installed. Install and start Docker Desktop, then run this command again." >&2
+    exit 1
+  fi
+  if ! docker info >/dev/null 2>&1; then
+    echo "Docker Desktop is installed but its engine is not running. Open Docker Desktop and wait for it to start." >&2
+    exit 1
+  fi
+}
+
+stop_temporary_preview() {
+  command -v lsof >/dev/null 2>&1 || return 0
+  for pid in $(lsof -tiTCP:8080 -sTCP:LISTEN 2>/dev/null || true); do
+    command_line=$(ps -p "$pid" -o command= 2>/dev/null || true)
+    case "$command_line" in
+      *"python"*"http.server 8080"*)
+        echo "Stopping the temporary Penny preview on port 8080..."
+        kill "$pid" 2>/dev/null || true
+        ;;
+    esac
+  done
+}
+
+open_penny() {
+  if command -v open >/dev/null 2>&1; then
+    open "$PENNY_URL"
+  else
+    echo "Open $PENNY_URL in your browser."
+  fi
+}
+
+case "${1:---help}" in
+  --start)
+    require_docker
+    stop_temporary_preview
+    echo "Starting Penny Expense Manager V$PENNY_VERSION..."
+    compose up --build -d
+    container_id=$(compose ps -q penny)
+    if [ -z "$container_id" ]; then
+      echo "Penny did not start. Run: penny --logs" >&2
+      exit 1
+    fi
+    state="starting"
+    count=0
+    while [ "$count" -lt 30 ]; do
+      state=$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "$container_id" 2>/dev/null || echo "unknown")
+      [ "$state" = "healthy" ] && break
+      [ "$state" = "unhealthy" ] && break
+      sleep 1
+      count=$((count + 1))
+    done
+    if [ "$state" != "healthy" ]; then
+      echo "Penny started but its health status is $state. Run: penny --logs" >&2
+      exit 1
+    fi
+    echo "Penny V$PENNY_VERSION is running at $PENNY_URL"
+    open_penny
+    ;;
+  --stop)
+    stop_temporary_preview
+    if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
+      echo "Stopping Penny Expense Manager..."
+      compose down
+    fi
+    echo "Penny is stopped."
+    ;;
+  --status)
+    require_docker
+    compose ps
+    ;;
+  --open)
+    open_penny
+    ;;
+  --logs)
+    require_docker
+    compose logs --follow penny
+    ;;
+  --version)
+    echo "Penny Expense Manager V$PENNY_VERSION"
+    ;;
+  --help|-h|help)
+    usage
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    usage >&2
+    exit 2
+    ;;
+esac

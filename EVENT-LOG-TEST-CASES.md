@@ -1,3 +1,5 @@
+> V3.2 release update: 633 automated tests pass locally and in Docker. [Current results](V3.2-TEST-RESULTS.md) and [release notes](RELEASE-NOTES-v3.2.md) distinguish completed checks from remaining device, language, accessibility and image-publication work. Historical evidence below is preserved.
+
 # Penny V3.2 event log test specification
 
 Date: 19 October 2026  
@@ -62,3 +64,8 @@ Use fictional data, an injected clock/ID source, isolated IndexedDB and storage-
 Reproduce speech denial, translation timeout, stale revision and workbook worker failure. In debug mode a tester must identify the related stage/session/action and suitable recovery without source transcripts or expense values. In errors-only mode they must find the failure reference and understand that preceding actions were not retained. Record exercise timings; do not infer a measured MTTR gain from feature completion alone.
 
 Release requires executed results for these cases, zero leaks of forbidden data, no logging-induced financial failure, and no stale-event resurrection after confirmed purge/reset. Actual target-device or platform gaps remain explicitly pending. This file is a specification, not evidence that any case passed.
+
+
+## Execution evidence
+
+See [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md) for the implemented candidate, actual automated/browser results and explicit pending manual cases. This specification remains the full acceptance checklist; a linked automated suite does not imply every manual case passed.

@@ -1,16 +1,10 @@
-PENNY EXPENSE MANAGER V3
+PENNY 3.2 — V3.2 RELEASE
 
-Hosted app:
-https://debasisr66.github.io/PennyExpenseManager/
+1. Start Docker Desktop.
+2. From this folder: ./scripts/penny --start
+3. Open http://localhost:8080/
+4. Stop: ./scripts/penny --stop
 
-To run a downloaded copy:
-1. Keep all repository files and folders together.
-2. In this folder, run: python3 -m http.server 8767
-3. Open: http://127.0.0.1:8767/
+Stop any other Penny container before starting this version. The existing installed penny launcher has not been changed. Alternatively run python3 -m http.server 8769 --bind 127.0.0.1 and open http://127.0.0.1:8769/.
 
-Use Data & backups to export CSV, Excel, or a complete JSON backup.
-All expense records and budgets use Indian rupees (INR / ₹).
-
-Read README.md for the feature guide, privacy notes, and test commands.
-Read TEST-CASES.md and TEST-RESULTS.md for verification evidence.
-Read SECURITY-REVIEW.md for the OWASP review and remaining limits.
+Read README.md and V3.2-TEST-RESULTS.md. Real iPhone microphone, native-speaker and usability review remain unverified release limitations. V3.2 publication approved on 19 October 2026. Back up real expenses before moving between origins or versions.

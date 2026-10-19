@@ -1,5 +1,5 @@
 /* Deterministic Hindi/Spanish expense parser plus the desktop Translator API when available. */
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./core.js'));else root.PennyTranslation=factory(root.PennyCore);})(typeof globalThis!=='undefined'?globalThis:this,function(C){
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./core.js'),require('./hindi.js'));else root.PennyTranslation=factory(root.PennyCore,root.PennyHindi);})(typeof globalThis!=='undefined'?globalThis:this,function(C,H){
 'use strict';
 const words={
 hi:{
@@ -80,14 +80,17 @@ return null;
 }
 function firstMatch(raw,list){for(const pair of list)if(pair[0].test(raw))return pair[1];return null;}
 function fallback(text,language){
+if(language==='hi'){const result=H.parse(text);return{text:result.englishDraft,complete:result.reviewState==='review-ready',unknown:result.issues,source:'offline expense parser',structured:result};}
 if(!words[language])return{text:String(text),complete:true,source:'original',unknown:[]};
 const raw=normalize(text,language),tokenResult=translateTokens(raw,language);
 const foreign=/\b(?:dollars?|euros?|pounds?|pesos?)\b/i.test(tokenResult.translated)||/[$€£¥]/.test(raw);
 const unsafeDecimal=language==='es'&&raw.match(/\b(?:coma|punto)\s+(once|doce|trece|catorce|quince|dieciséis|dieciseis|diecisiete|dieciocho|diecinueve)\b/u);
-const amount=foreign||unsafeDecimal?null:amountFrom(tokenResult.translated,language);
-const description=firstMatch(raw,descriptions[language]),payment=firstMatch(raw,payments[language]);
+const numericSpans=raw.match(/\d[\d.,]*/g)||[];const unsafeNumber=numericSpans.some(v=>!/^\d+(?:\.\d{1,2})?$/.test(v))||numericSpans.length>1||(raw.match(/\brupias?\b/g)||[]).length>1;
+const amount=foreign||unsafeDecimal||unsafeNumber||tokenResult.unknown.length?null:amountFrom(tokenResult.translated,language);
+const foundDescriptions=descriptions[language].filter(pair=>pair[0].test(raw)).map(pair=>pair[1]),foundPayments=payments[language].filter(pair=>pair[0].test(raw)).map(pair=>pair[1]);const description=[...new Set(foundDescriptions)].join(' and ')||null,payment=foundPayments.length===1?foundPayments[0]:null;
 const day=language==='hi'?(/(?:^|\s)आज(?:\s|$)/u.test(raw)?'today':/(?:^|\s)कल(?:\s|$)/u.test(raw)?'yesterday':null):(/\bhoy\b/u.test(raw)?'today':/\bayer\b/u.test(raw)?'yesterday':null);
 const tags=(raw.match(/#[\p{L}\p{M}\p{N}_-]+/gu)||[]).map(tag=>tag.slice(1)),unknown=tokenResult.unknown.slice();
+if(foundPayments.length>1)unknown.push('payment method');if((raw.match(/\brupias?\b/g)||[]).length>1)unknown.push('multiple amounts');
 if(unsafeDecimal)unknown.push(unsafeDecimal[1]);
 if(amount===null&&!foreign)unknown.push('amount');
 if(!description)unknown.push('expense type');
@@ -99,7 +102,7 @@ return{text:draft,complete:unknown.length===0,unknown:[...new Set(unknown)],sour
 async function prepare(api,language){if(language==='en'||!api)return null;const availability=await api.availability({sourceLanguage:language,targetLanguage:'en'});if(availability==='unavailable')return null;return api.create({sourceLanguage:language,targetLanguage:'en'});}
 async function translate(text,language,translator){
 if(language==='en')return{text:String(text),complete:true,source:'original',unknown:[]};
-if(translator){const normalizedSource=language==='es'?normalize(text,language):String(text);const result=await translator.translate(normalizedSource);if(typeof result!=='string'||!result.trim()||result.length>1000)throw Error('Translation did not return a usable English draft.');const local=fallback(String(text),language),sourceAmount=C.parseVoice(local.text,'2026-01-01').amount,translatedAmount=C.parseVoice(result,'2026-01-01').amount;const mismatch=local.complete&&sourceAmount!==null&&sourceAmount!==translatedAmount;return{text:result,complete:!mismatch,source:'on-device translation',unknown:mismatch?['amount differs from the source; correct it before using this draft']:[]};}
+if(translator&&language!=='hi'){const normalizedSource=language==='es'?normalize(text,language):String(text);const result=await Promise.race([translator.translate(normalizedSource),new Promise((_,reject)=>setTimeout(()=>reject(Error('Translation timed out.')),3500))]);if(typeof result!=='string'||!result.trim()||result.length>1000)throw Error('Translation did not return a usable English draft.');const local=fallback(String(text),language),sourceAmount=C.parseVoice(local.text,'2026-01-01').amount,translatedAmount=C.parseVoice(result,'2026-01-01').amount;const mismatch=local.complete&&sourceAmount!==null&&sourceAmount!==translatedAmount;return{text:result,complete:local.complete&&!mismatch,source:'on-device translation',unknown:[...local.unknown,...(mismatch?['amount differs from the source; correct it before using this draft']:[])]};}
 return fallback(text,language);
 }
 return{fallback,prepare,translate};

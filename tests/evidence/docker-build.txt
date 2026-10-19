@@ -1,0 +1,3875 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 762B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/nginxinc/nginx-unprivileged:stable-alpine
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [auth] nginxinc/nginx-unprivileged:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#5 [internal] load metadata for docker.io/library/node:22-alpine
+#5 ...
+
+#2 [internal] load metadata for docker.io/nginxinc/nginx-unprivileged:stable-alpine
+#2 DONE 1.3s
+
+#5 [internal] load metadata for docker.io/library/node:22-alpine
+#5 DONE 1.3s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 97B done
+#6 DONE 0.0s
+
+#7 [verify 1/4] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+#7 resolve docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402 0.0s done
+#7 DONE 0.0s
+
+#8 [runtime 1/4] FROM docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03
+#8 resolve docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 0.0s done
+#8 DONE 0.0s
+
+#9 [internal] load build context
+#9 transferring context: 536.40kB 0.0s done
+#9 DONE 0.0s
+
+#10 [verify 2/4] WORKDIR /app
+#10 CACHED
+
+#11 [verify 3/4] COPY . .
+#11 DONE 0.0s
+
+#12 [verify 4/4] RUN for file in *.js tests/*.js tests/*.cjs; do node --check "$file" || exit 1; done     && node --test tests/*.test.cjs
+#12 0.920 TAP version 13
+#12 14.12 # Subtest: CSV quote/newline/Unicode/apostrophe/formula-like text exact round trips
+#12 14.12 ok 1 - CSV quote/newline/Unicode/apostrophe/formula-like text exact round trips
+#12 14.12   ---
+#12 14.12   duration_ms: 22.710333
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: XLSX round trips text, numeric paise, rails, custom tags and budgets
+#12 14.12 ok 2 - XLSX round trips text, numeric paise, rails, custom tags and budgets
+#12 14.12   ---
+#12 14.12   duration_ms: 65.98225
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: XLSX formulas and hyperlinks are rejected
+#12 14.12 ok 3 - XLSX formulas and hyperlinks are rejected
+#12 14.12   ---
+#12 14.12   duration_ms: 20.775542
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Malformed CSV fails before creating import state
+#12 14.12 ok 4 - Malformed CSV fails before creating import state
+#12 14.12   ---
+#12 14.12   duration_ms: 4.230583
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Import of unknown/non-INR schema is rejected intact
+#12 14.12 ok 5 - Import of unknown/non-INR schema is rejected intact
+#12 14.12   ---
+#12 14.12   duration_ms: 0.697375
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Prototype-shaped budgets cannot pollute globals
+#12 14.12 ok 6 - Prototype-shaped budgets cannot pollute globals
+#12 14.12   ---
+#12 14.12   duration_ms: 0.323459
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Imported hostile ID/description remain strings and HTML is not evaluated by modules
+#12 14.12 ok 7 - Imported hostile ID/description remain strings and HTML is not evaluated by modules
+#12 14.12   ---
+#12 14.12   duration_ms: 0.648083
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Mixed valid/invalid rows never yield a partial plan
+#12 14.12 ok 8 - Mixed valid/invalid rows never yield a partial plan
+#12 14.12   ---
+#12 14.12   duration_ms: 0.274541
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Duplicate merge is idempotent and conflicting IDs reject unchanged
+#12 14.12 ok 9 - Duplicate merge is idempotent and conflicting IDs reject unchanged
+#12 14.12   ---
+#12 14.12   duration_ms: 1.211375
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Reserved tags have exactly one corresponding rail
+#12 14.12 ok 10 - Reserved tags have exactly one corresponding rail
+#12 14.12   ---
+#12 14.12   duration_ms: 0.891791
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Legacy conflicting rail tags are preserved, not discarded
+#12 14.12 ok 11 - Legacy conflicting rail tags are preserved, not discarded
+#12 14.12   ---
+#12 14.12   duration_ms: 0.457292
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Search AND/OR, exclusions and rail aliases work without changing monthly total
+#12 14.12 ok 12 - Search AND/OR, exclusions and rail aliases work without changing monthly total
+#12 14.12   ---
+#12 14.12   duration_ms: 15.779334
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Long/malformed search is bounded and does not throw
+#12 14.12 ok 13 - Long/malformed search is bounded and does not throw
+#12 14.12   ---
+#12 14.12   duration_ms: 0.298791
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: ZIP preflight rejects corrupt/non-XLSX/trailing bytes before inflation
+#12 14.12 ok 14 - ZIP preflight rejects corrupt/non-XLSX/trailing bytes before inflation
+#12 14.12   ---
+#12 14.12   duration_ms: 27.997333
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: SheetJS rejects forged uncompressed metadata after preflight
+#12 14.12 ok 15 - SheetJS rejects forged uncompressed metadata after preflight
+#12 14.12   ---
+#12 14.12   duration_ms: 13.805833
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.12 # Subtest: Concurrent datastore saves reject stale revisions
+#12 14.12 ok 16 - Concurrent datastore saves reject stale revisions
+#12 14.12   ---
+#12 14.12   duration_ms: 1.6025
+#12 14.12   type: 'test'
+#12 14.12   ...
+#12 14.13 # Subtest: Datastore write failure does not claim successful local data
+#12 14.13 ok 17 - Datastore write failure does not claim successful local data
+#12 14.13   ---
+#12 14.13   duration_ms: 0.4375
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Linked external changes are preserved, local save remains successful
+#12 14.13 ok 18 - Linked external changes are preserved, local save remains successful
+#12 14.13   ---
+#12 14.13   duration_ms: 0.922875
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Linked file close failure is reported, with successful local copy retained
+#12 14.13 ok 19 - Linked file close failure is reported, with successful local copy retained
+#12 14.13   ---
+#12 14.13   duration_ms: 1.131167
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Connecting a different file never overwrites it
+#12 14.13 ok 20 - Connecting a different file never overwrites it
+#12 14.13   ---
+#12 14.13   duration_ms: 0.854959
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Import save keeps an undo snapshot
+#12 14.13 ok 21 - Import save keeps an undo snapshot
+#12 14.13   ---
+#12 14.13   duration_ms: 0.850084
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: English/Spanish currency and invalid spoken amount warnings persist
+#12 14.13 ok 22 - English/Spanish currency and invalid spoken amount warnings persist
+#12 14.13   ---
+#12 14.13   duration_ms: 14.034625
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Portable exports of maximum valid data are re-importable (release requirement)
+#12 14.13 ok 23 - Portable exports of maximum valid data are re-importable (release requirement)
+#12 14.13   ---
+#12 14.13   duration_ms: 2793.122417
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Spanish period thousands never silently becomes a fractional amount (release requirement)
+#12 14.13 ok 24 - Spanish period thousands never silently becomes a fractional amount (release requirement)
+#12 14.13   ---
+#12 14.13   duration_ms: 7.937958
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Hindi ordinary payment phrase yields a recognizable UPI rail (release requirement)
+#12 14.13 ok 25 - Hindi ordinary payment phrase yields a recognizable UPI rail (release requirement)
+#12 14.13   ---
+#12 14.13   duration_ms: 3.557166
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Maximum Unicode expenses remain portable through JSON, CSV and XLSX
+#12 14.13 ok 26 - Maximum Unicode expenses remain portable through JSON, CSV and XLSX
+#12 14.13   ---
+#12 14.13   duration_ms: 10087.555672
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Spanish grouped and decimal voice amounts remain exact
+#12 14.13 ok 27 - Spanish grouped and decimal voice amounts remain exact
+#12 14.13   ---
+#12 14.13   duration_ms: 8.772209
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Spanish foreign currencies never become INR amounts
+#12 14.13 ok 28 - Spanish foreign currencies never become INR amounts
+#12 14.13   ---
+#12 14.13   duration_ms: 1.397417
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Hindi common payment phrases provide English rail and numeric drafts
+#12 14.13 ok 29 - Hindi common payment phrases provide English rail and numeric drafts
+#12 14.13   ---
+#12 14.13   duration_ms: 2.970417
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Unrecognized Spanish decimal vocabulary is flagged and does not invent an amount
+#12 14.13 ok 30 - Unrecognized Spanish decimal vocabulary is flagged and does not invent an amount
+#12 14.13   ---
+#12 14.13   duration_ms: 0.538333
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Native Spanish translation sees normalized amounts and mismatches require correction
+#12 14.13 ok 31 - Native Spanish translation sees normalized amounts and mismatches require correction
+#12 14.13   ---
+#12 14.13   duration_ms: 0.888084
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.13 # Subtest: Hidden Unicode and fullwidth formula prefixes are protected and roundtrip
+#12 14.13 ok 32 - Hidden Unicode and fullwidth formula prefixes are protected and roundtrip
+#12 14.13   ---
+#12 14.13   duration_ms: 0.790625
+#12 14.13   type: 'test'
+#12 14.13   ...
+#12 14.14 # Subtest: Foreign currency symbols cannot create an INR amount
+#12 14.14 ok 33 - Foreign currency symbols cannot create an INR amount
+#12 14.14   ---
+#12 14.14   duration_ms: 2.845042
+#12 14.14   type: 'test'
+#12 14.14   ...
+#12 14.14 # Subtest: Excel Sheet1 numeric date serials import as valid dates; serial leap bug rejects
+#12 14.14 ok 34 - Excel Sheet1 numeric date serials import as valid dates; serial leap bug rejects
+#12 14.14   ---
+#12 14.14   duration_ms: 8.6435
+#12 14.14   type: 'test'
+#12 14.14   ...
+#12 14.14 # Subtest: Post-save notification failure never claims persisted data was rejected
+#12 14.14 ok 35 - Post-save notification failure never claims persisted data was rejected
+#12 14.14   ---
+#12 14.14   duration_ms: 0.727208
+#12 14.14   type: 'test'
+#12 14.14   ...
+#12 17.69 # Subtest: Amounts retain exact paise precision
+#12 17.69 ok 36 - Amounts retain exact paise precision
+#12 17.69   ---
+#12 17.69   duration_ms: 1.980333
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount ""
+#12 17.69 ok 37 - Reject invalid expense amount ""
+#12 17.69   ---
+#12 17.69   duration_ms: 1.653166
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount "0"
+#12 17.69 ok 38 - Reject invalid expense amount "0"
+#12 17.69   ---
+#12 17.69   duration_ms: 0.088125
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount "-1"
+#12 17.69 ok 39 - Reject invalid expense amount "-1"
+#12 17.69   ---
+#12 17.69   duration_ms: 0.074875
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount "NaN"
+#12 17.69 ok 40 - Reject invalid expense amount "NaN"
+#12 17.69   ---
+#12 17.69   duration_ms: 0.183958
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount "Infinity"
+#12 17.69 ok 41 - Reject invalid expense amount "Infinity"
+#12 17.69   ---
+#12 17.69   duration_ms: 0.063459
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount "1.999"
+#12 17.69 ok 42 - Reject invalid expense amount "1.999"
+#12 17.69   ---
+#12 17.69   duration_ms: 0.165125
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount "1e4"
+#12 17.69 ok 43 - Reject invalid expense amount "1e4"
+#12 17.69   ---
+#12 17.69   duration_ms: 0.066584
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid expense amount "1000000000"
+#12 17.69 ok 44 - Reject invalid expense amount "1000000000"
+#12 17.69   ---
+#12 17.69   duration_ms: 0.474208
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Zero budget is allowed
+#12 17.69 ok 45 - Zero budget is allowed
+#12 17.69   ---
+#12 17.69   duration_ms: 0.629041
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Tags normalize case, commas and duplicates
+#12 17.69 ok 46 - Tags normalize case, commas and duplicates
+#12 17.69   ---
+#12 17.69   duration_ms: 3.380167
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Unicode and hyphenated tags are supported
+#12 17.69 ok 47 - Unicode and hyphenated tags are supported
+#12 17.69   ---
+#12 17.69   duration_ms: 1.06725
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject malformed or excessive tags \#bad!
+#12 17.69 ok 48 - Reject malformed or excessive tags \#bad!
+#12 17.69   ---
+#12 17.69   duration_ms: 0.104875
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject malformed or excessive tags \#<script>
+#12 17.69 ok 49 - Reject malformed or excessive tags \#<script>
+#12 17.69   ---
+#12 17.69   duration_ms: 0.08575
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject malformed or excessive tags \#aaaaaaaaaaaaaaaaaaa
+#12 17.69 ok 50 - Reject malformed or excessive tags \#aaaaaaaaaaaaaaaaaaa
+#12 17.69   ---
+#12 17.69   duration_ms: 0.061375
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject malformed or excessive tags tag0 tag1 tag2 tag3 
+#12 17.69 ok 51 - Reject malformed or excessive tags tag0 tag1 tag2 tag3 
+#12 17.69   ---
+#12 17.69   duration_ms: 0.088625
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Description hashtags become searchable tags
+#12 17.69 ok 52 - Description hashtags become searchable tags
+#12 17.69   ---
+#12 17.69   duration_ms: 1.865625
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Tags alone are not a description
+#12 17.69 ok 53 - Tags alone are not a description
+#12 17.69   ---
+#12 17.69   duration_ms: 0.209292
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Validate expense collects fields and extracts inline tags
+#12 17.69 ok 54 - Validate expense collects fields and extracts inline tags
+#12 17.69   ---
+#12 17.69   duration_ms: 1.2385
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid calendar date 2026-02-30
+#12 17.69 ok 55 - Reject invalid calendar date 2026-02-30
+#12 17.69   ---
+#12 17.69   duration_ms: 0.337791
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid calendar date 2025-02-29
+#12 17.69 ok 56 - Reject invalid calendar date 2025-02-29
+#12 17.69   ---
+#12 17.69   duration_ms: 0.101667
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid calendar date 2026-13-01
+#12 17.69 ok 57 - Reject invalid calendar date 2026-13-01
+#12 17.69   ---
+#12 17.69   duration_ms: 0.117083
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid calendar date 1899-01-01
+#12 17.69 ok 58 - Reject invalid calendar date 1899-01-01
+#12 17.69   ---
+#12 17.69   duration_ms: 0.094958
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Reject invalid calendar date not a date
+#12 17.69 ok 59 - Reject invalid calendar date not a date
+#12 17.69   ---
+#12 17.69   duration_ms: 0.40675
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Leap days and year rollover work
+#12 17.69 ok 60 - Leap days and year rollover work
+#12 17.69   ---
+#12 17.69   duration_ms: 0.324
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Unknown categories are rejected
+#12 17.69 ok 61 - Unknown categories are rejected
+#12 17.69   ---
+#12 17.69   duration_ms: 0.232917
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: V1 migration preserves all amounts, IDs, dates, budgets and descriptions
+#12 17.69 ok 62 - V1 migration preserves all amounts, IDs, dates, budgets and descriptions
+#12 17.69   ---
+#12 17.69   duration_ms: 1.357583
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: V2 migration retains tags
+#12 17.69 ok 63 - V2 migration retains tags
+#12 17.69   ---
+#12 17.69   duration_ms: 0.274
+#12 17.69   type: 'test'
+#12 17.69   ...
+#12 17.69 # Subtest: Corrupt state and duplicate IDs are rejected
+#12 17.70 ok 64 - Corrupt state and duplicate IDs are rejected
+#12 17.70   ---
+#12 17.70   duration_ms: 0.718709
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Monthly totals and categories exclude other months
+#12 17.70 ok 65 - Monthly totals and categories exclude other months
+#12 17.70   ---
+#12 17.70   duration_ms: 0.488667
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Budget warning boundaries include zero, equal and unset budgets
+#12 17.70 ok 66 - Budget warning boundaries include zero, equal and unset budgets
+#12 17.70   ---
+#12 17.70   duration_ms: 0.195917
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search ""
+#12 17.70 ok 67 - Smart search ""
+#12 17.70   ---
+#12 17.70   duration_ms: 15.308292
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "GROCERIES"
+#12 17.70 ok 68 - Smart search "GROCERIES"
+#12 17.70   ---
+#12 17.70   duration_ms: 12.023541
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "\#groceries"
+#12 17.70 ok 69 - Smart search "\#groceries"
+#12 17.70   ---
+#12 17.70   duration_ms: 1.217083
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "\#grocer"
+#12 17.70 ok 70 - Smart search "\#grocer"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.202708
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "\#groceries \#family"
+#12 17.70 ok 71 - Smart search "\#groceries \#family"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.254541
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "groceries over 500"
+#12 17.70 ok 72 - Smart search "groceries over 500"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.76575
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "this month \#family"
+#12 17.70 ok 73 - Smart search "this month \#family"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.159333
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "last month"
+#12 17.70 ok 74 - Smart search "last month"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.070916
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "\\"weekly groceries\\""
+#12 17.70 ok 75 - Smart search "\\"weekly groceries\\""
+#12 17.70   ---
+#12 17.70   duration_ms: 0.5135
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "groceris"
+#12 17.70 ok 76 - Smart search "groceris"
+#12 17.70   ---
+#12 17.70   duration_ms: 1.440458
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "category:transport"
+#12 17.70 ok 77 - Smart search "category:transport"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.11325
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "min:322 max:450"
+#12 17.70 ok 78 - Smart search "min:322 max:450"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.092875
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "after:2026-10-04 before:2026-10-10"
+#12 17.70 ok 79 - Smart search "after:2026-10-04 before:2026-10-10"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.102042
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "month:2026-09"
+#12 17.70 ok 80 - Smart search "month:2026-09"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.061458
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "tag:family"
+#12 17.70 ok 81 - Smart search "tag:family"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.12075
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "864"
+#12 17.70 ok 82 - Smart search "864"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.730208
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "2026-10-10"
+#12 17.70 ok 83 - Smart search "2026-10-10"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.513625
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "under 400"
+#12 17.70 ok 84 - Smart search "under 400"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.077
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "min:450 max:450"
+#12 17.70 ok 85 - Smart search "min:450 max:450"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.058458
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Smart search "nothingmatches"
+#12 17.70 ok 86 - Smart search "nothingmatches"
+#12 17.70   ---
+#12 17.70   duration_ms: 0.523709
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid search has an explanation: month:2026-13
+#12 17.70 ok 87 - Invalid search has an explanation: month:2026-13
+#12 17.70   ---
+#12 17.70   duration_ms: 0.094125
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid search has an explanation: after:2026-02-30
+#12 17.70 ok 88 - Invalid search has an explanation: after:2026-02-30
+#12 17.70   ---
+#12 17.70   duration_ms: 0.056
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid search has an explanation: min:nope
+#12 17.70 ok 89 - Invalid search has an explanation: min:nope
+#12 17.70   ---
+#12 17.70   duration_ms: 0.071708
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid search has an explanation: "unclosed
+#12 17.70 ok 90 - Invalid search has an explanation: "unclosed
+#12 17.70   ---
+#12 17.70   duration_ms: 0.050916
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: digit amount, date, category, description and tags
+#12 17.70 ok 91 - Voice: digit amount, date, category, description and tags
+#12 17.70   ---
+#12 17.70   duration_ms: 3.580917
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: Indian Rs suffix before spent fills amount and category
+#12 17.70 ok 92 - Voice: Indian Rs suffix before spent fills amount and category
+#12 17.70   ---
+#12 17.70   duration_ms: 1.410666
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: spoken number words and yesterday
+#12 17.70 ok 93 - Voice: spoken number words and yesterday
+#12 17.70   ---
+#12 17.70   duration_ms: 0.404041
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: decimals and hashtags
+#12 17.70 ok 94 - Voice: decimals and hashtags
+#12 17.70   ---
+#12 17.70   duration_ms: 0.122667
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: explicit ISO date does not become the amount
+#12 17.70 ok 95 - Voice: explicit ISO date does not become the amount
+#12 17.70   ---
+#12 17.70   duration_ms: 0.263375
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: missing amount never guesses from a date
+#12 17.70 ok 96 - Voice: missing amount never guesses from a date
+#12 17.70   ---
+#12 17.70   duration_ms: 0.926792
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: invalid amount cannot become a positive expense
+#12 17.70 ok 97 - Voice: invalid amount cannot become a positive expense
+#12 17.70   ---
+#12 17.70   duration_ms: 0.1085
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: foreign currency is not silently treated as INR
+#12 17.70 ok 98 - Voice: foreign currency is not silently treated as INR
+#12 17.70   ---
+#12 17.70   duration_ms: 0.616083
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Voice: invalid dates require review
+#12 17.70 ok 99 - Voice: invalid dates require review
+#12 17.70   ---
+#12 17.70   duration_ms: 0.117917
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Conversion computes exact manual examples without touching records
+#12 17.70 ok 100 - Conversion computes exact manual examples without touching records
+#12 17.70   ---
+#12 17.70   duration_ms: 0.130167
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid conversion /1
+#12 17.70 ok 101 - Invalid conversion /1
+#12 17.70   ---
+#12 17.70   duration_ms: 0.077375
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid conversion -1/1
+#12 17.70 ok 102 - Invalid conversion -1/1
+#12 17.70   ---
+#12 17.70   duration_ms: 0.045
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid conversion 10/0
+#12 17.70 ok 103 - Invalid conversion 10/0
+#12 17.70   ---
+#12 17.70   duration_ms: 0.045833
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid conversion 10/-1
+#12 17.70 ok 104 - Invalid conversion 10/-1
+#12 17.70   ---
+#12 17.70   duration_ms: 0.044791
+#12 17.70   type: 'test'
+#12 17.70   ...
+#12 17.70 # Subtest: Invalid conversion 10/Infinity
+#12 17.70 ok 105 - Invalid conversion 10/Infinity
+#12 17.71   ---
+#12 17.71   duration_ms: 0.043125
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Invalid conversion Infinity/1
+#12 17.71 ok 106 - Invalid conversion Infinity/1
+#12 17.71   ---
+#12 17.71   duration_ms: 0.0475
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Exchange-rate payload checks currency pair, date and number
+#12 17.71 ok 107 - Exchange-rate payload checks currency pair, date and number
+#12 17.71   ---
+#12 17.71   duration_ms: 0.265166
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi currency notation आज दूध पर Rs. 250 खर्च किए
+#12 17.71 ok 108 - Hindi currency notation आज दूध पर Rs. 250 खर्च किए
+#12 17.71   ---
+#12 17.71   duration_ms: 8.774458
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi currency notation आज दूध पर Rs 250 खर्च किए
+#12 17.71 ok 109 - Hindi currency notation आज दूध पर Rs 250 खर्च किए
+#12 17.71   ---
+#12 17.71   duration_ms: 1.372792
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi currency notation आज दूध पर INR 250 खर्च किए
+#12 17.71 ok 110 - Hindi currency notation आज दूध पर INR 250 खर्च किए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.241542
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi currency notation आज दूध पर रू 250 खर्च किए
+#12 17.71 ok 111 - Hindi currency notation आज दूध पर रू 250 खर्च किए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.257667
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi currency notation आज दूध पर 250 रू खर्च किए
+#12 17.71 ok 112 - Hindi currency notation आज दूध पर 250 रू खर्च किए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.1975
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi currency notation आज दूध पर 250 रुपए खर्च किए
+#12 17.71 ok 113 - Hindi currency notation आज दूध पर 250 रुपए खर्च किए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.777667
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi currency notation आज दूध पर 250 Rs. खर्च किए
+#12 17.71 ok 114 - Hindi currency notation आज दूध पर 250 Rs. खर्च किए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.634041
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Explicit reviewed amount Spent Rs. 250 on groceries
+#12 17.71 ok 115 - Explicit reviewed amount Spent Rs. 250 on groceries
+#12 17.71   ---
+#12 17.71   duration_ms: 4.249583
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Explicit reviewed amount Spent 250 Rs. on groceries
+#12 17.71 ok 116 - Explicit reviewed amount Spent 250 Rs. on groceries
+#12 17.71   ---
+#12 17.71   duration_ms: 1.120041
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Explicit reviewed amount Spent INR 1,250 on groceries
+#12 17.71 ok 117 - Explicit reviewed amount Spent INR 1,250 on groceries
+#12 17.71   ---
+#12 17.71   duration_ms: 0.672667
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Explicit reviewed amount Spent ₹250 on groceries
+#12 17.71 ok 118 - Explicit reviewed amount Spent ₹250 on groceries
+#12 17.71   ---
+#12 17.71   duration_ms: 0.677542
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Explicit reviewed amount Spent 250 rupees on groceries
+#12 17.71 ok 119 - Explicit reviewed amount Spent 250 rupees on groceries
+#12 17.71   ---
+#12 17.71   duration_ms: 1.336834
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: An explicit English amount correction fills an unresolved Hindi amount
+#12 17.71 ok 120 - An explicit English amount correction fills an unresolved Hindi amount
+#12 17.71   ---
+#12 17.71   duration_ms: 0.275334
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: An unchanged unsafe monetary guess cannot be approved through punctuation
+#12 17.71 ok 121 - An unchanged unsafe monetary guess cannot be approved through punctuation
+#12 17.71   ---
+#12 17.71   duration_ms: 0.123292
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Complete Hindi amount is applied even when description needs correction
+#12 17.71 ok 122 - Complete Hindi amount is applied even when description needs correction
+#12 17.71   ---
+#12 17.71   duration_ms: 0.228042
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Unsafe reviewed draft stays unresolved Spent Rs. 1,25 on food
+#12 17.71 ok 123 - Unsafe reviewed draft stays unresolved Spent Rs. 1,25 on food
+#12 17.71   ---
+#12 17.71   duration_ms: 0.072042
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Unsafe reviewed draft stays unresolved Spent Rs. -250 on food
+#12 17.71 ok 124 - Unsafe reviewed draft stays unresolved Spent Rs. -250 on food
+#12 17.71   ---
+#12 17.71   duration_ms: 0.05
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Unsafe reviewed draft stays unresolved Spent 250 dollars on food
+#12 17.71 ok 125 - Unsafe reviewed draft stays unresolved Spent 250 dollars on food
+#12 17.71   ---
+#12 17.71   duration_ms: 0.046833
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Unsafe reviewed draft stays unresolved Spent 250 rupees and 50 paise on food
+#12 17.71 ok 126 - Unsafe reviewed draft stays unresolved Spent 250 rupees and 50 paise on food
+#12 17.71   ---
+#12 17.71   duration_ms: 0.047375
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Unsafe reviewed draft stays unresolved Spent 250 rupees and fifty rupees on food
+#12 17.71 ok 127 - Unsafe reviewed draft stays unresolved Spent 250 rupees and fifty rupees on food
+#12 17.71   ---
+#12 17.71   duration_ms: 0.050625
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Unsafe reviewed draft stays unresolved Spent 250 rupees and 50 on food
+#12 17.71 ok 128 - Unsafe reviewed draft stays unresolved Spent 250 rupees and 50 on food
+#12 17.71   ---
+#12 17.71   duration_ms: 0.049542
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Unsafe reviewed draft stays unresolved Spent about 250 rupees on food
+#12 17.71 ok 129 - Unsafe reviewed draft stays unresolved Spent about 250 rupees on food
+#12 17.71   ---
+#12 17.71   duration_ms: 0.047667
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: User report: spend rs.50 on donation with Hindi selected fills fifty rupees
+#12 17.71 ok 130 - User report: spend rs.50 on donation with Hindi selected fills fifty rupees
+#12 17.71   ---
+#12 17.71   duration_ms: 0.97225
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Corpus has 150 distinct Devanagari, 50 Hinglish and 50 unsafe utterances
+#12 17.71 ok 131 - Corpus has 150 distinct Devanagari, 50 Hinglish and 50 unsafe utterances
+#12 17.71   ---
+#12 17.71   duration_ms: 9.070416
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D001 मैंने आज दूध पर 100 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 132 - Hindi corpus D001 मैंने आज दूध पर 100 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 8.393042
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D002 मैंने आज चावल पर 101 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 133 - Hindi corpus D002 मैंने आज चावल पर 101 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 1.312584
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D003 मैंने आज दवा पर 102 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 134 - Hindi corpus D003 मैंने आज दवा पर 102 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 0.42475
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D004 मैंने आज पेट्रोल पर 103 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 135 - Hindi corpus D004 मैंने आज पेट्रोल पर 103 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 0.825583
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D005 मैंने आज किराया पर 104 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 136 - Hindi corpus D005 मैंने आज किराया पर 104 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 0.25525
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D006 मैंने आज बिजली पर 105 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 137 - Hindi corpus D006 मैंने आज बिजली पर 105 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 0.3415
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D007 मैंने आज कपड़े पर 106 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 138 - Hindi corpus D007 मैंने आज कपड़े पर 106 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 0.167208
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D008 मैंने आज फिल्म पर 107 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 139 - Hindi corpus D008 मैंने आज फिल्म पर 107 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 0.920667
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D009 मैंने आज चाय पर 108 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 140 - Hindi corpus D009 मैंने आज चाय पर 108 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 1.183333
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D010 मैंने आज ट्रेन पर 109 रुपये खर्च किए यूपीआई से
+#12 17.71 ok 141 - Hindi corpus D010 मैंने आज ट्रेन पर 109 रुपये खर्च किए यूपीआई से
+#12 17.71   ---
+#12 17.71   duration_ms: 0.373166
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D011 आज दूध के लिए 110 रुपये नकद दिए
+#12 17.71 ok 142 - Hindi corpus D011 आज दूध के लिए 110 रुपये नकद दिए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.156375
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D012 आज चावल के लिए 111 रुपये नकद दिए
+#12 17.71 ok 143 - Hindi corpus D012 आज चावल के लिए 111 रुपये नकद दिए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.144917
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D013 आज दवा के लिए 112 रुपये नकद दिए
+#12 17.71 ok 144 - Hindi corpus D013 आज दवा के लिए 112 रुपये नकद दिए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.127875
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D014 आज पेट्रोल के लिए 113 रुपये नकद दिए
+#12 17.71 ok 145 - Hindi corpus D014 आज पेट्रोल के लिए 113 रुपये नकद दिए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.106292
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D015 आज किराया के लिए 114 रुपये नकद दिए
+#12 17.71 ok 146 - Hindi corpus D015 आज किराया के लिए 114 रुपये नकद दिए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.111917
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D016 आज बिजली के लिए 115 रुपये नकद दिए
+#12 17.71 ok 147 - Hindi corpus D016 आज बिजली के लिए 115 रुपये नकद दिए
+#12 17.71   ---
+#12 17.71   duration_ms: 0.10525
+#12 17.71   type: 'test'
+#12 17.71   ...
+#12 17.71 # Subtest: Hindi corpus D017 आज कपड़े के लिए 116 रुपये नकद दिए
+#12 17.71 ok 148 - Hindi corpus D017 आज कपड़े के लिए 116 रुपये नकद दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.120791
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D018 आज फिल्म के लिए 117 रुपये नकद दिए
+#12 17.72 ok 149 - Hindi corpus D018 आज फिल्म के लिए 117 रुपये नकद दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.141583
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D019 आज चाय के लिए 118 रुपये नकद दिए
+#12 17.72 ok 150 - Hindi corpus D019 आज चाय के लिए 118 रुपये नकद दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.130167
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D020 आज ट्रेन के लिए 119 रुपये नकद दिए
+#12 17.72 ok 151 - Hindi corpus D020 आज ट्रेन के लिए 119 रुपये नकद दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.133584
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D021 आज क्रेडिट कार्ड से 120 रुपये का दूध खरीदा
+#12 17.72 ok 152 - Hindi corpus D021 आज क्रेडिट कार्ड से 120 रुपये का दूध खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.127833
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D022 आज क्रेडिट कार्ड से 121 रुपये का चावल खरीदा
+#12 17.72 ok 153 - Hindi corpus D022 आज क्रेडिट कार्ड से 121 रुपये का चावल खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.242125
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D023 आज क्रेडिट कार्ड से 122 रुपये का दवा खरीदा
+#12 17.72 ok 154 - Hindi corpus D023 आज क्रेडिट कार्ड से 122 रुपये का दवा खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.103209
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D024 आज क्रेडिट कार्ड से 123 रुपये का पेट्रोल खरीदा
+#12 17.72 ok 155 - Hindi corpus D024 आज क्रेडिट कार्ड से 123 रुपये का पेट्रोल खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.133083
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D025 आज क्रेडिट कार्ड से 124 रुपये का किराया खरीदा
+#12 17.72 ok 156 - Hindi corpus D025 आज क्रेडिट कार्ड से 124 रुपये का किराया खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.073208
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D026 आज क्रेडिट कार्ड से 125 रुपये का बिजली खरीदा
+#12 17.72 ok 157 - Hindi corpus D026 आज क्रेडिट कार्ड से 125 रुपये का बिजली खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.070833
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D027 आज क्रेडिट कार्ड से 126 रुपये का कपड़े खरीदा
+#12 17.72 ok 158 - Hindi corpus D027 आज क्रेडिट कार्ड से 126 रुपये का कपड़े खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.083708
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D028 आज क्रेडिट कार्ड से 127 रुपये का फिल्म खरीदा
+#12 17.72 ok 159 - Hindi corpus D028 आज क्रेडिट कार्ड से 127 रुपये का फिल्म खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.10925
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D029 आज क्रेडिट कार्ड से 128 रुपये का चाय खरीदा
+#12 17.72 ok 160 - Hindi corpus D029 आज क्रेडिट कार्ड से 128 रुपये का चाय खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.069625
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D030 आज क्रेडिट कार्ड से 129 रुपये का ट्रेन खरीदा
+#12 17.72 ok 161 - Hindi corpus D030 आज क्रेडिट कार्ड से 129 रुपये का ट्रेन खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.072334
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D031 आज डेबिट कार्ड से दूध पर 130 रुपये दिए
+#12 17.72 ok 162 - Hindi corpus D031 आज डेबिट कार्ड से दूध पर 130 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.066417
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D032 आज डेबिट कार्ड से चावल पर 131 रुपये दिए
+#12 17.72 ok 163 - Hindi corpus D032 आज डेबिट कार्ड से चावल पर 131 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.07075
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D033 आज डेबिट कार्ड से दवा पर 132 रुपये दिए
+#12 17.72 ok 164 - Hindi corpus D033 आज डेबिट कार्ड से दवा पर 132 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.062375
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D034 आज डेबिट कार्ड से पेट्रोल पर 133 रुपये दिए
+#12 17.72 ok 165 - Hindi corpus D034 आज डेबिट कार्ड से पेट्रोल पर 133 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 6.963375
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D035 आज डेबिट कार्ड से किराया पर 134 रुपये दिए
+#12 17.72 ok 166 - Hindi corpus D035 आज डेबिट कार्ड से किराया पर 134 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.153125
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D036 आज डेबिट कार्ड से बिजली पर 135 रुपये दिए
+#12 17.72 ok 167 - Hindi corpus D036 आज डेबिट कार्ड से बिजली पर 135 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.083125
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D037 आज डेबिट कार्ड से कपड़े पर 136 रुपये दिए
+#12 17.72 ok 168 - Hindi corpus D037 आज डेबिट कार्ड से कपड़े पर 136 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.065459
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D038 आज डेबिट कार्ड से फिल्म पर 137 रुपये दिए
+#12 17.72 ok 169 - Hindi corpus D038 आज डेबिट कार्ड से फिल्म पर 137 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.060375
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D039 आज डेबिट कार्ड से चाय पर 138 रुपये दिए
+#12 17.72 ok 170 - Hindi corpus D039 आज डेबिट कार्ड से चाय पर 138 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.058792
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D040 आज डेबिट कार्ड से ट्रेन पर 139 रुपये दिए
+#12 17.72 ok 171 - Hindi corpus D040 आज डेबिट कार्ड से ट्रेन पर 139 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.073542
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D041 बैंक ट्रांसफर से आज दूध के लिए 140 रुपये दिए
+#12 17.72 ok 172 - Hindi corpus D041 बैंक ट्रांसफर से आज दूध के लिए 140 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.062958
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D042 बैंक ट्रांसफर से आज चावल के लिए 141 रुपये दिए
+#12 17.72 ok 173 - Hindi corpus D042 बैंक ट्रांसफर से आज चावल के लिए 141 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.06075
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D043 बैंक ट्रांसफर से आज दवा के लिए 142 रुपये दिए
+#12 17.72 ok 174 - Hindi corpus D043 बैंक ट्रांसफर से आज दवा के लिए 142 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.057583
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D044 बैंक ट्रांसफर से आज पेट्रोल के लिए 143 रुपये दिए
+#12 17.72 ok 175 - Hindi corpus D044 बैंक ट्रांसफर से आज पेट्रोल के लिए 143 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.05625
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D045 बैंक ट्रांसफर से आज किराया के लिए 144 रुपये दिए
+#12 17.72 ok 176 - Hindi corpus D045 बैंक ट्रांसफर से आज किराया के लिए 144 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.057625
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D046 बैंक ट्रांसफर से आज बिजली के लिए 145 रुपये दिए
+#12 17.72 ok 177 - Hindi corpus D046 बैंक ट्रांसफर से आज बिजली के लिए 145 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 4.735542
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D047 बैंक ट्रांसफर से आज कपड़े के लिए 146 रुपये दिए
+#12 17.72 ok 178 - Hindi corpus D047 बैंक ट्रांसफर से आज कपड़े के लिए 146 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.1355
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D048 बैंक ट्रांसफर से आज फिल्म के लिए 147 रुपये दिए
+#12 17.72 ok 179 - Hindi corpus D048 बैंक ट्रांसफर से आज फिल्म के लिए 147 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.076541
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D049 बैंक ट्रांसफर से आज चाय के लिए 148 रुपये दिए
+#12 17.72 ok 180 - Hindi corpus D049 बैंक ट्रांसफर से आज चाय के लिए 148 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.061458
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D050 बैंक ट्रांसफर से आज ट्रेन के लिए 149 रुपये दिए
+#12 17.72 ok 181 - Hindi corpus D050 बैंक ट्रांसफर से आज ट्रेन के लिए 149 रुपये दिए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.058167
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D051 आज दूध पर कुल 150 रुपये खर्च किए
+#12 17.72 ok 182 - Hindi corpus D051 आज दूध पर कुल 150 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.055
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D052 आज चावल पर कुल 151 रुपये खर्च किए
+#12 17.72 ok 183 - Hindi corpus D052 आज चावल पर कुल 151 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.052917
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D053 आज दवा पर कुल 152 रुपये खर्च किए
+#12 17.72 ok 184 - Hindi corpus D053 आज दवा पर कुल 152 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.050959
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D054 आज पेट्रोल पर कुल 153 रुपये खर्च किए
+#12 17.72 ok 185 - Hindi corpus D054 आज पेट्रोल पर कुल 153 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.052084
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D055 आज किराया पर कुल 154 रुपये खर्च किए
+#12 17.72 ok 186 - Hindi corpus D055 आज किराया पर कुल 154 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.0505
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D056 आज बिजली पर कुल 155 रुपये खर्च किए
+#12 17.72 ok 187 - Hindi corpus D056 आज बिजली पर कुल 155 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.0525
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D057 आज कपड़े पर कुल 156 रुपये खर्च किए
+#12 17.72 ok 188 - Hindi corpus D057 आज कपड़े पर कुल 156 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.050541
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D058 आज फिल्म पर कुल 157 रुपये खर्च किए
+#12 17.72 ok 189 - Hindi corpus D058 आज फिल्म पर कुल 157 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.048792
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D059 आज चाय पर कुल 158 रुपये खर्च किए
+#12 17.72 ok 190 - Hindi corpus D059 आज चाय पर कुल 158 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.05025
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D060 आज ट्रेन पर कुल 159 रुपये खर्च किए
+#12 17.72 ok 191 - Hindi corpus D060 आज ट्रेन पर कुल 159 रुपये खर्च किए
+#12 17.72   ---
+#12 17.72   duration_ms: 0.048042
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D061 मैंने 160 रुपये में दूध खरीदा
+#12 17.72 ok 192 - Hindi corpus D061 मैंने 160 रुपये में दूध खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.057625
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D062 मैंने 161 रुपये में चावल खरीदा
+#12 17.72 ok 193 - Hindi corpus D062 मैंने 161 रुपये में चावल खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.048625
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.72 # Subtest: Hindi corpus D063 मैंने 162 रुपये में दवा खरीदा
+#12 17.72 ok 194 - Hindi corpus D063 मैंने 162 रुपये में दवा खरीदा
+#12 17.72   ---
+#12 17.72   duration_ms: 0.045084
+#12 17.72   type: 'test'
+#12 17.72   ...
+#12 17.73 # Subtest: Hindi corpus D064 मैंने 163 रुपये में पेट्रोल खरीदा
+#12 17.73 ok 195 - Hindi corpus D064 मैंने 163 रुपये में पेट्रोल खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.047583
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D065 मैंने 164 रुपये में किराया खरीदा
+#12 17.73 ok 196 - Hindi corpus D065 मैंने 164 रुपये में किराया खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.150292
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D066 मैंने 165 रुपये में बिजली खरीदा
+#12 17.73 ok 197 - Hindi corpus D066 मैंने 165 रुपये में बिजली खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.636458
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D067 मैंने 166 रुपये में कपड़े खरीदा
+#12 17.73 ok 198 - Hindi corpus D067 मैंने 166 रुपये में कपड़े खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.8545
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D068 मैंने 167 रुपये में फिल्म खरीदा
+#12 17.73 ok 199 - Hindi corpus D068 मैंने 167 रुपये में फिल्म खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.233084
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D069 मैंने 168 रुपये में चाय खरीदा
+#12 17.73 ok 200 - Hindi corpus D069 मैंने 168 रुपये में चाय खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.060042
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D070 मैंने 169 रुपये में ट्रेन खरीदा
+#12 17.73 ok 201 - Hindi corpus D070 मैंने 169 रुपये में ट्रेन खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.052375
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D071 आज नकद 170 रुपये का दूध खरीदा
+#12 17.73 ok 202 - Hindi corpus D071 आज नकद 170 रुपये का दूध खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.053917
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D072 आज नकद 171 रुपये का चावल खरीदा
+#12 17.73 ok 203 - Hindi corpus D072 आज नकद 171 रुपये का चावल खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.049333
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D073 आज नकद 172 रुपये का दवा खरीदा
+#12 17.73 ok 204 - Hindi corpus D073 आज नकद 172 रुपये का दवा खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.047334
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D074 आज नकद 173 रुपये का पेट्रोल खरीदा
+#12 17.73 ok 205 - Hindi corpus D074 आज नकद 173 रुपये का पेट्रोल खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.048041
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D075 आज नकद 174 रुपये का किराया खरीदा
+#12 17.73 ok 206 - Hindi corpus D075 आज नकद 174 रुपये का किराया खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.046875
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D076 आज नकद 175 रुपये का बिजली खरीदा
+#12 17.73 ok 207 - Hindi corpus D076 आज नकद 175 रुपये का बिजली खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 1.182875
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D077 आज नकद 176 रुपये का कपड़े खरीदा
+#12 17.73 ok 208 - Hindi corpus D077 आज नकद 176 रुपये का कपड़े खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.200583
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D078 आज नकद 177 रुपये का फिल्म खरीदा
+#12 17.73 ok 209 - Hindi corpus D078 आज नकद 177 रुपये का फिल्म खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.738916
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D079 आज नकद 178 रुपये का चाय खरीदा
+#12 17.73 ok 210 - Hindi corpus D079 आज नकद 178 रुपये का चाय खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.795625
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D080 आज नकद 179 रुपये का ट्रेन खरीदा
+#12 17.73 ok 211 - Hindi corpus D080 आज नकद 179 रुपये का ट्रेन खरीदा
+#12 17.73   ---
+#12 17.73   duration_ms: 0.597917
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D081 दूध के लिए आज 180 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 212 - Hindi corpus D081 दूध के लिए आज 180 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.305208
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D082 चावल के लिए आज 181 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 213 - Hindi corpus D082 चावल के लिए आज 181 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.192958
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D083 दवा के लिए आज 182 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 214 - Hindi corpus D083 दवा के लिए आज 182 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.087792
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D084 पेट्रोल के लिए आज 183 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 215 - Hindi corpus D084 पेट्रोल के लिए आज 183 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.098834
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D085 किराया के लिए आज 184 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 216 - Hindi corpus D085 किराया के लिए आज 184 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.245041
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D086 बिजली के लिए आज 185 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 217 - Hindi corpus D086 बिजली के लिए आज 185 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.213916
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D087 कपड़े के लिए आज 186 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 218 - Hindi corpus D087 कपड़े के लिए आज 186 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.760875
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D088 फिल्म के लिए आज 187 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 219 - Hindi corpus D088 फिल्म के लिए आज 187 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.715667
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D089 चाय के लिए आज 188 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 220 - Hindi corpus D089 चाय के लिए आज 188 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.104583
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D090 ट्रेन के लिए आज 189 रुपये खर्च किए वॉलेट से
+#12 17.73 ok 221 - Hindi corpus D090 ट्रेन के लिए आज 189 रुपये खर्च किए वॉलेट से
+#12 17.73   ---
+#12 17.73   duration_ms: 0.094584
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D091 मैंने आज दूध के लिए 190 रुपये भुगतान किया
+#12 17.73 ok 222 - Hindi corpus D091 मैंने आज दूध के लिए 190 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.076583
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D092 मैंने आज चावल के लिए 191 रुपये भुगतान किया
+#12 17.73 ok 223 - Hindi corpus D092 मैंने आज चावल के लिए 191 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.158333
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D093 मैंने आज दवा के लिए 192 रुपये भुगतान किया
+#12 17.73 ok 224 - Hindi corpus D093 मैंने आज दवा के लिए 192 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 2.377791
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D094 मैंने आज पेट्रोल के लिए 193 रुपये भुगतान किया
+#12 17.73 ok 225 - Hindi corpus D094 मैंने आज पेट्रोल के लिए 193 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.40975
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D095 मैंने आज किराया के लिए 194 रुपये भुगतान किया
+#12 17.73 ok 226 - Hindi corpus D095 मैंने आज किराया के लिए 194 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.583458
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D096 मैंने आज बिजली के लिए 195 रुपये भुगतान किया
+#12 17.73 ok 227 - Hindi corpus D096 मैंने आज बिजली के लिए 195 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 1.032125
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D097 मैंने आज कपड़े के लिए 196 रुपये भुगतान किया
+#12 17.73 ok 228 - Hindi corpus D097 मैंने आज कपड़े के लिए 196 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.079792
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D098 मैंने आज फिल्म के लिए 197 रुपये भुगतान किया
+#12 17.73 ok 229 - Hindi corpus D098 मैंने आज फिल्म के लिए 197 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.082917
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D099 मैंने आज चाय के लिए 198 रुपये भुगतान किया
+#12 17.73 ok 230 - Hindi corpus D099 मैंने आज चाय के लिए 198 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.05575
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D100 मैंने आज ट्रेन के लिए 199 रुपये भुगतान किया
+#12 17.73 ok 231 - Hindi corpus D100 मैंने आज ट्रेन के लिए 199 रुपये भुगतान किया
+#12 17.73   ---
+#12 17.73   duration_ms: 0.050625
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D101 आज दूध पर 200 रुपये खर्च हुए
+#12 17.73 ok 232 - Hindi corpus D101 आज दूध पर 200 रुपये खर्च हुए
+#12 17.73   ---
+#12 17.73   duration_ms: 0.096083
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D102 आज चावल पर 201 रुपये खर्च हुए
+#12 17.73 ok 233 - Hindi corpus D102 आज चावल पर 201 रुपये खर्च हुए
+#12 17.73   ---
+#12 17.73   duration_ms: 0.049583
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D103 आज दवा पर 202 रुपये खर्च हुए
+#12 17.73 ok 234 - Hindi corpus D103 आज दवा पर 202 रुपये खर्च हुए
+#12 17.73   ---
+#12 17.73   duration_ms: 0.054583
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D104 आज पेट्रोल पर 203 रुपये खर्च हुए
+#12 17.73 ok 235 - Hindi corpus D104 आज पेट्रोल पर 203 रुपये खर्च हुए
+#12 17.73   ---
+#12 17.73   duration_ms: 0.049541
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D105 आज किराया पर 204 रुपये खर्च हुए
+#12 17.73 ok 236 - Hindi corpus D105 आज किराया पर 204 रुपये खर्च हुए
+#12 17.73   ---
+#12 17.73   duration_ms: 0.169375
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D106 आज बिजली पर 205 रुपये खर्च हुए
+#12 17.73 ok 237 - Hindi corpus D106 आज बिजली पर 205 रुपये खर्च हुए
+#12 17.73   ---
+#12 17.73   duration_ms: 0.04775
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D107 आज कपड़े पर 206 रुपये खर्च हुए
+#12 17.73 ok 238 - Hindi corpus D107 आज कपड़े पर 206 रुपये खर्च हुए
+#12 17.73   ---
+#12 17.73   duration_ms: 0.047541
+#12 17.73   type: 'test'
+#12 17.73   ...
+#12 17.73 # Subtest: Hindi corpus D108 आज फिल्म पर 207 रुपये खर्च हुए
+#12 17.74 ok 239 - Hindi corpus D108 आज फिल्म पर 207 रुपये खर्च हुए
+#12 17.74   ---
+#12 17.74   duration_ms: 0.257541
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D109 आज चाय पर 208 रुपये खर्च हुए
+#12 17.74 ok 240 - Hindi corpus D109 आज चाय पर 208 रुपये खर्च हुए
+#12 17.74   ---
+#12 17.74   duration_ms: 0.051042
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D110 आज ट्रेन पर 209 रुपये खर्च हुए
+#12 17.74 ok 241 - Hindi corpus D110 आज ट्रेन पर 209 रुपये खर्च हुए
+#12 17.74   ---
+#12 17.74   duration_ms: 0.045
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D111 आज 210 रुपये का दूध यूपीआई से खरीदा
+#12 17.74 ok 242 - Hindi corpus D111 आज 210 रुपये का दूध यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.079875
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D112 आज 211 रुपये का चावल यूपीआई से खरीदा
+#12 17.74 ok 243 - Hindi corpus D112 आज 211 रुपये का चावल यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.053167
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D113 आज 212 रुपये का दवा यूपीआई से खरीदा
+#12 17.74 ok 244 - Hindi corpus D113 आज 212 रुपये का दवा यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.053417
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D114 आज 213 रुपये का पेट्रोल यूपीआई से खरीदा
+#12 17.74 ok 245 - Hindi corpus D114 आज 213 रुपये का पेट्रोल यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.053916
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D115 आज 214 रुपये का किराया यूपीआई से खरीदा
+#12 17.74 ok 246 - Hindi corpus D115 आज 214 रुपये का किराया यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.05325
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D116 आज 215 रुपये का बिजली यूपीआई से खरीदा
+#12 17.74 ok 247 - Hindi corpus D116 आज 215 रुपये का बिजली यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.0515
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D117 आज 216 रुपये का कपड़े यूपीआई से खरीदा
+#12 17.74 ok 248 - Hindi corpus D117 आज 216 रुपये का कपड़े यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.050833
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D118 आज 217 रुपये का फिल्म यूपीआई से खरीदा
+#12 17.74 ok 249 - Hindi corpus D118 आज 217 रुपये का फिल्म यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.050583
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D119 आज 218 रुपये का चाय यूपीआई से खरीदा
+#12 17.74 ok 250 - Hindi corpus D119 आज 218 रुपये का चाय यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.050667
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D120 आज 219 रुपये का ट्रेन यूपीआई से खरीदा
+#12 17.74 ok 251 - Hindi corpus D120 आज 219 रुपये का ट्रेन यूपीआई से खरीदा
+#12 17.74   ---
+#12 17.74   duration_ms: 0.051708
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D121 आज दूध के लिए 220 रुपये दिये
+#12 17.74 ok 252 - Hindi corpus D121 आज दूध के लिए 220 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.052584
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D122 आज चावल के लिए 221 रुपये दिये
+#12 17.74 ok 253 - Hindi corpus D122 आज चावल के लिए 221 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.051708
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D123 आज दवा के लिए 222 रुपये दिये
+#12 17.74 ok 254 - Hindi corpus D123 आज दवा के लिए 222 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.053167
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D124 आज पेट्रोल के लिए 223 रुपये दिये
+#12 17.74 ok 255 - Hindi corpus D124 आज पेट्रोल के लिए 223 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.053708
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D125 आज किराया के लिए 224 रुपये दिये
+#12 17.74 ok 256 - Hindi corpus D125 आज किराया के लिए 224 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.050834
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D126 आज बिजली के लिए 225 रुपये दिये
+#12 17.74 ok 257 - Hindi corpus D126 आज बिजली के लिए 225 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.070291
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D127 आज कपड़े के लिए 226 रुपये दिये
+#12 17.74 ok 258 - Hindi corpus D127 आज कपड़े के लिए 226 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.051541
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D128 आज फिल्म के लिए 227 रुपये दिये
+#12 17.74 ok 259 - Hindi corpus D128 आज फिल्म के लिए 227 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.049667
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D129 आज चाय के लिए 228 रुपये दिये
+#12 17.74 ok 260 - Hindi corpus D129 आज चाय के लिए 228 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.048916
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D130 आज ट्रेन के लिए 229 रुपये दिये
+#12 17.74 ok 261 - Hindi corpus D130 आज ट्रेन के लिए 229 रुपये दिये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.049334
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D131 आज दूध पर 230 रुपये खर्च किये
+#12 17.74 ok 262 - Hindi corpus D131 आज दूध पर 230 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.051042
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D132 आज चावल पर 231 रुपये खर्च किये
+#12 17.74 ok 263 - Hindi corpus D132 आज चावल पर 231 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.050042
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D133 आज दवा पर 232 रुपये खर्च किये
+#12 17.74 ok 264 - Hindi corpus D133 आज दवा पर 232 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.048708
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D134 आज पेट्रोल पर 233 रुपये खर्च किये
+#12 17.74 ok 265 - Hindi corpus D134 आज पेट्रोल पर 233 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.049666
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D135 आज किराया पर 234 रुपये खर्च किये
+#12 17.74 ok 266 - Hindi corpus D135 आज किराया पर 234 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.049542
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D136 आज बिजली पर 235 रुपये खर्च किये
+#12 17.74 ok 267 - Hindi corpus D136 आज बिजली पर 235 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.050083
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D137 आज कपड़े पर 236 रुपये खर्च किये
+#12 17.74 ok 268 - Hindi corpus D137 आज कपड़े पर 236 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.048292
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D138 आज फिल्म पर 237 रुपये खर्च किये
+#12 17.74 ok 269 - Hindi corpus D138 आज फिल्म पर 237 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.04825
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D139 आज चाय पर 238 रुपये खर्च किये
+#12 17.74 ok 270 - Hindi corpus D139 आज चाय पर 238 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.049291
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D140 आज ट्रेन पर 239 रुपये खर्च किये
+#12 17.74 ok 271 - Hindi corpus D140 आज ट्रेन पर 239 रुपये खर्च किये
+#12 17.74   ---
+#12 17.74   duration_ms: 0.047125
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D141 आज दूध पर 240 रुपये खर्च किए \#family
+#12 17.74 ok 272 - Hindi corpus D141 आज दूध पर 240 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.21775
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D142 आज चावल पर 241 रुपये खर्च किए \#family
+#12 17.74 ok 273 - Hindi corpus D142 आज चावल पर 241 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.065917
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D143 आज दवा पर 242 रुपये खर्च किए \#family
+#12 17.74 ok 274 - Hindi corpus D143 आज दवा पर 242 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.0565
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D144 आज पेट्रोल पर 243 रुपये खर्च किए \#family
+#12 17.74 ok 275 - Hindi corpus D144 आज पेट्रोल पर 243 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.054375
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D145 आज किराया पर 244 रुपये खर्च किए \#family
+#12 17.74 ok 276 - Hindi corpus D145 आज किराया पर 244 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.052875
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D146 आज बिजली पर 245 रुपये खर्च किए \#family
+#12 17.74 ok 277 - Hindi corpus D146 आज बिजली पर 245 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.051584
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D147 आज कपड़े पर 246 रुपये खर्च किए \#family
+#12 17.74 ok 278 - Hindi corpus D147 आज कपड़े पर 246 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.053083
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D148 आज फिल्म पर 247 रुपये खर्च किए \#family
+#12 17.74 ok 279 - Hindi corpus D148 आज फिल्म पर 247 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.053583
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D149 आज चाय पर 248 रुपये खर्च किए \#family
+#12 17.74 ok 280 - Hindi corpus D149 आज चाय पर 248 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.147917
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus D150 आज ट्रेन पर 249 रुपये खर्च किए \#family
+#12 17.74 ok 281 - Hindi corpus D150 आज ट्रेन पर 249 रुपये खर्च किए \#family
+#12 17.74   ---
+#12 17.74   duration_ms: 0.058459
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus R001 aaj doodh par 500 rupaye kharch kiye upi se
+#12 17.74 ok 282 - Hindi corpus R001 aaj doodh par 500 rupaye kharch kiye upi se
+#12 17.74   ---
+#12 17.74   duration_ms: 0.806041
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus R002 aaj chawal par 501 rupaye kharch kiye upi se
+#12 17.74 ok 283 - Hindi corpus R002 aaj chawal par 501 rupaye kharch kiye upi se
+#12 17.74   ---
+#12 17.74   duration_ms: 0.076291
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus R003 aaj dawai par 502 rupaye kharch kiye upi se
+#12 17.74 ok 284 - Hindi corpus R003 aaj dawai par 502 rupaye kharch kiye upi se
+#12 17.74   ---
+#12 17.74   duration_ms: 0.063584
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus R004 aaj petrol par 503 rupaye kharch kiye upi se
+#12 17.74 ok 285 - Hindi corpus R004 aaj petrol par 503 rupaye kharch kiye upi se
+#12 17.74   ---
+#12 17.74   duration_ms: 0.07175
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus R005 aaj kiraya par 504 rupaye kharch kiye upi se
+#12 17.74 ok 286 - Hindi corpus R005 aaj kiraya par 504 rupaye kharch kiye upi se
+#12 17.74   ---
+#12 17.74   duration_ms: 0.060458
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.74 # Subtest: Hindi corpus R006 aaj bijli par 505 rupaye kharch kiye upi se
+#12 17.74 ok 287 - Hindi corpus R006 aaj bijli par 505 rupaye kharch kiye upi se
+#12 17.74   ---
+#12 17.74   duration_ms: 0.063625
+#12 17.74   type: 'test'
+#12 17.74   ...
+#12 17.75 # Subtest: Hindi corpus R007 aaj kapde par 506 rupaye kharch kiye upi se
+#12 17.75 ok 288 - Hindi corpus R007 aaj kapde par 506 rupaye kharch kiye upi se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.065458
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R008 aaj movie par 507 rupaye kharch kiye upi se
+#12 17.75 ok 289 - Hindi corpus R008 aaj movie par 507 rupaye kharch kiye upi se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.078416
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R009 aaj chai par 508 rupaye kharch kiye upi se
+#12 17.75 ok 290 - Hindi corpus R009 aaj chai par 508 rupaye kharch kiye upi se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.070667
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R010 aaj train par 509 rupaye kharch kiye upi se
+#12 17.75 ok 291 - Hindi corpus R010 aaj train par 509 rupaye kharch kiye upi se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.068292
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R011 maine aaj doodh ke liye 510 rupaye diye cash se
+#12 17.75 ok 292 - Hindi corpus R011 maine aaj doodh ke liye 510 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.081625
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R012 maine aaj chawal ke liye 511 rupaye diye cash se
+#12 17.75 ok 293 - Hindi corpus R012 maine aaj chawal ke liye 511 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.081167
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R013 maine aaj dawai ke liye 512 rupaye diye cash se
+#12 17.75 ok 294 - Hindi corpus R013 maine aaj dawai ke liye 512 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.074083
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R014 maine aaj petrol ke liye 513 rupaye diye cash se
+#12 17.75 ok 295 - Hindi corpus R014 maine aaj petrol ke liye 513 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.071917
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R015 maine aaj kiraya ke liye 514 rupaye diye cash se
+#12 17.75 ok 296 - Hindi corpus R015 maine aaj kiraya ke liye 514 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.071625
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R016 maine aaj bijli ke liye 515 rupaye diye cash se
+#12 17.75 ok 297 - Hindi corpus R016 maine aaj bijli ke liye 515 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.075125
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R017 maine aaj kapde ke liye 516 rupaye diye cash se
+#12 17.75 ok 298 - Hindi corpus R017 maine aaj kapde ke liye 516 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.090292
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R018 maine aaj movie ke liye 517 rupaye diye cash se
+#12 17.75 ok 299 - Hindi corpus R018 maine aaj movie ke liye 517 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.068625
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R019 maine aaj chai ke liye 518 rupaye diye cash se
+#12 17.75 ok 300 - Hindi corpus R019 maine aaj chai ke liye 518 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.078041
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R020 maine aaj train ke liye 519 rupaye diye cash se
+#12 17.75 ok 301 - Hindi corpus R020 maine aaj train ke liye 519 rupaye diye cash se
+#12 17.75   ---
+#12 17.75   duration_ms: 0.069833
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R021 aaj 520 rupaye ka doodh kharida
+#12 17.75 ok 302 - Hindi corpus R021 aaj 520 rupaye ka doodh kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.082875
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R022 aaj 521 rupaye ka chawal kharida
+#12 17.75 ok 303 - Hindi corpus R022 aaj 521 rupaye ka chawal kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.063834
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R023 aaj 522 rupaye ka dawai kharida
+#12 17.75 ok 304 - Hindi corpus R023 aaj 522 rupaye ka dawai kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.069458
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R024 aaj 523 rupaye ka petrol kharida
+#12 17.75 ok 305 - Hindi corpus R024 aaj 523 rupaye ka petrol kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.061083
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R025 aaj 524 rupaye ka kiraya kharida
+#12 17.75 ok 306 - Hindi corpus R025 aaj 524 rupaye ka kiraya kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.060292
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R026 aaj 525 rupaye ka bijli kharida
+#12 17.75 ok 307 - Hindi corpus R026 aaj 525 rupaye ka bijli kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.058
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R027 aaj 526 rupaye ka kapde kharida
+#12 17.75 ok 308 - Hindi corpus R027 aaj 526 rupaye ka kapde kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.063875
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R028 aaj 527 rupaye ka movie kharida
+#12 17.75 ok 309 - Hindi corpus R028 aaj 527 rupaye ka movie kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.086959
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R029 aaj 528 rupaye ka chai kharida
+#12 17.75 ok 310 - Hindi corpus R029 aaj 528 rupaye ka chai kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.0655
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R030 aaj 529 rupaye ka train kharida
+#12 17.75 ok 311 - Hindi corpus R030 aaj 529 rupaye ka train kharida
+#12 17.75   ---
+#12 17.75   duration_ms: 0.078958
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R031 aaj doodh par 530 rupaye credit card se diye
+#12 17.75 ok 312 - Hindi corpus R031 aaj doodh par 530 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.08075
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R032 aaj chawal par 531 rupaye credit card se diye
+#12 17.75 ok 313 - Hindi corpus R032 aaj chawal par 531 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.074875
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R033 aaj dawai par 532 rupaye credit card se diye
+#12 17.75 ok 314 - Hindi corpus R033 aaj dawai par 532 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.072
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R034 aaj petrol par 533 rupaye credit card se diye
+#12 17.75 ok 315 - Hindi corpus R034 aaj petrol par 533 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.070792
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R035 aaj kiraya par 534 rupaye credit card se diye
+#12 17.75 ok 316 - Hindi corpus R035 aaj kiraya par 534 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.067458
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R036 aaj bijli par 535 rupaye credit card se diye
+#12 17.75 ok 317 - Hindi corpus R036 aaj bijli par 535 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.067542
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R037 aaj kapde par 536 rupaye credit card se diye
+#12 17.75 ok 318 - Hindi corpus R037 aaj kapde par 536 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.067292
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R038 aaj movie par 537 rupaye credit card se diye
+#12 17.75 ok 319 - Hindi corpus R038 aaj movie par 537 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.073
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R039 aaj chai par 538 rupaye credit card se diye
+#12 17.75 ok 320 - Hindi corpus R039 aaj chai par 538 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.078042
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R040 aaj train par 539 rupaye credit card se diye
+#12 17.75 ok 321 - Hindi corpus R040 aaj train par 539 rupaye credit card se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.091
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R041 aaj doodh ke liye 540 rupaye bank transfer se diye
+#12 17.75 ok 322 - Hindi corpus R041 aaj doodh ke liye 540 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.08
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R042 aaj chawal ke liye 541 rupaye bank transfer se diye
+#12 17.75 ok 323 - Hindi corpus R042 aaj chawal ke liye 541 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.081917
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R043 aaj dawai ke liye 542 rupaye bank transfer se diye
+#12 17.75 ok 324 - Hindi corpus R043 aaj dawai ke liye 542 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.07
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R044 aaj petrol ke liye 543 rupaye bank transfer se diye
+#12 17.75 ok 325 - Hindi corpus R044 aaj petrol ke liye 543 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.06925
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R045 aaj kiraya ke liye 544 rupaye bank transfer se diye
+#12 17.75 ok 326 - Hindi corpus R045 aaj kiraya ke liye 544 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.070917
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R046 aaj bijli ke liye 545 rupaye bank transfer se diye
+#12 17.75 ok 327 - Hindi corpus R046 aaj bijli ke liye 545 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.096167
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R047 aaj kapde ke liye 546 rupaye bank transfer se diye
+#12 17.75 ok 328 - Hindi corpus R047 aaj kapde ke liye 546 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.0695
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R048 aaj movie ke liye 547 rupaye bank transfer se diye
+#12 17.75 ok 329 - Hindi corpus R048 aaj movie ke liye 547 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.073042
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R049 aaj chai ke liye 548 rupaye bank transfer se diye
+#12 17.75 ok 330 - Hindi corpus R049 aaj chai ke liye 548 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.074834
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus R050 aaj train ke liye 549 rupaye bank transfer se diye
+#12 17.75 ok 331 - Hindi corpus R050 aaj train ke liye 549 rupaye bank transfer se diye
+#12 17.75   ---
+#12 17.75   duration_ms: 0.09625
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N001 आज दूध पर लगभग 200 रुपये दिए
+#12 17.75 ok 332 - Hindi corpus N001 आज दूध पर लगभग 200 रुपये दिए
+#12 17.75   ---
+#12 17.75   duration_ms: 0.131125
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N002 आज दूध पर लगभग 201 रुपये दिए
+#12 17.75 ok 333 - Hindi corpus N002 आज दूध पर लगभग 201 रुपये दिए
+#12 17.75   ---
+#12 17.75   duration_ms: 0.086791
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N003 आज दूध पर लगभग 202 रुपये दिए
+#12 17.75 ok 334 - Hindi corpus N003 आज दूध पर लगभग 202 रुपये दिए
+#12 17.75   ---
+#12 17.75   duration_ms: 0.066
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N004 आज दूध पर लगभग 203 रुपये दिए
+#12 17.75 ok 335 - Hindi corpus N004 आज दूध पर लगभग 203 रुपये दिए
+#12 17.75   ---
+#12 17.75   duration_ms: 0.054958
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N005 आज दूध पर लगभग 204 रुपये दिए
+#12 17.75 ok 336 - Hindi corpus N005 आज दूध पर लगभग 204 रुपये दिए
+#12 17.75   ---
+#12 17.75   duration_ms: 0.055584
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N006 आज दूध पर करीब 200 रुपये दिए
+#12 17.75 ok 337 - Hindi corpus N006 आज दूध पर करीब 200 रुपये दिए
+#12 17.75   ---
+#12 17.75   duration_ms: 0.061875
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N007 आज दूध पर करीब 201 रुपये दिए
+#12 17.75 ok 338 - Hindi corpus N007 आज दूध पर करीब 201 रुपये दिए
+#12 17.75   ---
+#12 17.75   duration_ms: 0.065083
+#12 17.75   type: 'test'
+#12 17.75   ...
+#12 17.75 # Subtest: Hindi corpus N008 आज दूध पर करीब 202 रुपये दिए
+#12 17.75 ok 339 - Hindi corpus N008 आज दूध पर करीब 202 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.054208
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N009 आज दूध पर करीब 203 रुपये दिए
+#12 17.76 ok 340 - Hindi corpus N009 आज दूध पर करीब 203 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.056125
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N010 आज दूध पर करीब 204 रुपये दिए
+#12 17.76 ok 341 - Hindi corpus N010 आज दूध पर करीब 204 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.054292
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N011 आज दूध पर -200 रुपये दिए
+#12 17.76 ok 342 - Hindi corpus N011 आज दूध पर -200 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.088792
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N012 आज दूध पर -201 रुपये दिए
+#12 17.76 ok 343 - Hindi corpus N012 आज दूध पर -201 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.056083
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N013 आज दूध पर -202 रुपये दिए
+#12 17.76 ok 344 - Hindi corpus N013 आज दूध पर -202 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.070417
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N014 आज दूध पर -203 रुपये दिए
+#12 17.76 ok 345 - Hindi corpus N014 आज दूध पर -203 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.0615
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N015 आज दूध पर -204 रुपये दिए
+#12 17.76 ok 346 - Hindi corpus N015 आज दूध पर -204 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.055458
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N016 आज दूध पर +200 रुपये दिए
+#12 17.76 ok 347 - Hindi corpus N016 आज दूध पर +200 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.093625
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N017 आज दूध पर +201 रुपये दिए
+#12 17.76 ok 348 - Hindi corpus N017 आज दूध पर +201 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.054542
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N018 आज दूध पर +202 रुपये दिए
+#12 17.76 ok 349 - Hindi corpus N018 आज दूध पर +202 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.055125
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N019 आज दूध पर +203 रुपये दिए
+#12 17.76 ok 350 - Hindi corpus N019 आज दूध पर +203 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.054166
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N020 आज दूध पर +204 रुपये दिए
+#12 17.76 ok 351 - Hindi corpus N020 आज दूध पर +204 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.054458
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N021 आज दूध पर 200 डॉलर रुपये दिए
+#12 17.76 ok 352 - Hindi corpus N021 आज दूध पर 200 डॉलर रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.124166
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N022 आज दूध पर 201 डॉलर रुपये दिए
+#12 17.76 ok 353 - Hindi corpus N022 आज दूध पर 201 डॉलर रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.083833
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N023 आज दूध पर 202 डॉलर रुपये दिए
+#12 17.76 ok 354 - Hindi corpus N023 आज दूध पर 202 डॉलर रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.521125
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N024 आज दूध पर 203 डॉलर रुपये दिए
+#12 17.76 ok 355 - Hindi corpus N024 आज दूध पर 203 डॉलर रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.07575
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N025 आज दूध पर 204 डॉलर रुपये दिए
+#12 17.76 ok 356 - Hindi corpus N025 आज दूध पर 204 डॉलर रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.354459
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N026 आज दूध पर 200 यूरो रुपये दिए
+#12 17.76 ok 357 - Hindi corpus N026 आज दूध पर 200 यूरो रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.163208
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N027 आज दूध पर 201 यूरो रुपये दिए
+#12 17.76 ok 358 - Hindi corpus N027 आज दूध पर 201 यूरो रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.105042
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N028 आज दूध पर 202 यूरो रुपये दिए
+#12 17.76 ok 359 - Hindi corpus N028 आज दूध पर 202 यूरो रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.07525
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N029 आज दूध पर 203 यूरो रुपये दिए
+#12 17.76 ok 360 - Hindi corpus N029 आज दूध पर 203 यूरो रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.078167
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N030 आज दूध पर 204 यूरो रुपये दिए
+#12 17.76 ok 361 - Hindi corpus N030 आज दूध पर 204 यूरो रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.109541
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N031 आज दूध पर 200 नहीं रुपये दिए
+#12 17.76 ok 362 - Hindi corpus N031 आज दूध पर 200 नहीं रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.078166
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N032 आज दूध पर 201 नहीं रुपये दिए
+#12 17.76 ok 363 - Hindi corpus N032 आज दूध पर 201 नहीं रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.062625
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N033 आज दूध पर 202 नहीं रुपये दिए
+#12 17.76 ok 364 - Hindi corpus N033 आज दूध पर 202 नहीं रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.061167
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N034 आज दूध पर 203 नहीं रुपये दिए
+#12 17.76 ok 365 - Hindi corpus N034 आज दूध पर 203 नहीं रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.058791
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N035 आज दूध पर 204 नहीं रुपये दिए
+#12 17.76 ok 366 - Hindi corpus N035 आज दूध पर 204 नहीं रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.068209
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N036 आज दूध पर 200 वापस रुपये दिए
+#12 17.76 ok 367 - Hindi corpus N036 आज दूध पर 200 वापस रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.059584
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N037 आज दूध पर 201 वापस रुपये दिए
+#12 17.76 ok 368 - Hindi corpus N037 आज दूध पर 201 वापस रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.06225
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N038 आज दूध पर 202 वापस रुपये दिए
+#12 17.76 ok 369 - Hindi corpus N038 आज दूध पर 202 वापस रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.059583
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N039 आज दूध पर 203 वापस रुपये दिए
+#12 17.76 ok 370 - Hindi corpus N039 आज दूध पर 203 वापस रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.059209
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N040 आज दूध पर 204 वापस रुपये दिए
+#12 17.76 ok 371 - Hindi corpus N040 आज दूध पर 204 वापस रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.061167
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N041 आज दूध पर 200 और 50 रुपये दिए
+#12 17.76 ok 372 - Hindi corpus N041 आज दूध पर 200 और 50 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.110875
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N042 आज दूध पर 201 और 50 रुपये दिए
+#12 17.76 ok 373 - Hindi corpus N042 आज दूध पर 201 और 50 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.073916
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N043 आज दूध पर 202 और 50 रुपये दिए
+#12 17.76 ok 374 - Hindi corpus N043 आज दूध पर 202 और 50 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.253542
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N044 आज दूध पर 203 और 50 रुपये दिए
+#12 17.76 ok 375 - Hindi corpus N044 आज दूध पर 203 और 50 रुपये दिए
+#12 17.76   ---
+#12 17.76   duration_ms: 0.734083
+#12 17.76   type: 'test'
+#12 17.76   ...
+#12 17.76 # Subtest: Hindi corpus N045 आज दूध पर 204 और 50 रुपये दिए
+#12 17.76 ok 376 - Hindi corpus N045 आज दूध पर 204 और 50 रुपये दिए
+#12 17.77   ---
+#12 17.77   duration_ms: 0.119833
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi corpus N046 आज दूध पर साढ़े 200 रुपये दिए
+#12 17.77 ok 377 - Hindi corpus N046 आज दूध पर साढ़े 200 रुपये दिए
+#12 17.77   ---
+#12 17.77   duration_ms: 0.062708
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi corpus N047 आज दूध पर साढ़े 201 रुपये दिए
+#12 17.77 ok 378 - Hindi corpus N047 आज दूध पर साढ़े 201 रुपये दिए
+#12 17.77   ---
+#12 17.77   duration_ms: 0.052417
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi corpus N048 आज दूध पर साढ़े 202 रुपये दिए
+#12 17.77 ok 379 - Hindi corpus N048 आज दूध पर साढ़े 202 रुपये दिए
+#12 17.77   ---
+#12 17.77   duration_ms: 0.049833
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi corpus N049 आज दूध पर साढ़े 203 रुपये दिए
+#12 17.77 ok 380 - Hindi corpus N049 आज दूध पर साढ़े 203 रुपये दिए
+#12 17.77   ---
+#12 17.77   duration_ms: 0.0485
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi corpus N050 आज दूध पर साढ़े 204 रुपये दिए
+#12 17.77 ok 381 - Hindi corpus N050 आज दूध पर साढ़े 204 रुपये दिए
+#12 17.77   ---
+#12 17.77   duration_ms: 0.047417
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 0 शून्य
+#12 17.77 ok 382 - Hindi number 0 शून्य
+#12 17.77   ---
+#12 17.77   duration_ms: 0.312459
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 1 एक
+#12 17.77 ok 383 - Hindi number 1 एक
+#12 17.77   ---
+#12 17.77   duration_ms: 0.067792
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 2 दो
+#12 17.77 ok 384 - Hindi number 2 दो
+#12 17.77   ---
+#12 17.77   duration_ms: 0.053625
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 3 तीन
+#12 17.77 ok 385 - Hindi number 3 तीन
+#12 17.77   ---
+#12 17.77   duration_ms: 0.054666
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 4 चार
+#12 17.77 ok 386 - Hindi number 4 चार
+#12 17.77   ---
+#12 17.77   duration_ms: 0.051667
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 5 पाँच
+#12 17.77 ok 387 - Hindi number 5 पाँच
+#12 17.77   ---
+#12 17.77   duration_ms: 0.251917
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 6 छह
+#12 17.77 ok 388 - Hindi number 6 छह
+#12 17.77   ---
+#12 17.77   duration_ms: 1.456208
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 7 सात
+#12 17.77 ok 389 - Hindi number 7 सात
+#12 17.77   ---
+#12 17.77   duration_ms: 0.431125
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 8 आठ
+#12 17.77 ok 390 - Hindi number 8 आठ
+#12 17.77   ---
+#12 17.77   duration_ms: 1.297708
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 9 नौ
+#12 17.77 ok 391 - Hindi number 9 नौ
+#12 17.77   ---
+#12 17.77   duration_ms: 0.334208
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 10 दस
+#12 17.77 ok 392 - Hindi number 10 दस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.106125
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 11 ग्यारह
+#12 17.77 ok 393 - Hindi number 11 ग्यारह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.086083
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 12 बारह
+#12 17.77 ok 394 - Hindi number 12 बारह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.075792
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 13 तेरह
+#12 17.77 ok 395 - Hindi number 13 तेरह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.083791
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 14 चौदह
+#12 17.77 ok 396 - Hindi number 14 चौदह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.070125
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 15 पंद्रह
+#12 17.77 ok 397 - Hindi number 15 पंद्रह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.208209
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 16 सोलह
+#12 17.77 ok 398 - Hindi number 16 सोलह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.85575
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 17 सत्रह
+#12 17.77 ok 399 - Hindi number 17 सत्रह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.12875
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 18 अठारह
+#12 17.77 ok 400 - Hindi number 18 अठारह
+#12 17.77   ---
+#12 17.77   duration_ms: 0.1095
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 19 उन्नीस
+#12 17.77 ok 401 - Hindi number 19 उन्नीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.050084
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 20 बीस
+#12 17.77 ok 402 - Hindi number 20 बीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.046375
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 21 इक्कीस
+#12 17.77 ok 403 - Hindi number 21 इक्कीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.044917
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 22 बाईस
+#12 17.77 ok 404 - Hindi number 22 बाईस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.04475
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 23 तेईस
+#12 17.77 ok 405 - Hindi number 23 तेईस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.048459
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 24 चौबीस
+#12 17.77 ok 406 - Hindi number 24 चौबीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.04525
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 25 पच्चीस
+#12 17.77 ok 407 - Hindi number 25 पच्चीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.042208
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 26 छब्बीस
+#12 17.77 ok 408 - Hindi number 26 छब्बीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.041542
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 27 सत्ताईस
+#12 17.77 ok 409 - Hindi number 27 सत्ताईस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.041958
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 28 अट्ठाईस
+#12 17.77 ok 410 - Hindi number 28 अट्ठाईस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.04175
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 29 उनतीस
+#12 17.77 ok 411 - Hindi number 29 उनतीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.041
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 30 तीस
+#12 17.77 ok 412 - Hindi number 30 तीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.042958
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 31 इकतीस
+#12 17.77 ok 413 - Hindi number 31 इकतीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.04125
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 32 बत्तीस
+#12 17.77 ok 414 - Hindi number 32 बत्तीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.06275
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 33 तैंतीस
+#12 17.77 ok 415 - Hindi number 33 तैंतीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.044833
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 34 चौंतीस
+#12 17.77 ok 416 - Hindi number 34 चौंतीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.049042
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 35 पैंतीस
+#12 17.77 ok 417 - Hindi number 35 पैंतीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.052084
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 36 छत्तीस
+#12 17.77 ok 418 - Hindi number 36 छत्तीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.062041
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 37 सैंतीस
+#12 17.77 ok 419 - Hindi number 37 सैंतीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.109125
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 38 अड़तीस
+#12 17.77 ok 420 - Hindi number 38 अड़तीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.051625
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 39 उनतालीस
+#12 17.77 ok 421 - Hindi number 39 उनतालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.070208
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 40 चालीस
+#12 17.77 ok 422 - Hindi number 40 चालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.2075
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 41 इकतालीस
+#12 17.77 ok 423 - Hindi number 41 इकतालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.250625
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 42 बयालीस
+#12 17.77 ok 424 - Hindi number 42 बयालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.120833
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 43 तैंतालीस
+#12 17.77 ok 425 - Hindi number 43 तैंतालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.09675
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 44 चवालीस
+#12 17.77 ok 426 - Hindi number 44 चवालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.379208
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 45 पैंतालीस
+#12 17.77 ok 427 - Hindi number 45 पैंतालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.213584
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 46 छियालीस
+#12 17.77 ok 428 - Hindi number 46 छियालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.1475
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 47 सैंतालीस
+#12 17.77 ok 429 - Hindi number 47 सैंतालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.093541
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 48 अड़तालीस
+#12 17.77 ok 430 - Hindi number 48 अड़तालीस
+#12 17.77   ---
+#12 17.77   duration_ms: 0.083708
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 49 उनचास
+#12 17.77 ok 431 - Hindi number 49 उनचास
+#12 17.77   ---
+#12 17.77   duration_ms: 0.076042
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 50 पचास
+#12 17.77 ok 432 - Hindi number 50 पचास
+#12 17.77   ---
+#12 17.77   duration_ms: 0.134791
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 51 इक्यावन
+#12 17.77 ok 433 - Hindi number 51 इक्यावन
+#12 17.77   ---
+#12 17.77   duration_ms: 0.080875
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 52 बावन
+#12 17.77 ok 434 - Hindi number 52 बावन
+#12 17.77   ---
+#12 17.77   duration_ms: 0.07175
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 53 तिरपन
+#12 17.77 ok 435 - Hindi number 53 तिरपन
+#12 17.77   ---
+#12 17.77   duration_ms: 0.304875
+#12 17.77   type: 'test'
+#12 17.77   ...
+#12 17.77 # Subtest: Hindi number 54 चौवन
+#12 17.78 ok 436 - Hindi number 54 चौवन
+#12 17.78   ---
+#12 17.78   duration_ms: 0.129916
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 55 पचपन
+#12 17.78 ok 437 - Hindi number 55 पचपन
+#12 17.78   ---
+#12 17.78   duration_ms: 0.1175
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 56 छप्पन
+#12 17.78 ok 438 - Hindi number 56 छप्पन
+#12 17.78   ---
+#12 17.78   duration_ms: 0.092334
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 57 सत्तावन
+#12 17.78 ok 439 - Hindi number 57 सत्तावन
+#12 17.78   ---
+#12 17.78   duration_ms: 0.124458
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 58 अट्ठावन
+#12 17.78 ok 440 - Hindi number 58 अट्ठावन
+#12 17.78   ---
+#12 17.78   duration_ms: 0.09525
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 59 उनसठ
+#12 17.78 ok 441 - Hindi number 59 उनसठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.074833
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 60 साठ
+#12 17.78 ok 442 - Hindi number 60 साठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.071666
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 61 इकसठ
+#12 17.78 ok 443 - Hindi number 61 इकसठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.063875
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 62 बासठ
+#12 17.78 ok 444 - Hindi number 62 बासठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.066583
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 63 तिरसठ
+#12 17.78 ok 445 - Hindi number 63 तिरसठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.065375
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 64 चौंसठ
+#12 17.78 ok 446 - Hindi number 64 चौंसठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.048833
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 65 पैंसठ
+#12 17.78 ok 447 - Hindi number 65 पैंसठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.10275
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 66 छियासठ
+#12 17.78 ok 448 - Hindi number 66 छियासठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.071583
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 67 सड़सठ
+#12 17.78 ok 449 - Hindi number 67 सड़सठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.065584
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 68 अड़सठ
+#12 17.78 ok 450 - Hindi number 68 अड़सठ
+#12 17.78   ---
+#12 17.78   duration_ms: 0.055458
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 69 उनहत्तर
+#12 17.78 ok 451 - Hindi number 69 उनहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.054708
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 70 सत्तर
+#12 17.78 ok 452 - Hindi number 70 सत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.078167
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 71 इकहत्तर
+#12 17.78 ok 453 - Hindi number 71 इकहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.052541
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 72 बहत्तर
+#12 17.78 ok 454 - Hindi number 72 बहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.049208
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 73 तिहत्तर
+#12 17.78 ok 455 - Hindi number 73 तिहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.111834
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 74 चौहत्तर
+#12 17.78 ok 456 - Hindi number 74 चौहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.073375
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 75 पचहत्तर
+#12 17.78 ok 457 - Hindi number 75 पचहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.149334
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 76 छिहत्तर
+#12 17.78 ok 458 - Hindi number 76 छिहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.182042
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 77 सतहत्तर
+#12 17.78 ok 459 - Hindi number 77 सतहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.137792
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 78 अठहत्तर
+#12 17.78 ok 460 - Hindi number 78 अठहत्तर
+#12 17.78   ---
+#12 17.78   duration_ms: 0.131125
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 79 उनासी
+#12 17.78 ok 461 - Hindi number 79 उनासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.117125
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 80 अस्सी
+#12 17.78 ok 462 - Hindi number 80 अस्सी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.135292
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 81 इक्यासी
+#12 17.78 ok 463 - Hindi number 81 इक्यासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.099417
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 82 बयासी
+#12 17.78 ok 464 - Hindi number 82 बयासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.099375
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 83 तिरासी
+#12 17.78 ok 465 - Hindi number 83 तिरासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.102042
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 84 चौरासी
+#12 17.78 ok 466 - Hindi number 84 चौरासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.097833
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 85 पचासी
+#12 17.78 ok 467 - Hindi number 85 पचासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.11175
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 86 छियासी
+#12 17.78 ok 468 - Hindi number 86 छियासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.091375
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 87 सत्तासी
+#12 17.78 ok 469 - Hindi number 87 सत्तासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.125542
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 88 अट्ठासी
+#12 17.78 ok 470 - Hindi number 88 अट्ठासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.138542
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 89 नवासी
+#12 17.78 ok 471 - Hindi number 89 नवासी
+#12 17.78   ---
+#12 17.78   duration_ms: 0.143708
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 90 नब्बे
+#12 17.78 ok 472 - Hindi number 90 नब्बे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.135542
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 91 इक्यानवे
+#12 17.78 ok 473 - Hindi number 91 इक्यानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.108666
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 92 बानवे
+#12 17.78 ok 474 - Hindi number 92 बानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.063833
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 93 तिरानवे
+#12 17.78 ok 475 - Hindi number 93 तिरानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.065208
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 94 चौरानवे
+#12 17.78 ok 476 - Hindi number 94 चौरानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.054959
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 95 पंचानवे
+#12 17.78 ok 477 - Hindi number 95 पंचानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.058834
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 96 छियानवे
+#12 17.78 ok 478 - Hindi number 96 छियानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.060416
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 97 सत्तानवे
+#12 17.78 ok 479 - Hindi number 97 सत्तानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.064875
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 98 अट्ठानवे
+#12 17.78 ok 480 - Hindi number 98 अट्ठानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.06
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Hindi number 99 निन्यानवे
+#12 17.78 ok 481 - Hindi number 99 निन्यानवे
+#12 17.78   ---
+#12 17.78   duration_ms: 0.059167
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Offline Hindi parser handles 100 expense phrases across categories and payment methods
+#12 17.78 ok 482 - Offline Hindi parser handles 100 expense phrases across categories and payment methods
+#12 17.78   ---
+#12 17.78   duration_ms: 28.011042
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Offline Spanish parser handles 100 expense phrases across categories and payment methods
+#12 17.78 ok 483 - Offline Spanish parser handles 100 expense phrases across categories and payment methods
+#12 17.78   ---
+#12 17.78   duration_ms: 13.979417
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Offline parser supports Hindi digits and common spoken-number amounts
+#12 17.78 ok 484 - Offline parser supports Hindi digits and common spoken-number amounts
+#12 17.78   ---
+#12 17.78   duration_ms: 3.878791
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Offline parser keeps unknown vocabulary visible for correction
+#12 17.78 ok 485 - Offline parser keeps unknown vocabulary visible for correction
+#12 17.78   ---
+#12 17.78   duration_ms: 0.393875
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: Offline parser rejects foreign currency and unsafe spoken decimals as INR
+#12 17.78 ok 486 - Offline parser rejects foreign currency and unsafe spoken decimals as INR
+#12 17.78   ---
+#12 17.78   duration_ms: 1.354708
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: UI normal text contrast ink / white
+#12 17.78 ok 487 - UI normal text contrast ink / white
+#12 17.78   ---
+#12 17.78   duration_ms: 2.681041
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: UI normal text contrast ink / bg
+#12 17.78 ok 488 - UI normal text contrast ink / bg
+#12 17.78   ---
+#12 17.78   duration_ms: 0.421916
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: UI normal text contrast muted / white
+#12 17.78 ok 489 - UI normal text contrast muted / white
+#12 17.78   ---
+#12 17.78   duration_ms: 0.407708
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: UI normal text contrast muted / bg
+#12 17.78 ok 490 - UI normal text contrast muted / bg
+#12 17.78   ---
+#12 17.78   duration_ms: 0.117792
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: UI normal text contrast red / white
+#12 17.78 ok 491 - UI normal text contrast red / white
+#12 17.78   ---
+#12 17.78   duration_ms: 0.302125
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: UI normal text contrast red / bg
+#12 17.78 ok 492 - UI normal text contrast red / bg
+#12 17.78   ---
+#12 17.78   duration_ms: 0.112917
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.78 # Subtest: UI primary button white text contrast
+#12 17.78 ok 493 - UI primary button white text contrast
+#12 17.78   ---
+#12 17.78   duration_ms: 1.922208
+#12 17.78   type: 'test'
+#12 17.78   ...
+#12 17.79 # Subtest: V3 rail has a matching reserved tag
+#12 17.79 ok 494 - V3 rail has a matching reserved tag
+#12 17.79   ---
+#12 17.79   duration_ms: 3.012333
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Changing payment method changes canonical tag
+#12 17.79 ok 495 - Changing payment method changes canonical tag
+#12 17.79   ---
+#12 17.79   duration_ms: 0.738458
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: One reserved tag can supply an unspecified rail
+#12 17.79 ok 496 - One reserved tag can supply an unspecified rail
+#12 17.79   ---
+#12 17.79   duration_ms: 0.254167
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Conflicting or unknown payment method rejected {"tags":"\#cash \#upi","paymentMethod":"cash"}
+#12 17.79 ok 497 - Conflicting or unknown payment method rejected {"tags":"\#cash \#upi","paymentMethod":"cash"}
+#12 17.79   ---
+#12 17.79   duration_ms: 0.448834
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Conflicting or unknown payment method rejected {"tags":"\#cash","paymentMethod":"upi"}
+#12 17.79 ok 498 - Conflicting or unknown payment method rejected {"tags":"\#cash","paymentMethod":"upi"}
+#12 17.79   ---
+#12 17.79   duration_ms: 0.125083
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Conflicting or unknown payment method rejected {"paymentMethod":"bitcoin"}
+#12 17.79 ok 499 - Conflicting or unknown payment method rejected {"paymentMethod":"bitcoin"}
+#12 17.79   ---
+#12 17.79   duration_ms: 0.202792
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: V2 records migrate without numerical changes or invented payment rails
+#12 17.79 ok 500 - V2 records migrate without numerical changes or invented payment rails
+#12 17.79   ---
+#12 17.79   duration_ms: 0.905083
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Ambiguous old payment tags are retained for review
+#12 17.79 ok 501 - Ambiguous old payment tags are retained for review
+#12 17.79   ---
+#12 17.79   duration_ms: 0.209917
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Complete JSON backup includes budgets and payment methods
+#12 17.79 ok 502 - Complete JSON backup includes budgets and payment methods
+#12 17.79   ---
+#12 17.79   duration_ms: 1.107792
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV preserves quoted commas, Unicode and multiline input safely
+#12 17.79 ok 503 - CSV preserves quoted commas, Unicode and multiline input safely
+#12 17.79   ---
+#12 17.79   duration_ms: 3.362792
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV formula protection roundtrip "=HYPERLINK(\\"https://example.com\\")"
+#12 17.79 ok 504 - CSV formula protection roundtrip "=HYPERLINK(\\"https://example.com\\")"
+#12 17.79   ---
+#12 17.79   duration_ms: 0.688125
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV formula protection roundtrip "+SUM(1,2)"
+#12 17.79 ok 505 - CSV formula protection roundtrip "+SUM(1,2)"
+#12 17.79   ---
+#12 17.79   duration_ms: 0.366792
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV formula protection roundtrip "-1+1"
+#12 17.79 ok 506 - CSV formula protection roundtrip "-1+1"
+#12 17.79   ---
+#12 17.79   duration_ms: 0.489
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV formula protection roundtrip "@SUM(1,2)"
+#12 17.79 ok 507 - CSV formula protection roundtrip "@SUM(1,2)"
+#12 17.79   ---
+#12 17.79   duration_ms: 0.284583
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV formula protection roundtrip " =cmd"
+#12 17.79 ok 508 - CSV formula protection roundtrip " =cmd"
+#12 17.79   ---
+#12 17.79   duration_ms: 0.253291
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV formula protection roundtrip "\\t=cmd"
+#12 17.79 ok 509 - CSV formula protection roundtrip "\\t=cmd"
+#12 17.79   ---
+#12 17.79   duration_ms: 0.244875
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV formula protection roundtrip "'=formula"
+#12 17.79 ok 510 - CSV formula protection roundtrip "'=formula"
+#12 17.79   ---
+#12 17.79   duration_ms: 0.249833
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: CSV export includes all records and explicit INR currency
+#12 17.79 ok 511 - CSV export includes all records and explicit INR currency
+#12 17.79   ---
+#12 17.79   duration_ms: 0.705625
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Invalid CSV is rejected without partial results date,amount,category,description\\n2026-10
+#12 17.79 ok 512 - Invalid CSV is rejected without partial results date,amount,category,description\\n2026-10
+#12 17.79   ---
+#12 17.79   duration_ms: 2.455875
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Invalid CSV is rejected without partial results date,amount,category,description\\n2026-02
+#12 17.79 ok 513 - Invalid CSV is rejected without partial results date,amount,category,description\\n2026-02
+#12 17.79   ---
+#12 17.79   duration_ms: 0.12925
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Invalid CSV is rejected without partial results date,amount,category,description,currenc
+#12 17.79 ok 514 - Invalid CSV is rejected without partial results date,amount,category,description,currenc
+#12 17.79   ---
+#12 17.79   duration_ms: 0.092916
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Invalid CSV is rejected without partial results date,date,amount,category,description\\n20
+#12 17.79 ok 515 - Invalid CSV is rejected without partial results date,date,amount,category,description\\n20
+#12 17.79   ---
+#12 17.79   duration_ms: 0.0795
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Invalid CSV is rejected without partial results "unterminated
+#12 17.79 ok 516 - Invalid CSV is rejected without partial results "unterminated
+#12 17.79   ---
+#12 17.79   duration_ms: 0.062667
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Case-friendly import accepts UPI/INR and canonical category spelling
+#12 17.79 ok 517 - Case-friendly import accepts UPI/INR and canonical category spelling
+#12 17.79   ---
+#12 17.79   duration_ms: 0.196584
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Idempotent merge skips repeated exact records
+#12 17.79 ok 518 - Idempotent merge skips repeated exact records
+#12 17.79   ---
+#12 17.79   duration_ms: 1.597625
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Conflicting IDs reject the entire merge
+#12 17.79 ok 519 - Conflicting IDs reject the entire merge
+#12 17.79   ---
+#12 17.79   duration_ms: 0.356292
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Replace is explicit; budget import is separately selectable
+#12 17.79 ok 520 - Replace is explicit; budget import is separately selectable
+#12 17.79   ---
+#12 17.79   duration_ms: 0.348208
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Excel roundtrip includes expense details and monthly budgets
+#12 17.79 ok 521 - Excel roundtrip includes expense details and monthly budgets
+#12 17.79   ---
+#12 17.79   duration_ms: 62.552625
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Excel formulas are not evaluated or imported
+#12 17.79 ok 522 - Excel formulas are not evaluated or imported
+#12 17.79   ---
+#12 17.79   duration_ms: 7.307417
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Excel date serials and a default Sheet1 sheet are supported
+#12 17.79 ok 523 - Excel date serials and a default Sheet1 sheet are supported
+#12 17.79   ---
+#12 17.79   duration_ms: 7.143792
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Excel import rejects raw scripts instead of parsing them as a workbook
+#12 17.79 ok 524 - Excel import rejects raw scripts instead of parsing them as a workbook
+#12 17.79   ---
+#12 17.79   duration_ms: 0.27725
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Expanded ZIP resource limits are applied before workbook parsing
+#12 17.79 ok 525 - Expanded ZIP resource limits are applied before workbook parsing
+#12 17.79   ---
+#12 17.79   duration_ms: 11.032916
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Improved search rail:upi
+#12 17.79 ok 526 - Improved search rail:upi
+#12 17.79   ---
+#12 17.79   duration_ms: 2.647292
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Improved search rail:credit
+#12 17.79 ok 527 - Improved search rail:credit
+#12 17.79   ---
+#12 17.79   duration_ms: 0.217667
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Improved search Groceries OR Train
+#12 17.79 ok 528 - Improved search Groceries OR Train
+#12 17.79   ---
+#12 17.79   duration_ms: 25.940416
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Improved search \#family -rail:cash
+#12 17.79 ok 529 - Improved search \#family -rail:cash
+#12 17.79   ---
+#12 17.79   duration_ms: 0.558292
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Improved search today -rail:credit
+#12 17.79 ok 530 - Improved search today -rail:credit
+#12 17.79   ---
+#12 17.79   duration_ms: 0.222917
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Improved search yesterday
+#12 17.79 ok 531 - Improved search yesterday
+#12 17.79   ---
+#12 17.79   duration_ms: 0.152542
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Quoted OR is a phrase; empty operator values are explained
+#12 17.79 ok 532 - Quoted OR is a phrase; empty operator values are explained
+#12 17.79   ---
+#12 17.79   duration_ms: 0.688875
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Local hi expense translation produces an English payment draft
+#12 17.79 ok 533 - Local hi expense translation produces an English payment draft
+#12 17.79   ---
+#12 17.79   duration_ms: 10.686791
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Local es expense translation produces an English payment draft
+#12 17.79 ok 534 - Local es expense translation produces an English payment draft
+#12 17.79   ---
+#12 17.79   duration_ms: 8.820667
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Spanish thousands do not become decimal rupees
+#12 17.79 ok 535 - Spanish thousands do not become decimal rupees
+#12 17.79   ---
+#12 17.79   duration_ms: 2.033084
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Spanish comma decimal preserves paise
+#12 17.79 ok 536 - Spanish comma decimal preserves paise
+#12 17.79   ---
+#12 17.79   duration_ms: 0.273625
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Spanish spoken decimal preserves paise
+#12 17.79 ok 537 - Spanish spoken decimal preserves paise
+#12 17.79   ---
+#12 17.79   duration_ms: 0.315208
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Foreign Spanish currency is flagged instead of assumed INR
+#12 17.79 ok 538 - Foreign Spanish currency is flagged instead of assumed INR
+#12 17.79   ---
+#12 17.79   duration_ms: 0.773792
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Unknown translation vocabulary is marked incomplete
+#12 17.79 ok 539 - Unknown translation vocabulary is marked incomplete
+#12 17.79   ---
+#12 17.79   duration_ms: 0.233875
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: On-device translator output is used without a network fallback
+#12 17.79 ok 540 - On-device translator output is used without a network fallback
+#12 17.79   ---
+#12 17.79   duration_ms: 1.817083
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Unsupported on-device translation uses the explicit local fallback
+#12 17.79 ok 541 - Unsupported on-device translation uses the explicit local fallback
+#12 17.79   ---
+#12 17.79   duration_ms: 0.223458
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Datastore compare-and-swap prevents lost concurrent edits
+#12 17.79 ok 542 - Datastore compare-and-swap prevents lost concurrent edits
+#12 17.79   ---
+#12 17.79   duration_ms: 1.792875
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Import save preserves the previous document as an undo backup
+#12 17.79 ok 543 - Import save preserves the previous document as an undo backup
+#12 17.79   ---
+#12 17.79   duration_ms: 0.942542
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Notification failures cannot turn a successful database write into a reported failed save
+#12 17.79 ok 544 - Notification failures cannot turn a successful database write into a reported failed save
+#12 17.79   ---
+#12 17.79   duration_ms: 1.416375
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Legacy invalid data is not silently replaced with seed data
+#12 17.79 ok 545 - Legacy invalid data is not silently replaced with seed data
+#12 17.79   ---
+#12 17.79   duration_ms: 0.453917
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: On-device translation normalizes Spanish grouping before sending text to the local model
+#12 17.79 ok 546 - On-device translation normalizes Spanish grouping before sending text to the local model
+#12 17.79   ---
+#12 17.79   duration_ms: 0.830083
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: A model amount mismatch is incomplete and requires correction
+#12 17.79 ok 547 - A model amount mismatch is incomplete and requires correction
+#12 17.79   ---
+#12 17.79   duration_ms: 0.45025
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Unicode-hidden and fullwidth spreadsheet formula prefixes are protected
+#12 17.79 ok 548 - Unicode-hidden and fullwidth spreadsheet formula prefixes are protected
+#12 17.79   ---
+#12 17.79   duration_ms: 0.12325
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: Foreign currency symbols are never assumed to be INR
+#12 17.79 ok 549 - Foreign currency symbols are never assumed to be INR
+#12 17.79   ---
+#12 17.79   duration_ms: 2.941083
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: ACC-01 factory budget, samples and previous month
+#12 17.79 ok 550 - ACC-01 factory budget, samples and previous month
+#12 17.79   ---
+#12 17.79   duration_ms: 7.420917
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: ACC-02 legacy budgets including zero survive migration
+#12 17.79 ok 551 - ACC-02 legacy budgets including zero survive migration
+#12 17.79   ---
+#12 17.79   duration_ms: 4.213333
+#12 17.79   type: 'test'
+#12 17.79   ...
+#12 17.79 # Subtest: ACC-03 selected month deletes only that month, preserves tags/budgets
+#12 17.79 ok 552 - ACC-03 selected month deletes only that month, preserves tags/budgets
+#12 17.80   ---
+#12 17.80   duration_ms: 2.362166
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-04 all months empty remains empty after migration and reload
+#12 17.80 ok 553 - ACC-04 all months empty remains empty after migration and reload
+#12 17.80   ---
+#12 17.80   duration_ms: 7.308292
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-05 reset retains orphan tags and factory values
+#12 17.80 ok 554 - ACC-05 reset retains orphan tags and factory values
+#12 17.80   ---
+#12 17.80   duration_ms: 1.282375
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-06 undo bulk change is valid only until a newer save
+#12 17.80 ok 555 - ACC-06 undo bulk change is valid only until a newer save
+#12 17.80   ---
+#12 17.80   duration_ms: 5.387417
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-07 stale tab cannot erase newer changes
+#12 17.80 ok 556 - ACC-07 stale tab cannot erase newer changes
+#12 17.80   ---
+#12 17.80   duration_ms: 5.589083
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-08 failed atomic write preserves main and recovery
+#12 17.80 ok 557 - ACC-08 failed atomic write preserves main and recovery
+#12 17.80   ---
+#12 17.80   duration_ms: 2.028125
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-09 reset clears diagnostics and disconnects linked file without writes
+#12 17.80 ok 558 - ACC-09 reset clears diagnostics and disconnects linked file without writes
+#12 17.80   ---
+#12 17.80   duration_ms: 4.27125
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-10 JSON and Excel roundtrip orphan tags/preferences; CSV expenses only
+#12 17.80 ok 559 - ACC-10 JSON and Excel roundtrip orphan tags/preferences; CSV expenses only
+#12 17.80   ---
+#12 17.80   duration_ms: 68.298667
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: ACC-11 settings import requires opt-in
+#12 17.80 ok 560 - ACC-11 settings import requires opt-in
+#12 17.80   ---
+#12 17.80   duration_ms: 3.319708
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: SEC-01 invalid settings null
+#12 17.80 ok 561 - SEC-01 invalid settings null
+#12 17.80   ---
+#12 17.80   duration_ms: 0.504375
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: SEC-01 invalid settings []
+#12 17.80 ok 562 - SEC-01 invalid settings []
+#12 17.80   ---
+#12 17.80   duration_ms: 0.110375
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: SEC-01 invalid settings {"defaultMonthlyBudgetPaise":-1}
+#12 17.80 ok 563 - SEC-01 invalid settings {"defaultMonthlyBudgetPaise":-1}
+#12 17.80   ---
+#12 17.80   duration_ms: 0.179917
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: SEC-01 invalid settings {"defaultMonthlyBudgetPaise":1.5}
+#12 17.80 ok 564 - SEC-01 invalid settings {"defaultMonthlyBudgetPaise":1.5}
+#12 17.80   ---
+#12 17.80   duration_ms: 0.130375
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: SEC-01 invalid settings {"unexpected":"x"}
+#12 17.80 ok 565 - SEC-01 invalid settings {"unexpected":"x"}
+#12 17.80   ---
+#12 17.80   duration_ms: 0.095167
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: SEC-01 invalid settings {"__proto__":{}}
+#12 17.80 ok 566 - SEC-01 invalid settings {"__proto__":{}}
+#12 17.80   ---
+#12 17.80   duration_ms: 0.078875
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: SEC-02 catalogue limit applies after deduplication; malformed catalogue rejects
+#12 17.80 ok 567 - SEC-02 catalogue limit applies after deduplication; malformed catalogue rejects
+#12 17.80   ---
+#12 17.80   duration_ms: 12.099959
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact 1,250
+#12 17.80 ok 568 - VOICE exact financial fact 1,250
+#12 17.80   ---
+#12 17.80   duration_ms: 5.471042
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact 1,25,000
+#12 17.80 ok 569 - VOICE exact financial fact 1,25,000
+#12 17.80   ---
+#12 17.80   duration_ms: 0.850917
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact १२५०
+#12 17.80 ok 570 - VOICE exact financial fact १२५०
+#12 17.80   ---
+#12 17.80   duration_ms: 0.334834
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact 250.75
+#12 17.80 ok 571 - VOICE exact financial fact 250.75
+#12 17.80   ---
+#12 17.80   duration_ms: 0.137291
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact साढ़े तीन सौ
+#12 17.80 ok 572 - VOICE exact financial fact साढ़े तीन सौ
+#12 17.80   ---
+#12 17.80   duration_ms: 0.8115
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact डेढ़ हजार
+#12 17.80 ok 573 - VOICE exact financial fact डेढ़ हजार
+#12 17.80   ---
+#12 17.80   duration_ms: 0.218416
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact ढाई सौ
+#12 17.80 ok 574 - VOICE exact financial fact ढाई सौ
+#12 17.80   ---
+#12 17.80   duration_ms: 0.129125
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact दो हजार पांच सौ
+#12 17.80 ok 575 - VOICE exact financial fact दो हजार पांच सौ
+#12 17.80   ---
+#12 17.80   duration_ms: 0.114667
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact सवा सौ
+#12 17.80 ok 576 - VOICE exact financial fact सवा सौ
+#12 17.80   ---
+#12 17.80   duration_ms: 0.200042
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE exact financial fact पौने दो सौ
+#12 17.80 ok 577 - VOICE exact financial fact पौने दो सौ
+#12 17.80   ---
+#12 17.80   duration_ms: 0.193333
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 1,25
+#12 17.80 ok 578 - VOICE unsafe amount unresolved 1,25
+#12 17.80   ---
+#12 17.80   duration_ms: 0.207167
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved -250
+#12 17.80 ok 579 - VOICE unsafe amount unresolved -250
+#12 17.80   ---
+#12 17.80   duration_ms: 0.362292
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved +250
+#12 17.80 ok 580 - VOICE unsafe amount unresolved +250
+#12 17.80   ---
+#12 17.80   duration_ms: 0.263916
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 250.555
+#12 17.80 ok 581 - VOICE unsafe amount unresolved 250.555
+#12 17.80   ---
+#12 17.80   duration_ms: 0.116792
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved लगभग 250
+#12 17.80 ok 582 - VOICE unsafe amount unresolved लगभग 250
+#12 17.80   ---
+#12 17.80   duration_ms: 0.113875
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 250 डॉलर
+#12 17.80 ok 583 - VOICE unsafe amount unresolved 250 डॉलर
+#12 17.80   ---
+#12 17.80   duration_ms: 0.095625
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 250 यूरो
+#12 17.80 ok 584 - VOICE unsafe amount unresolved 250 यूरो
+#12 17.80   ---
+#12 17.80   duration_ms: 0.18525
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved साढ़े 250
+#12 17.80 ok 585 - VOICE unsafe amount unresolved साढ़े 250
+#12 17.80   ---
+#12 17.80   duration_ms: 0.115708
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved दो सौ पचास दशमलव पांच
+#12 17.80 ok 586 - VOICE unsafe amount unresolved दो सौ पचास दशमलव पांच
+#12 17.80   ---
+#12 17.80   duration_ms: 0.102834
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 250 नहीं
+#12 17.80 ok 587 - VOICE unsafe amount unresolved 250 नहीं
+#12 17.80   ---
+#12 17.80   duration_ms: 0.094917
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 250 वापस
+#12 17.80 ok 588 - VOICE unsafe amount unresolved 250 वापस
+#12 17.80   ---
+#12 17.80   duration_ms: 0.107125
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 250 और 500
+#12 17.80 ok 589 - VOICE unsafe amount unresolved 250 और 500
+#12 17.80   ---
+#12 17.80   duration_ms: 0.103958
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved 1.250,50
+#12 17.80 ok 590 - VOICE unsafe amount unresolved 1.250,50
+#12 17.80   ---
+#12 17.80   duration_ms: 0.084042
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved पच्चीस तीस
+#12 17.80 ok 591 - VOICE unsafe amount unresolved पच्चीस तीस
+#12 17.80   ---
+#12 17.80   duration_ms: 0.09975
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unsafe amount unresolved शून्य
+#12 17.80 ok 592 - VOICE unsafe amount unresolved शून्य
+#12 17.80   ---
+#12 17.80   duration_ms: 0.083958
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE multiple monetary spans remain unresolved
+#12 17.80 ok 593 - VOICE multiple monetary spans remain unresolved
+#12 17.80   ---
+#12 17.80   duration_ms: 0.118042
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE mixed categories keep every description item and ask for category
+#12 17.80 ok 594 - VOICE mixed categories keep every description item and ask for category
+#12 17.80   ---
+#12 17.80   duration_ms: 0.130708
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE unknown description is preserved in original and unknown span
+#12 17.80 ok 595 - VOICE unknown description is preserved in original and unknown span
+#12 17.80   ---
+#12 17.80   duration_ms: 0.11775
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: VOICE kal and conflicting rails are unresolved
+#12 17.80 ok 596 - VOICE kal and conflicting rails are unresolved
+#12 17.80   ---
+#12 17.80   duration_ms: 0.133708
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: LOG-01 error only default, debug timeout and reload
+#12 17.80 ok 597 - LOG-01 error only default, debug timeout and reload
+#12 17.80   ---
+#12 17.80   duration_ms: 0.739292
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: LOG-02 privacy allowlist strips transcript, amount, arbitrary message and tags
+#12 17.80 ok 598 - LOG-02 privacy allowlist strips transcript, amount, arbitrary message and tags
+#12 17.80   ---
+#12 17.80   duration_ms: 0.513292
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: LOG-03 clear rejects stale session queued events in another tab
+#12 17.80 ok 599 - LOG-03 clear rejects stale session queued events in another tab
+#12 17.80   ---
+#12 17.80   duration_ms: 0.467792
+#12 17.80   type: 'test'
+#12 17.80   ...
+#12 17.80 # Subtest: LOG-04 failure falls back to bounded memory without rejecting
+#12 17.81 ok 600 - LOG-04 failure falls back to bounded memory without rejecting
+#12 17.81   ---
+#12 17.81   duration_ms: 62.758208
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: LOG-05 retention and count limits
+#12 17.81 ok 601 - LOG-05 retention and count limits
+#12 17.81   ---
+#12 17.81   duration_ms: 3.500375
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE adversarial paise, Hinglish negation and repeated scales never guess
+#12 17.81 ok 602 - VOICE adversarial paise, Hinglish negation and repeated scales never guess
+#12 17.81   ---
+#12 17.81   duration_ms: 0.80225
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE ISO date is preserved without mistaking date hyphens for negative money
+#12 17.81 ok 603 - VOICE ISO date is preserved without mistaking date hyphens for negative money
+#12 17.81   ---
+#12 17.81   duration_ms: 0.158667
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: LOG-06 clear after temporary persistence failure purges disk and memory
+#12 17.81 ok 604 - LOG-06 clear after temporary persistence failure purges disk and memory
+#12 17.81   ---
+#12 17.81   duration_ms: 0.834541
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: LOG-07 failed clear reports failure and does not claim disk purge
+#12 17.81 ok 605 - LOG-07 failed clear reports failure and does not claim disk purge
+#12 17.81   ---
+#12 17.81   duration_ms: 0.609375
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: LOG-08 reset after log failure drops old memory events too
+#12 17.81 ok 606 - LOG-08 reset after log failure drops old memory events too
+#12 17.81   ---
+#12 17.81   duration_ms: 3.037458
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE inequalities are not exact amounts
+#12 17.81 ok 607 - VOICE inequalities are not exact amounts
+#12 17.81   ---
+#12 17.81   duration_ms: 1.260625
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE monetary span adversarial compositions cannot be silently guessed
+#12 17.81 ok 608 - VOICE monetary span adversarial compositions cannot be silently guessed
+#12 17.81   ---
+#12 17.81   duration_ms: 0.812542
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE Spanish malformed grouping, negation and partial words leave amount unresolved
+#12 17.81 ok 609 - VOICE Spanish malformed grouping, negation and partial words leave amount unresolved
+#12 17.81   ---
+#12 17.81   duration_ms: 11.342666
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE native wording cannot certify an unsupported source
+#12 17.81 ok 610 - VOICE native wording cannot certify an unsupported source
+#12 17.81   ---
+#12 17.81   duration_ms: 8.28325
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE unconsumed word or digit amounts remain unresolved
+#12 17.81 ok 611 - VOICE unconsumed word or digit amounts remain unresolved
+#12 17.81   ---
+#12 17.81   duration_ms: 0.286708
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: VOICE multiple ISO dates require an explicit date choice
+#12 17.81 ok 612 - VOICE multiple ISO dates require an explicit date choice
+#12 17.81   ---
+#12 17.81   duration_ms: 0.145333
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice never starts a microphone on creation
+#12 17.81 ok 613 - Voice never starts a microphone on creation
+#12 17.81   ---
+#12 17.81   duration_ms: 1.524917
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Unsupported speech produces a clear keyboard fallback
+#12 17.81 ok 614 - Unsupported speech produces a clear keyboard fallback
+#12 17.81   ---
+#12 17.81   duration_ms: 0.466875
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Explicit start configures English India and mobile-friendly partial results
+#12 17.81 ok 615 - Explicit start configures English India and mobile-friendly partial results
+#12 17.81   ---
+#12 17.81   duration_ms: 0.748542
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Final voice result creates a draft and ends cleanly
+#12 17.81 ok 616 - Final voice result creates a draft and ends cleanly
+#12 17.81   ---
+#12 17.81   duration_ms: 2.065542
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Interim result is shown live and becomes the draft if mobile ends without a final event
+#12 17.81 ok 617 - Interim result is shown live and becomes the draft if mobile ends without a final event
+#12 17.81   ---
+#12 17.81   duration_ms: 2.297333
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: A second voice attempt works after the first completes
+#12 17.81 ok 618 - A second voice attempt works after the first completes
+#12 17.81   ---
+#12 17.81   duration_ms: 0.733791
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error not-allowed keeps keyboard entry available
+#12 17.81 ok 619 - Voice error not-allowed keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 0.754458
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error service-not-allowed keeps keyboard entry available
+#12 17.81 ok 620 - Voice error service-not-allowed keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 0.227959
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error audio-capture keeps keyboard entry available
+#12 17.81 ok 621 - Voice error audio-capture keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 0.715
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error no-speech keeps keyboard entry available
+#12 17.81 ok 622 - Voice error no-speech keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 0.844125
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error network keeps keyboard entry available
+#12 17.81 ok 623 - Voice error network keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 0.481833
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error language-not-supported keeps keyboard entry available
+#12 17.81 ok 624 - Voice error language-not-supported keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 1.307959
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error aborted keeps keyboard entry available
+#12 17.81 ok 625 - Voice error aborted keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 0.112083
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Voice error unknown keeps keyboard entry available
+#12 17.81 ok 626 - Voice error unknown keeps keyboard entry available
+#12 17.81   ---
+#12 17.81   duration_ms: 0.09775
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Stop finishes listening
+#12 17.81 ok 627 - Stop finishes listening
+#12 17.81   ---
+#12 17.81   duration_ms: 0.226334
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Cancel aborts capture and ignores late results
+#12 17.81 ok 628 - Cancel aborts capture and ignores late results
+#12 17.81   ---
+#12 17.81   duration_ms: 0.18025
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: A cancelled session cannot overwrite a new session
+#12 17.81 ok 629 - A cancelled session cannot overwrite a new session
+#12 17.81   ---
+#12 17.81   duration_ms: 0.151334
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Speech service start failure is caught
+#12 17.81 ok 630 - Speech service start failure is caught
+#12 17.81   ---
+#12 17.81   duration_ms: 0.197583
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: A result after a speech error is ignored
+#12 17.81 ok 631 - A result after a speech error is ignored
+#12 17.81   ---
+#12 17.81   duration_ms: 0.118333
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: A microphone that never starts times out and a fresh attempt can start
+#12 17.81 ok 632 - A microphone that never starts times out and a fresh attempt can start
+#12 17.81   ---
+#12 17.81   duration_ms: 3.099583
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 # Subtest: Listening timeout asks the browser to finish so a partial mobile transcript is kept
+#12 17.81 ok 633 - Listening timeout asks the browser to finish so a partial mobile transcript is kept
+#12 17.81   ---
+#12 17.81   duration_ms: 0.674166
+#12 17.81   type: 'test'
+#12 17.81   ...
+#12 17.81 1..633
+#12 17.81 # tests 633
+#12 17.81 # suites 0
+#12 17.81 # pass 633
+#12 17.81 # fail 0
+#12 17.81 # cancelled 0
+#12 17.81 # skipped 0
+#12 17.81 # todo 0
+#12 17.81 # duration_ms 16798.623007
+#12 DONE 17.8s
+
+#13 [runtime 2/4] COPY nginx.conf /etc/nginx/conf.d/default.conf
+#13 CACHED
+
+#14 [runtime 3/4] COPY --from=verify /app/index.html /app/styles.css /app/app.js /app/core.js /app/data.js /app/storage.js /app/spreadsheet.js /app/import-worker.js /app/voice.js /app/translation.js /app/hindi.js /app/diagnostics.js /usr/share/nginx/html/
+#14 DONE 0.0s
+
+#15 [runtime 4/4] COPY --from=verify /app/vendor/ /usr/share/nginx/html/vendor/
+#15 DONE 0.0s
+
+#16 exporting to image
+#16 exporting layers 0.0s done
+#16 exporting manifest sha256:392b0501f7ad223b8170412b0a9d94e363499e92139a8a76b148167619487c2e done
+#16 exporting config sha256:c8ef72e2f1235b3fb7647616a991e1d60efde8d401678b771583af4793fe1d7a done
+#16 exporting attestation manifest sha256:04c03e1c64ac31ff38c6f1321cb87b321a1098a6b98f654158cdc0f08e85e300 done
+#16 exporting manifest list sha256:c066a3d0bb0f8a4142f13ecd72a6ba521fb370930fb77574f075f77cf8fd6a37 done
+#16 naming to docker.io/library/penny-expense-manager:3.2.0-review done
+#16 unpacking to docker.io/library/penny-expense-manager:3.2.0-review 0.0s done
+#16 DONE 0.1s

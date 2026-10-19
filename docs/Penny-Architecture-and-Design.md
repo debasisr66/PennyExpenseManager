@@ -1,3 +1,26 @@
+# Penny 3.2 architecture update
+
+19 October 2026. Current contracts: [design](../design.md), [traceability](../TRACEABILITY.md), [release notes](../RELEASE-NOTES-v3.2.md).
+
+```mermaid
+flowchart LR
+  Input[Keyboard or captured speech] --> Facts[Hindi facts or English Spanish draft]
+  Facts --> Review[Correct and accept English draft]
+  Review --> Validate[INR and field validation]
+  Validate --> Store[Atomic browser store]
+  Settings[Settings and confirmed scope] --> Store
+  Store --> Recovery[Revision guarded recovery]
+  Events[Sanitized session action events] --> Logs[Local bounded diagnostics]
+  Store --> Export[CSV Excel JSON]
+  GitHub[GitHub Pages or local Docker] --> Input
+```
+
+Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+The original V3.1 diagrams below are preserved for history. GHCR remains planned; local Docker is verified. Device capture, native-language and full HCI acceptance limits are recorded in the current test report.
+
+---
+
 # Penny Architecture and Design
 
 Version 1.0 | 16 October 2026 | Application baseline V3.1.0

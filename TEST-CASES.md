@@ -1,3 +1,7 @@
+> V3.2 release update: 633 automated tests pass locally and in Docker. [Current results](V3.2-TEST-RESULTS.md) and [release notes](RELEASE-NOTES-v3.2.md) distinguish completed checks from remaining device, language, accessibility and image-publication work. Historical evidence below is preserved.
+
+> Baseline V3/V3.1 regression cases. V3.2 additions: [V3.2-TEST-CASES.md](V3.2-TEST-CASES.md), [EVENT-LOG-TEST-CASES.md](EVENT-LOG-TEST-CASES.md). Actual results: [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md).
+
 # Penny V3 test cases
 
 Date: 14 October 2026. These tests apply to the repository snapshot published as V3.1.0.

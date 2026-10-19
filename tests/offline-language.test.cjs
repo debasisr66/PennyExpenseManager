@@ -51,7 +51,7 @@ test('Offline parser keeps unknown vocabulary visible for correction',()=>{
   const hindi=T.fallback('मैंने आज सदस्यता पर 250 रुपये खर्च किए यूपीआई से','hi');
   const spanish=T.fallback('Gasté 250 rupias en odontología hoy con UPI','es');
   assert.equal(hindi.complete,false);
-  assert.ok(hindi.unknown.includes('सदस्यता'));
+  assert.ok(hindi.unknown.includes('category')); // Recognised word; category requires explicit review.
   assert.equal(spanish.complete,false);
   assert.ok(spanish.unknown.includes('odontología'));
 });

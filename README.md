@@ -1,4 +1,4 @@
-# Penny Expense Manager V3
+# Penny Expense Manager V3.2 — V3.2 release
 
 Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
 
@@ -8,7 +8,7 @@ Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, i
 - [Use the hosted app](https://debasisr66.github.io/PennyExpenseManager/)
 - Or download this repository and run `python3 -m http.server 8767`, then open `http://127.0.0.1:8767/`
 
-The app starts with fictional sample records only when no saved Penny database exists. The sample October total is ₹13,338.50 against a ₹18,000 budget.
+The app starts with fictional sample records only when no saved Penny database exists. The sample current-month total is ₹13,338.50 against a ₹1,25,000 budget. Existing saved budgets are preserved during migration, including zero.
 
 ## Studio hub integration
 
@@ -24,9 +24,18 @@ See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
-### V3.2 planning documents
+### V3.2 review candidate
 
-V3.2 is planned, not released. Its design preserves the familiar V3.1 interface while adding safer scoped deletion/reset, essential Settings, Hindi voice corrections and local diagnostics. Read the [implementation plan](plan.md), [architecture and UI design](design.md), [requirement traceability](TRACEABILITY.md), [functional/UI test specification](V3.2-TEST-CASES.md) and [event-log test specification](EVENT-LOG-TEST-CASES.md). Planned cases do not represent executed test results.
+This source includes Settings, month/all-month expense deletion, double-confirmed reset, ₹1,25,000 defaults, persistent saved tags, guarded undo, safer Hindi drafts and private diagnostics. See [plan.md](plan.md), [design.md](design.md), [TRACEABILITY.md](TRACEABILITY.md), and [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md). V3.2 publication was approved on 19 October 2026. See [release notes](RELEASE-NOTES-v3.2.md) for changes, verification and known limits.
+
+- **Settings:** change the default budget for unsaved months, find/add saved tags, access backups and review diagnostics.
+- **Start fresh:** choose one month (the device's current month initially) or explicitly choose all months. Preview the count and total, then confirm. Budgets and tags stay.
+- **Reset Penny:** acknowledge the whole-app impact, then type `RESET PENNY` and confirm again. Restore nine sample expenses and ₹1,25,000 defaults, keep tags, clear logs, stop debug and disconnect the portable file without overwriting it.
+- **Undo last bulk change:** Settings can restore the previous financial state until another edit occurs. This does not restore cleared logs or reconnect a file.
+- **Voice:** Hindi parsing understands a bounded expense vocabulary, number words, grouped digits and common Hinglish. It is not universal translation. Uncertain amounts/categories/dates/payment methods remain blank for correction; an explicit valid INR amount corrected in the English draft now fills Amount, including `Rs.50`; correct source text and prepare again to invalidate an older approval. Phone dictation capture is handled by the phone keyboard provider.
+- **Diagnostics:** errors only by default. Optional debug lasts 30 minutes in this tab. Search codes, sessions or actions; preview before downloading. Logs omit expense data and spoken text. Clearing logs requires a separate confirmation.
+
+Real iPhone capture, native-speaker language review and participant usability acceptance remain unverified and are disclosed release limitations. Automated parsing tests do not prove microphone reliability.
 
 1. **Add, edit and delete expenses.** Record the date, INR amount, category, description, tags and payment method.
 2. **See your month clearly.** The cards show monthly spending, budget and money left. The category chart explains where the money went. Penny warns you when the budget is exceeded.
@@ -102,3 +111,20 @@ penny --stop
 - `tests/`: automated tests, browser fixtures and recorded results
 
 GitHub Pages serves `main` from the repository root. The project is licensed under [Apache 2.0](LICENSE).
+
+
+## Run and verify V3.2 locally
+
+From this source folder:
+
+```sh
+python3 -m http.server 8769 --bind 127.0.0.1
+# Open http://127.0.0.1:8769/
+node --test tests/*.test.cjs
+```
+
+For Docker, install/start Docker Desktop, then run `./scripts/penny --start`; use `./scripts/penny --stop` to stop it. The script resolves its project folder relative to itself, or accepts a `PENNY_DIR` override. It uses port 8080 and the existing Penny container name: stop another local Penny container before using it. Do not replace an installed V3.1 launcher until you choose to switch versions.
+
+The review build is tested separately on loopback port 8082, preserving the existing 8080 instance. Browser data is isolated by origin/port; use a full JSON backup to transfer records deliberately. CSV carries expenses only. Excel and JSON include budgets, saved tags and preferences; imported preferences require opt-in. Diagnostics never travel with financial backups.
+
+Prebuilt GHCR images are not part of this app release. Docker is verified as a local source build; the registry and multi-platform publishing specification remains separate work.

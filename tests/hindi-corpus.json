@@ -1,0 +1,1706 @@
+{
+  "status": "Synthetic regression corpus; native-speaker review pending",
+  "referenceDate": "2026-10-19",
+  "cases": [
+    {
+      "id": "D001",
+      "kind": "devanagari",
+      "text": "मैंने आज दूध पर 100 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D002",
+      "kind": "devanagari",
+      "text": "मैंने आज चावल पर 101 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D003",
+      "kind": "devanagari",
+      "text": "मैंने आज दवा पर 102 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10200,
+      "category": "Health"
+    },
+    {
+      "id": "D004",
+      "kind": "devanagari",
+      "text": "मैंने आज पेट्रोल पर 103 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10300,
+      "category": "Transport"
+    },
+    {
+      "id": "D005",
+      "kind": "devanagari",
+      "text": "मैंने आज किराया पर 104 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10400,
+      "category": "Housing"
+    },
+    {
+      "id": "D006",
+      "kind": "devanagari",
+      "text": "मैंने आज बिजली पर 105 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10500,
+      "category": "Housing"
+    },
+    {
+      "id": "D007",
+      "kind": "devanagari",
+      "text": "मैंने आज कपड़े पर 106 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D008",
+      "kind": "devanagari",
+      "text": "मैंने आज फिल्म पर 107 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D009",
+      "kind": "devanagari",
+      "text": "मैंने आज चाय पर 108 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D010",
+      "kind": "devanagari",
+      "text": "मैंने आज ट्रेन पर 109 रुपये खर्च किए यूपीआई से",
+      "amountPaise": 10900,
+      "category": "Transport"
+    },
+    {
+      "id": "D011",
+      "kind": "devanagari",
+      "text": "आज दूध के लिए 110 रुपये नकद दिए",
+      "amountPaise": 11000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D012",
+      "kind": "devanagari",
+      "text": "आज चावल के लिए 111 रुपये नकद दिए",
+      "amountPaise": 11100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D013",
+      "kind": "devanagari",
+      "text": "आज दवा के लिए 112 रुपये नकद दिए",
+      "amountPaise": 11200,
+      "category": "Health"
+    },
+    {
+      "id": "D014",
+      "kind": "devanagari",
+      "text": "आज पेट्रोल के लिए 113 रुपये नकद दिए",
+      "amountPaise": 11300,
+      "category": "Transport"
+    },
+    {
+      "id": "D015",
+      "kind": "devanagari",
+      "text": "आज किराया के लिए 114 रुपये नकद दिए",
+      "amountPaise": 11400,
+      "category": "Housing"
+    },
+    {
+      "id": "D016",
+      "kind": "devanagari",
+      "text": "आज बिजली के लिए 115 रुपये नकद दिए",
+      "amountPaise": 11500,
+      "category": "Housing"
+    },
+    {
+      "id": "D017",
+      "kind": "devanagari",
+      "text": "आज कपड़े के लिए 116 रुपये नकद दिए",
+      "amountPaise": 11600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D018",
+      "kind": "devanagari",
+      "text": "आज फिल्म के लिए 117 रुपये नकद दिए",
+      "amountPaise": 11700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D019",
+      "kind": "devanagari",
+      "text": "आज चाय के लिए 118 रुपये नकद दिए",
+      "amountPaise": 11800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D020",
+      "kind": "devanagari",
+      "text": "आज ट्रेन के लिए 119 रुपये नकद दिए",
+      "amountPaise": 11900,
+      "category": "Transport"
+    },
+    {
+      "id": "D021",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 120 रुपये का दूध खरीदा",
+      "amountPaise": 12000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D022",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 121 रुपये का चावल खरीदा",
+      "amountPaise": 12100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D023",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 122 रुपये का दवा खरीदा",
+      "amountPaise": 12200,
+      "category": "Health"
+    },
+    {
+      "id": "D024",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 123 रुपये का पेट्रोल खरीदा",
+      "amountPaise": 12300,
+      "category": "Transport"
+    },
+    {
+      "id": "D025",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 124 रुपये का किराया खरीदा",
+      "amountPaise": 12400,
+      "category": "Housing"
+    },
+    {
+      "id": "D026",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 125 रुपये का बिजली खरीदा",
+      "amountPaise": 12500,
+      "category": "Housing"
+    },
+    {
+      "id": "D027",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 126 रुपये का कपड़े खरीदा",
+      "amountPaise": 12600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D028",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 127 रुपये का फिल्म खरीदा",
+      "amountPaise": 12700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D029",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 128 रुपये का चाय खरीदा",
+      "amountPaise": 12800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D030",
+      "kind": "devanagari",
+      "text": "आज क्रेडिट कार्ड से 129 रुपये का ट्रेन खरीदा",
+      "amountPaise": 12900,
+      "category": "Transport"
+    },
+    {
+      "id": "D031",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से दूध पर 130 रुपये दिए",
+      "amountPaise": 13000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D032",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से चावल पर 131 रुपये दिए",
+      "amountPaise": 13100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D033",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से दवा पर 132 रुपये दिए",
+      "amountPaise": 13200,
+      "category": "Health"
+    },
+    {
+      "id": "D034",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से पेट्रोल पर 133 रुपये दिए",
+      "amountPaise": 13300,
+      "category": "Transport"
+    },
+    {
+      "id": "D035",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से किराया पर 134 रुपये दिए",
+      "amountPaise": 13400,
+      "category": "Housing"
+    },
+    {
+      "id": "D036",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से बिजली पर 135 रुपये दिए",
+      "amountPaise": 13500,
+      "category": "Housing"
+    },
+    {
+      "id": "D037",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से कपड़े पर 136 रुपये दिए",
+      "amountPaise": 13600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D038",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से फिल्म पर 137 रुपये दिए",
+      "amountPaise": 13700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D039",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से चाय पर 138 रुपये दिए",
+      "amountPaise": 13800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D040",
+      "kind": "devanagari",
+      "text": "आज डेबिट कार्ड से ट्रेन पर 139 रुपये दिए",
+      "amountPaise": 13900,
+      "category": "Transport"
+    },
+    {
+      "id": "D041",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज दूध के लिए 140 रुपये दिए",
+      "amountPaise": 14000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D042",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज चावल के लिए 141 रुपये दिए",
+      "amountPaise": 14100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D043",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज दवा के लिए 142 रुपये दिए",
+      "amountPaise": 14200,
+      "category": "Health"
+    },
+    {
+      "id": "D044",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज पेट्रोल के लिए 143 रुपये दिए",
+      "amountPaise": 14300,
+      "category": "Transport"
+    },
+    {
+      "id": "D045",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज किराया के लिए 144 रुपये दिए",
+      "amountPaise": 14400,
+      "category": "Housing"
+    },
+    {
+      "id": "D046",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज बिजली के लिए 145 रुपये दिए",
+      "amountPaise": 14500,
+      "category": "Housing"
+    },
+    {
+      "id": "D047",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज कपड़े के लिए 146 रुपये दिए",
+      "amountPaise": 14600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D048",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज फिल्म के लिए 147 रुपये दिए",
+      "amountPaise": 14700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D049",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज चाय के लिए 148 रुपये दिए",
+      "amountPaise": 14800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D050",
+      "kind": "devanagari",
+      "text": "बैंक ट्रांसफर से आज ट्रेन के लिए 149 रुपये दिए",
+      "amountPaise": 14900,
+      "category": "Transport"
+    },
+    {
+      "id": "D051",
+      "kind": "devanagari",
+      "text": "आज दूध पर कुल 150 रुपये खर्च किए",
+      "amountPaise": 15000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D052",
+      "kind": "devanagari",
+      "text": "आज चावल पर कुल 151 रुपये खर्च किए",
+      "amountPaise": 15100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D053",
+      "kind": "devanagari",
+      "text": "आज दवा पर कुल 152 रुपये खर्च किए",
+      "amountPaise": 15200,
+      "category": "Health"
+    },
+    {
+      "id": "D054",
+      "kind": "devanagari",
+      "text": "आज पेट्रोल पर कुल 153 रुपये खर्च किए",
+      "amountPaise": 15300,
+      "category": "Transport"
+    },
+    {
+      "id": "D055",
+      "kind": "devanagari",
+      "text": "आज किराया पर कुल 154 रुपये खर्च किए",
+      "amountPaise": 15400,
+      "category": "Housing"
+    },
+    {
+      "id": "D056",
+      "kind": "devanagari",
+      "text": "आज बिजली पर कुल 155 रुपये खर्च किए",
+      "amountPaise": 15500,
+      "category": "Housing"
+    },
+    {
+      "id": "D057",
+      "kind": "devanagari",
+      "text": "आज कपड़े पर कुल 156 रुपये खर्च किए",
+      "amountPaise": 15600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D058",
+      "kind": "devanagari",
+      "text": "आज फिल्म पर कुल 157 रुपये खर्च किए",
+      "amountPaise": 15700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D059",
+      "kind": "devanagari",
+      "text": "आज चाय पर कुल 158 रुपये खर्च किए",
+      "amountPaise": 15800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D060",
+      "kind": "devanagari",
+      "text": "आज ट्रेन पर कुल 159 रुपये खर्च किए",
+      "amountPaise": 15900,
+      "category": "Transport"
+    },
+    {
+      "id": "D061",
+      "kind": "devanagari",
+      "text": "मैंने 160 रुपये में दूध खरीदा",
+      "amountPaise": 16000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D062",
+      "kind": "devanagari",
+      "text": "मैंने 161 रुपये में चावल खरीदा",
+      "amountPaise": 16100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D063",
+      "kind": "devanagari",
+      "text": "मैंने 162 रुपये में दवा खरीदा",
+      "amountPaise": 16200,
+      "category": "Health"
+    },
+    {
+      "id": "D064",
+      "kind": "devanagari",
+      "text": "मैंने 163 रुपये में पेट्रोल खरीदा",
+      "amountPaise": 16300,
+      "category": "Transport"
+    },
+    {
+      "id": "D065",
+      "kind": "devanagari",
+      "text": "मैंने 164 रुपये में किराया खरीदा",
+      "amountPaise": 16400,
+      "category": "Housing"
+    },
+    {
+      "id": "D066",
+      "kind": "devanagari",
+      "text": "मैंने 165 रुपये में बिजली खरीदा",
+      "amountPaise": 16500,
+      "category": "Housing"
+    },
+    {
+      "id": "D067",
+      "kind": "devanagari",
+      "text": "मैंने 166 रुपये में कपड़े खरीदा",
+      "amountPaise": 16600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D068",
+      "kind": "devanagari",
+      "text": "मैंने 167 रुपये में फिल्म खरीदा",
+      "amountPaise": 16700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D069",
+      "kind": "devanagari",
+      "text": "मैंने 168 रुपये में चाय खरीदा",
+      "amountPaise": 16800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D070",
+      "kind": "devanagari",
+      "text": "मैंने 169 रुपये में ट्रेन खरीदा",
+      "amountPaise": 16900,
+      "category": "Transport"
+    },
+    {
+      "id": "D071",
+      "kind": "devanagari",
+      "text": "आज नकद 170 रुपये का दूध खरीदा",
+      "amountPaise": 17000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D072",
+      "kind": "devanagari",
+      "text": "आज नकद 171 रुपये का चावल खरीदा",
+      "amountPaise": 17100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D073",
+      "kind": "devanagari",
+      "text": "आज नकद 172 रुपये का दवा खरीदा",
+      "amountPaise": 17200,
+      "category": "Health"
+    },
+    {
+      "id": "D074",
+      "kind": "devanagari",
+      "text": "आज नकद 173 रुपये का पेट्रोल खरीदा",
+      "amountPaise": 17300,
+      "category": "Transport"
+    },
+    {
+      "id": "D075",
+      "kind": "devanagari",
+      "text": "आज नकद 174 रुपये का किराया खरीदा",
+      "amountPaise": 17400,
+      "category": "Housing"
+    },
+    {
+      "id": "D076",
+      "kind": "devanagari",
+      "text": "आज नकद 175 रुपये का बिजली खरीदा",
+      "amountPaise": 17500,
+      "category": "Housing"
+    },
+    {
+      "id": "D077",
+      "kind": "devanagari",
+      "text": "आज नकद 176 रुपये का कपड़े खरीदा",
+      "amountPaise": 17600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D078",
+      "kind": "devanagari",
+      "text": "आज नकद 177 रुपये का फिल्म खरीदा",
+      "amountPaise": 17700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D079",
+      "kind": "devanagari",
+      "text": "आज नकद 178 रुपये का चाय खरीदा",
+      "amountPaise": 17800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D080",
+      "kind": "devanagari",
+      "text": "आज नकद 179 रुपये का ट्रेन खरीदा",
+      "amountPaise": 17900,
+      "category": "Transport"
+    },
+    {
+      "id": "D081",
+      "kind": "devanagari",
+      "text": "दूध के लिए आज 180 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D082",
+      "kind": "devanagari",
+      "text": "चावल के लिए आज 181 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D083",
+      "kind": "devanagari",
+      "text": "दवा के लिए आज 182 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18200,
+      "category": "Health"
+    },
+    {
+      "id": "D084",
+      "kind": "devanagari",
+      "text": "पेट्रोल के लिए आज 183 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18300,
+      "category": "Transport"
+    },
+    {
+      "id": "D085",
+      "kind": "devanagari",
+      "text": "किराया के लिए आज 184 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18400,
+      "category": "Housing"
+    },
+    {
+      "id": "D086",
+      "kind": "devanagari",
+      "text": "बिजली के लिए आज 185 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18500,
+      "category": "Housing"
+    },
+    {
+      "id": "D087",
+      "kind": "devanagari",
+      "text": "कपड़े के लिए आज 186 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D088",
+      "kind": "devanagari",
+      "text": "फिल्म के लिए आज 187 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D089",
+      "kind": "devanagari",
+      "text": "चाय के लिए आज 188 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D090",
+      "kind": "devanagari",
+      "text": "ट्रेन के लिए आज 189 रुपये खर्च किए वॉलेट से",
+      "amountPaise": 18900,
+      "category": "Transport"
+    },
+    {
+      "id": "D091",
+      "kind": "devanagari",
+      "text": "मैंने आज दूध के लिए 190 रुपये भुगतान किया",
+      "amountPaise": 19000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D092",
+      "kind": "devanagari",
+      "text": "मैंने आज चावल के लिए 191 रुपये भुगतान किया",
+      "amountPaise": 19100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D093",
+      "kind": "devanagari",
+      "text": "मैंने आज दवा के लिए 192 रुपये भुगतान किया",
+      "amountPaise": 19200,
+      "category": "Health"
+    },
+    {
+      "id": "D094",
+      "kind": "devanagari",
+      "text": "मैंने आज पेट्रोल के लिए 193 रुपये भुगतान किया",
+      "amountPaise": 19300,
+      "category": "Transport"
+    },
+    {
+      "id": "D095",
+      "kind": "devanagari",
+      "text": "मैंने आज किराया के लिए 194 रुपये भुगतान किया",
+      "amountPaise": 19400,
+      "category": "Housing"
+    },
+    {
+      "id": "D096",
+      "kind": "devanagari",
+      "text": "मैंने आज बिजली के लिए 195 रुपये भुगतान किया",
+      "amountPaise": 19500,
+      "category": "Housing"
+    },
+    {
+      "id": "D097",
+      "kind": "devanagari",
+      "text": "मैंने आज कपड़े के लिए 196 रुपये भुगतान किया",
+      "amountPaise": 19600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D098",
+      "kind": "devanagari",
+      "text": "मैंने आज फिल्म के लिए 197 रुपये भुगतान किया",
+      "amountPaise": 19700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D099",
+      "kind": "devanagari",
+      "text": "मैंने आज चाय के लिए 198 रुपये भुगतान किया",
+      "amountPaise": 19800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D100",
+      "kind": "devanagari",
+      "text": "मैंने आज ट्रेन के लिए 199 रुपये भुगतान किया",
+      "amountPaise": 19900,
+      "category": "Transport"
+    },
+    {
+      "id": "D101",
+      "kind": "devanagari",
+      "text": "आज दूध पर 200 रुपये खर्च हुए",
+      "amountPaise": 20000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D102",
+      "kind": "devanagari",
+      "text": "आज चावल पर 201 रुपये खर्च हुए",
+      "amountPaise": 20100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D103",
+      "kind": "devanagari",
+      "text": "आज दवा पर 202 रुपये खर्च हुए",
+      "amountPaise": 20200,
+      "category": "Health"
+    },
+    {
+      "id": "D104",
+      "kind": "devanagari",
+      "text": "आज पेट्रोल पर 203 रुपये खर्च हुए",
+      "amountPaise": 20300,
+      "category": "Transport"
+    },
+    {
+      "id": "D105",
+      "kind": "devanagari",
+      "text": "आज किराया पर 204 रुपये खर्च हुए",
+      "amountPaise": 20400,
+      "category": "Housing"
+    },
+    {
+      "id": "D106",
+      "kind": "devanagari",
+      "text": "आज बिजली पर 205 रुपये खर्च हुए",
+      "amountPaise": 20500,
+      "category": "Housing"
+    },
+    {
+      "id": "D107",
+      "kind": "devanagari",
+      "text": "आज कपड़े पर 206 रुपये खर्च हुए",
+      "amountPaise": 20600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D108",
+      "kind": "devanagari",
+      "text": "आज फिल्म पर 207 रुपये खर्च हुए",
+      "amountPaise": 20700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D109",
+      "kind": "devanagari",
+      "text": "आज चाय पर 208 रुपये खर्च हुए",
+      "amountPaise": 20800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D110",
+      "kind": "devanagari",
+      "text": "आज ट्रेन पर 209 रुपये खर्च हुए",
+      "amountPaise": 20900,
+      "category": "Transport"
+    },
+    {
+      "id": "D111",
+      "kind": "devanagari",
+      "text": "आज 210 रुपये का दूध यूपीआई से खरीदा",
+      "amountPaise": 21000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D112",
+      "kind": "devanagari",
+      "text": "आज 211 रुपये का चावल यूपीआई से खरीदा",
+      "amountPaise": 21100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D113",
+      "kind": "devanagari",
+      "text": "आज 212 रुपये का दवा यूपीआई से खरीदा",
+      "amountPaise": 21200,
+      "category": "Health"
+    },
+    {
+      "id": "D114",
+      "kind": "devanagari",
+      "text": "आज 213 रुपये का पेट्रोल यूपीआई से खरीदा",
+      "amountPaise": 21300,
+      "category": "Transport"
+    },
+    {
+      "id": "D115",
+      "kind": "devanagari",
+      "text": "आज 214 रुपये का किराया यूपीआई से खरीदा",
+      "amountPaise": 21400,
+      "category": "Housing"
+    },
+    {
+      "id": "D116",
+      "kind": "devanagari",
+      "text": "आज 215 रुपये का बिजली यूपीआई से खरीदा",
+      "amountPaise": 21500,
+      "category": "Housing"
+    },
+    {
+      "id": "D117",
+      "kind": "devanagari",
+      "text": "आज 216 रुपये का कपड़े यूपीआई से खरीदा",
+      "amountPaise": 21600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D118",
+      "kind": "devanagari",
+      "text": "आज 217 रुपये का फिल्म यूपीआई से खरीदा",
+      "amountPaise": 21700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D119",
+      "kind": "devanagari",
+      "text": "आज 218 रुपये का चाय यूपीआई से खरीदा",
+      "amountPaise": 21800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D120",
+      "kind": "devanagari",
+      "text": "आज 219 रुपये का ट्रेन यूपीआई से खरीदा",
+      "amountPaise": 21900,
+      "category": "Transport"
+    },
+    {
+      "id": "D121",
+      "kind": "devanagari",
+      "text": "आज दूध के लिए 220 रुपये दिये",
+      "amountPaise": 22000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D122",
+      "kind": "devanagari",
+      "text": "आज चावल के लिए 221 रुपये दिये",
+      "amountPaise": 22100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D123",
+      "kind": "devanagari",
+      "text": "आज दवा के लिए 222 रुपये दिये",
+      "amountPaise": 22200,
+      "category": "Health"
+    },
+    {
+      "id": "D124",
+      "kind": "devanagari",
+      "text": "आज पेट्रोल के लिए 223 रुपये दिये",
+      "amountPaise": 22300,
+      "category": "Transport"
+    },
+    {
+      "id": "D125",
+      "kind": "devanagari",
+      "text": "आज किराया के लिए 224 रुपये दिये",
+      "amountPaise": 22400,
+      "category": "Housing"
+    },
+    {
+      "id": "D126",
+      "kind": "devanagari",
+      "text": "आज बिजली के लिए 225 रुपये दिये",
+      "amountPaise": 22500,
+      "category": "Housing"
+    },
+    {
+      "id": "D127",
+      "kind": "devanagari",
+      "text": "आज कपड़े के लिए 226 रुपये दिये",
+      "amountPaise": 22600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D128",
+      "kind": "devanagari",
+      "text": "आज फिल्म के लिए 227 रुपये दिये",
+      "amountPaise": 22700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D129",
+      "kind": "devanagari",
+      "text": "आज चाय के लिए 228 रुपये दिये",
+      "amountPaise": 22800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D130",
+      "kind": "devanagari",
+      "text": "आज ट्रेन के लिए 229 रुपये दिये",
+      "amountPaise": 22900,
+      "category": "Transport"
+    },
+    {
+      "id": "D131",
+      "kind": "devanagari",
+      "text": "आज दूध पर 230 रुपये खर्च किये",
+      "amountPaise": 23000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D132",
+      "kind": "devanagari",
+      "text": "आज चावल पर 231 रुपये खर्च किये",
+      "amountPaise": 23100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D133",
+      "kind": "devanagari",
+      "text": "आज दवा पर 232 रुपये खर्च किये",
+      "amountPaise": 23200,
+      "category": "Health"
+    },
+    {
+      "id": "D134",
+      "kind": "devanagari",
+      "text": "आज पेट्रोल पर 233 रुपये खर्च किये",
+      "amountPaise": 23300,
+      "category": "Transport"
+    },
+    {
+      "id": "D135",
+      "kind": "devanagari",
+      "text": "आज किराया पर 234 रुपये खर्च किये",
+      "amountPaise": 23400,
+      "category": "Housing"
+    },
+    {
+      "id": "D136",
+      "kind": "devanagari",
+      "text": "आज बिजली पर 235 रुपये खर्च किये",
+      "amountPaise": 23500,
+      "category": "Housing"
+    },
+    {
+      "id": "D137",
+      "kind": "devanagari",
+      "text": "आज कपड़े पर 236 रुपये खर्च किये",
+      "amountPaise": 23600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D138",
+      "kind": "devanagari",
+      "text": "आज फिल्म पर 237 रुपये खर्च किये",
+      "amountPaise": 23700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D139",
+      "kind": "devanagari",
+      "text": "आज चाय पर 238 रुपये खर्च किये",
+      "amountPaise": 23800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D140",
+      "kind": "devanagari",
+      "text": "आज ट्रेन पर 239 रुपये खर्च किये",
+      "amountPaise": 23900,
+      "category": "Transport"
+    },
+    {
+      "id": "D141",
+      "kind": "devanagari",
+      "text": "आज दूध पर 240 रुपये खर्च किए #family",
+      "amountPaise": 24000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D142",
+      "kind": "devanagari",
+      "text": "आज चावल पर 241 रुपये खर्च किए #family",
+      "amountPaise": 24100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D143",
+      "kind": "devanagari",
+      "text": "आज दवा पर 242 रुपये खर्च किए #family",
+      "amountPaise": 24200,
+      "category": "Health"
+    },
+    {
+      "id": "D144",
+      "kind": "devanagari",
+      "text": "आज पेट्रोल पर 243 रुपये खर्च किए #family",
+      "amountPaise": 24300,
+      "category": "Transport"
+    },
+    {
+      "id": "D145",
+      "kind": "devanagari",
+      "text": "आज किराया पर 244 रुपये खर्च किए #family",
+      "amountPaise": 24400,
+      "category": "Housing"
+    },
+    {
+      "id": "D146",
+      "kind": "devanagari",
+      "text": "आज बिजली पर 245 रुपये खर्च किए #family",
+      "amountPaise": 24500,
+      "category": "Housing"
+    },
+    {
+      "id": "D147",
+      "kind": "devanagari",
+      "text": "आज कपड़े पर 246 रुपये खर्च किए #family",
+      "amountPaise": 24600,
+      "category": "Shopping"
+    },
+    {
+      "id": "D148",
+      "kind": "devanagari",
+      "text": "आज फिल्म पर 247 रुपये खर्च किए #family",
+      "amountPaise": 24700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "D149",
+      "kind": "devanagari",
+      "text": "आज चाय पर 248 रुपये खर्च किए #family",
+      "amountPaise": 24800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "D150",
+      "kind": "devanagari",
+      "text": "आज ट्रेन पर 249 रुपये खर्च किए #family",
+      "amountPaise": 24900,
+      "category": "Transport"
+    },
+    {
+      "id": "R001",
+      "kind": "hinglish",
+      "text": "aaj doodh par 500 rupaye kharch kiye upi se",
+      "amountPaise": 50000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R002",
+      "kind": "hinglish",
+      "text": "aaj chawal par 501 rupaye kharch kiye upi se",
+      "amountPaise": 50100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R003",
+      "kind": "hinglish",
+      "text": "aaj dawai par 502 rupaye kharch kiye upi se",
+      "amountPaise": 50200,
+      "category": "Health"
+    },
+    {
+      "id": "R004",
+      "kind": "hinglish",
+      "text": "aaj petrol par 503 rupaye kharch kiye upi se",
+      "amountPaise": 50300,
+      "category": "Transport"
+    },
+    {
+      "id": "R005",
+      "kind": "hinglish",
+      "text": "aaj kiraya par 504 rupaye kharch kiye upi se",
+      "amountPaise": 50400,
+      "category": "Housing"
+    },
+    {
+      "id": "R006",
+      "kind": "hinglish",
+      "text": "aaj bijli par 505 rupaye kharch kiye upi se",
+      "amountPaise": 50500,
+      "category": "Housing"
+    },
+    {
+      "id": "R007",
+      "kind": "hinglish",
+      "text": "aaj kapde par 506 rupaye kharch kiye upi se",
+      "amountPaise": 50600,
+      "category": "Shopping"
+    },
+    {
+      "id": "R008",
+      "kind": "hinglish",
+      "text": "aaj movie par 507 rupaye kharch kiye upi se",
+      "amountPaise": 50700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "R009",
+      "kind": "hinglish",
+      "text": "aaj chai par 508 rupaye kharch kiye upi se",
+      "amountPaise": 50800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R010",
+      "kind": "hinglish",
+      "text": "aaj train par 509 rupaye kharch kiye upi se",
+      "amountPaise": 50900,
+      "category": "Transport"
+    },
+    {
+      "id": "R011",
+      "kind": "hinglish",
+      "text": "maine aaj doodh ke liye 510 rupaye diye cash se",
+      "amountPaise": 51000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R012",
+      "kind": "hinglish",
+      "text": "maine aaj chawal ke liye 511 rupaye diye cash se",
+      "amountPaise": 51100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R013",
+      "kind": "hinglish",
+      "text": "maine aaj dawai ke liye 512 rupaye diye cash se",
+      "amountPaise": 51200,
+      "category": "Health"
+    },
+    {
+      "id": "R014",
+      "kind": "hinglish",
+      "text": "maine aaj petrol ke liye 513 rupaye diye cash se",
+      "amountPaise": 51300,
+      "category": "Transport"
+    },
+    {
+      "id": "R015",
+      "kind": "hinglish",
+      "text": "maine aaj kiraya ke liye 514 rupaye diye cash se",
+      "amountPaise": 51400,
+      "category": "Housing"
+    },
+    {
+      "id": "R016",
+      "kind": "hinglish",
+      "text": "maine aaj bijli ke liye 515 rupaye diye cash se",
+      "amountPaise": 51500,
+      "category": "Housing"
+    },
+    {
+      "id": "R017",
+      "kind": "hinglish",
+      "text": "maine aaj kapde ke liye 516 rupaye diye cash se",
+      "amountPaise": 51600,
+      "category": "Shopping"
+    },
+    {
+      "id": "R018",
+      "kind": "hinglish",
+      "text": "maine aaj movie ke liye 517 rupaye diye cash se",
+      "amountPaise": 51700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "R019",
+      "kind": "hinglish",
+      "text": "maine aaj chai ke liye 518 rupaye diye cash se",
+      "amountPaise": 51800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R020",
+      "kind": "hinglish",
+      "text": "maine aaj train ke liye 519 rupaye diye cash se",
+      "amountPaise": 51900,
+      "category": "Transport"
+    },
+    {
+      "id": "R021",
+      "kind": "hinglish",
+      "text": "aaj 520 rupaye ka doodh kharida",
+      "amountPaise": 52000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R022",
+      "kind": "hinglish",
+      "text": "aaj 521 rupaye ka chawal kharida",
+      "amountPaise": 52100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R023",
+      "kind": "hinglish",
+      "text": "aaj 522 rupaye ka dawai kharida",
+      "amountPaise": 52200,
+      "category": "Health"
+    },
+    {
+      "id": "R024",
+      "kind": "hinglish",
+      "text": "aaj 523 rupaye ka petrol kharida",
+      "amountPaise": 52300,
+      "category": "Transport"
+    },
+    {
+      "id": "R025",
+      "kind": "hinglish",
+      "text": "aaj 524 rupaye ka kiraya kharida",
+      "amountPaise": 52400,
+      "category": "Housing"
+    },
+    {
+      "id": "R026",
+      "kind": "hinglish",
+      "text": "aaj 525 rupaye ka bijli kharida",
+      "amountPaise": 52500,
+      "category": "Housing"
+    },
+    {
+      "id": "R027",
+      "kind": "hinglish",
+      "text": "aaj 526 rupaye ka kapde kharida",
+      "amountPaise": 52600,
+      "category": "Shopping"
+    },
+    {
+      "id": "R028",
+      "kind": "hinglish",
+      "text": "aaj 527 rupaye ka movie kharida",
+      "amountPaise": 52700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "R029",
+      "kind": "hinglish",
+      "text": "aaj 528 rupaye ka chai kharida",
+      "amountPaise": 52800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R030",
+      "kind": "hinglish",
+      "text": "aaj 529 rupaye ka train kharida",
+      "amountPaise": 52900,
+      "category": "Transport"
+    },
+    {
+      "id": "R031",
+      "kind": "hinglish",
+      "text": "aaj doodh par 530 rupaye credit card se diye",
+      "amountPaise": 53000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R032",
+      "kind": "hinglish",
+      "text": "aaj chawal par 531 rupaye credit card se diye",
+      "amountPaise": 53100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R033",
+      "kind": "hinglish",
+      "text": "aaj dawai par 532 rupaye credit card se diye",
+      "amountPaise": 53200,
+      "category": "Health"
+    },
+    {
+      "id": "R034",
+      "kind": "hinglish",
+      "text": "aaj petrol par 533 rupaye credit card se diye",
+      "amountPaise": 53300,
+      "category": "Transport"
+    },
+    {
+      "id": "R035",
+      "kind": "hinglish",
+      "text": "aaj kiraya par 534 rupaye credit card se diye",
+      "amountPaise": 53400,
+      "category": "Housing"
+    },
+    {
+      "id": "R036",
+      "kind": "hinglish",
+      "text": "aaj bijli par 535 rupaye credit card se diye",
+      "amountPaise": 53500,
+      "category": "Housing"
+    },
+    {
+      "id": "R037",
+      "kind": "hinglish",
+      "text": "aaj kapde par 536 rupaye credit card se diye",
+      "amountPaise": 53600,
+      "category": "Shopping"
+    },
+    {
+      "id": "R038",
+      "kind": "hinglish",
+      "text": "aaj movie par 537 rupaye credit card se diye",
+      "amountPaise": 53700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "R039",
+      "kind": "hinglish",
+      "text": "aaj chai par 538 rupaye credit card se diye",
+      "amountPaise": 53800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R040",
+      "kind": "hinglish",
+      "text": "aaj train par 539 rupaye credit card se diye",
+      "amountPaise": 53900,
+      "category": "Transport"
+    },
+    {
+      "id": "R041",
+      "kind": "hinglish",
+      "text": "aaj doodh ke liye 540 rupaye bank transfer se diye",
+      "amountPaise": 54000,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R042",
+      "kind": "hinglish",
+      "text": "aaj chawal ke liye 541 rupaye bank transfer se diye",
+      "amountPaise": 54100,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R043",
+      "kind": "hinglish",
+      "text": "aaj dawai ke liye 542 rupaye bank transfer se diye",
+      "amountPaise": 54200,
+      "category": "Health"
+    },
+    {
+      "id": "R044",
+      "kind": "hinglish",
+      "text": "aaj petrol ke liye 543 rupaye bank transfer se diye",
+      "amountPaise": 54300,
+      "category": "Transport"
+    },
+    {
+      "id": "R045",
+      "kind": "hinglish",
+      "text": "aaj kiraya ke liye 544 rupaye bank transfer se diye",
+      "amountPaise": 54400,
+      "category": "Housing"
+    },
+    {
+      "id": "R046",
+      "kind": "hinglish",
+      "text": "aaj bijli ke liye 545 rupaye bank transfer se diye",
+      "amountPaise": 54500,
+      "category": "Housing"
+    },
+    {
+      "id": "R047",
+      "kind": "hinglish",
+      "text": "aaj kapde ke liye 546 rupaye bank transfer se diye",
+      "amountPaise": 54600,
+      "category": "Shopping"
+    },
+    {
+      "id": "R048",
+      "kind": "hinglish",
+      "text": "aaj movie ke liye 547 rupaye bank transfer se diye",
+      "amountPaise": 54700,
+      "category": "Entertainment"
+    },
+    {
+      "id": "R049",
+      "kind": "hinglish",
+      "text": "aaj chai ke liye 548 rupaye bank transfer se diye",
+      "amountPaise": 54800,
+      "category": "Food & groceries"
+    },
+    {
+      "id": "R050",
+      "kind": "hinglish",
+      "text": "aaj train ke liye 549 rupaye bank transfer se diye",
+      "amountPaise": 54900,
+      "category": "Transport"
+    },
+    {
+      "id": "N001",
+      "kind": "negative",
+      "text": "आज दूध पर लगभग 200 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N002",
+      "kind": "negative",
+      "text": "आज दूध पर लगभग 201 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N003",
+      "kind": "negative",
+      "text": "आज दूध पर लगभग 202 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N004",
+      "kind": "negative",
+      "text": "आज दूध पर लगभग 203 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N005",
+      "kind": "negative",
+      "text": "आज दूध पर लगभग 204 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N006",
+      "kind": "negative",
+      "text": "आज दूध पर करीब 200 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N007",
+      "kind": "negative",
+      "text": "आज दूध पर करीब 201 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N008",
+      "kind": "negative",
+      "text": "आज दूध पर करीब 202 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N009",
+      "kind": "negative",
+      "text": "आज दूध पर करीब 203 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N010",
+      "kind": "negative",
+      "text": "आज दूध पर करीब 204 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N011",
+      "kind": "negative",
+      "text": "आज दूध पर -200 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N012",
+      "kind": "negative",
+      "text": "आज दूध पर -201 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N013",
+      "kind": "negative",
+      "text": "आज दूध पर -202 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N014",
+      "kind": "negative",
+      "text": "आज दूध पर -203 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N015",
+      "kind": "negative",
+      "text": "आज दूध पर -204 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N016",
+      "kind": "negative",
+      "text": "आज दूध पर +200 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N017",
+      "kind": "negative",
+      "text": "आज दूध पर +201 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N018",
+      "kind": "negative",
+      "text": "आज दूध पर +202 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N019",
+      "kind": "negative",
+      "text": "आज दूध पर +203 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N020",
+      "kind": "negative",
+      "text": "आज दूध पर +204 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N021",
+      "kind": "negative",
+      "text": "आज दूध पर 200 डॉलर रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N022",
+      "kind": "negative",
+      "text": "आज दूध पर 201 डॉलर रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N023",
+      "kind": "negative",
+      "text": "आज दूध पर 202 डॉलर रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N024",
+      "kind": "negative",
+      "text": "आज दूध पर 203 डॉलर रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N025",
+      "kind": "negative",
+      "text": "आज दूध पर 204 डॉलर रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N026",
+      "kind": "negative",
+      "text": "आज दूध पर 200 यूरो रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N027",
+      "kind": "negative",
+      "text": "आज दूध पर 201 यूरो रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N028",
+      "kind": "negative",
+      "text": "आज दूध पर 202 यूरो रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N029",
+      "kind": "negative",
+      "text": "आज दूध पर 203 यूरो रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N030",
+      "kind": "negative",
+      "text": "आज दूध पर 204 यूरो रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N031",
+      "kind": "negative",
+      "text": "आज दूध पर 200 नहीं रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N032",
+      "kind": "negative",
+      "text": "आज दूध पर 201 नहीं रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N033",
+      "kind": "negative",
+      "text": "आज दूध पर 202 नहीं रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N034",
+      "kind": "negative",
+      "text": "आज दूध पर 203 नहीं रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N035",
+      "kind": "negative",
+      "text": "आज दूध पर 204 नहीं रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N036",
+      "kind": "negative",
+      "text": "आज दूध पर 200 वापस रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N037",
+      "kind": "negative",
+      "text": "आज दूध पर 201 वापस रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N038",
+      "kind": "negative",
+      "text": "आज दूध पर 202 वापस रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N039",
+      "kind": "negative",
+      "text": "आज दूध पर 203 वापस रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N040",
+      "kind": "negative",
+      "text": "आज दूध पर 204 वापस रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N041",
+      "kind": "negative",
+      "text": "आज दूध पर 200 और 50 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N042",
+      "kind": "negative",
+      "text": "आज दूध पर 201 और 50 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N043",
+      "kind": "negative",
+      "text": "आज दूध पर 202 और 50 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N044",
+      "kind": "negative",
+      "text": "आज दूध पर 203 और 50 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N045",
+      "kind": "negative",
+      "text": "आज दूध पर 204 और 50 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N046",
+      "kind": "negative",
+      "text": "आज दूध पर साढ़े 200 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N047",
+      "kind": "negative",
+      "text": "आज दूध पर साढ़े 201 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N048",
+      "kind": "negative",
+      "text": "आज दूध पर साढ़े 202 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N049",
+      "kind": "negative",
+      "text": "आज दूध पर साढ़े 203 रुपये दिए",
+      "amountPaise": null
+    },
+    {
+      "id": "N050",
+      "kind": "negative",
+      "text": "आज दूध पर साढ़े 204 रुपये दिए",
+      "amountPaise": null
+    }
+  ]
+}

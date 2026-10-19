@@ -1,9 +1,9 @@
 # Penny V3.2 architecture and design
 
 Date: 19 October 2026  
-Design revision: 3 — HCI continuity and requirement traceability  
-Status: Proposed implementation design; current failures are diagnosed, not fixed  
-Companions: [plan.md](plan.md) revision 5, [TRACEABILITY.md](TRACEABILITY.md), [V3.2-TEST-CASES.md](V3.2-TEST-CASES.md), [EVENT-LOG-TEST-CASES.md](EVENT-LOG-TEST-CASES.md)
+Design revision: 4 — realised implementation, correction and verification record  
+Status: Local implementation candidate; see section 14 for realised design and verification limits. Publication approved on 19 October 2026.  
+Companions: [plan.md](plan.md) revision 6, [TRACEABILITY.md](TRACEABILITY.md), [V3.2-TEST-CASES.md](V3.2-TEST-CASES.md), [EVENT-LOG-TEST-CASES.md](EVENT-LOG-TEST-CASES.md)
 
 ## 1. Design priorities
 
@@ -459,3 +459,47 @@ References checked 19 October 2026:
 - [WAI modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
 
 These references inform the acceptance criteria; this design document is not an accessibility certification.
+
+
+## 14. Realised V3.2 architecture and design decisions
+
+```mermaid
+flowchart LR
+  U[Person: keyboard / voice / dictation] --> UI[Familiar dashboard and dialogs]
+  UI --> H[Hindi structured expense facts]
+  UI --> T[English / Spanish expense draft]
+  H --> R[Review and explicit field correction]
+  T --> R
+  R --> V[Validation: INR integer paise]
+  UI --> S[Settings and scope impact preview]
+  S --> C[Confirmation and revision guard]
+  C --> V
+  V --> A[Atomic local storage adapter]
+  A --> M[(Main schema 4)]
+  A --> B[(Separate bulk recovery)]
+  A --> E[(Diagnostics + epoch)]
+  M --> X[CSV / Excel / JSON backups]
+  UI --> L[Sanitized event allowlist]
+  L --> E
+  E --> D[Diagnostics review and explicit export]
+  A -. optional sync; reset disconnects .-> F[Portable JSON file]
+```
+
+`hindi.js` parses financial facts before wording. Numeric spans include Indian/western grouping and Devanagari digits; unsupported compositions, multiple spans, qualifiers, inequalities, negation and foreign currency produce unresolved amounts. Known item wording is retained together. Unknown source spans stay visible. The reviewed English text is a draft, never a save operation.
+
+Field correction uses familiar form controls rather than a second wizard: unresolved Hindi amount/category/date/rail are cleared; required fields block Save until corrected. Unknown descriptions require a meaningful correction or manual entry. Editing dictated source hides the old draft and invalidates its generation and approval. Incomplete Spanish drafts require manual amount/category entry; native translation wording cannot certify an unsupported source.
+
+Schema 4 adds `settings` and `tagCatalog`. The catalogue includes saved/custom/expense/reserved tags and survives deletion/reset. Effective monthly budget uses an own saved monthly key (including zero), otherwise the default setting. Factory budget is 12,500,000 paise. JSON and Excel include catalogue/preferences; CSV stays an expense format. Importing preferences is an explicit opt-in.
+
+The existing IndexedDB version/store is retained: main, import backup, destructive recovery and diagnostics are separate keys in `documents`. Main replacement, recovery and reset diagnostic epoch are committed together. This is a deliberate simpler alternative to the proposed store/version upgrade. The fallback envelope is one localStorage write. Locks return a tagged result so a rejected callback cannot retain a lock in runtimes with that failure mode. The no-lock fallback warning remains visible.
+
+Diagnostics are local-only. Error logging is default; debug has a tab-local monotonic 30-minute deadline. Events contain stable codes, coarse allowlisted metadata and opaque session/action IDs. Voice stages share an action ID. Log retention is bounded by age/count/bytes, with a bounded pending queue and memory fallback. Clear retries persistent storage even after a previous failure and must report failure if purge fails. Reset replaces its epoch transactionally and reattaches an empty logger, including after diagnostic storage failure. Undo restores financial data only.
+
+UI keeps Add/Edit, budget, backup, search and What's New paths. Settings and Start fresh are secondary. One active dialog is used, including export review. Scope changes clear confirmation; full reset needs acknowledgement then typed phrase. Mobile controls are at least 44 px high; summary cards stack on very narrow screens. See test results for checked viewport sizes and the remaining real-device, screen-reader, contrast and usability work. These are not certified by a source review or responsive emulation alone.
+
+Unsaved expense close/Escape and diagnostic clearing use an in-app confirmation dialog, replacing the owner dialog temporarily and restoring it on cancellation. This avoids browser-native confirmation interoperability problems. Clearing logs has a separate initially unchecked irreversible-purge acknowledgement. Helper text contrast uses the darker muted palette; automated colour tests cover base text and primary buttons.
+
+
+### Reviewed monetary correction follow-up
+
+`PennyHindi.draftAmount` validates one complete numeric INR expression, including prefix/suffix Rs. notation. `reviewedAmount` applies an explicitly corrected financial value rather than permanently retaining an unresolved source flag. For an unresolved source, unchanged monetary evidence cannot become approved through punctuation or description edits. The same helper drives Apply and regression tests. This refines the earlier manual-form-only correction design: either an explicit valid amount correction in the reviewed English draft or manual Amount entry is accepted. Ambiguous facts remain empty.
