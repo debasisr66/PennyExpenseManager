@@ -42,7 +42,7 @@ Approved: **D1 = (a)**, **D2 = (a)**, **D3 = yes** (owner runs the live test). O
 
 ## Rollout for fix 3 (order matters)
 
-1. Merge the PR. Pages still serves from the branch; nothing changes for users.
+1. Merge the PR. Pages still serves from the branch; nothing changes for users. Do steps 2 and 3 straight after: a runtime-file push to `main` in between would start the new workflow while the branch deployment is still active, and the two would overwrite each other.
 2. Switch Pages source to "GitHub Actions" (repository setting; owner approval needed).
 3. Run the Pages workflow; confirm the app URL returns 200 and the 13 runtime files match their hashes.
 4. Rollback: switch the setting back to "Deploy from branch".
@@ -60,3 +60,12 @@ Side effect: `README`, `docs/`, `tests/` stop being served from `github.io`. Not
 ## Known stale records after merge
 
 `V3.2-SHA256SUMS.txt` and `tests/evidence/runtime-headers.txt` describe the v3.2 release. They are left untouched as history; the three changed config files will no longer match them.
+
+## Review outcome (independent reviewer, different model)
+
+No blocking defect. Accepted as known limits:
+
+- The runtime file list exists in three places: `Dockerfile`, and the `paths` and `cp` lists in `pages.yml`. A new runtime file must be added to all three.
+- The pinned dispatch Action (v3.0.0) targets Node 20, which GitHub already runs on Node 24 with a deprecation notice. Follow-up: move to v4 by SHA.
+- Binding to 127.0.0.1 ends access to the container from other devices. This is the intent.
+
