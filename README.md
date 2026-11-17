@@ -1,6 +1,14 @@
-# Penny Expense Manager V3.2 — V3.2 release
+# Penny Expense Manager 3.3.0
 
 Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
+
+**Current release: [3.3.0](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.0) · 17 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
+
+| Release | What changed |
+|---|---|
+| **3.3.0** | Excel import and export removed. Penny now runs no third-party code. Use CSV, or a full JSON backup, which also carries budgets, saved tags and preferences. CSV files and older JSON backups can no longer reset preferences on import. The security policy blocks web workers. |
+| **3.2.1** | Source formatting only, with no behaviour change. One `VERSION` file. Documentation trimmed; v3.2 records stay at tag `v3.2`. |
+| **3.2** | Settings, start fresh and reset, guarded undo, safer Hindi drafts and private diagnostics (details below). |
 
 ## Open the app
 
@@ -24,9 +32,9 @@ See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
-### V3.2
+### Features from V3.2 (still current)
 
-This source includes Settings, month/all-month expense deletion, double-confirmed reset, ₹1,25,000 defaults, persistent saved tags, guarded undo, safer Hindi drafts and private diagnostics. See [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TRACEABILITY.md](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), and [V3.2-TEST-RESULTS.md](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md). V3.2 publication was approved on 19 October 2026. See [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) for changes, verification and known limits.
+V3.2 added Settings, month/all-month expense deletion, double-confirmed reset, ₹1,25,000 defaults, persistent saved tags, guarded undo, safer Hindi drafts and private diagnostics. See [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TRACEABILITY.md](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), and [V3.2-TEST-RESULTS.md](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md). V3.2 publication was approved on 19 October 2026. See [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) for changes, verification and known limits.
 
 - **Settings:** change the default budget for unsaved months, find/add saved tags, access backups and review diagnostics.
 - **Start fresh:** choose one month (the device's current month initially) or explicitly choose all months. Preview the count and total, then confirm. Budgets and tags stay.
@@ -119,7 +127,7 @@ penny --stop
 GitHub Pages is deployed by `.github/workflows/pages.yml`, which publishes only the runtime files. The project is licensed under [Apache 2.0](LICENSE).
 
 
-## Run and verify V3.2 locally
+## Run and verify locally
 
 From this source folder:
 
@@ -129,10 +137,10 @@ python3 -m http.server 8769 --bind 127.0.0.1
 node --test tests/*.test.cjs
 ```
 
-For Docker, install/start Docker Desktop, then run `./scripts/penny --start`; use `./scripts/penny --stop` to stop it. The script resolves its project folder relative to itself, or accepts a `PENNY_DIR` override. It uses port 8080 and the existing Penny container name: stop another local Penny container before using it. Do not replace an installed V3.1 launcher until you choose to switch versions.
+For Docker, install/start Docker Desktop, then run `./scripts/penny --start`; use `./scripts/penny --stop` to stop it. The script resolves its project folder relative to itself, or accepts a `PENNY_DIR` override. It uses port 8080 and the existing Penny container name: stop another local Penny container before using it. The `penny` command in `~/.local/bin` is a copy of `scripts/penny`. Copy it again after upgrading so its banner shows the current version.
 
 The review build is tested separately on loopback port 8082, preserving the existing 8080 instance. Browser data is isolated by origin/port; use a full JSON backup to transfer records deliberately. CSV carries expenses only. JSON includes budgets, saved tags and preferences; imported preferences require opt-in and are unavailable for CSV and for JSON files without preferences. Diagnostics never travel with financial backups.
 
 Prebuilt GHCR images are not part of this app release. Docker is verified as a local source build; the registry and multi-platform publishing specification remains separate work.
 
-Deployment verified: [v3.2 publication record](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/DEPLOYMENT-VERIFICATION-v3.2.md). All 13 public runtime files matched the release source; GitHub CI and Pages succeeded.
+Deployment verified for 3.3.0: published from commit `ee1dc34`. All 10 public runtime files match `main`, the removed Excel files return 404 and GitHub CI and Pages succeeded. Earlier: [v3.2 publication record](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/DEPLOYMENT-VERIFICATION-v3.2.md). All 13 public runtime files matched the release source; GitHub CI and Pages succeeded.
