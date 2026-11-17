@@ -85,6 +85,8 @@ node --test tests/*.test.cjs
 
 The app version lives in `VERSION`. To change it, edit that file and run the tests: `tests/version.test.cjs` names every copy that still needs updating. Release headings in this README and `CHANGELOG.md` are edited by hand.
 
+Runtime source is formatted with Prettier 3.3.3 (settings in `.prettierrc.json`; tests and `vendor/` are not formatted). To reformat without installing anything: `docker run --rm -v "$PWD":/src -w /src node:22-alpine npx --yes prettier@3.3.3 --write index.html styles.css *.js`.
+
 Run the local browser test harness with `node tests/serve-tests.cjs`, then open `http://127.0.0.1:8767/voice-harness`. The test route uses simulated speech and disposable in-memory files. The normal app never loads these fixtures.
 
 The automated suite includes structured Hindi and Spanish expense phrases; `node --test` prints the current count. Release evidence for v3.2 is in the [v3.2 test results](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md). Real microphone/provider accuracy and actual filesystem permission or disk-full conditions still require checks on the target hardware. This is targeted review evidence, not a security certification.

@@ -46,7 +46,7 @@ Most first-party code is written as very long single lines. A one-character fix 
   - (c) Format by hand. Rejected: it can't be reproduced or proven.
   - (d) Leave the code as it is.
 - **D2: which files.**
-  - (a) **Recommended.** All first-party runtime files: the 11 root `.js` files, `styles.css` and `index.html`. Each file type has its own proof (below).
+  - (a) **Recommended.** All first-party runtime files: the 10 root `.js` files, `styles.css` and `index.html`. Each file type has its own proof (below).
   - (b) JavaScript only, with `styles.css` and `index.html` left as they are. Lower risk, but the two least readable files stay unreadable.
 - **D3: test files.**
   - (a) **Recommended.** Freeze the tests as the referee, with one exception. In a first, separate commit, relax the three source-text patterns to accept any whitespace and either quote style (`:\s*`, `Version\s+`, `appVersion:\s*["']`). That commit must pass against the **unformatted** code, which shows the change is not "editing a test to pass". After that, no test file changes. The same tests then judge the formatted code.

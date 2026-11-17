@@ -1,0 +1,7 @@
+vendor/
+tests/
+docs/
+*.md
+*.json
+*.yml
+*.yaml
