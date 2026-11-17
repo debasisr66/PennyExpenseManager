@@ -1,5 +1,12 @@
 # Changelog
 
+## V3.3.0 — 2026-11-17
+
+- **Removed: Excel import and export.** The Export Excel button and `.xlsx` import are gone, along with the SheetJS library, `spreadsheet.js` and `import-worker.js`. Use CSV, which Excel opens directly, or the full JSON backup. Budgets, saved tags and preferences travel only in JSON, so download a JSON backup if you relied on Excel for them. To convert an old `.xlsx` file: in Excel, use File › Save As › CSV, then import the CSV. Choosing a `.xlsx` file now shows a message that explains this.
+- **Security:** the Content Security Policy now sets `worker-src 'none'` (page and nginx header). Penny has no third-party runtime code. See [the spec](docs/specs/REMOVE-EXCEL-SPEC.md).
+- **Fix:** a CSV import, or a JSON file from before schema 4 that has no preferences, could reset your default monthly budget and voice language if the "Import preferences and default budget" box was ticked. The box is now disabled, with a short note, for files that carry no preferences.
+- Docker is unchanged apart from the shorter runtime file list.
+
 ## V3.2.1 — 2026-11-17
 
 - Source formatting only; no behaviour change. Runtime JavaScript, CSS and HTML are now formatted with Prettier 3.3.3 (`.prettierrc.json`). Proofs: identical JavaScript syntax trees for every file, identical computed styles, text and layout for every element in the page and all 10 dialogs at 320 px and 1280 px, and the unchanged test suite passing. See [the spec](docs/specs/SOURCE-FORMATTING-SPEC.md).
