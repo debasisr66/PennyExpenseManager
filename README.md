@@ -42,7 +42,7 @@ Real iPhone capture, native-speaker language review and participant usability ac
 3. **Search quickly.** Search descriptions, categories, amounts, dates, tags and payment methods. Use filters or searches such as `#groceries`, `rail:upi`, `coffee OR tea`, `-rail:cash`, `min:100` and `today`.
 4. **Use inline tags.** Put tags such as `#groceries` in a description, or enter them in the Tags field. Tags can be clicked and searched.
 5. **Record how you paid.** Choose UPI, credit card, debit card, cash, bank transfer, wallet or another method. Penny adds a matching searchable tag such as `#upi`.
-6. **Move your data.** Export expenses to CSV or Excel. Excel also carries budgets. Import CSV, `.xlsx` or a Penny JSON backup only after reviewing a preview. An undo snapshot is kept for imports.
+6. **Move your data.** Export expenses to CSV, or download a full JSON backup that also carries budgets, saved tags and preferences. Import CSV or a Penny JSON backup only after reviewing a preview. An undo snapshot is kept for imports. Excel `.xlsx` files are not supported; in Excel use File › Save As › CSV.
 7. **Keep a portable copy.** Modern supported browsers can connect an empty JSON file that Penny updates after each save. A full JSON backup works in other browsers.
 8. **Use optional voice entry.** Speak English, Hindi or Spanish. Words appear while you speak, and each attempt starts with a clean microphone session. English fills the form immediately for review. Hindi and Spanish use an on-device expense parser for amounts, dates, categories and payment methods, then show a controlled English draft for correction and explicit acceptance. If direct recognition fails, choose **Try voice again** or use the microphone on the phone keyboard in Penny's dictated-text fallback. Voice never saves automatically.
 9. **Convert currencies.** The conversion bar estimates INR, USD, EUR and GBP using a requested daily rate or a manual rate. Expense records always remain INR.
@@ -61,10 +61,9 @@ After a transcript is captured, Hindi and Spanish parsing works fully offline. P
 
 ## Data formats
 
-- CSV: expenses only, with formula-leading cells protected.
-- Excel `.xlsx`: expenses and budgets; formulas, hyperlinks, macros and external links are rejected.
-- JSON: complete Penny backup, including expenses and budgets.
-- Limits: 32 MB input, 10,000 expenses and 10,000 budgets. XLSX parsing also has expanded archive and worksheet limits.
+- CSV: expenses only, with formula-leading cells protected. Excel opens it directly.
+- JSON: the only format that carries budgets, saved tags and preferences. It is the complete Penny backup.
+- Limits: 32 MB input, 10,000 expenses and 10,000 budgets.
 
 ## Testing and security
 
@@ -85,7 +84,7 @@ node --test tests/*.test.cjs
 
 The app version lives in `VERSION`. To change it, edit that file and run the tests: `tests/version.test.cjs` names every copy that still needs updating. Release headings in this README and `CHANGELOG.md` are edited by hand.
 
-Runtime source is formatted with Prettier 3.3.3 (settings in `.prettierrc.json`; tests and `vendor/` are not formatted). To reformat without installing anything: `docker run --rm -v "$PWD":/src -w /src node:22-alpine npx --yes prettier@3.3.3 --write index.html styles.css *.js`.
+Runtime source is formatted with Prettier 3.3.3 (settings in `.prettierrc.json`; tests are not formatted). To reformat without installing anything: `docker run --rm -v "$PWD":/src -w /src node:22-alpine npx --yes prettier@3.3.3 --write index.html styles.css *.js`.
 
 Run the local browser test harness with `node tests/serve-tests.cjs`, then open `http://127.0.0.1:8767/voice-harness`. The test route uses simulated speech and disposable in-memory files. The normal app never loads these fixtures.
 
@@ -115,8 +114,6 @@ penny --stop
 - `storage.js`: local database, import undo and optional linked file
 - `voice.js`, `translation.js`, `hindi.js`: speech lifecycle, English draft translation and Hindi parsing
 - `diagnostics.js`: on-device diagnostic logs
-- `spreadsheet.js`, `import-worker.js`: bounded Excel processing
-- `vendor/`: self-hosted SheetJS CE 0.20.3 and its license
 - `tests/`: automated tests and browser fixtures
 
 GitHub Pages is deployed by `.github/workflows/pages.yml`, which publishes only the runtime files. The project is licensed under [Apache 2.0](LICENSE).
@@ -134,7 +131,7 @@ node --test tests/*.test.cjs
 
 For Docker, install/start Docker Desktop, then run `./scripts/penny --start`; use `./scripts/penny --stop` to stop it. The script resolves its project folder relative to itself, or accepts a `PENNY_DIR` override. It uses port 8080 and the existing Penny container name: stop another local Penny container before using it. Do not replace an installed V3.1 launcher until you choose to switch versions.
 
-The review build is tested separately on loopback port 8082, preserving the existing 8080 instance. Browser data is isolated by origin/port; use a full JSON backup to transfer records deliberately. CSV carries expenses only. Excel and JSON include budgets, saved tags and preferences; imported preferences require opt-in. Diagnostics never travel with financial backups.
+The review build is tested separately on loopback port 8082, preserving the existing 8080 instance. Browser data is isolated by origin/port; use a full JSON backup to transfer records deliberately. CSV carries expenses only. JSON includes budgets, saved tags and preferences; imported preferences require opt-in and are unavailable for CSV and for JSON files without preferences. Diagnostics never travel with financial backups.
 
 Prebuilt GHCR images are not part of this app release. Docker is verified as a local source build; the registry and multi-platform publishing specification remains separate work.
 

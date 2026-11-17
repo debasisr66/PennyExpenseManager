@@ -11,11 +11,15 @@ flowchart LR
   Settings[Settings and confirmed scope] --> Store
   Store --> Recovery[Revision guarded recovery]
   Events[Sanitized session action events] --> Logs[Local bounded diagnostics]
-  Store --> Export[CSV Excel JSON]
+  Store --> Export[CSV and JSON]
   GitHub[GitHub Pages or local Docker] --> Input
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.0 note
+
+Excel `.xlsx` import and export, `spreadsheet.js`, `import-worker.js` and the vendored SheetJS library were removed in 3.3.0. Penny has no third-party runtime dependencies, creates no web workers, and the CSP sets `worker-src 'none'`.
 
 ### Realised 3.2 design details
 
@@ -23,7 +27,7 @@ Facts carried over from the retired 3.2 design document (full text at tag v3.2);
 
 - **Hindi parsing (`hindi.js`).** The parser extracts financial facts before wording. Indian and western digit grouping and Devanagari digits are accepted. Unsupported number compositions, multiple amounts, qualifiers, inequalities, negation and foreign currency leave the amount unresolved. Unknown source words stay visible. The English text is a draft only and never saves anything. Unresolved Hindi amount, category, date and payment method are cleared, and required fields block Save until the user corrects them. Editing the dictated source invalidates the earlier draft and its approval. `PennyHindi.draftAmount` and `reviewedAmount` let an explicit valid INR correction in the reviewed draft resolve the amount; unchanged source evidence cannot.
 - **Optional browser Translator (`translation.js`).** Used for Spanish only; Hindi always uses `hindi.js`. When the local parse is complete, the translated amount is cross-checked against it, and a mismatch marks the draft incomplete. An incomplete Spanish draft clears Amount and Category for manual entry; date and payment method come from the reviewed English draft. Preparation times out after 2.5 s and translation after 3.5 s; errors and timeouts fall back to the local parser. No cloud provider or bundled model is added.
-- **Data model.** Schema 4 adds `settings` and `tagCatalog` to expenses and budgets. The tag catalogue survives deletion and reset. The effective monthly budget is the saved value for that month, including zero, otherwise the Settings default budget (factory value 12,500,000 paise, ₹1,25,000). JSON and Excel carry the catalogue and preferences; importing preferences is opt-in. CSV carries expenses only.
+- **Data model.** Schema 4 adds `settings` and `tagCatalog` to expenses and budgets. The tag catalogue survives deletion and reset. The effective monthly budget is the saved value for that month, including zero, otherwise the Settings default budget (factory value 12,500,000 paise, ₹1,25,000). JSON carries the catalogue and preferences; importing preferences is opt-in, and the option is unavailable for CSV and for JSON files without preferences. CSV carries expenses only.
 - **Storage keys.** The existing IndexedDB database (`penny-local-database`, version 1, store `documents`) holds separate `main`, `backup`, `recovery` and `diagnostics` keys. A destructive change commits the new main state and its recovery snapshot together; a reset also writes the new diagnostics epoch in that same transaction. The localStorage fallback stores one envelope under `penny-v32-envelope`, uses one write per envelope and does not claim multi-key atomicity.
 - **Delete, reset and undo.** The user picks one month or all months and sees the count and total first. Both keep budgets, settings and tags. Full reset needs an acknowledgement and the typed phrase `RESET PENNY`; it restores sample data and default budgets, clears diagnostics, and disconnects the linked file without overwriting it. Undo restores financial data only, and only while the stored revision still matches the one recorded after the operation.
 - **Diagnostics (`diagnostics.js`).** Logs stay on the device and are excluded from backups and undo. Events carry stable codes, opaque session and action IDs, and allowlisted metadata only (counts, durations, language, scope); never transcripts, amounts, descriptions, tags, file names or stack traces. Error level is the default. Debug lasts 30 minutes in one tab and then stops. Retention is 1,000 events and 2 MiB, with errors kept 7 days and debug events 24 hours. Repeated errors in one action are merged. If storage is unavailable, a memory buffer of at most 100 events and 200 KiB is used. Clearing or resetting advances an epoch so stale queued events are discarded. Export is user initiated. Diagnostics never throw into callers and do not log their own failures recursively.
@@ -61,7 +65,7 @@ flowchart LR
 
 ## 02 Inside the application
 
-The interface orchestrates small modules with distinct responsibilities. Calculation and validation rules are separated from browser storage, voice capture and spreadsheet handling. These modules use browser globals and can also be loaded by the Node test suite.
+The interface orchestrates small modules with distinct responsibilities. Calculation and validation rules are separated from browser storage and voice capture. These modules use browser globals and can also be loaded by the Node test suite.
 
 ```mermaid
 flowchart TB
@@ -71,14 +75,10 @@ flowchart TB
   App --> Store[storage.js revisions and persistence]
   App --> Voice[voice.js capture lifecycle]
   App --> Translate[translation.js English draft]
-  App --> Sheets[spreadsheet.js workbook validation and export]
-  App -->|XLSX import| Worker[import-worker.js]
-  Worker --> Sheets
-  Sheets --> Vendor[Bundled SheetJS]
   Store --> Data
 ```
 
-CSV and JSON imports are parsed directly. XLSX import receives ZIP preflight checks, then a worker parses the workbook with a five-second timeout. Spreadsheet exports use the main-thread helper.
+CSV and JSON imports are parsed directly on the main thread; Penny creates no web workers.
 
 ## 03 A save that protects existing data
 
@@ -181,7 +181,7 @@ Local operation was reported working by the user. A full recorded Docker securit
 | Storage adapter | IndexedDB and localStorage share a persistence interface. |
 | Optimistic concurrency | Revision checks reject a stale tab’s write rather than silently replacing newer data. |
 | Boundary validation | Validate imported files and expense fields before committing state. |
-| Separation of concerns | Rules, storage, speech lifecycle and workbook processing live in distinct modules. |
+| Separation of concerns | Rules, storage and speech lifecycle live in distinct modules. |
 
 ## Nonfunctional requirements
 
@@ -190,8 +190,8 @@ Local operation was reported working by the user. A full recorded Docker securit
 | Accuracy | Integer paise, validated INR fields, amount checks and user review. |
 | Privacy | Browser-owned records; explicit audio and rate requests; no server expense database. |
 | Reliability | Capture timeouts, keyboard fallback, stale-write rejection and import undo. |
-| Security | Escaped user content, bounded imports, workbook rejection rules and anti-embedding guard. |
-| Portability | CSV, XLSX and JSON exports; optional linked JSON file; static serving. |
+| Security | Escaped user content, bounded imports and anti-embedding guard. |
+| Portability | CSV and JSON exports; optional linked JSON file; static serving. |
 | Maintainability | Small modules, Node tests, GitHub history and release documentation. |
 
 ## Evidence and limits
@@ -204,7 +204,7 @@ Local operation was reported working by the user. A full recorded Docker securit
 
 ## Sources and ownership
 
-- Application: `app.js`, `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `hindi.js`, `diagnostics.js`, `spreadsheet.js`, `import-worker.js`, `index.html` and `styles.css`.
+- Application: `app.js`, `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `hindi.js`, `diagnostics.js`, `index.html` and `styles.css`.
 - Local serving: `Dockerfile`, `compose.yaml`, `nginx.conf` and `scripts/penny`.
 - Product source: https://github.com/debasisr66/PennyExpenseManager
 - Release evidence: https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TEST-RESULTS.md

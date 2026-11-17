@@ -1,5 +1,5 @@
 const test=require('node:test'),assert=require('node:assert/strict');
-const C=require('../core.js'),D=require('../data.js'),S=require('../storage.js'),X=require('../spreadsheet.js'),T=require('../translation.js'),XLSX=require('../vendor/xlsx-0.20.3.min.js');
+const C=require('../core.js'),D=require('../data.js'),S=require('../storage.js'),T=require('../translation.js');
 const row=(extra={})=>D.validateExpense({id:'a',description:'Groceries',amount:'250',date:'2026-10-13',category:'Food & groceries',tags:'#family',paymentMethod:'upi',...extra});
 const state=(extra={})=>({schemaVersion:3,currency:'INR',expenses:[row()],budgets:{'2026-10':100000},...extra});
 test('V3 rail has a matching reserved tag',()=>assert.deepEqual(row().tags,['family','upi']));
@@ -17,11 +17,6 @@ test('Case-friendly import accepts UPI/INR and canonical category spelling',()=>
 test('Idempotent merge skips repeated exact records',()=>{const plan=D.planImport(state(),state());assert.equal(plan.added,0);assert.equal(plan.skipped,1);});
 test('Conflicting IDs reject the entire merge',()=>assert.throws(()=>D.planImport(state(),state({expenses:[row({amount:'251'})]}))));
 test('Replace is explicit; budget import is separately selectable',()=>{const incoming=state({expenses:[row({id:'b',amount:'50'})],budgets:{'2026-10':20000}});const keep=D.planImport(state(),incoming,'replace',false);assert.equal(keep.state.budgets['2026-10'],100000);assert.equal(keep.removed,1);assert.equal(D.planImport(state(),incoming,'replace',true).state.budgets['2026-10'],20000);});
-test('Excel roundtrip includes expense details and monthly budgets',()=>assert.deepEqual(X.read(X.write(state())),D.migrateState(state())));
-test('Excel formulas are not evaluated or imported',()=>{const wb=XLSX.utils.book_new(),ws=XLSX.utils.aoa_to_sheet([D.headers,['a','2026-10-13',5,'INR','Other','Unsafe','cash','#cash']]);ws.F2={t:'s',v:'unsafe',f:'HYPERLINK("https://example.com")'};XLSX.utils.book_append_sheet(wb,ws,'Expenses');assert.throws(()=>X.read(XLSX.write(wb,{type:'array',bookType:'xlsx'})),/formulas/);});
-test('Excel date serials and a default Sheet1 sheet are supported',()=>{const wb=XLSX.utils.book_new(),ws=XLSX.utils.aoa_to_sheet([['date','amount','category','description'],[46308,5,'Other','Tea']]);XLSX.utils.book_append_sheet(wb,ws,'Sheet1');const imported=X.read(XLSX.write(wb,{type:'array',bookType:'xlsx'}));assert.ok(C.validDate(imported.expenses[0].date));});
-test('Excel import rejects raw scripts instead of parsing them as a workbook',()=>assert.throws(()=>X.read(new TextEncoder().encode('<script>alert(1)</script>').buffer)));
-test('Expanded ZIP resource limits are applied before workbook parsing',()=>{const bytes=new Uint8Array(X.write(state())),v=new DataView(bytes.buffer);for(let i=0;i<bytes.length-46;i++)if(v.getUint32(i,true)===0x02014b50){v.setUint32(i+24,70*1024*1024,true);break;}assert.throws(()=>X.inspectZip(bytes.buffer),/safe limits/);});
 const rows=[row(),row({id:'b',description:'Coffee',paymentMethod:'cash',date:'2026-10-12',amount:'50',tags:''}),row({id:'c',description:'Train',paymentMethod:'credit-card',amount:'450',tags:'#travel'})];
 for(const [query,ids]of [['rail:upi',['a']],['rail:credit',['c']],['Groceries OR Train',['a','c','b']],['#family -rail:cash',['a']],['today -rail:credit',['a']],['yesterday',['b']]])test('Improved search '+query,()=>assert.deepEqual(C.searchExpenses(rows,query,'2026-10-13').expenses.map(x=>x.id),ids));
 test('Quoted OR is a phrase; empty operator values are explained',()=>{assert.equal(C.searchExpenses(rows,'"Coffee OR Train"','2026-10-13').expenses.length,0);assert.ok(C.searchExpenses(rows,'rail:','2026-10-13').errors.length);});

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.frankfurter.dev; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.frankfurter.dev; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Penny — Personal expenses</title>
@@ -18,7 +18,7 @@
           <span class="logo" aria-hidden="true">p</span>penny<span style="color: #9fae9d">.</span>
         </div>
         <div class="header-actions">
-          <span class="preview">V3.2.1 · INR</span
+          <span class="preview">V3.3.0 · INR</span
           ><button id="whats-new-button" class="quiet" type="button">What’s New</button
           ><button id="settings-button" class="secondary" type="button">Settings</button
           ><button id="data-manager" class="secondary" type="button">Data & backups</button>
@@ -407,23 +407,22 @@
       <section class="data-section">
         <h3>Export</h3>
         <p class="small">
-          All expenses are exported, regardless of your current search. Excel also includes monthly
-          budgets, saved tags and preferences.
+          All expenses are exported, regardless of your current search. CSV contains expenses only;
+          the full backup also includes monthly budgets, saved tags and preferences.
         </p>
         <div class="data-buttons">
           <button id="export-csv" type="button" class="secondary">Export CSV</button
-          ><button id="export-excel" type="button" class="secondary">Export Excel</button
-          ><button id="export-backup" type="button">Download full backup</button>
+          ><button id="export-backup" type="button">Download full backup (JSON)</button>
         </div>
       </section>
       <section class="data-section">
         <h3>Import</h3>
         <p class="small">
-          Choose CSV, Excel (.xlsx), or a Penny JSON backup. You will review it before any records
-          change. Maximum 32 MB / 10,000 expenses.
+          Choose a CSV file or a Penny JSON backup. You will review it before any records change.
+          Maximum 32 MB / 10,000 expenses.
         </p>
         <label class="import-file"
-          >Choose file<input id="import-file" type="file" accept=".csv,.xlsx,.json" /></label
+          >Choose file<input id="import-file" type="file" accept=".csv,.json" /></label
         ><button id="undo-import" class="quiet" type="button">Review last import backup</button>
       </section>
       <section class="data-section">
@@ -460,9 +459,13 @@
       >
       <p id="import-impact" class="small" role="status"></p>
       <label class="check-label"
-        ><input type="checkbox" id="import-settings" />Import preferences and default budget
-        (optional)</label
+        ><input
+          type="checkbox"
+          id="import-settings"
+          aria-describedby="import-settings-hint"
+        />Import preferences and default budget (optional)</label
       >
+      <p id="import-settings-hint" class="small" hidden></p>
       <p id="import-error" class="error" role="alert" hidden></p>
       <div class="form-actions">
         <button type="button" class="secondary" data-close>Cancel</button
@@ -473,10 +476,14 @@
       <div class="whats-new">
         <div class="panel-head">
           <h2 id="whats-new-title">What’s New</h2>
-          <span class="version-badge">V3.2.1</span>
+          <span class="version-badge">V3.3.0</span>
         </div>
-        <p class="small release-date">19 October 2026</p>
+        <p class="small release-date">17 November 2026</p>
         <ul>
+          <li>
+            <strong>Excel import and export removed.</strong> Use CSV, or a full JSON backup, which
+            also carries budgets, tags and preferences. Penny now has no third-party code.
+          </li>
           <li>
             <strong>Settings and start fresh.</strong> Manage your default budget and saved tags.
             Delete one month or all months; full reset needs two confirmations and keeps tags.
@@ -503,8 +510,8 @@
             keep partial speech and recover when a browser misses its final event.
           </li>
           <li>
-            <strong>Take your data with you.</strong> Import and export CSV/Excel, plus complete
-            JSON backups.
+            <strong>Take your data with you.</strong> Import and export CSV, plus complete JSON
+            backups.
           </li>
           <li>
             <strong>Know how you paid.</strong> UPI, cards, cash and other methods have searchable
@@ -587,7 +594,7 @@
       </section>
       <section class="data-section">
         <h3>About Penny</h3>
-        <p>Version 3.2.1 · INR · Stored on this device</p>
+        <p>Version 3.3.0 · INR · Stored on this device</p>
       </section>
       <p id="settings-error" class="error" role="alert"></p>
       <div class="form-actions">
@@ -653,11 +660,9 @@
     </dialog>
     <datalist id="known-tags"></datalist>
     <div class="notice" id="notice" role="status" hidden></div>
-    <script src="vendor/xlsx-0.20.3.min.js"></script>
     <script src="core.js"></script>
     <script src="data.js"></script>
     <script src="storage.js"></script>
-    <script src="spreadsheet.js"></script>
     <script src="hindi.js"></script>
     <script src="diagnostics.js"></script>
     <script src="translation.js"></script>
