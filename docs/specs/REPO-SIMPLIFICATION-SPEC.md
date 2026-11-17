@@ -1,6 +1,6 @@
 # Repo simplification — impact and plan
 
-Status: **decisions approved 17 November 2026**: D1 (a) delete with `v3.2` permalinks, D2 (a) keep the architecture document, D3 (a) remove the adversarial review, D4 (a) runtime groups out of this round. Group A in progress; B+C follows after its review.
+Status: **decisions approved 17 November 2026**: D1 (a) delete with `v3.2` permalinks, D2 (a) keep the architecture document, D3 (a) remove the adversarial review, D4 (a) runtime groups out of this round. Group A merged (PR #4); Group B+C implemented, pending review. Exception to D1: `DEPLOYMENT-VERIFICATION-v3.2.md` and `tests/evidence/public-v3.2-assets.json` were added after tag `v3.2`, so their permanent link (and that of the final `V3.2-TEST-RESULTS.md`) is commit `49365a4` instead of the tag.
 Scope: documentation and committed evidence only. No runtime, test, build or workflow change. App version stays 3.2.0.
 
 ## Why

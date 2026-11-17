@@ -5,7 +5,7 @@ Scope: findings 2–5 of the November 2026 repo review. App version stays 3.2.0.
 
 ## Freeze list (must not change; a check proves it)
 
-- Runtime files: `index.html`, `styles.css`, the ten first-party `.js` files, `vendor/`. Proof: their SHA-256 values still match `V3.2-SHA256SUMS.txt`.
+- Runtime files: `index.html`, `styles.css`, the ten first-party `.js` files, `vendor/`. Proof: their SHA-256 values still match [`V3.2-SHA256SUMS.txt`](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/V3.2-SHA256SUMS.txt).
 - Public app URL: `https://debasisr66.github.io/PennyExpenseManager/` (Studio's "Open app" link).
 - Studio contract: event `product-updated` sent to `debasisr66/studio`, payload `{"source_repo": "debasisr66/PennyExpenseManager"}`, secret `STUDIO_DISPATCH_TOKEN`, same triggers.
 - Tests: the suite and its fixtures are not edited.
@@ -52,14 +52,14 @@ Side effect: `README`, `docs/`, `tests/` stop being served from `github.io`. Not
 ## Test plan
 
 - `node --test tests/*.test.cjs` before and after: same pass count.
-- Freeze check: runtime hashes against `V3.2-SHA256SUMS.txt`.
+- Freeze check: runtime hashes against [`V3.2-SHA256SUMS.txt`](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/V3.2-SHA256SUMS.txt).
 - `docker build`, then: port listens on 127.0.0.1 only; response CSP header as specified; app loads with no console errors; Excel import still works (worker path).
 - Workflow syntax check; D3 live dispatch; Studio `sync.yml` run succeeds.
 - Independent review of the diff by a fresh agent on a different model.
 
 ## Known stale records after merge
 
-`V3.2-SHA256SUMS.txt` and `tests/evidence/runtime-headers.txt` describe the v3.2 release. They are left untouched as history; the three changed config files will no longer match them.
+[`V3.2-SHA256SUMS.txt`](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/V3.2-SHA256SUMS.txt) and [`tests/evidence/runtime-headers.txt`](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/tests/evidence/runtime-headers.txt) describe the v3.2 release. They are left untouched as history; the three changed config files will no longer match them.
 
 ## Review outcome (independent reviewer, different model)
 

@@ -2,7 +2,7 @@
 
 ## V3.2 — 2026-10-19
 
-- Published source/tag `fff33cc` and verified GitHub CI, Pages, 13 public runtime hashes and the anonymous source download. Post-deployment evidence is in DEPLOYMENT-VERIFICATION-v3.2.md.
+- Published source/tag `fff33cc` and verified GitHub CI, Pages, 13 public runtime hashes and the anonymous source download. Post-deployment evidence is in [DEPLOYMENT-VERIFICATION-v3.2.md](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/DEPLOYMENT-VERIFICATION-v3.2.md).
 
 - Fixed Hindi-mode `spend rs.50 on donation` not filling Amount: support prefix Rs./INR notation and explicit monetary corrections in the English draft. Added 23 regression checks; full suite now 633 passing. Included in V3.2.
 
@@ -12,7 +12,7 @@
 - Added a structured Hindi expense parser; fixed grouped-amount suffix corruption, unsafe qualifiers, multiple monetary spans, negation and partial paise amounts. Unsupported financial language stays unresolved.
 - Added source-edit approval invalidation and field-aware correction. Tightened Spanish grouping/source-validation safeguards and preserved multiple recognised items.
 - Updated schema-4 JSON/Excel portability, optional preference import, responsive dialogs and relative-path start/stop script.
-- Executed automated regression/corpus tests and independent adversarial review. See [V3.2 test results](V3.2-TEST-RESULTS.md) for evidence and remaining device/language/usability gates. Owner approved publication on 19 October 2026.
+- Executed automated regression/corpus tests and independent adversarial review. See [V3.2 test results](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md) for evidence and remaining device/language/usability gates. Owner approved publication on 19 October 2026.
 
 ## V3.2 planning documentation — 2026-10-19
 
@@ -61,4 +61,4 @@ This entry records the integration documentation update, not a new application b
 - Mobile voice entry and the phone-keyboard dictation fallback.
 - Header access to What's New through a dialog.
 
-Earlier V3 functionality includes INR expenses, budgets and charts, search and tags, payment methods, browser storage, and CSV/Excel/JSON portability. See the README and test evidence for the current feature set.
+Earlier V3 functionality includes INR expenses, budgets and charts, search and tags, payment methods, browser storage, and CSV/Excel/JSON portability. See the README for the current feature set.
