@@ -1,6 +1,6 @@
 # Security quick fixes — impact and plan
 
-Status: **awaiting decisions** (D1–D3). No code changed yet.
+Status: decisions D1=(a), D2=(a), D3=yes approved; build done, pending review. D3 live test to be run by the owner.
 Scope: findings 2–5 of the November 2026 repo review. App version stays 3.2.0.
 
 ## Freeze list (must not change; a check proves it)
@@ -33,6 +33,8 @@ Studio never reads files from the Penny repo or its Pages site.
 Fix 5 changes no behavior: the browser already applies both policies together, and the app starts its worker from `import-worker.js`, not a blob.
 
 ## Decisions
+
+Approved: **D1 = (a)**, **D2 = (a)**, **D3 = yes** (owner runs the live test). Options as offered:
 
 - **D1 — dispatch sender.** (a) Pin the existing Action by SHA — *recommended*, zero behavior change. (b) Replace it with one `gh api` call: no third-party code at all, but a new code path.
 - **D2 — fix 3 shape.** (a) New Pages workflow uploads only the 12 runtime files and `vendor/`; no files move — *recommended*. (b) Move runtime files into `site/`: touches Dockerfile, tests, CI and the release zip. (c) Leave fix 3 out of this PR.
