@@ -66,6 +66,6 @@ Side effect: `README`, `docs/`, `tests/` stop being served from `github.io`. Not
 No blocking defect. Accepted as known limits:
 
 - The runtime file list exists in three places: `Dockerfile`, and the `paths` and `cp` lists in `pages.yml`. A new runtime file must be added to all three.
-- The pinned dispatch Action (v3.0.0) targets Node 20, which GitHub already runs on Node 24 with a deprecation notice. Follow-up: move to v4 by SHA.
+- The dispatch Action was first pinned at v3.0.0 (Node 20). Follow-up done: now pinned to v4.0.1 by SHA (Node 24); inputs are unchanged between the two versions.
 - Binding to 127.0.0.1 ends access to the container from other devices. This is the intent.
 
