@@ -21,4 +21,4 @@ jobs:
       - name: Regression and adversarial tests
         run: node --test tests/*.test.cjs
       - name: Docker build includes the complete test gate
-        run: docker build -t penny-expense-manager:3.2.0 .
+        run: docker build -t penny-expense-manager:ci .

@@ -1,6 +1,6 @@
 # Group D: one version source. Impact and plan
 
-Status: **draft, awaiting decisions D1–D3.**
+Status: **decisions approved 17 November 2026**: D1 (a) `VERSION` file plus consistency test, D2 (a) CI image tag `ci`, D3 (a) no release. Implemented; pending review.
 Scope: how the app version `3.2.0` is recorded and kept consistent. The app version stays 3.2.0. Data schema versions are out of scope.
 
 ## Why
