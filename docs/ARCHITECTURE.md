@@ -65,7 +65,7 @@ flowchart LR
 
 ## 02 Inside the application
 
-The interface orchestrates small modules with distinct responsibilities. Calculation and validation rules are separated from browser storage, and voice capture. These modules use browser globals and can also be loaded by the Node test suite.
+The interface orchestrates small modules with distinct responsibilities. Calculation and validation rules are separated from browser storage and voice capture. These modules use browser globals and can also be loaded by the Node test suite.
 
 ```mermaid
 flowchart TB
@@ -181,7 +181,7 @@ Local operation was reported working by the user. A full recorded Docker securit
 | Storage adapter | IndexedDB and localStorage share a persistence interface. |
 | Optimistic concurrency | Revision checks reject a stale tab’s write rather than silently replacing newer data. |
 | Boundary validation | Validate imported files and expense fields before committing state. |
-| Separation of concerns | Rules, storage, speech lifecycle and workbook processing live in distinct modules. |
+| Separation of concerns | Rules, storage and speech lifecycle live in distinct modules. |
 
 ## Nonfunctional requirements
 
@@ -190,7 +190,7 @@ Local operation was reported working by the user. A full recorded Docker securit
 | Accuracy | Integer paise, validated INR fields, amount checks and user review. |
 | Privacy | Browser-owned records; explicit audio and rate requests; no server expense database. |
 | Reliability | Capture timeouts, keyboard fallback, stale-write rejection and import undo. |
-| Security | Escaped user content, bounded imports, workbook rejection rules and anti-embedding guard. |
+| Security | Escaped user content, bounded imports and anti-embedding guard. |
 | Portability | CSV and JSON exports; optional linked JSON file; static serving. |
 | Maintainability | Small modules, Node tests, GitHub history and release documentation. |
 

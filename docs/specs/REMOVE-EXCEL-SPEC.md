@@ -85,7 +85,7 @@ Unaffected (checked):
   - (c) Leave it as `'self'`.
 - **D2: tests.** Removing a feature removes its tests, and the change is explicit, not quiet.
   - (a) **Recommended.** Do three things:
-    - **Delete 9 Excel-only tests.** In `adversarial.test.cjs`: XLSX round trip; formulas and hyperlinks rejected; ZIP pre-flight; SheetJS forged metadata; Excel date serials. In `v3.test.cjs`: Excel round trip; formulas not evaluated; date serials and Sheet1; raw script rejected.
+    - **Delete 10 Excel-only tests.** In `adversarial.test.cjs`: XLSX round trip; formulas and hyperlinks rejected; ZIP pre-flight; SheetJS forged metadata; Excel date serials. In `v3.test.cjs`: Excel round trip; formulas not evaluated; date serials and Sheet1; raw script rejected; expanded ZIP resource limits (found during the build).
     - **Trim 2 mixed tests**, keeping every JSON and CSV assertion unchanged. These are `adversarial` "Maximum Unicode … JSON, CSV and XLSX" and `v32` ACC-10 "JSON and Excel round trip … CSV expenses only". The CSV formula-prefix test stays: it covers CSV.
     - **Add guard tests:**
       - `.xlsx` and `.xls` are refused with the D3 message;
@@ -119,7 +119,7 @@ The plan is one PR in four commits, each verified on its own:
 
 ## Freeze list (a check proves it)
 
-- `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `hindi.js`, `diagnostics.js` and `styles.css` are byte-identical to `main`.
+- `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `hindi.js` and `styles.css` are byte-identical to `main`. `diagnostics.js` changes only its two `appVersion` literals.
 - The CSV and JSON assertions inside the trimmed tests are unchanged. The proof is a diff that shows only XLSX lines removed.
 - `compose.yaml` and `scripts/penny` change only their version lines.
 - `notify-studio.yml`, `verify.yml` and `.dockerignore` are unchanged.

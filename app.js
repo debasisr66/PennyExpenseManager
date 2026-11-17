@@ -1129,7 +1129,7 @@
   async function readImportFile(file) {
     if (!file || file.size > D.MAX_FILE_BYTES) throw Error('Choose a file smaller than 32 MB.');
     const extension = file.name.toLowerCase().split('.').pop();
-    if (extension === 'xlsx' || extension === 'xls')
+    if (['xlsx', 'xls', 'xlsm', 'xlsb'].includes(extension))
       throw Error(
         'Excel files are no longer supported. In Excel, use File › Save As › CSV, or import a Penny JSON backup.',
       );
