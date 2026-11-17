@@ -1,34 +1,477 @@
 /* V3 document schema, payment rails, import planning and CSV safety. */
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./core.js'));else root.PennyData=factory(root.PennyCore);})(typeof globalThis!=='undefined'?globalThis:this,function(C){
-'use strict';
-const MAX_ROWS=10000,MAX_FILE_BYTES=32*1024*1024;
-const rails=[['unspecified','Not specified'],['upi','UPI'],['credit-card','Credit card'],['debit-card','Debit card'],['cash','Cash'],['bank-transfer','Bank transfer'],['wallet','Wallet'],['other','Other']];
-const railKeys=rails.map(x=>x[0]),reserved=railKeys.filter(x=>x!=='unspecified');
-const clone=x=>JSON.parse(JSON.stringify(x));
-const byteLength=text=>new TextEncoder().encode(String(text)).byteLength;
-const freshId=()=>globalThis.crypto?.randomUUID?globalThis.crypto.randomUUID():`expense-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-function assertText(value,label,max=100){if(typeof value!=='string'||value.length>max||/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u202a-\u202e\u2066-\u2069]/u.test(value))throw Error(`${label} contains invalid characters or is too long.`);return value;}
-function railFrom(tags){const found=tags.filter(tag=>reserved.includes(tag));return found.length===1?found[0]:'unspecified';}
-function validateExpense(input){const result=C.validateExpense({...input,id:input.id||freshId()});assertText(result.id,'ID',80);assertText(result.description,'Description');let rail=input.paymentMethod?String(input.paymentMethod).trim().toLowerCase().replace(/\s+/g,'-'):railFrom(result.tags);if(rail==='not-specified')rail='unspecified';if(!railKeys.includes(rail))throw Error('Choose a valid payment method.');const present=result.tags.filter(tag=>reserved.includes(tag));if(present.length>1||(present.length===1&&rail!=='unspecified'&&present[0]!==rail))throw Error('Payment tags conflict. Choose one payment method and remove conflicting payment tags.');if(rail==='unspecified'&&present.length===1)rail=present[0];const tags=C.parseTags([...result.tags.filter(tag=>!reserved.includes(tag)),...(rail==='unspecified'?[]:[rail])]);return {...result,tags,paymentMethod:rail};}
-function migrateLegacy(raw){if(raw?.currency&&raw.currency!=='INR')throw Error('This file is not in INR. Convert amounts before importing.');if(raw?.schemaVersion>3)throw Error('This data requires a newer Penny version.');if(!raw?.expenses||raw.expenses.length>MAX_ROWS)throw Error(`Use up to ${MAX_ROWS} expenses.`);if(Object.keys(raw.budgets||{}).length>MAX_ROWS)throw Error('Too many monthly budgets.');const base=C.migrateState({...raw,schemaVersion:2});const expenses=base.expenses.map((item,index)=>{const original=raw.expenses[index];assertText(item.id,'ID',80);assertText(item.description,'Description');const rail=original.paymentMethod||railFrom(item.tags);if(!railKeys.includes(rail))throw Error('Saved payment method is invalid.');const conflicting=item.tags.filter(tag=>reserved.includes(tag)).length>1;if(conflicting){if((!raw.schemaVersion||raw.schemaVersion<3)||original.legacyRailConflict===true){return {...item,paymentMethod:'unspecified',legacyRailConflict:true};}throw Error('Saved payment tags conflict.');}return validateExpense({...item,amount:(item.cents/100).toFixed(2),paymentMethod:rail});});return {schemaVersion:3,currency:'INR',expenses,budgets:base.budgets};}
-const DEFAULT_BUDGET=12500000;
-function catalog(tags){if(!Array.isArray(tags)||new Set(tags).size>5000)throw Error('Use up to 5,000 saved tags.');return [...new Set(tags.flatMap(t=>{if(typeof t!=='string')throw Error('Invalid tag.');const one=C.parseTags(t);if(one.length!==1)throw Error('Enter one tag at a time.');return one;}))].sort();}
-function settings(value={}){if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!['defaultMonthlyBudgetPaise','preferredVoiceLanguage'].includes(k)))throw Error('Invalid settings.');const budget=value.defaultMonthlyBudgetPaise??DEFAULT_BUDGET,language=value.preferredVoiceLanguage??'en';if(!Number.isSafeInteger(budget)||budget<0||budget>99999999900||!['en','hi','es'].includes(language))throw Error('Invalid budget or language.');return {defaultMonthlyBudgetPaise:budget,preferredVoiceLanguage:language};}
-function migrateState(raw){if(raw?.schemaVersion>4)throw Error('This data requires a newer Penny version.');if(raw.tagCatalog!==undefined&&!Array.isArray(raw.tagCatalog))throw Error('Invalid saved tags.');const base=migrateLegacy({...raw,schemaVersion:raw?.schemaVersion===4?3:raw?.schemaVersion});return {...base,schemaVersion:4,tagCatalog:catalog([...(raw.tagCatalog||[]),...base.expenses.flatMap(x=>x.tags),...reserved]),settings:settings(raw.settings)};}
-function effectiveBudget(state,month){return Object.hasOwn(state.budgets,month)?state.budgets[month]:state.settings?.defaultMonthlyBudgetPaise??DEFAULT_BUDGET;}
-function defaults(date){if(!C.validDate(date))throw Error('Invalid reference date.');const month=date.slice(0,7);const rows=[['Rent',1050000,'Housing',1,'bank-transfer',['housing']],['Weekly groceries',86400,'Food & groceries',3,'upi',['groceries','family']],['Train pass',45000,'Transport',4,'upi',['travel']],['Coffee with a friend',12500,'Food & groceries',5,'cash',['weekend']],['New sneakers',65000,'Shopping',6,'credit-card',['personal']],['Movie night',24000,'Entertainment',8,'cash',['weekend','family']],['Pharmacy',18750,'Health',9,'upi',['medical']],['Fresh produce',32200,'Food & groceries',10,'upi',['groceries']]];return migrateState({schemaVersion:4,currency:'INR',expenses:rows.map((x,i)=>({id:'sample-'+i,description:x[0],cents:x[1],category:x[2],date:month+'-'+String(x[3]).padStart(2,'0'),paymentMethod:x[4],tags:[...x[5],x[4]]})).concat([{id:'sample-previous',description:'Dinner out',cents:38000,category:'Food & groceries',date:C.previousMonth(date)+'-15',paymentMethod:'cash',tags:['family','cash']}]),budgets:{[month]:DEFAULT_BUDGET}});}
-function operation(state,kind,month,date){const valid=migrateState(state);if(!['month','all','reset'].includes(kind)||kind==='month'&&!C.validMonth(month))throw Error('Choose a valid scope.');const removed=valid.expenses.filter(x=>kind!=='month'||x.date.slice(0,7)===month);const ids=new Set(removed.map(x=>x.id));let next=kind==='reset'?defaults(date):{...valid,expenses:valid.expenses.filter(x=>!ids.has(x.id))};next.tagCatalog=catalog([...valid.tagCatalog,...next.tagCatalog]);return {state:next,kind,month:kind==='month'?month:null,count:removed.length,total:removed.reduce((s,x)=>s+x.cents,0),remaining:kind==='reset'?9:next.expenses.length};}
-function fingerprint(x){return JSON.stringify([x.date,x.cents,x.category,x.description,x.paymentMethod||'unspecified',[...x.tags].sort()]);}
-function planImport(current,incoming,mode='merge',useBudgets=false,useSettings=false){const imported=migrateState(incoming),existing=migrateState(current);if(!['merge','replace'].includes(mode))throw Error('Choose merge or replace.');let skipped=0;const rows=mode==='replace'?[]:clone(existing.expenses),ids=new Map(rows.map(x=>[x.id,x])),prints=new Set(rows.map(fingerprint));for(const row of imported.expenses){if(ids.has(row.id)){if(fingerprint(ids.get(row.id))===fingerprint(row)){skipped++;continue;}throw Error(`ID conflict for ${row.id}. Nothing was imported. Choose replace only if this is the intended full backup.`);}if(mode==='merge'&&prints.has(fingerprint(row))){skipped++;continue;}rows.push(row);ids.set(row.id,row);prints.add(fingerprint(row));}if(rows.length>MAX_ROWS)throw Error(`The combined file exceeds ${MAX_ROWS} expenses.`);const budgets=useBudgets?(mode==='replace'?clone(imported.budgets):{...existing.budgets,...imported.budgets}):clone(existing.budgets);const changedBudgets=Object.keys(budgets).filter(k=>budgets[k]!==existing.budgets[k]).length;return {state:migrateState({schemaVersion:4,currency:'INR',expenses:rows,budgets,tagCatalog:[...existing.tagCatalog,...imported.tagCatalog],settings:useSettings?imported.settings:existing.settings}),added:rows.length-(mode==='replace'?0:existing.expenses.length),skipped,changedBudgets,removed:mode==='replace'?existing.expenses.length:0};}
-const headers=['id','date','amount','currency','category','description','payment_method','tags'];
-function protectCell(value){const text=String(value??'');return /^[\s\p{Cf}]*[=+\-@＝＋－＠]/u.test(text)||/^[\t\r\n]/.test(text)||text.startsWith("'")?"'"+text:text;}
-function unprotectCell(value){const text=String(value??'');return text.startsWith("'")&&(text.slice(1).startsWith("'")||/^[\s\p{Cf}]*[=+\-@＝＋－＠]/u.test(text.slice(1))||/^[\t\r\n]/.test(text.slice(1)))?text.slice(1):text;}
-function expenseRows(state){return [headers,...state.expenses.map(x=>[x.id,x.date,(x.cents/100).toFixed(2),'INR',x.category,x.description,x.paymentMethod||'unspecified',x.tags.map(t=>'#'+t).join(' ')])];}
-function exportCsv(state){return '\uFEFF'+expenseRows(migrateState(state)).map(row=>row.map(value=>'"'+protectCell(value).replace(/"/g,'""')+'"').join(',')).join('\r\n')+'\r\n';}
-function parseCsv(input){let text=String(input).replace(/^\uFEFF/,'');if(byteLength(text)>MAX_FILE_BYTES)throw Error('CSV file exceeds 32 MB.');const rows=[],row=[];let cell='',quoted=false,afterQuote=false;function pushCell(){row.push(cell);cell='';afterQuote=false;if(row.length>12)throw Error('Too many CSV columns.');}function pushRow(){pushCell();if(row.some(x=>x!==''))rows.push(row.splice(0));else row.splice(0);if(rows.length>MAX_ROWS+1)throw Error('Too many CSV rows.');}for(let i=0;i<text.length;i++){const ch=text[i];if(quoted){if(ch==='"'){if(text[i+1]==='"'){cell+='"';i++;}else{quoted=false;afterQuote=true;}}else cell+=ch;}else if(ch==='"'){if(cell||afterQuote)throw Error('Malformed CSV quoting.');quoted=true;}else if(ch===',')pushCell();else if(ch==='\r'||ch==='\n'){if(ch==='\r'&&text[i+1]==='\n')i++;pushRow();}else{if(afterQuote)throw Error('Unexpected text after CSV quotation.');cell+=ch;}if(cell.length>2000)throw Error('A CSV field is too long.');}if(quoted)throw Error('Unclosed CSV quotation.');if(cell||row.length||afterQuote)pushRow();return rows;}
-function fromRows(rows,budgetRows=[]){if(!Array.isArray(rows)||!rows.length)throw Error('No expense header was found.');if(rows.length>MAX_ROWS+1)throw Error('Too many expense rows.');const names=rows[0].map(x=>String(x??'').trim().toLowerCase());if(new Set(names).size!==names.length||names.length>12)throw Error('Duplicate or excessive column headers.');const required=['date','amount','category','description'];for(const name of required)if(!names.includes(name))throw Error(`Missing column: ${name}.`);for(const name of names)if(!headers.includes(name))throw Error(`Unknown column: ${name}. Use a Penny export as a template.`);const expenses=rows.slice(1).filter(row=>row.some(x=>String(x??'').trim()!=='')).map((row,index)=>{if(row.length>names.length)throw Error(`Row ${index+2}: extra columns.`);const get=name=>unprotectCell(row[names.indexOf(name)]??'');try{const currency=get('currency').trim().toUpperCase();if(currency&&currency!=='INR')throw Error('Currency must be INR.');return validateExpense({id:get('id')||freshId(),date:get('date'),amount:get('amount'),category:C.categories.find(category=>category.toLowerCase()===get('category').trim().toLowerCase())||get('category'),description:get('description'),paymentMethod:get('payment_method')||'unspecified',tags:get('tags')});}catch(e){throw Error(`Row ${index+2}: ${e.message}`);}});const budgets={};if(budgetRows.length){const head=budgetRows[0].map(x=>String(x??'').trim().toLowerCase());if(JSON.stringify(head)!==JSON.stringify(['month','budget','currency']))throw Error('Budgets sheet must have month, budget, currency columns.');for(const row of budgetRows.slice(1)){if(row.every(x=>String(x??'').trim()===''))continue;const month=String(row[0]??''),currency=String(row[2]??'');if(!C.validMonth(month)||currency!=='INR'||Object.hasOwn(budgets,month))throw Error('Invalid or duplicate budget month, or currency is not INR.');budgets[month]=C.toPaise(String(row[1]??''),true);}}return migrateState({schemaVersion:3,currency:'INR',expenses,budgets});}
-function importCsv(text){return fromRows(parseCsv(text));}
-function exportBackup(state){return JSON.stringify({format:'penny-data',...migrateState(state)},null,2)+'\n';}
-function importBackup(text){if(byteLength(text)>MAX_FILE_BYTES)throw Error('Data file exceeds 32 MB.');return migrateState(JSON.parse(text));}
-return {DEFAULT_BUDGET,catalog,settings,effectiveBudget,defaults,operation,MAX_ROWS,MAX_FILE_BYTES,byteLength,rails,railKeys,reserved,clone,freshId,assertText,railFrom,validateExpense,migrateState,fingerprint,planImport,headers,expenseRows,protectCell,unprotectCell,exportCsv,parseCsv,fromRows,importCsv,exportBackup,importBackup};
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./core.js'));
+  else root.PennyData = factory(root.PennyCore);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (C) {
+  'use strict';
+  const MAX_ROWS = 10000,
+    MAX_FILE_BYTES = 32 * 1024 * 1024;
+  const rails = [
+    ['unspecified', 'Not specified'],
+    ['upi', 'UPI'],
+    ['credit-card', 'Credit card'],
+    ['debit-card', 'Debit card'],
+    ['cash', 'Cash'],
+    ['bank-transfer', 'Bank transfer'],
+    ['wallet', 'Wallet'],
+    ['other', 'Other'],
+  ];
+  const railKeys = rails.map((x) => x[0]),
+    reserved = railKeys.filter((x) => x !== 'unspecified');
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const byteLength = (text) => new TextEncoder().encode(String(text)).byteLength;
+  const freshId = () =>
+    globalThis.crypto?.randomUUID
+      ? globalThis.crypto.randomUUID()
+      : `expense-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  function assertText(value, label, max = 100) {
+    if (
+      typeof value !== 'string' ||
+      value.length > max ||
+      /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u202a-\u202e\u2066-\u2069]/u.test(value)
+    )
+      throw Error(`${label} contains invalid characters or is too long.`);
+    return value;
+  }
+  function railFrom(tags) {
+    const found = tags.filter((tag) => reserved.includes(tag));
+    return found.length === 1 ? found[0] : 'unspecified';
+  }
+  function validateExpense(input) {
+    const result = C.validateExpense({ ...input, id: input.id || freshId() });
+    assertText(result.id, 'ID', 80);
+    assertText(result.description, 'Description');
+    let rail = input.paymentMethod
+      ? String(input.paymentMethod).trim().toLowerCase().replace(/\s+/g, '-')
+      : railFrom(result.tags);
+    if (rail === 'not-specified') rail = 'unspecified';
+    if (!railKeys.includes(rail)) throw Error('Choose a valid payment method.');
+    const present = result.tags.filter((tag) => reserved.includes(tag));
+    if (
+      present.length > 1 ||
+      (present.length === 1 && rail !== 'unspecified' && present[0] !== rail)
+    )
+      throw Error(
+        'Payment tags conflict. Choose one payment method and remove conflicting payment tags.',
+      );
+    if (rail === 'unspecified' && present.length === 1) rail = present[0];
+    const tags = C.parseTags([
+      ...result.tags.filter((tag) => !reserved.includes(tag)),
+      ...(rail === 'unspecified' ? [] : [rail]),
+    ]);
+    return { ...result, tags, paymentMethod: rail };
+  }
+  function migrateLegacy(raw) {
+    if (raw?.currency && raw.currency !== 'INR')
+      throw Error('This file is not in INR. Convert amounts before importing.');
+    if (raw?.schemaVersion > 3) throw Error('This data requires a newer Penny version.');
+    if (!raw?.expenses || raw.expenses.length > MAX_ROWS)
+      throw Error(`Use up to ${MAX_ROWS} expenses.`);
+    if (Object.keys(raw.budgets || {}).length > MAX_ROWS) throw Error('Too many monthly budgets.');
+    const base = C.migrateState({ ...raw, schemaVersion: 2 });
+    const expenses = base.expenses.map((item, index) => {
+      const original = raw.expenses[index];
+      assertText(item.id, 'ID', 80);
+      assertText(item.description, 'Description');
+      const rail = original.paymentMethod || railFrom(item.tags);
+      if (!railKeys.includes(rail)) throw Error('Saved payment method is invalid.');
+      const conflicting = item.tags.filter((tag) => reserved.includes(tag)).length > 1;
+      if (conflicting) {
+        if (!raw.schemaVersion || raw.schemaVersion < 3 || original.legacyRailConflict === true) {
+          return { ...item, paymentMethod: 'unspecified', legacyRailConflict: true };
+        }
+        throw Error('Saved payment tags conflict.');
+      }
+      return validateExpense({
+        ...item,
+        amount: (item.cents / 100).toFixed(2),
+        paymentMethod: rail,
+      });
+    });
+    return { schemaVersion: 3, currency: 'INR', expenses, budgets: base.budgets };
+  }
+  const DEFAULT_BUDGET = 12500000;
+  function catalog(tags) {
+    if (!Array.isArray(tags) || new Set(tags).size > 5000)
+      throw Error('Use up to 5,000 saved tags.');
+    return [
+      ...new Set(
+        tags.flatMap((t) => {
+          if (typeof t !== 'string') throw Error('Invalid tag.');
+          const one = C.parseTags(t);
+          if (one.length !== 1) throw Error('Enter one tag at a time.');
+          return one;
+        }),
+      ),
+    ].sort();
+  }
+  function settings(value = {}) {
+    if (
+      !value ||
+      typeof value !== 'object' ||
+      Array.isArray(value) ||
+      Object.keys(value).some(
+        (k) => !['defaultMonthlyBudgetPaise', 'preferredVoiceLanguage'].includes(k),
+      )
+    )
+      throw Error('Invalid settings.');
+    const budget = value.defaultMonthlyBudgetPaise ?? DEFAULT_BUDGET,
+      language = value.preferredVoiceLanguage ?? 'en';
+    if (
+      !Number.isSafeInteger(budget) ||
+      budget < 0 ||
+      budget > 99999999900 ||
+      !['en', 'hi', 'es'].includes(language)
+    )
+      throw Error('Invalid budget or language.');
+    return { defaultMonthlyBudgetPaise: budget, preferredVoiceLanguage: language };
+  }
+  function migrateState(raw) {
+    if (raw?.schemaVersion > 4) throw Error('This data requires a newer Penny version.');
+    if (raw.tagCatalog !== undefined && !Array.isArray(raw.tagCatalog))
+      throw Error('Invalid saved tags.');
+    const base = migrateLegacy({
+      ...raw,
+      schemaVersion: raw?.schemaVersion === 4 ? 3 : raw?.schemaVersion,
+    });
+    return {
+      ...base,
+      schemaVersion: 4,
+      tagCatalog: catalog([
+        ...(raw.tagCatalog || []),
+        ...base.expenses.flatMap((x) => x.tags),
+        ...reserved,
+      ]),
+      settings: settings(raw.settings),
+    };
+  }
+  function effectiveBudget(state, month) {
+    return Object.hasOwn(state.budgets, month)
+      ? state.budgets[month]
+      : (state.settings?.defaultMonthlyBudgetPaise ?? DEFAULT_BUDGET);
+  }
+  function defaults(date) {
+    if (!C.validDate(date)) throw Error('Invalid reference date.');
+    const month = date.slice(0, 7);
+    const rows = [
+      ['Rent', 1050000, 'Housing', 1, 'bank-transfer', ['housing']],
+      ['Weekly groceries', 86400, 'Food & groceries', 3, 'upi', ['groceries', 'family']],
+      ['Train pass', 45000, 'Transport', 4, 'upi', ['travel']],
+      ['Coffee with a friend', 12500, 'Food & groceries', 5, 'cash', ['weekend']],
+      ['New sneakers', 65000, 'Shopping', 6, 'credit-card', ['personal']],
+      ['Movie night', 24000, 'Entertainment', 8, 'cash', ['weekend', 'family']],
+      ['Pharmacy', 18750, 'Health', 9, 'upi', ['medical']],
+      ['Fresh produce', 32200, 'Food & groceries', 10, 'upi', ['groceries']],
+    ];
+    return migrateState({
+      schemaVersion: 4,
+      currency: 'INR',
+      expenses: rows
+        .map((x, i) => ({
+          id: 'sample-' + i,
+          description: x[0],
+          cents: x[1],
+          category: x[2],
+          date: month + '-' + String(x[3]).padStart(2, '0'),
+          paymentMethod: x[4],
+          tags: [...x[5], x[4]],
+        }))
+        .concat([
+          {
+            id: 'sample-previous',
+            description: 'Dinner out',
+            cents: 38000,
+            category: 'Food & groceries',
+            date: C.previousMonth(date) + '-15',
+            paymentMethod: 'cash',
+            tags: ['family', 'cash'],
+          },
+        ]),
+      budgets: { [month]: DEFAULT_BUDGET },
+    });
+  }
+  function operation(state, kind, month, date) {
+    const valid = migrateState(state);
+    if (!['month', 'all', 'reset'].includes(kind) || (kind === 'month' && !C.validMonth(month)))
+      throw Error('Choose a valid scope.');
+    const removed = valid.expenses.filter((x) => kind !== 'month' || x.date.slice(0, 7) === month);
+    const ids = new Set(removed.map((x) => x.id));
+    let next =
+      kind === 'reset'
+        ? defaults(date)
+        : { ...valid, expenses: valid.expenses.filter((x) => !ids.has(x.id)) };
+    next.tagCatalog = catalog([...valid.tagCatalog, ...next.tagCatalog]);
+    return {
+      state: next,
+      kind,
+      month: kind === 'month' ? month : null,
+      count: removed.length,
+      total: removed.reduce((s, x) => s + x.cents, 0),
+      remaining: kind === 'reset' ? 9 : next.expenses.length,
+    };
+  }
+  function fingerprint(x) {
+    return JSON.stringify([
+      x.date,
+      x.cents,
+      x.category,
+      x.description,
+      x.paymentMethod || 'unspecified',
+      [...x.tags].sort(),
+    ]);
+  }
+  function planImport(current, incoming, mode = 'merge', useBudgets = false, useSettings = false) {
+    const imported = migrateState(incoming),
+      existing = migrateState(current);
+    if (!['merge', 'replace'].includes(mode)) throw Error('Choose merge or replace.');
+    let skipped = 0;
+    const rows = mode === 'replace' ? [] : clone(existing.expenses),
+      ids = new Map(rows.map((x) => [x.id, x])),
+      prints = new Set(rows.map(fingerprint));
+    for (const row of imported.expenses) {
+      if (ids.has(row.id)) {
+        if (fingerprint(ids.get(row.id)) === fingerprint(row)) {
+          skipped++;
+          continue;
+        }
+        throw Error(
+          `ID conflict for ${row.id}. Nothing was imported. Choose replace only if this is the intended full backup.`,
+        );
+      }
+      if (mode === 'merge' && prints.has(fingerprint(row))) {
+        skipped++;
+        continue;
+      }
+      rows.push(row);
+      ids.set(row.id, row);
+      prints.add(fingerprint(row));
+    }
+    if (rows.length > MAX_ROWS) throw Error(`The combined file exceeds ${MAX_ROWS} expenses.`);
+    const budgets = useBudgets
+      ? mode === 'replace'
+        ? clone(imported.budgets)
+        : { ...existing.budgets, ...imported.budgets }
+      : clone(existing.budgets);
+    const changedBudgets = Object.keys(budgets).filter(
+      (k) => budgets[k] !== existing.budgets[k],
+    ).length;
+    return {
+      state: migrateState({
+        schemaVersion: 4,
+        currency: 'INR',
+        expenses: rows,
+        budgets,
+        tagCatalog: [...existing.tagCatalog, ...imported.tagCatalog],
+        settings: useSettings ? imported.settings : existing.settings,
+      }),
+      added: rows.length - (mode === 'replace' ? 0 : existing.expenses.length),
+      skipped,
+      changedBudgets,
+      removed: mode === 'replace' ? existing.expenses.length : 0,
+    };
+  }
+  const headers = [
+    'id',
+    'date',
+    'amount',
+    'currency',
+    'category',
+    'description',
+    'payment_method',
+    'tags',
+  ];
+  function protectCell(value) {
+    const text = String(value ?? '');
+    return /^[\s\p{Cf}]*[=+\-@＝＋－＠]/u.test(text) ||
+      /^[\t\r\n]/.test(text) ||
+      text.startsWith("'")
+      ? "'" + text
+      : text;
+  }
+  function unprotectCell(value) {
+    const text = String(value ?? '');
+    return text.startsWith("'") &&
+      (text.slice(1).startsWith("'") ||
+        /^[\s\p{Cf}]*[=+\-@＝＋－＠]/u.test(text.slice(1)) ||
+        /^[\t\r\n]/.test(text.slice(1)))
+      ? text.slice(1)
+      : text;
+  }
+  function expenseRows(state) {
+    return [
+      headers,
+      ...state.expenses.map((x) => [
+        x.id,
+        x.date,
+        (x.cents / 100).toFixed(2),
+        'INR',
+        x.category,
+        x.description,
+        x.paymentMethod || 'unspecified',
+        x.tags.map((t) => '#' + t).join(' '),
+      ]),
+    ];
+  }
+  function exportCsv(state) {
+    return (
+      '\uFEFF' +
+      expenseRows(migrateState(state))
+        .map((row) =>
+          row.map((value) => '"' + protectCell(value).replace(/"/g, '""') + '"').join(','),
+        )
+        .join('\r\n') +
+      '\r\n'
+    );
+  }
+  function parseCsv(input) {
+    let text = String(input).replace(/^\uFEFF/, '');
+    if (byteLength(text) > MAX_FILE_BYTES) throw Error('CSV file exceeds 32 MB.');
+    const rows = [],
+      row = [];
+    let cell = '',
+      quoted = false,
+      afterQuote = false;
+    function pushCell() {
+      row.push(cell);
+      cell = '';
+      afterQuote = false;
+      if (row.length > 12) throw Error('Too many CSV columns.');
+    }
+    function pushRow() {
+      pushCell();
+      if (row.some((x) => x !== '')) rows.push(row.splice(0));
+      else row.splice(0);
+      if (rows.length > MAX_ROWS + 1) throw Error('Too many CSV rows.');
+    }
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (quoted) {
+        if (ch === '"') {
+          if (text[i + 1] === '"') {
+            cell += '"';
+            i++;
+          } else {
+            quoted = false;
+            afterQuote = true;
+          }
+        } else cell += ch;
+      } else if (ch === '"') {
+        if (cell || afterQuote) throw Error('Malformed CSV quoting.');
+        quoted = true;
+      } else if (ch === ',') pushCell();
+      else if (ch === '\r' || ch === '\n') {
+        if (ch === '\r' && text[i + 1] === '\n') i++;
+        pushRow();
+      } else {
+        if (afterQuote) throw Error('Unexpected text after CSV quotation.');
+        cell += ch;
+      }
+      if (cell.length > 2000) throw Error('A CSV field is too long.');
+    }
+    if (quoted) throw Error('Unclosed CSV quotation.');
+    if (cell || row.length || afterQuote) pushRow();
+    return rows;
+  }
+  function fromRows(rows, budgetRows = []) {
+    if (!Array.isArray(rows) || !rows.length) throw Error('No expense header was found.');
+    if (rows.length > MAX_ROWS + 1) throw Error('Too many expense rows.');
+    const names = rows[0].map((x) =>
+      String(x ?? '')
+        .trim()
+        .toLowerCase(),
+    );
+    if (new Set(names).size !== names.length || names.length > 12)
+      throw Error('Duplicate or excessive column headers.');
+    const required = ['date', 'amount', 'category', 'description'];
+    for (const name of required) if (!names.includes(name)) throw Error(`Missing column: ${name}.`);
+    for (const name of names)
+      if (!headers.includes(name))
+        throw Error(`Unknown column: ${name}. Use a Penny export as a template.`);
+    const expenses = rows
+      .slice(1)
+      .filter((row) => row.some((x) => String(x ?? '').trim() !== ''))
+      .map((row, index) => {
+        if (row.length > names.length) throw Error(`Row ${index + 2}: extra columns.`);
+        const get = (name) => unprotectCell(row[names.indexOf(name)] ?? '');
+        try {
+          const currency = get('currency').trim().toUpperCase();
+          if (currency && currency !== 'INR') throw Error('Currency must be INR.');
+          return validateExpense({
+            id: get('id') || freshId(),
+            date: get('date'),
+            amount: get('amount'),
+            category:
+              C.categories.find(
+                (category) => category.toLowerCase() === get('category').trim().toLowerCase(),
+              ) || get('category'),
+            description: get('description'),
+            paymentMethod: get('payment_method') || 'unspecified',
+            tags: get('tags'),
+          });
+        } catch (e) {
+          throw Error(`Row ${index + 2}: ${e.message}`);
+        }
+      });
+    const budgets = {};
+    if (budgetRows.length) {
+      const head = budgetRows[0].map((x) =>
+        String(x ?? '')
+          .trim()
+          .toLowerCase(),
+      );
+      if (JSON.stringify(head) !== JSON.stringify(['month', 'budget', 'currency']))
+        throw Error('Budgets sheet must have month, budget, currency columns.');
+      for (const row of budgetRows.slice(1)) {
+        if (row.every((x) => String(x ?? '').trim() === '')) continue;
+        const month = String(row[0] ?? ''),
+          currency = String(row[2] ?? '');
+        if (!C.validMonth(month) || currency !== 'INR' || Object.hasOwn(budgets, month))
+          throw Error('Invalid or duplicate budget month, or currency is not INR.');
+        budgets[month] = C.toPaise(String(row[1] ?? ''), true);
+      }
+    }
+    return migrateState({ schemaVersion: 3, currency: 'INR', expenses, budgets });
+  }
+  function importCsv(text) {
+    return fromRows(parseCsv(text));
+  }
+  function exportBackup(state) {
+    return JSON.stringify({ format: 'penny-data', ...migrateState(state) }, null, 2) + '\n';
+  }
+  function importBackup(text) {
+    if (byteLength(text) > MAX_FILE_BYTES) throw Error('Data file exceeds 32 MB.');
+    return migrateState(JSON.parse(text));
+  }
+  return {
+    DEFAULT_BUDGET,
+    catalog,
+    settings,
+    effectiveBudget,
+    defaults,
+    operation,
+    MAX_ROWS,
+    MAX_FILE_BYTES,
+    byteLength,
+    rails,
+    railKeys,
+    reserved,
+    clone,
+    freshId,
+    assertText,
+    railFrom,
+    validateExpense,
+    migrateState,
+    fingerprint,
+    planImport,
+    headers,
+    expenseRows,
+    protectCell,
+    unprotectCell,
+    exportCsv,
+    parseCsv,
+    fromRows,
+    importCsv,
+    exportBackup,
+    importBackup,
+  };
 });

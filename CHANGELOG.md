@@ -1,5 +1,11 @@
 # Changelog
 
+## V3.2.1 — 2026-11-17
+
+- Source formatting only; no behaviour change. Runtime JavaScript, CSS and HTML are now formatted with Prettier 3.3.3 (`.prettierrc.json`). Proofs: identical JavaScript syntax trees for every file, identical computed styles, text and layout for every element in the page and all 10 dialogs at 320 px and 1280 px, and the unchanged test suite passing. See [the spec](docs/specs/SOURCE-FORMATTING-SPEC.md).
+- The app version now lives in `VERSION`, checked by `tests/version.test.cjs`.
+- Documentation trimmed to `README.md`, `CHANGELOG.md`, `SECURITY-REVIEW.md`, `DEPENDENCIES.md` and `docs/ARCHITECTURE.md`; v3.2 records remain at tag `v3.2`.
+
 ## V3.2 — 2026-10-19
 
 - Published source/tag `fff33cc` and verified GitHub CI, Pages, 13 public runtime hashes and the anonymous source download. Post-deployment evidence is in [DEPLOYMENT-VERIFICATION-v3.2.md](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/DEPLOYMENT-VERIFICATION-v3.2.md).
