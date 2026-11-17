@@ -1,5 +1,5 @@
 # Copy to PennyExpenseManager/.github/workflows/notify-studio.yml
-# Requires secret STUDIO_DISPATCH_TOKEN: fine-grained PAT, repo access = debasisr66/studio only, Actions: Read and write.
+# Requires secret STUDIO_DISPATCH_TOKEN: fine-grained PAT, repo access = debasisr66/studio only, Contents: Read and write.
 name: Notify studio hub
 
 on:
@@ -12,12 +12,14 @@ on:
       - 'CHANGELOG.md'
       - 'README.md'
 
+permissions: {}
+
 jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger studio sync
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
         with:
           token: ${{ secrets.STUDIO_DISPATCH_TOKEN }}
           repository: debasisr66/studio
