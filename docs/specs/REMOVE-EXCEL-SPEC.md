@@ -1,6 +1,6 @@
 # Group F: keep Docker, remove Excel. Impact and plan
 
-Status: **draft.** The owner set the direction on 17 November 2026: keep Docker, remove Excel `.xlsx` import and export, and update everything that refers to them. Decisions D1–D5 below are awaiting approval.
+Status: **Decisions D1–D5 approved (a) on 17 November 2026. Implemented; pending review.** The owner set the direction on 17 November 2026: keep Docker, remove Excel `.xlsx` import and export, and update everything that refers to them.
 Scope: remove the Excel feature and the third-party SheetJS library. CSV and JSON import and export are unchanged. Docker stays.
 
 ## Why
