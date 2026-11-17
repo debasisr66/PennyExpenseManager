@@ -1114,18 +1114,6 @@
       dataError(error.message);
     }
   };
-  $('export-excel').onclick = () => {
-    try {
-      download(
-        PennySheets.write(state),
-        'penny-expenses-' + exportDate() + '.xlsx',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      );
-      notify('Excel export downloaded');
-    } catch (error) {
-      dataError(error.message);
-    }
-  };
   $('export-backup').onclick = () => {
     try {
       download(D.exportBackup(state), 'penny-data-' + exportDate() + '.json', 'application/json');
@@ -1141,51 +1129,23 @@
   async function readImportFile(file) {
     if (!file || file.size > D.MAX_FILE_BYTES) throw Error('Choose a file smaller than 32 MB.');
     const extension = file.name.toLowerCase().split('.').pop();
-    if (!['csv', 'xlsx', 'json'].includes(extension))
+    if (extension === 'xlsx' || extension === 'xls')
       throw Error(
-        'Choose CSV, Excel (.xlsx), or JSON. Legacy .xls and macro-enabled workbooks are not supported.',
+        'Excel files are no longer supported. In Excel, use File › Save As › CSV, or import a Penny JSON backup.',
       );
-    if (extension === 'json') return D.importBackup(await file.text());
-    if (extension === 'csv') return D.importCsv(await file.text());
-    const buffer = await file.arrayBuffer();
-    PennySheets.inspectZip(buffer);
-    return new Promise((resolve, reject) => {
-      let worker;
-      try {
-        worker = new Worker('import-worker.js');
-      } catch (error) {
-        reject(
-          Error(
-            'Safe Excel import needs the hosted HTTPS app or a local HTTP server. CSV and JSON import are available here.',
-          ),
-        );
-        return;
-      }
-      const timeout = setTimeout(() => {
-        worker.terminate();
-        reject(Error('Excel parsing exceeded the safety timeout. Try a smaller workbook.'));
-      }, 5000);
-      worker.onmessage = (event) => {
-        clearTimeout(timeout);
-        worker.terminate();
-        if (event.data.error) reject(Error(event.data.error));
-        else {
-          try {
-            resolve(D.migrateState(event.data.state));
-          } catch (error) {
-            reject(error);
-          }
-        }
+    if (extension === 'csv')
+      return {
+        state: D.importCsv(await file.text()),
+        settingsNote: 'CSV files do not contain preferences.',
       };
-      worker.onerror = () => {
-        clearTimeout(timeout);
-        worker.terminate();
-        reject(Error('Workbook could not be parsed safely. No records changed.'));
-      };
-      worker.postMessage({ kind: 'xlsx', buffer }, [buffer]);
-    });
+    if (extension !== 'json') throw Error('Choose a CSV file or a Penny JSON backup.');
+    const text = await file.text();
+    const state = D.importBackup(text);
+    const raw = JSON.parse(text);
+    const hasSettings = Object.prototype.hasOwnProperty.call(raw, 'settings');
+    return { state, settingsNote: hasSettings ? '' : 'This file does not contain preferences.' };
   }
-  function reviewImport(incoming, name, restore = false) {
+  function reviewImport(incoming, name, restore = false, settingsNote = '') {
     logs.emit('import', 'IMPORT_PREVIEW', 'debug');
     importState = D.migrateState(incoming);
     importName = name;
@@ -1193,6 +1153,9 @@
     $('import-error').hidden = true;
     $('import-mode').value = restore ? 'replace' : 'merge';
     $('import-settings').checked = false;
+    $('import-settings').disabled = settingsNote !== '';
+    $('import-settings-hint').textContent = settingsNote;
+    $('import-settings-hint').hidden = settingsNote === '';
     $('import-budgets').checked = restore;
     $('import-budgets').disabled = Object.keys(importState.budgets).length === 0;
     $('replace-confirm').checked = false;
@@ -1219,9 +1182,9 @@
     $('import-file').disabled = true;
     try {
       const generation = ++importGeneration;
-      const incoming = await readImportFile(file);
+      const { state: incoming, settingsNote } = await readImportFile(file);
       if (generation !== importGeneration) return;
-      reviewImport(incoming, file.name);
+      reviewImport(incoming, file.name, false, settingsNote);
     } catch (error) {
       logs.emit('import', 'IMPORT_FAILED', 'error');
       dataError(error.message + ' No records changed.');
@@ -1230,6 +1193,9 @@
       $('import-file').value = '';
     }
   };
+  function importSettingsChosen() {
+    return !$('import-settings').disabled && $('import-settings').checked;
+  }
   function updateImportPlan() {
     if (!importState) return;
     const replace = $('import-mode').value === 'replace';
@@ -1240,7 +1206,7 @@
         importState,
         $('import-mode').value,
         $('import-budgets').checked,
-        $('import-settings').checked,
+        importSettingsChosen(),
       );
       $('import-error').hidden = true;
       $('import-impact').textContent =
@@ -1267,7 +1233,7 @@
         importState,
         $('import-mode').value,
         $('import-budgets').checked,
-        $('import-settings').checked,
+        importSettingsChosen(),
       );
       logs.emit('import', 'IMPORT_APPLY', 'debug');
       if (await commit(plan.state, 'Import saved · ' + plan.added + ' new expenses', true)) {
