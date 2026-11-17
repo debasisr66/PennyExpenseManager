@@ -1,6 +1,6 @@
 # Group E: readable source formatting. Impact and plan
 
-Status: **decisions approved 17 November 2026**: D1 (a) pinned Prettier, run once in a container, with config committed; D2 (a) all runtime files; D3 (a) tests frozen after a pattern-only first commit; D4 (a) bump to 3.2.1, with the release published after merge and smoke. In progress.
+Status: **decisions approved 17 November 2026**: D1 (a) pinned Prettier, run once in a container, with config committed; D2 (a) all runtime files; D3 (a) tests frozen after a pattern-only first commit; D4 (a) bump to 3.2.1, with the release published after merge and smoke. Implemented; results below.
 Scope: whitespace and layout of first-party source files only. **No behaviour change.** Every claim of "no behaviour change" below is backed by a mechanical proof, not by reading the diff.
 
 ## Why
@@ -114,3 +114,18 @@ Expected size: formatted files grow from added whitespace, roughly 20–40%, abo
 - Group F (Docker and Excel scope).
 - `scripts/penny` layout.
 - Adding a CI formatting check (that is D1 (b)).
+
+## Results (17 November 2026)
+
+| Proof | Result |
+|---|---|
+| Prettier `--debug-check` | Clean. A first run with default settings unquoted Devanagari object keys (`'पाँच'` → `पाँच`). That is equivalent JavaScript but a different AST, so `quoteProps: "preserve"` was set and formatting re-run from the original files |
+| JavaScript AST identity (acorn 8.12.1, positions and raw text ignored) | All 10 root `.js` files identical between `main` and step 2. A negative control (one changed number) was detected. Step 3 differs only in the two `appVersion` literals |
+| Reproducibility | Re-running the pinned command reports no change. The independent reviewer re-ran it from step 1 and got byte-identical output for all 12 files |
+| HTML structure | 399 start tags, attributes, CSP meta tag and whitespace-collapsed text identical, except 5 inline `style` attributes gaining a space after `:`. The `<script src="core.js">` and `<script src="app.js">` strings that the harness rewrites are intact |
+| Rendering identity | `main` and step 2 served from one origin and loaded in one browser tab. For every element (654), a hash of all computed style properties, attributes other than `style`, direct text, and bounding box was taken. Results were identical for the page and each of the 10 dialogs opened in turn, at 1280 × 900 and 320 × 800 (22 states). A negative control (0.01 px letter-spacing on one element) was detected. No console errors |
+| Tests | Step 1 passed 639/639 on the unformatted code. No test changed after step 1. 639/639 pass on step 2 and on HEAD |
+| Freeze check | Only the files this spec names changed. `compose.yaml` and `scripts/penny` changed in their version line only |
+| Docker | `docker build` succeeds, running all 639 tests inside the image |
+| Independent review (Sonnet 5.5) | No blocker or should-fix. It verified reproducibility, AST identity, comment text, HTML tokens, CSS normalised identity and the test-pattern scope. It could not run the rendering check in its sandbox; that check is the row above |
+
