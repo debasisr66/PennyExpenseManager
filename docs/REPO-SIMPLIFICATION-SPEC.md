@@ -1,6 +1,6 @@
 # Repo simplification — impact and plan
 
-Status: **awaiting decisions** (D1–D4). No file moved or deleted yet.
+Status: **decisions approved 17 November 2026**: D1 (a) delete with `v3.2` permalinks, D2 (a) keep the architecture document, D3 (a) remove the adversarial review, D4 (a) runtime groups out of this round. Group A in progress; B+C follows after its review.
 Scope: documentation and committed evidence only. No runtime, test, build or workflow change. App version stays 3.2.0.
 
 ## Why
