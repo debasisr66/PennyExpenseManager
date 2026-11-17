@@ -7,8 +7,8 @@ const version=read('VERSION').trim();
 const N='(\\d+\\.\\d+\\.\\d+)';
 const copies=[
   {file:'index.html',pattern:'(?<![A-Za-z0-9])V'+N+'\\b',count:2,what:'header and What\'s New badge'},
-  {file:'index.html',pattern:'Version '+N+'\\b',count:1,what:'Settings › About'},
-  {file:'diagnostics.js',pattern:"appVersion:'"+N+"'",count:2,what:'diagnostic events and export'},
+  {file:'index.html',pattern:'Version\\s+'+N+'\\b',count:1,what:'Settings › About'},
+  {file:'diagnostics.js',pattern:"appVersion:\\s*['\"]"+N+"['\"]",count:2,what:'diagnostic events and export'},
   {file:'scripts/penny',pattern:'PENNY_VERSION="'+N+'"',count:1,what:'launcher'},
   {file:'compose.yaml',pattern:'penny-expense-manager:'+N+'\\b',count:1,what:'Docker image tag'}
 ];

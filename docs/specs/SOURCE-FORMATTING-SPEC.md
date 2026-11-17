@@ -1,6 +1,6 @@
 # Group E: readable source formatting. Impact and plan
 
-Status: **draft, awaiting decisions D1–D4.**
+Status: **decisions approved 17 November 2026**: D1 (a) pinned Prettier, run once in a container, with config committed; D2 (a) all runtime files; D3 (a) tests frozen after a pattern-only first commit; D4 (a) bump to 3.2.1, with the release published after merge and smoke. In progress.
 Scope: whitespace and layout of first-party source files only. **No behaviour change.** Every claim of "no behaviour change" below is backed by a mechanical proof, not by reading the diff.
 
 ## Why
