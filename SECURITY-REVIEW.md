@@ -1,6 +1,6 @@
-> V3.2 release update: 633 automated tests pass locally and in Docker. [Current results](V3.2-TEST-RESULTS.md) and [release notes](RELEASE-NOTES-v3.2.md) distinguish completed checks from remaining device, language, accessibility and image-publication work. Historical evidence below is preserved.
+> V3.2 release update: 633 automated tests pass locally and in Docker. [Current results](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md) and [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) distinguish completed checks from remaining device, language, accessibility and image-publication work. Historical evidence below is preserved.
 
-> Historical V3/V3.1 evidence below. V3.2 evidence and limitations: [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md).
+> Historical V3/V3.1 evidence below. V3.2 evidence and limitations: [V3.2-TEST-RESULTS.md](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md).
 
 # Penny V3 security review
 
@@ -35,4 +35,4 @@ Penny is a static, client-side application with no user accounts, server databas
 
 Anyone with access to the same unlocked browser profile or an unencrypted exported file can read the records. Browser speech services may send audio to their provider. Translation and recognition can be inaccurate, so every voice draft and final form must be checked. Browser extensions or a compromised device remain outside this app's protection. Dependency updates should repeat the supply-chain, import and regression reviews.
 
-See [ADVERSARIAL-REVIEW.md](ADVERSARIAL-REVIEW.md) for independent findings and [TEST-RESULTS.md](TEST-RESULTS.md) for release evidence.
+See [ADVERSARIAL-REVIEW.md](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/ADVERSARIAL-REVIEW.md) for independent findings and [TEST-RESULTS.md](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TEST-RESULTS.md) for release evidence.

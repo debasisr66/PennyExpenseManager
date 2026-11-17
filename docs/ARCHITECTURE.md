@@ -1,6 +1,6 @@
 # Penny 3.2 architecture update
 
-19 October 2026. Current contracts: [design](../design.md), [traceability](../TRACEABILITY.md), [release notes](../RELEASE-NOTES-v3.2.md).
+19 October 2026. This is Penny's one design document. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
 
 ```mermaid
 flowchart LR
@@ -16,6 +16,19 @@ flowchart LR
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### Realised 3.2 design details
+
+Facts carried over from the retired 3.2 design document (full text at tag v3.2); each was checked against the current source.
+
+- **Hindi parsing (`hindi.js`).** The parser extracts financial facts before wording. Indian and western digit grouping and Devanagari digits are accepted. Unsupported number compositions, multiple amounts, qualifiers, inequalities, negation and foreign currency leave the amount unresolved. Unknown source words stay visible. The English text is a draft only and never saves anything. Unresolved Hindi amount, category, date and payment method are cleared, and required fields block Save until the user corrects them. Editing the dictated source invalidates the earlier draft and its approval. `PennyHindi.draftAmount` and `reviewedAmount` let an explicit valid INR correction in the reviewed draft resolve the amount; unchanged source evidence cannot.
+- **Optional browser Translator (`translation.js`).** Used for Spanish only; Hindi always uses `hindi.js`. When the local parse is complete, the translated amount is cross-checked against it, and a mismatch marks the draft incomplete. An incomplete Spanish draft clears Amount and Category for manual entry; date and payment method come from the reviewed English draft. Preparation times out after 2.5 s and translation after 3.5 s; errors and timeouts fall back to the local parser. No cloud provider or bundled model is added.
+- **Data model.** Schema 4 adds `settings` and `tagCatalog` to expenses and budgets. The tag catalogue survives deletion and reset. The effective monthly budget is the saved value for that month, including zero, otherwise the Settings default budget (factory value 12,500,000 paise, ₹1,25,000). JSON and Excel carry the catalogue and preferences; importing preferences is opt-in. CSV carries expenses only.
+- **Storage keys.** The existing IndexedDB database (`penny-local-database`, version 1, store `documents`) holds separate `main`, `backup`, `recovery` and `diagnostics` keys. A destructive change commits the new main state and its recovery snapshot together; a reset also writes the new diagnostics epoch in that same transaction. The localStorage fallback stores one envelope under `penny-v32-envelope`, uses one write per envelope and does not claim multi-key atomicity.
+- **Delete, reset and undo.** The user picks one month or all months and sees the count and total first. Both keep budgets, settings and tags. Full reset needs an acknowledgement and the typed phrase `RESET PENNY`; it restores sample data and default budgets, clears diagnostics, and disconnects the linked file without overwriting it. Undo restores financial data only, and only while the stored revision still matches the one recorded after the operation.
+- **Diagnostics (`diagnostics.js`).** Logs stay on the device and are excluded from backups and undo. Events carry stable codes, opaque session and action IDs, and allowlisted metadata only (counts, durations, language, scope); never transcripts, amounts, descriptions, tags, file names or stack traces. Error level is the default. Debug lasts 30 minutes in one tab and then stops. Retention is 1,000 events and 2 MiB, with errors kept 7 days and debug events 24 hours. Repeated errors in one action are merged. If storage is unavailable, a memory buffer of at most 100 events and 200 KiB is used. Clearing or resetting advances an epoch so stale queued events are discarded. Export is user initiated. Diagnostics never throw into callers and do not log their own failures recursively.
+- **Security posture.** User text, tags, imported files and translated wording are rendered as text. The page sets a Content Security Policy (`default-src 'self'`, no inline script, `object-src 'none'`, with `connect-src` limited to `self` and the exchange-rate host). `nginx.conf` sends an equivalent header, adding `frame-ancestors 'none'`. A top-level guard stops Penny running inside a frame. Imports are bounded as described in the README.
+- **Interface.** Add/Edit, search, budget shortcut, backups and What's New keep their V3.1 places. Settings and Start fresh are secondary, with one active dialog at a time. Unsaved-change and log-clear confirmations use an in-app dialog instead of the browser's native one.
 
 The original V3.1 diagrams below are preserved for history. GHCR remains planned; local Docker is verified. Device capture, native-language and full HCI acceptance limits are recorded in the current test report.
 
@@ -107,7 +120,7 @@ flowchart TB
   Form --> Save[User explicitly saves]
 ```
 
-The parser is deliberately limited to expense vocabulary. A supported browser Translator API can supply an English draft, with an amount-mismatch check. English fills editable fields immediately. Hindi “कल” remains date-ambiguous and requires manual date selection. No voice path saves automatically.
+The parser is deliberately limited to expense vocabulary. For Spanish only, a supported browser Translator API can supply an English draft, with an amount-mismatch check; Hindi always uses the local parser. English fills editable fields immediately. Hindi “कल” remains date-ambiguous and requires manual date selection. No voice path saves automatically.
 
 ## 05 Data model and privacy boundary
 
@@ -191,11 +204,11 @@ Local operation was reported working by the user. A full recorded Docker securit
 
 ## Sources and ownership
 
-- Application: `app.js`, `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `spreadsheet.js`, `import-worker.js`, `index.html` and `styles.css`.
+- Application: `app.js`, `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `hindi.js`, `diagnostics.js`, `spreadsheet.js`, `import-worker.js`, `index.html` and `styles.css`.
 - Local serving: `Dockerfile`, `compose.yaml`, `nginx.conf` and `scripts/penny`.
 - Product source: https://github.com/debasisr66/PennyExpenseManager
-- Release evidence: https://github.com/debasisr66/PennyExpenseManager/blob/main/TEST-RESULTS.md
+- Release evidence: https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TEST-RESULTS.md
 - Studio registry: https://github.com/debasisr66/studio/blob/main/content/products.json
 - Studio notification: https://github.com/debasisr66/PennyExpenseManager/blob/main/.github/workflows/notify-studio.yml
 
-Maintain this document when storage, speech behavior, import boundaries or deployment relationships change. Mermaid diagrams can be edited in a compatible Markdown viewer; the HTML includes self-contained SVG diagrams and needs no external diagram library.
+Maintain this document when storage, speech behavior, import boundaries or deployment relationships change. Mermaid diagrams can be edited in a compatible Markdown viewer.

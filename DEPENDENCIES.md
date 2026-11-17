@@ -7,4 +7,4 @@
 The file is self-hosted so the application does not execute third-party CDN code at runtime. No package manager or build dependency is required to run Penny.
 
 
-V3.2 adds no external JavaScript dependency: `hindi.js` and `diagnostics.js` are local first-party modules. Docker verification uses Node 22 Alpine, then serves static files from unprivileged Nginx. Resolved base digests are retained in `tests/evidence/docker-build.txt`; no comprehensive fresh CVE scan is claimed.
+V3.2 adds no external JavaScript dependency: `hindi.js` and `diagnostics.js` are local first-party modules. Docker verification uses Node 22 Alpine, then serves static files from unprivileged Nginx. Resolved base digests are retained in [`tests/evidence/docker-build.txt`](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/tests/evidence/docker-build.txt) at tag v3.2; no comprehensive fresh CVE scan is claimed.

@@ -24,9 +24,9 @@ See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
-### V3.2 review candidate
+### V3.2
 
-This source includes Settings, month/all-month expense deletion, double-confirmed reset, ₹1,25,000 defaults, persistent saved tags, guarded undo, safer Hindi drafts and private diagnostics. See [plan.md](plan.md), [design.md](design.md), [TRACEABILITY.md](TRACEABILITY.md), and [V3.2-TEST-RESULTS.md](V3.2-TEST-RESULTS.md). V3.2 publication was approved on 19 October 2026. See [release notes](RELEASE-NOTES-v3.2.md) for changes, verification and known limits.
+This source includes Settings, month/all-month expense deletion, double-confirmed reset, ₹1,25,000 defaults, persistent saved tags, guarded undo, safer Hindi drafts and private diagnostics. See [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TRACEABILITY.md](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), and [V3.2-TEST-RESULTS.md](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md). V3.2 publication was approved on 19 October 2026. See [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) for changes, verification and known limits.
 
 - **Settings:** change the default budget for unsaved months, find/add saved tags, access backups and review diagnostics.
 - **Start fresh:** choose one month (the device's current month initially) or explicitly choose all months. Preview the count and total, then confirm. Budgets and tags stay.
@@ -68,10 +68,14 @@ After a transcript is captured, Hindi and Spanish parsing works fully offline. P
 
 ## Testing and security
 
-- [Test cases](TEST-CASES.md)
-- [Test results](TEST-RESULTS.md)
 - [OWASP security review](SECURITY-REVIEW.md)
-- [Independent adversarial review](ADVERSARIAL-REVIEW.md)
+- [Architecture and design](docs/ARCHITECTURE.md)
+
+v3.2 release records (at tag v3.2):
+
+- [Test cases](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TEST-CASES.md)
+- [Test results](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TEST-RESULTS.md)
+- [Independent adversarial review](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/ADVERSARIAL-REVIEW.md)
 
 Run the automated suite with Node.js 22 or later:
 
@@ -81,7 +85,7 @@ node --test tests/*.test.cjs
 
 Run the local browser test harness with `node tests/serve-tests.cjs`, then open `http://127.0.0.1:8767/voice-harness`. The test route uses simulated speech and disposable in-memory files. The normal app never loads these fixtures.
 
-The current release passed 189 automated tests, including 100 structured Hindi and 100 structured Spanish expense phrases, 37 browser acceptance checks, JavaScript syntax checks and an independent adversarial review. Real microphone/provider accuracy and actual filesystem permission or disk-full conditions still require checks on the target hardware. This is targeted review evidence, not a security certification.
+The automated suite currently runs 633 tests, including structured Hindi and Spanish expense phrases. Release evidence for v3.2 is in the [v3.2 test results](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md). Real microphone/provider accuracy and actual filesystem permission or disk-full conditions still require checks on the target hardware. This is targeted review evidence, not a security certification.
 
 ## Docker
 
@@ -105,12 +109,13 @@ penny --stop
 - `index.html`, `styles.css`, `app.js`: interface and browser behavior
 - `core.js`, `data.js`: calculations, validation, search and portable formats
 - `storage.js`: local database, import undo and optional linked file
-- `voice.js`, `translation.js`: speech lifecycle and English draft translation
+- `voice.js`, `translation.js`, `hindi.js`: speech lifecycle, English draft translation and Hindi parsing
+- `diagnostics.js`: on-device diagnostic logs
 - `spreadsheet.js`, `import-worker.js`: bounded Excel processing
 - `vendor/`: self-hosted SheetJS CE 0.20.3 and its license
-- `tests/`: automated tests, browser fixtures and recorded results
+- `tests/`: automated tests and browser fixtures
 
-GitHub Pages serves `main` from the repository root. The project is licensed under [Apache 2.0](LICENSE).
+GitHub Pages is deployed by `.github/workflows/pages.yml`, which publishes only the runtime files. The project is licensed under [Apache 2.0](LICENSE).
 
 
 ## Run and verify V3.2 locally
@@ -129,4 +134,4 @@ The review build is tested separately on loopback port 8082, preserving the exis
 
 Prebuilt GHCR images are not part of this app release. Docker is verified as a local source build; the registry and multi-platform publishing specification remains separate work.
 
-Deployment verified: [v3.2 publication record](DEPLOYMENT-VERIFICATION-v3.2.md). All 13 public runtime files matched the release source; GitHub CI and Pages succeeded.
+Deployment verified: [v3.2 publication record](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/DEPLOYMENT-VERIFICATION-v3.2.md). All 13 public runtime files matched the release source; GitHub CI and Pages succeeded.
