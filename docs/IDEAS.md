@@ -29,7 +29,7 @@ Each step aims to stay inside the constraints: new records are ordinary expenses
 
 ### Owner note (18 November 2026)
 
-"Zillion monthly payments" exist, and the owner may log only one month, or log after paying. Strict idea 1 needs 4 months of history before it shows a bill, so it helps long-time users first. For someone with one month of history, the faster win is in idea 2: offer "last month's entries again" as a pre-filled list, without needing detection. Evaluate this when idea 2 is specified.
+"Zillion monthly payments" exist, and the owner may log only one month, or log after paying. Strict idea 1 needs 4 months of history before it shows a bill, so it helps long-time users first. **Resolved the same day (D8):** the owner kept 4 of 6 for accuracy and pulled a read-only **"Paid last month, not yet this month"** section into 3.3.1, so help starts after one month. Idea 2 then makes those rows one-tap adds.
 
 ### Open questions carried forward
 
