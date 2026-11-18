@@ -18,7 +18,7 @@
           <span class="logo" aria-hidden="true">p</span>penny<span style="color: #9fae9d">.</span>
         </div>
         <div class="header-actions">
-          <span class="preview">V3.3.0 · INR</span
+          <span class="preview">V3.3.1 · INR</span
           ><button id="whats-new-button" class="quiet" type="button">What’s New</button
           ><button id="settings-button" class="secondary" type="button">Settings</button
           ><button id="data-manager" class="secondary" type="button">Data & backups</button>
@@ -232,6 +232,11 @@
               <h2>Where it goes</h2>
               <p class="small">Spending by category this month</p>
               <div id="chart" role="img" aria-label="Monthly spending by category"></div>
+            </section>
+            <section class="panel" aria-labelledby="recurring-title">
+              <h2 id="recurring-title">Looks recurring</h2>
+              <p class="small">Bills Penny has seen most months. Nothing is saved or changed.</p>
+              <ul id="recurring-list" class="recurring-list"></ul>
             </section>
           </aside>
         </div>
@@ -476,10 +481,15 @@
       <div class="whats-new">
         <div class="panel-head">
           <h2 id="whats-new-title">What’s New</h2>
-          <span class="version-badge">V3.3.0</span>
+          <span class="version-badge">V3.3.1</span>
         </div>
-        <p class="small release-date">17 November 2026</p>
+        <p class="small release-date">18 November 2026</p>
         <ul>
+          <li>
+            <strong>Looks recurring.</strong> A sidebar list of the bills you pay every month,
+            found from your own entries. Strict: about the same amount and day in at least 4 of
+            the last 6 months. Read-only; nothing is saved or sent.
+          </li>
           <li>
             <strong>Excel import and export removed.</strong> Use CSV, or a full JSON backup, which
             also carries budgets, tags and preferences. Penny now has no third-party code.
@@ -594,7 +604,7 @@
       </section>
       <section class="data-section">
         <h3>About Penny</h3>
-        <p>Version 3.3.0 · INR · Stored on this device</p>
+        <p>Version 3.3.1 · INR · Stored on this device</p>
       </section>
       <p id="settings-error" class="error" role="alert"></p>
       <div class="form-actions">
@@ -661,6 +671,7 @@
     <datalist id="known-tags"></datalist>
     <div class="notice" id="notice" role="status" hidden></div>
     <script src="core.js"></script>
+    <script src="recurring.js"></script>
     <script src="data.js"></script>
     <script src="storage.js"></script>
     <script src="hindi.js"></script>

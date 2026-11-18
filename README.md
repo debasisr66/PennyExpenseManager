@@ -1,11 +1,12 @@
-# Penny Expense Manager 3.3.0
+# Penny Expense Manager 3.3.1
 
 Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
 
-**Current release: [3.3.0](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.0) · 17 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
+**Current release: [3.3.1](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.1) · 18 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
 
 | Release | What changed |
 |---|---|
+| **3.3.1** | New read-only "Looks recurring" sidebar panel lists the bills you pay every month, found from your own entries (about the same amount and day in at least 4 of the last 6 months). Sample data now includes past-month bills so the panel works on first visit. |
 | **3.3.0** | Excel import and export removed. Penny now runs no third-party code. Use CSV, or a full JSON backup, which also carries budgets, saved tags and preferences. CSV files and older JSON backups can no longer reset preferences on import. The security policy blocks web workers. |
 | **3.2.1** | Source formatting only, with no behaviour change. One `VERSION` file. Documentation trimmed; v3.2 records stay at tag `v3.2`. |
 | **3.2** | Settings, start fresh and reset, guarded undo, safer Hindi drafts and private diagnostics (details below). |
@@ -32,13 +33,15 @@ See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
+- **Looks recurring (3.3.1):** a sidebar panel lists bills Penny has seen most months, with the usual amount, usual day and how many of the last 6 months it was seen. It is strict, so it would rather miss a bill than guess. It is read-only: nothing is saved, changed or sent.
+
 ### Features from V3.2 (still current)
 
 V3.2 added Settings, month/all-month expense deletion, double-confirmed reset, ₹1,25,000 defaults, persistent saved tags, guarded undo, safer Hindi drafts and private diagnostics. See [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TRACEABILITY.md](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), and [V3.2-TEST-RESULTS.md](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md). V3.2 publication was approved on 19 October 2026. See [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) for changes, verification and known limits.
 
 - **Settings:** change the default budget for unsaved months, find/add saved tags, access backups and review diagnostics.
 - **Start fresh:** choose one month (the device's current month initially) or explicitly choose all months. Preview the count and total, then confirm. Budgets and tags stay.
-- **Reset Penny:** acknowledge the whole-app impact, then type `RESET PENNY` and confirm again. Restore nine sample expenses and ₹1,25,000 defaults, keep tags, clear logs, stop debug and disconnect the portable file without overwriting it.
+- **Reset Penny:** acknowledge the whole-app impact, then type `RESET PENNY` and confirm again. Restore 24 sample expenses (eight this month, plus Dinner out and 15 bill entries for Rent, Train pass and a music subscription across the previous six months) and ₹1,25,000 defaults, keep tags, clear logs, stop debug and disconnect the portable file without overwriting it.
 - **Undo last bulk change:** Settings can restore the previous financial state until another edit occurs. This does not restore cleared logs or reconnect a file.
 - **Voice:** Hindi parsing understands a bounded expense vocabulary, number words, grouped digits and common Hinglish. It is not universal translation. Uncertain amounts/categories/dates/payment methods remain blank for correction; an explicit valid INR amount corrected in the English draft now fills Amount, including `Rs.50`; correct source text and prepare again to invalidate an older approval. Phone dictation capture is handled by the phone keyboard provider.
 - **Diagnostics:** errors only by default. Optional debug lasts 30 minutes in this tab. Search codes, sessions or actions; preview before downloading. Logs omit expense data and spoken text. Clearing logs requires a separate confirmation.

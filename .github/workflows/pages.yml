@@ -9,6 +9,7 @@ on:
       - 'styles.css'
       - 'app.js'
       - 'core.js'
+      - 'recurring.js'
       - 'data.js'
       - 'storage.js'
       - 'voice.js'
@@ -43,7 +44,7 @@ jobs:
         run: |
           set -eu
           mkdir _site
-          cp index.html styles.css app.js core.js data.js storage.js voice.js translation.js hindi.js diagnostics.js _site/
+          cp index.html styles.css app.js core.js recurring.js data.js storage.js voice.js translation.js hindi.js diagnostics.js _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0

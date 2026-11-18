@@ -150,6 +150,23 @@
       ? state.budgets[month]
       : (state.settings?.defaultMonthlyBudgetPaise ?? DEFAULT_BUDGET);
   }
+  function pastBills(month, bills) {
+    return bills.flatMap(([key, name, cents, category, day, rail, tags, count]) => {
+      let m = month;
+      return Array.from({ length: count }, (_, i) => {
+        m = C.previousMonth(m);
+        return {
+          id: `sample-${key}-${i + 1}`,
+          description: name,
+          cents,
+          category,
+          date: m + '-' + String(day).padStart(2, '0'),
+          paymentMethod: rail,
+          tags: [...tags, rail],
+        };
+      });
+    });
+  }
   function defaults(date) {
     if (!C.validDate(date)) throw Error('Invalid reference date.');
     const month = date.slice(0, 7);
@@ -186,7 +203,14 @@
             paymentMethod: 'cash',
             tags: ['family', 'cash'],
           },
-        ]),
+        ])
+        .concat(
+          pastBills(month, [
+            ['rent', 'Rent', 1050000, 'Housing', 1, 'bank-transfer', ['housing'], 6],
+            ['train', 'Train pass', 45000, 'Transport', 4, 'upi', ['travel'], 5],
+            ['music', 'Music subscription', 11900, 'Entertainment', 12, 'upi', ['subscription'], 4],
+          ]),
+        ),
       budgets: { [month]: DEFAULT_BUDGET },
     });
   }
@@ -207,7 +231,7 @@
       month: kind === 'month' ? month : null,
       count: removed.length,
       total: removed.reduce((s, x) => s + x.cents, 0),
-      remaining: kind === 'reset' ? 9 : next.expenses.length,
+      remaining: next.expenses.length,
     };
   }
   function fingerprint(x) {

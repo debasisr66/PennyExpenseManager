@@ -6,7 +6,7 @@ RUN for file in *.js tests/*.js tests/*.cjs; do node --check "$file" || exit 1; 
 
 FROM nginxinc/nginx-unprivileged:stable-alpine AS runtime
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=verify /app/index.html /app/styles.css /app/app.js /app/core.js /app/data.js /app/storage.js /app/voice.js /app/translation.js /app/hindi.js /app/diagnostics.js /usr/share/nginx/html/
+COPY --from=verify /app/index.html /app/styles.css /app/app.js /app/core.js /app/recurring.js /app/data.js /app/storage.js /app/voice.js /app/translation.js /app/hindi.js /app/diagnostics.js /usr/share/nginx/html/
 
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

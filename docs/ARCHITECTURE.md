@@ -12,10 +12,16 @@ flowchart LR
   Store --> Recovery[Revision guarded recovery]
   Events[Sanitized session action events] --> Logs[Local bounded diagnostics]
   Store --> Export[CSV and JSON]
+  Store -. read only .-> Recurring[recurring.js PennyRecurring]
+  Recurring --> Panel[Looks recurring panel]
   GitHub[GitHub Pages or local Docker] --> Input
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.1 note
+
+`recurring.js` (global `PennyRecurring`) is a pure detector in the same UMD pattern as `core.js`. It has no DOM, storage, network or clock access, and takes the reference month as an argument. `app.js` stays the only DOM writer: it calls `PennyRecurring.detect` at the end of `render()`, memoises the result in memory only, and renders the "Looks recurring" panel with `textContent`. See [the spec](specs/RECURRING-DETECTOR-SPEC.md).
 
 ### 3.3.0 note
 

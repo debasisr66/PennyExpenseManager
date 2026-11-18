@@ -1127,3 +1127,13 @@ dialog {
 #catalog-list {
   overflow-wrap: anywhere;
 }
+.recurring-list {
+  list-style: none;
+  padding: 0;
+}
+.recurring-list li {
+  padding: 8px 0;
+}
+.recurring-list span {
+  display: block;
+}

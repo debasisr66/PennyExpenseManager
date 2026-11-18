@@ -1,0 +1,110 @@
+{
+  "backup": "{\n  \"format\": \"penny-data\",\n  \"schemaVersion\": 4,\n  \"currency\": \"INR\",\n  \"expenses\": [\n    {\n      \"id\": \"f1\",\n      \"description\": \"Rent\",\n      \"tags\": [\n        \"housing\",\n        \"bank-transfer\"\n      ],\n      \"date\": \"2026-09-01\",\n      \"category\": \"Housing\",\n      \"cents\": 1050000,\n      \"paymentMethod\": \"bank-transfer\"\n    },\n    {\n      \"id\": \"f2\",\n      \"description\": \"किराना सामान\",\n      \"tags\": [\n        \"किराना\",\n        \"upi\"\n      ],\n      \"date\": \"2026-09-03\",\n      \"category\": \"Food & groceries\",\n      \"cents\": 86400,\n      \"paymentMethod\": \"upi\"\n    },\n    {\n      \"id\": \"f3\",\n      \"description\": \"=SUM(A1) \\\"quoted\\\", comma\",\n      \"tags\": [\n        \"cash\"\n      ],\n      \"date\": \"2026-10-04\",\n      \"category\": \"Other\",\n      \"cents\": 1,\n      \"paymentMethod\": \"cash\"\n    },\n    {\n      \"id\": \"f4\",\n      \"description\": \"Train pass\",\n      \"tags\": [\n        \"travel\",\n        \"work-trip\"\n      ],\n      \"date\": \"2026-10-05\",\n      \"category\": \"Transport\",\n      \"cents\": 45000,\n      \"paymentMethod\": \"unspecified\"\n    }\n  ],\n  \"budgets\": {\n    \"2026-09\": 5000000,\n    \"2026-10\": 0\n  },\n  \"tagCatalog\": [\n    \"bank-transfer\",\n    \"cash\",\n    \"credit-card\",\n    \"debit-card\",\n    \"extra\",\n    \"housing\",\n    \"other\",\n    \"travel\",\n    \"upi\",\n    \"wallet\",\n    \"work-trip\",\n    \"किराना\"\n  ],\n  \"settings\": {\n    \"defaultMonthlyBudgetPaise\": 9000000,\n    \"preferredVoiceLanguage\": \"hi\"\n  }\n}\n",
+  "csv": "﻿\"id\",\"date\",\"amount\",\"currency\",\"category\",\"description\",\"payment_method\",\"tags\"\r\n\"f1\",\"2026-09-01\",\"10500.00\",\"INR\",\"Housing\",\"Rent\",\"bank-transfer\",\"#housing #bank-transfer\"\r\n\"f2\",\"2026-09-03\",\"864.00\",\"INR\",\"Food & groceries\",\"किराना सामान\",\"upi\",\"#किराना #upi\"\r\n\"f3\",\"2026-10-04\",\"0.01\",\"INR\",\"Other\",\"'=SUM(A1) \"\"quoted\"\", comma\",\"cash\",\"#cash\"\r\n\"f4\",\"2026-10-05\",\"450.00\",\"INR\",\"Transport\",\"Train pass\",\"unspecified\",\"#travel #work-trip\"\r\n",
+  "migrated": {
+    "schemaVersion": 4,
+    "currency": "INR",
+    "expenses": [
+      {
+        "id": "f1",
+        "description": "Rent",
+        "tags": [
+          "housing",
+          "bank-transfer"
+        ],
+        "date": "2026-09-01",
+        "category": "Housing",
+        "cents": 1050000,
+        "paymentMethod": "bank-transfer"
+      },
+      {
+        "id": "f2",
+        "description": "किराना सामान",
+        "tags": [
+          "किराना",
+          "upi"
+        ],
+        "date": "2026-09-03",
+        "category": "Food & groceries",
+        "cents": 86400,
+        "paymentMethod": "upi"
+      },
+      {
+        "id": "f3",
+        "description": "=SUM(A1) \"quoted\", comma",
+        "tags": [
+          "cash"
+        ],
+        "date": "2026-10-04",
+        "category": "Other",
+        "cents": 1,
+        "paymentMethod": "cash"
+      },
+      {
+        "id": "f4",
+        "description": "Train pass",
+        "tags": [
+          "travel",
+          "work-trip"
+        ],
+        "date": "2026-10-05",
+        "category": "Transport",
+        "cents": 45000,
+        "paymentMethod": "unspecified"
+      }
+    ],
+    "budgets": {
+      "2026-09": 5000000,
+      "2026-10": 0
+    },
+    "tagCatalog": [
+      "bank-transfer",
+      "cash",
+      "credit-card",
+      "debit-card",
+      "extra",
+      "housing",
+      "other",
+      "travel",
+      "upi",
+      "wallet",
+      "work-trip",
+      "किराना"
+    ],
+    "settings": {
+      "defaultMonthlyBudgetPaise": 9000000,
+      "preferredVoiceLanguage": "hi"
+    }
+  },
+  "migratedLegacy": {
+    "schemaVersion": 4,
+    "currency": "INR",
+    "expenses": [
+      {
+        "id": "l1",
+        "description": "Old lunch",
+        "tags": [],
+        "date": "2025-01-02",
+        "category": "Food & groceries",
+        "cents": 2550,
+        "paymentMethod": "unspecified"
+      }
+    ],
+    "budgets": {
+      "2025-01": 100000
+    },
+    "tagCatalog": [
+      "bank-transfer",
+      "cash",
+      "credit-card",
+      "debit-card",
+      "other",
+      "upi",
+      "wallet"
+    ],
+    "settings": {
+      "defaultMonthlyBudgetPaise": 12500000,
+      "preferredVoiceLanguage": "en"
+    }
+  }
+}

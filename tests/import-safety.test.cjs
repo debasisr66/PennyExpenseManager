@@ -33,7 +33,7 @@ test('D3: other file types get the CSV/JSON message', async () => {
 });
 test('D5: CSV import carries no preferences', async () => {
   const r = await readImportFile(file('e.csv', D.exportCsv(seed())));
-  assert.equal(r.state.expenses.length, 9);
+  assert.equal(r.state.expenses.length, 24);
   assert.equal(r.settingsNote, 'CSV files do not contain preferences.');
 });
 test('D5: JSON backup with settings keeps preferences available', async () => {
