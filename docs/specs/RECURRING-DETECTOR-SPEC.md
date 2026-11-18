@@ -272,3 +272,4 @@ Gated as in the operating checklist (**Impact → Plan → Build → Test → Re
 | 2026-11-18 | D8 added by the owner: keep 4 of 6 for accuracy, and add "paid last month, not yet this month" so help starts after one month. Estimate 5 d |
 | 2026-11-18 | Approved: D1 strict, D2 owner runs the spike locally, D3 sample bills added, D4 month picker, D5 no diagnostics event, D6 3.3.1, D7 "paid this month" |
 | 2026-11-18 | Group A spike: "Looks recurring" made no wrong calls; the D8 list was about half one-offs. **D8 moved to 3.3.2** (owner), to return on an explicit "recurring" tick. Estimate 4.5 d |
+| 2026-11-18 | **Group A gate closed by the owner:** spike returned 0 bills because the backup has about 1 month of real history (4 needed), so recall cannot be measured yet. Owner chose to proceed to Group B on the unit-test evidence (45 detector tests) and **re-run the spike on real data before 3.3.1 is released** |
