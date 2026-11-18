@@ -1,6 +1,6 @@
 # Third-party dependency record
 
-As of 3.3.0, Penny has **no third-party runtime dependencies**. All runtime code is first-party. No package manager or build dependency is required to run Penny. A test checks that no `vendor/` directory or Excel code returns.
+As of 3.3.1, Penny has **no third-party runtime dependencies**. All runtime code is first-party. No package manager or build dependency is required to run Penny. A test checks that no `vendor/` directory or Excel code returns.
 
 ## Removed
 

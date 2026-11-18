@@ -368,3 +368,26 @@ test('TC-RD-P01 10,000 expenses are detected in under 50 ms', (t) => {
   t.diagnostic('best of 5: ' + best.toFixed(2) + ' ms');
   assert.ok(best < 50, 'best of 3 was ' + best.toFixed(1) + ' ms');
 });
+
+test('TC-RD-S01 sample data shows exactly the three sample bills', () => {
+  const D = require('../data.js');
+  const bills = R.detect(D.defaults('2026-10-20').expenses, '2026-10').bills;
+  assert.deepEqual(
+    bills.map((b) => [b.description, b.monthsSeen, b.paidThisMonth]),
+    [
+      ['Rent', 6, true],
+      ['Train pass', 5, true],
+      ['Music subscription', 4, false],
+    ],
+  );
+  assert.ok(!bills.some((b) => b.description === 'Weekly groceries'));
+  const jan = R.detect(D.defaults('2027-01-31').expenses, '2027-01').bills;
+  assert.deepEqual(
+    jan.map((b) => [b.description, b.monthsSeen]),
+    [
+      ['Rent', 6],
+      ['Train pass', 5],
+      ['Music subscription', 4],
+    ],
+  );
+});

@@ -1,3 +1,5 @@
+> **3.3.1 (18 November 2026):** no new surface. The "Looks recurring" panel adds no network calls, no storage writes and no third-party code; the CSP is unchanged and the panel renders with `textContent`.
+>
 > **3.3.0 update (17 November 2026):** Excel `.xlsx` import and export and the vendored SheetJS library were removed. Penny now contains no third-party runtime code and creates no web workers. Rows below marked "3.3.0" replace the earlier wording; the rest of this review is historical.
 
 > V3.2 release update: 633 automated tests pass locally and in Docker. [Current results](https://github.com/debasisr66/PennyExpenseManager/blob/49365a40073df01b6ca41b158044e39c3567e516/V3.2-TEST-RESULTS.md) and [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) distinguish completed checks from remaining device, language, accessibility and image-publication work. Historical evidence below is preserved.

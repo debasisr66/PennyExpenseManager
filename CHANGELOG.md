@@ -1,5 +1,11 @@
 # Changelog
 
+## V3.3.1 — 2026-11-18
+
+- **New: "Looks recurring" panel.** A read-only sidebar list of the bills you pay every month, found from your own entries by the new `recurring.js`. Strict rules: the same expense at about the same amount (within 10%) and day in at least 4 of the last 6 months, once a month. It shows the usual amount, usual day and evidence, and "paid this month". Nothing is saved, changed or sent, and no data format changes.
+- **Sample data:** the sample (first visit and Reset) now includes past-month entries for Rent, Train pass and a music subscription, so the panel works on first visit. The sample now has 24 expenses; this month's total is unchanged.
+- **Version note:** 3.3.1 is deliberately a patch number. It is the first step of a recurring-bills arc that rolls up to 3.4 (decision D6). See [the spec](docs/specs/RECURRING-DETECTOR-SPEC.md).
+
 ## V3.3.0 — 2026-11-17
 
 - **Removed: Excel import and export.** The Export Excel button and `.xlsx` import are gone, along with the SheetJS library, `spreadsheet.js` and `import-worker.js`. Use CSV, which Excel opens directly, or the full JSON backup. Budgets, saved tags and preferences travel only in JSON, so download a JSON backup if you relied on Excel for them. To convert an old `.xlsx` file: in Excel, use File › Save As › CSV, then import the CSV. Choosing a `.xlsx` file now shows a message that explains this.

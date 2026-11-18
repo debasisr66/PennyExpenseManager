@@ -341,6 +341,56 @@
       `Spending for ${monthName(month)}: ${s.byCategory.map((x) => `${x.category} ${money(x.cents)}`).join(', ') || 'No expenses'}`,
     );
     renderList();
+    renderRecurring(month);
+  }
+  let recurringMemo = { expenses: null, month: null, result: null };
+  const ordinal = (n) =>
+    n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th');
+  function recurringBills(month) {
+    const memo = recurringMemo;
+    if (memo.expenses !== state.expenses || memo.month !== month)
+      recurringMemo = {
+        expenses: state.expenses,
+        month,
+        result: PennyRecurring.detect(state.expenses, month),
+      };
+    return recurringMemo.result.bills;
+  }
+  function recurringRow(bill) {
+    const li = document.createElement('li'),
+      name = document.createElement('strong'),
+      detail = document.createElement('span');
+    name.textContent = `${bill.description} · ${money(bill.cents)}`;
+    detail.className = 'small';
+    detail.textContent = [
+      bill.category,
+      `around the ${ordinal(bill.day)}`,
+      `seen ${bill.monthsSeen} of ${bill.monthsChecked} months`,
+      bill.lastCents !== bill.cents ? `last ${money(bill.lastCents)}` : '',
+      bill.paidThisMonth ? 'paid this month' : '',
+    ]
+      .filter(Boolean)
+      .join(' · ');
+    li.append(name, ' ', detail);
+    return li;
+  }
+  function renderRecurring(month) {
+    const bills = recurringBills(month),
+      max = PennyRecurring.RULES.maxRows,
+      list = $('recurring-list'),
+      rows = bills.slice(0, max).map(recurringRow),
+      note = (text, cls) =>
+        Object.assign(document.createElement('li'), { textContent: text, className: cls });
+    if (!bills.length)
+      rows.push(
+        note(
+          'No regular monthly bills found yet. Penny looks for the same expense, ' +
+            'at about the same amount and day, in at least 4 of the last 6 months.',
+          'empty',
+        ),
+      );
+    if (bills.length > max) rows.push(note(`and ${bills.length - max} more`, 'small'));
+    list.replaceChildren(...rows);
   }
   function draftTags() {
     try {
@@ -1416,7 +1466,7 @@
       const op = D.operation(state, kind, $('fresh-month').value, today());
       $('fresh-impact').textContent =
         kind === 'reset'
-          ? `Reset all ${op.count} expenses and all budgets. Restore 9 sample expenses and a default monthly budget of ₹1,25,000. Keep saved tags. Clear logs, stop debug and disconnect the data file without overwriting it.`
+          ? `Reset all ${op.count} expenses and all budgets. Restore ${op.remaining} sample expenses and a default monthly budget of ₹1,25,000. Keep saved tags. Clear logs, stop debug and disconnect the data file without overwriting it.`
           : `Delete ${op.count} expenses (${money(op.total)}). ${op.remaining} expenses remain. Budgets and tags stay unchanged.`;
       $('fresh-ack').nextSibling.textContent =
         kind === 'month'
