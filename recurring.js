@@ -5,8 +5,8 @@
   else root.PennyRecurring = factory();
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
-  // maxRows and lastMonthMaxRows are display caps for the UI.
-  // detect() returns the full lists and never truncates.
+  // maxRows is a display cap for the UI.
+  // detect() returns the full list and never truncates.
   // amountToleranceRatio 10 means abs(cents - median) * 10 <= median
   // (10%, integer maths only).
   const RULES = Object.freeze({
@@ -17,7 +17,6 @@
     maxDaySpread: 6,
     dayCap: 28,
     maxRows: 8,
-    lastMonthMaxRows: 5,
   });
   const NAMES = 'january february march april may june july august';
   const MORE = 'september october november december';
@@ -167,19 +166,6 @@
       paidThisMonth: cur.some(paid),
     };
   }
-  function lastItems(groups, to, seen) {
-    const items = [];
-    for (const [key, { win, cur }] of groups) {
-      if (cur.length || seen.has(key)) {
-        continue;
-      }
-      const prior = win.filter((r) => monthOf(r) === to);
-      if (prior.length === 1) {
-        items.push(toRow(prior[0]));
-      }
-    }
-    return items;
-  }
   function detect(expenses, ref) {
     if (!REF_MONTH.test(ref)) {
       throw TypeError('Invalid reference month.');
@@ -190,20 +176,16 @@
     const rows = Array.isArray(expenses) ? expenses : [];
     const groups = groupRows(rows, from, ref);
     const bills = [];
-    const seen = new Set();
-    for (const [key, { win, cur }] of groups) {
+    for (const { win, cur } of groups.values()) {
       const counts = monthCounts(win);
       if (!isRecurring(win, counts, recent)) {
         continue;
       }
-      seen.add(key);
       bills.push(toBill(win, cur, counts));
     }
-    const lastMonth = lastItems(groups, to, seen);
     return {
       bills: bills.sort(byAmount),
       window: { from, to },
-      lastMonth: lastMonth.sort(byAmount),
     };
   }
   return { RULES, normalizeKey, detect };

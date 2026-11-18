@@ -1,6 +1,6 @@
 # Idea 1: Recurring detector. Impact, architecture, design, estimate and plan
 
-Status: **APPROVED 18 November 2026: D1–D7 all (a), as recommended; D8 (a) added by the owner** (owner). Next: Group A on a feature branch. Date 18 November 2026. Baseline: Penny 3.3.0 (`cb84ff7`), 644 automated tests passing.
+Status: **APPROVED 18 November 2026: D1–D7 all (a), as recommended; D8 (a) added by the owner; D8 moved to 3.3.2 after the Group A spike** (owner). Next: Group A on a feature branch. Date 18 November 2026. Baseline: Penny 3.3.0 (`cb84ff7`), 644 automated tests passing.
 Target release: **3.3.1**, the first step of the recurring-bills arc that rolls up to 3.4 (see [IDEAS.md](../IDEAS.md)).
 
 ## 1. Bottom line
@@ -9,7 +9,7 @@ Penny will **notice the bills you pay every month and list them, without being t
 
 The detector is **strict**: it would rather miss a bill than show a wrong one.
 
-Because strict detection needs 4 months of history, the panel also has a second, **factual** section from the first month of use: **"Paid last month, not yet this month"** (§7.4, owner decision D8). It does not claim anything is recurring; it only states what was logged last month and is missing this month.
+**Moved to 3.3.2 (D8, after the spike):** ~~Because strict detection needs 4 months of history, the panel also has a second, **factual** section from the first month of use: **"Paid last month, not yet this month"** (§7.4, owner decision D8). It does not claim anything is recurring; it only states what was logged last month and is missing this month.~~ On real data about half its rows were one-offs (cake, sneakers), so it returns in 3.3.2 built on an explicit "recurring" tick (see IDEAS.md).
 
 It is **additive only**:
 - no data model change (schema 4, storage keys, CSV and JSON formats are unchanged);
@@ -27,7 +27,7 @@ The detector is a pure function over the expenses Penny already holds.
 | Job | *When I open Penny, I want to see which fixed bills I pay every month, so that I know my committed spend without remembering it.* |
 | Who | The owner. Penny is a showcase, so the first-visit demo matters as much as real use |
 | Why now | Recurring bills were the most real pain in the 18 November brainstorm. Detection is also the engine for ideas 2 and 3 |
-| Success | (1) **Precision 100%** on your review: every row is a real monthly bill. (2) **Recall ≥ 80% of fixed-amount monthly bills** you list before the spike (rent, SIPs, EMIs, subscriptions). Variable bills (electricity, phone usage) are excluded from the denominator, because strict rules are expected to miss them. (3) A first-time visitor sees the panel working (D3). (4) A user with only one previous month logged still gets useful help (D8). (5) Freeze checks pass (§8) |
+| Success | (1) **Precision 100%** on your review: every row is a real monthly bill. (2) **Recall ≥ 80% of fixed-amount monthly bills** you list before the spike (rent, SIPs, EMIs, subscriptions). Variable bills (electricity, phone usage) are excluded from the denominator, because strict rules are expected to miss them. (3) A first-time visitor sees the panel working (D3). (4) ~~A user with only one previous month logged still gets useful help (D8)~~ moved to 3.3.2. (5) Freeze checks pass (§8) |
 | Non-goals | Reminders; adding entries (idea 2); forecasting (idea 3); bimonthly, quarterly or yearly bills; variable-amount bills; dismissing detections (that needs stored data) |
 
 ## 3. Impact analysis
@@ -148,6 +148,8 @@ Category + normalised description:
 
 ### 7.4 Paid last month, not yet this month (D8)
 
+> **Moved to 3.3.2 (owner, 18 Nov, after the spike).** The rules below are kept for reference; 3.3.1 does not build them.
+
 A factual list, not a detection. An entry from the **month before the reference month** is shown when all of these hold:
 
 | Rule | Exact definition |
@@ -171,7 +173,7 @@ One-off purchases (for example "New sneakers") can appear here. That is why the 
 | TC-RD-U01…U12 | Normalisation: month names and `sept`, years, kept numbers, punctuation, spacing, Devanagari kept intact, empty key ignored |
 | TC-RD-R01…R18 | Rules: 4 of 6 pass; 3 of 6 fail; bimonthly (months 2, 4, 6) fail; twice in a month fail; amount at exactly +10% pass and +10% + 1 paise fail; day spread 6 pass, 7 fail; days 31 and 28 equal; inactive in the 2 latest months fail; payment-method change pass; category change splits; fixed-price habit fixture (documents the residual) |
 | TC-RD-W01…W05 | Window: January reference (year wrap), past picker month, future picker month, entries after the reference month ignored, empty history |
-| TC-RD-L01…L06 | Last-month section: single entry shown; twice last month not shown; present this month not shown; already in recurring list not shown; empty key not shown; January reference uses December; cap 5 plus "N more" |
+| TC-RD-L01…L06 | **Moved to 3.3.2 (owner, 18 Nov, after the spike).** Last-month section: single entry shown; twice last month not shown; present this month not shown; already in recurring list not shown; empty key not shown; January reference uses December; cap 5 plus "N more" |
 | TC-RD-O01…O05 | Output: lower-median whole paise, "last ₹X", sort order, max 8 plus "N more", "paid this month" only when amount and day rules pass |
 | TC-RD-F01 | `detect` never mutates input (deep-frozen fixture) |
 | TC-RD-F02 | **Golden fixture** (committed `tests/fixtures/freeze-3.3.0.json`, generated from the 3.3.0 code before any change): JSON backup and CSV export of a fixed state, and `migrateState` output, are byte-identical after the change |
@@ -194,13 +196,13 @@ Built by a Sonnet 5.5 subagent, reviewed independently by Opus 5.5. "Days" are b
 | E2 | `recurring.js` and unit tests (U, R, W, O, F01, F04, P) | 1.25 d | Medium |
 | E3 | Spike on your data (D2), and **one rule iteration** | 0.75 d | Medium |
 | E4 | Panel, memo, styles, accessibility | 0.5 d | High |
-| E4b | Last-month section (D8): rule, tests L01–L06, collapsed UI | 0.5 d | High |
+| E4b | ~~Last-month section (D8)~~ moved to 3.3.2 | 0 d (was 0.5 d) | — |
 | E5 | D3 sample bills, `operation()` count, updated assertions, S01 | 0.5 d | Medium |
 | E6 | Deploy lists (3), version and all doc copies, What's New, README, CHANGELOG, ARCHITECTURE, SECURITY-REVIEW | 0.25 d | High |
 | E7 | Browser checks B01–B04 | 0.25 d | Medium |
 | E8 | Independent review and fixes | 0.5 d | Medium |
 | E9 | Release 3.3.1, Pages check, Studio sync check | 0.25 d | High |
-| | **Total** | **5 d (range 4.5–6.5)** | |
+| | **Total** | **4.5 d (range 4–6)**, after D8 moved to 3.3.2 | |
 | | Your time | ~2 h: decisions now, spike review after Group A, release approval | |
 
 The draft estimate (3.75 d) was too low. It missed the 3-list wiring, the `operation()` code change, the untested doc version copies and a likely second spike iteration. **6 days** is the case where the spike needs two rule iterations.
@@ -215,7 +217,7 @@ Gated as in the operating checklist (**Impact → Plan → Build → Test → Re
 |---|---|---|
 | **0. Spec** | This spec and `docs/IDEAS.md`, merged by PR (docs only; no deploy) | You approve D1–D7 |
 | **A. Engine** (branch) | E1 → E2 → E3 | Spike: precision 100% and recall ≥ 80% (§2). All tests green on the branch. Opus review clean |
-| **B. Panel** (same branch) | E4 → E4b → E5 → E6 → E7 → E8. PR to `main`; CI `verify` green | Browser checks recorded; Opus diff review; checklist smoke (§4 of the operating checklist). **You approve the merge** |
+| **B. Panel** (same branch) | E4 → E5 → E6 → E7 → E8. PR to `main`; CI `verify` green | Browser checks recorded; Opus diff review; checklist smoke (§4 of the operating checklist). **You approve the merge** |
 | **C. Release** | E9: tag `v3.3.1`, release notes; watch Studio's sync | **You approve publishing** |
 
 **Freeze list:** data schema and storage keys (F02); CSV and JSON formats (F02); CSP and headers (F03); diagnostics allowlist (unchanged file, review); existing screens and behaviour (existing tests plus B01, human review); no new network or third-party code (CSP unchanged; `DEPENDENCIES.md` unchanged apart from the version).
@@ -239,7 +241,7 @@ Gated as in the operating checklist (**Impact → Plan → Build → Test → Re
 | D4 | Reference month | (a) month picker; (b) always today | **(a)**: consistent with the cards and chart |
 | D5 | Diagnostics event | (a) none; (b) one count event | **(a)** |
 | D6 | Version | (a) 3.3.1 as you planned; (b) 3.4.0 (semver: new feature = minor) | **(a)**, with a CHANGELOG note on the deliberate roll-up to 3.4 |
-| D8 | "Paid last month, not yet this month" (added by the owner after approval) | (a) include in 3.3.1 as a collapsed, factual section; (b) leave for idea 2 | **(a)**, approved 18 November 2026: waiting 4 months for strict detection is too long on its own |
+| D8 | "Paid last month, not yet this month" (added by the owner after approval) | (a) include in 3.3.1 as a collapsed, factual section; (b) leave for idea 2 | **(a)**, approved 18 November 2026: waiting 4 months for strict detection is too long on its own. **Moved to 3.3.2 (owner, 18 Nov, after the spike).** Spike: about half the rows were one-offs. It returns with an explicit "recurring" tick |
 | D7 | "Paid this month" | (a) shown when a reference-month entry passes the amount and day rules; (b) not shown | **(a)**: no cost, and it sets up idea 2 |
 
 ## 12. Independent review (Sonnet 5.5, 18 November 2026): disposition
@@ -269,3 +271,4 @@ Gated as in the operating checklist (**Impact → Plan → Build → Test → Re
 | 2026-11-18 | Draft v2: independent review folded in |
 | 2026-11-18 | D8 added by the owner: keep 4 of 6 for accuracy, and add "paid last month, not yet this month" so help starts after one month. Estimate 5 d |
 | 2026-11-18 | Approved: D1 strict, D2 owner runs the spike locally, D3 sample bills added, D4 month picker, D5 no diagnostics event, D6 3.3.1, D7 "paid this month" |
+| 2026-11-18 | Group A spike: "Looks recurring" made no wrong calls; the D8 list was about half one-offs. **D8 moved to 3.3.2** (owner), to return on an explicit "recurring" tick. Estimate 4.5 d |

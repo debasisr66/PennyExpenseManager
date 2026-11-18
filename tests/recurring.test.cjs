@@ -74,7 +74,6 @@ test('TC-RD-U12 rows whose key is empty never group into a bill', () => {
   const rows = [...series('Nov', WINDOW), ...series('2026', WINDOW), ...series('Nov 2026', WINDOW)];
   const r = R.detect(rows, REF);
   assert.deepEqual(r.bills, []);
-  assert.deepEqual(r.lastMonth, []);
 });
 
 // ---------- R: rules ----------
@@ -200,7 +199,6 @@ test('TC-RD-W03 a future picker month behaves predictably', () => {
   const r = R.detect(series('Rent', WINDOW), '2027-03');
   assert.deepEqual(r.window, { from: '2026-09', to: '2027-02' });
   assert.deepEqual(r.bills, []);
-  assert.deepEqual(r.lastMonth, []);
 });
 test('TC-RD-W04 entries after the end of the reference month are ignored', () => {
   const rows = [
@@ -215,8 +213,9 @@ test('TC-RD-W04 entries after the end of the reference month are ignored', () =>
   assert.equal(r.bills[0].cents, 100000);
 });
 test('TC-RD-W05 empty or missing history returns empty results', () => {
-  const empty = { bills: [], window: { from: '2026-05', to: '2026-10' }, lastMonth: [] };
+  const empty = { bills: [], window: { from: '2026-05', to: '2026-10' } };
   assert.deepEqual(R.detect([], REF), empty);
+  assert.equal('lastMonth' in R.detect([], REF), false);
   assert.deepEqual(R.detect(undefined, REF), empty);
   assert.throws(() => R.detect([], '2026-13'), TypeError);
   assert.throws(() => R.detect([], '2026-1'), TypeError);
@@ -276,58 +275,6 @@ test('TC-RD-O05 paidThisMonth needs an entry passing amount and day rules', () =
   assert.equal(paid([x('Rent', REF, 7, 100000)]), true);
   assert.equal(paid([x('Rent', REF, 8, 100000)]), false);
   assert.equal(paid([x('Rent', REF, 2, 100000, 'Other')]), false);
-});
-
-// ---------- L: paid last month, not yet this month ----------
-// The spec's L01-L06 range lists seven cases, so the cap test is L07.
-test('TC-RD-L01 a single last-month entry is shown with its fields', () => {
-  const r = R.detect([x('Electricity', '2026-10', 7, 214000, 'Housing')], REF);
-  assert.deepEqual(r.lastMonth, [
-    { description: 'Electricity', category: 'Housing', cents: 214000, date: '2026-10-07' },
-  ]);
-});
-test('TC-RD-L02 a key logged twice last month is not shown', () =>
-  assert.deepEqual(
-    R.detect([x('Coffee', '2026-10', 3, 500), x('Coffee', '2026-10', 9, 500)], REF).lastMonth,
-    [],
-  ));
-test('TC-RD-L03 a key present in the reference month is not shown', () =>
-  assert.deepEqual(
-    R.detect([x('Broadband', '2026-10', 3, 99900), x('Broadband', REF, 1, 5)], REF).lastMonth,
-    [],
-  ));
-test('TC-RD-L04 a key already in the recurring list is not shown', () => {
-  const r = R.detect(series('Rent', WINDOW), REF);
-  assert.equal(r.bills.length, 1);
-  assert.deepEqual(r.lastMonth, []);
-});
-test('TC-RD-L05 an empty key is not shown', () =>
-  assert.deepEqual(R.detect([x('Nov 2026', '2026-10', 3, 99900)], REF).lastMonth, []));
-test('TC-RD-L06 a January reference uses December', () => {
-  const r = R.detect([x('Broadband', '2026-12', 3, 99900), x('Old', '2026-11', 3, 100)], '2027-01');
-  assert.deepEqual(
-    r.lastMonth.map((i) => i.description),
-    ['Broadband'],
-  );
-});
-test('TC-RD-L07 detect returns all last-month items; the UI caps at RULES.lastMonthMaxRows', () => {
-  const rows = [];
-  for (let i = 1; i <= 7; i++) rows.push(x('Item ' + i, '2026-10', i, i * 1000, 'Other'));
-  const r = R.detect(rows, REF);
-  assert.equal(R.RULES.lastMonthMaxRows, 5);
-  assert.equal(r.lastMonth.length, 7);
-  assert.deepEqual(
-    r.lastMonth.map((i) => i.cents),
-    [7000, 6000, 5000, 4000, 3000, 2000, 1000],
-  );
-});
-
-test('TC-RD-L08 on a past reference month the section compares it with the month before it', () => {
-  const rows = [x('Broadband', '2026-07', 3, 99900), x('Newer', '2026-10', 3, 500)];
-  assert.deepEqual(
-    R.detect(rows, '2026-08').lastMonth.map((i) => i.description),
-    ['Broadband'],
-  );
 });
 
 // ---------- F: freeze ----------
@@ -401,7 +348,6 @@ test('TC-RD-F04 RULES is frozen and every value is pinned', () => {
     maxDaySpread: 6,
     dayCap: 28,
     maxRows: 8,
-    lastMonthMaxRows: 5,
   });
 });
 
