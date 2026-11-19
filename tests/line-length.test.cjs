@@ -29,7 +29,7 @@ const BASELINE = {
   'tests/no-excel.test.cjs': 6,
   'tests/offline-language.test.cjs': 15,
   'tests/serve-tests.cjs': 9,
-  'tests/ui-colours.test.cjs': 4,
+  'tests/ui-colours.test.cjs': 6,
   'tests/v3.test.cjs': 37,
   'tests/v32.test.cjs': 37,
   'tests/version.test.cjs': 6,

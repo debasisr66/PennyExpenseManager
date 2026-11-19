@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const read = (f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
-const css = read('styles.css');
+const css = read('styles.css').replace(/\[data-theme="(\w+)"\]/g, "[data-theme='$1']");
 
 function blockBody(selector) {
   const out = [];
@@ -25,7 +25,11 @@ const tokensOf = (body) =>
 const LIGHT = blockBody(':root').filter((b) => b.body.includes('--bg:'));
 const lightBlock = LIGHT[0];
 const light = tokensOf(lightBlock.body);
-const tokenBlocks = [lightBlock];
+const darkMedia = blockBody(":root:not([data-theme='light'])")[0];
+const darkAttr = blockBody(":root[data-theme='dark']")[0];
+assert.ok(darkMedia && darkAttr, 'both dark blocks exist');
+const dark = tokensOf(darkAttr.body);
+const tokenBlocks = [lightBlock, darkMedia, darkAttr];
 
 function hex(h) {
   let x = h.replace('#', '');
@@ -100,11 +104,11 @@ const OLD = {
   red: '#ad3e35', track: '#d8e2d3', 'bar-track': '#f0f3ed', 'warn-bg': '#fff2ed',
   'locked-bg': '#eef3fb', 'locked-line': '#c4d3ea', 'tag-l': '96%', 'tag-line-l': '81%',
   'tag-s': '65%', 'tag-line-s': '48%', 'chip-hover': '#ffffff77', shadow: '#173a3526',
-  'shadow-soft': '#193c3605', backdrop: '#14372f65', 'cat-0': '#28745b',
+  'shadow-soft': '#193c3605', backdrop: '#14372f65', 'cat-0': '#28745b', tap: '#21665333',
 };
 const FIXED = {
-  field: '#d4ded4', focus: '#d6aa51', 'cat-1': '#9aac80', 'cat-2': '#dab06c', 'cat-3': '#91b9bc',
-  'cat-4': '#ad9cc2', 'cat-5': '#d39170', 'cat-6': '#adb4a2',
+  field: '#7f8f86', focus: '#9a6b00', 'cat-1': '#6f8a4a', 'cat-2': '#a2741a', 'cat-3': '#3d8389',
+  'cat-4': '#7d68a3', 'cat-5': '#b0613a', 'cat-6': '#6f7768',
 };
 const TINTS = ['#eef3e8', '#edf2e9', '#eef3ea', '#edf2ed', '#efefeb', '#edf0e9', '#edf2eb'];
 test('TC-TH-C04 light pin', () => {
@@ -114,4 +118,75 @@ test('TC-TH-C04 light pin', () => {
     const o = hex(t);
     for (const ch of ['r', 'g', 'b']) assert.ok(Math.abs(o[ch] - s2[ch]) <= 3, t + ' ' + ch);
   }
+});
+
+// TC-TH-C02
+test('TC-TH-C02 light and dark blocks define the same tokens; the dark blocks are identical', () => {
+  const keys = (t) => Object.keys(t).sort();
+  assert.deepEqual(keys(dark), keys(light));
+  assert.deepEqual(keys(tokensOf(darkMedia.body)), keys(light));
+  assert.equal(darkMedia.body.replace(/\s+/g, ' ').trim(), darkAttr.body.replace(/\s+/g, ' ').trim());
+  assert.match(css.slice(0, darkMedia.at), /@media \(prefers-color-scheme: dark\) \{\s*$/);
+});
+
+// TC-TH-C03: section 3.3 of the spec, both themes. [foreground, background, need, note]
+const PAIRS = [
+  ['ink', 'surface', 4.5], ['ink', 'bg', 4.5], ['ink', 'surface-2', 4.5],
+  ['muted', 'bg', 4.5], ['muted', 'surface-2', 4.5], ['muted', 'surface', 4.5],
+  ['red', 'surface', 4.5], ['red', 'bg', 4.5], ['green', 'surface', 4.5],
+  ['on-accent', 'green', 4.5], ['on-accent', 'red', 4.5], ['surface', 'ink', 4.5],
+  ['focus', 'bg', 3], ['focus', 'surface', 3], ['focus', 'surface-2', 3],
+  ['field', 'surface', 3], ['green', 'track', 3], ['red', 'track', 3],
+  ['red', 'warn-bg', 4.5], ['ink', 'locked-bg', 4.5], ['green', 'surface-2', 4.5],
+  ...[0, 1, 2, 3, 4, 5, 6].map((n) => ['cat-' + n, 'bar-track', 3]),
+];
+for (const [name, tokens] of [['light', light], ['dark', dark]]) {
+  test('TC-TH-C03 contrast pairs, ' + name, () => {
+    const bad = PAIRS.filter(([fg, bg, need]) => contrast(tokens, fg, bg) < need).map(
+      ([fg, bg, need]) => `${fg} on ${bg}: ${contrast(tokens, fg, bg).toFixed(2)} < ${need}`,
+    );
+    assert.deepEqual(bad, []);
+  });
+}
+
+// TC-TH-C05: tag chips, hues 0-359 step 15, resting and with the hover overlay.
+function hsl(h, s, l) {
+  s /= 100;
+  l /= 100;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+  return { r: f(0) * 255, g: f(8) * 255, b: f(4) * 255, a: 1 };
+}
+for (const [name, tokens] of [['light', light], ['dark', dark]]) {
+  test('TC-TH-C05 tag chip text, ' + name, () => {
+    const pct = (k) => parseFloat(tokens[k]);
+    const ink = rgbOf(tokens, 'ink');
+    const hover = hex(tokens['chip-hover']);
+    const bad = [];
+    for (let h = 0; h < 360; h += 15) {
+      const bg = hsl(h, pct('tag-s'), pct('tag-l'));
+      const rest = ratio(ink, bg);
+      const hov = ratio(ink, over(hover, bg));
+      if (rest < 4.5 || hov < 4.5) bad.push(`${h}: ${rest.toFixed(2)} / ${hov.toFixed(2)}`);
+    }
+    assert.deepEqual(bad, []);
+  });
+}
+
+// TC-TH-C06
+test('TC-TH-C06 color-scheme per block and a placeholder rule on --muted', () => {
+  assert.match(lightBlock.body, /color-scheme:\s*light;/);
+  assert.match(darkMedia.body, /color-scheme:\s*dark;/);
+  assert.match(darkAttr.body, /color-scheme:\s*dark;/);
+  assert.match(css, /::placeholder\s*\{[^}]*color:\s*var\(--muted\)/);
+});
+
+// TC-TH-C07: Studio's neutrals at debasisr66/studio 8faaf62 (css/site.css), read-only copy.
+test('TC-TH-C07 dark neutrals equal Studio 8faaf62', () => {
+  const studio = {
+    bg: '#0d0d0f', surface: '#151519', 'surface-2': '#1c1c22', line: '#26262e',
+    field: '#6e6e7c', ink: '#ededf0', muted: '#8b8b97',
+  };
+  for (const [k, v] of Object.entries(studio)) assert.equal(dark[k].toLowerCase(), v, k);
 });

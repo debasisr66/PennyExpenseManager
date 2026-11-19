@@ -5,14 +5,14 @@
   --surface-2: #edf2eb;
   --line: #e1e7df;
   --line-2: #d5dfd1;
-  --field: #d4ded4;
+  --field: #7f8f86;
   --ink: #193c36;
   --muted: #5d7069;
   --brand-dot: #9fae9d;
   --green: #216653;
   --on-accent: #ffffff;
   --red: #ad3e35;
-  --focus: #d6aa51;
+  --focus: #9a6b00;
   --track: #d8e2d3;
   --bar-track: #f0f3ed;
   --warn-bg: #fff2ed;
@@ -27,12 +27,92 @@
   --shadow-soft: #193c3605;
   --backdrop: #14372f65;
   --cat-0: #28745b;
-  --cat-1: #9aac80;
-  --cat-2: #dab06c;
-  --cat-3: #91b9bc;
-  --cat-4: #ad9cc2;
-  --cat-5: #d39170;
-  --cat-6: #adb4a2;
+  --cat-1: #6f8a4a;
+  --cat-2: #a2741a;
+  --cat-3: #3d8389;
+  --cat-4: #7d68a3;
+  --cat-5: #b0613a;
+  --cat-6: #6f7768;
+  --tap: #21665333;
+}
+/* Dark neutrals (bg, surface, surface-2, line, field, ink, muted) are Studio's, copied from
+   debasisr66/studio css/site.css at commit 8faaf62. Penny keeps its own green accent.
+   The two blocks below must stay identical (tests/ui-colours.test.cjs C02). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0d0d0f;
+    --surface: #151519;
+    --surface-2: #1c1c22;
+    --line: #26262e;
+    --line-2: #26262e;
+    --field: #6e6e7c;
+    --ink: #ededf0;
+    --muted: #8b8b97;
+    --brand-dot: #8b8b97;
+    --green: #4fc59a;
+    --on-accent: #0d0d0f;
+    --red: #ff8a80;
+    --focus: #e2b660;
+    --track: #26262e;
+    --bar-track: #26262e;
+    --warn-bg: #2a1a18;
+    --locked-bg: #1a1f2e;
+    --locked-line: #3a4566;
+    --tag-l: 18%;
+    --tag-line-l: 34%;
+    --tag-s: 25%;
+    --tag-line-s: 25%;
+    --chip-hover: #ffffff1f;
+    --shadow: #00000066;
+    --shadow-soft: #00000033;
+    --backdrop: #000000a6;
+    --cat-0: #4fc59a;
+    --cat-1: #b4c48e;
+    --cat-2: #e2b660;
+    --cat-3: #8fc6ca;
+    --cat-4: #b9a6d6;
+    --cat-5: #e39a74;
+    --cat-6: #a4ab99;
+    --tap: #4fc59a33;
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0d0d0f;
+  --surface: #151519;
+  --surface-2: #1c1c22;
+  --line: #26262e;
+  --line-2: #26262e;
+  --field: #6e6e7c;
+  --ink: #ededf0;
+  --muted: #8b8b97;
+  --brand-dot: #8b8b97;
+  --green: #4fc59a;
+  --on-accent: #0d0d0f;
+  --red: #ff8a80;
+  --focus: #e2b660;
+  --track: #26262e;
+  --bar-track: #26262e;
+  --warn-bg: #2a1a18;
+  --locked-bg: #1a1f2e;
+  --locked-line: #3a4566;
+  --tag-l: 18%;
+  --tag-line-l: 34%;
+  --tag-s: 25%;
+  --tag-line-s: 25%;
+  --chip-hover: #ffffff1f;
+  --shadow: #00000066;
+  --shadow-soft: #00000033;
+  --backdrop: #000000a6;
+  --cat-0: #4fc59a;
+  --cat-1: #b4c48e;
+  --cat-2: #e2b660;
+  --cat-3: #8fc6ca;
+  --cat-4: #b9a6d6;
+  --cat-5: #e39a74;
+  --cat-6: #a4ab99;
+  --tap: #4fc59a33;
 }
 * {
   box-sizing: border-box;
@@ -54,6 +134,10 @@ select {
 }
 button {
   cursor: pointer;
+}
+::placeholder {
+  color: var(--muted);
+  opacity: 1;
 }
 button:focus-visible,
 a:focus-visible,
