@@ -1243,6 +1243,27 @@
   }
   const exportDate = () => today();
   $('whats-new-button').onclick = () => $('whats-new-dialog').showModal();
+  const themeStore = (() => {
+    try {
+      return window.localStorage;
+    } catch (error) {
+      return null;
+    }
+  })();
+  let themeMode = PennyTheme.load(themeStore);
+  const showTheme = () => {
+    const name = PennyTheme.ariaLabel(themeMode);
+    $('theme-toggle').setAttribute('aria-label', name);
+    $('theme-toggle').title = name;
+  };
+  showTheme();
+  $('theme-toggle').onclick = () => {
+    themeMode = PennyTheme.next(themeMode);
+    PennyTheme.apply(document, themeMode);
+    const result = PennyTheme.save(themeStore, themeMode);
+    showTheme();
+    notify(PennyTheme.label(themeMode, result.saved));
+  };
   $('data-manager').onclick = () => {
     $('data-error').hidden = true;
     storeStatus(

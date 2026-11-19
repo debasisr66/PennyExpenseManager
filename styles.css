@@ -117,6 +117,9 @@
 * {
   box-sizing: border-box;
 }
+html {
+  -webkit-tap-highlight-color: var(--tap);
+}
 body {
   margin: 0;
   background: var(--bg);
@@ -154,8 +157,10 @@ button {
   color: var(--on-accent);
   font-weight: 600;
 }
-button:hover {
-  filter: brightness(0.94);
+@media (hover: hover) {
+  button:hover {
+    filter: brightness(0.94);
+  }
 }
 .secondary {
   background: var(--surface-2);
@@ -886,8 +891,10 @@ label.field {
 .field .tag-list {
   display: flex;
 }
-.tag-chip button:hover {
-  background: var(--chip-hover);
+@media (hover: hover) {
+  .tag-chip button:hover {
+    background: var(--chip-hover);
+  }
 }
 button:disabled {
   opacity: 0.55;
@@ -1304,4 +1311,69 @@ dialog {
 #noticed-title {
   font-size: 13px;
   margin: 14px 0 6px;
+}
+
+/* 3.3.3: theme toggle, phone header (two rows), footer link, 16 px fields on phones. */
+#theme-toggle {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  flex: none;
+}
+footer .studio-note {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+.studio-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--green);
+  font-weight: 600;
+}
+.studio-link svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+@media (max-width: 700px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 8px 0;
+  }
+  .header-actions {
+    display: contents;
+  }
+  .brand {
+    order: 0;
+    flex: 1 1 calc(100% - 50px);
+    min-width: 0;
+  }
+  #theme-toggle {
+    order: 1;
+  }
+  .header-actions > button:not(#theme-toggle) {
+    order: 2;
+    flex: 1 1 auto;
+    min-height: 44px;
+    padding: 9px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  input,
+  select,
+  textarea,
+  .search-box input,
+  .inline-tag-form input {
+    font-size: 16px;
+  }
 }
