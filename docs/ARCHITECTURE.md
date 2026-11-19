@@ -1,6 +1,6 @@
-# Penny architecture (current: 3.3.3)
+# Penny architecture (current: 3.3.4)
 
-Updated 19 November 2026 for 3.3.3; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
+Updated 19 November 2026 for 3.3.4; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
 
 ```mermaid
 flowchart LR
@@ -18,6 +18,10 @@ flowchart LR
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.4 note
+
+`C.categories` (in `core.js`) has 9 names; `category` stays a validated string, so schema 4 and the CSV and JSON formats are unchanged. English voice rules in `core.js` put Utilities and Staff salary last in `categorySignals`, so words for older categories win. `app.js` maps a category to `var(--cat-N)` by its index, with "Other" mapped to the grey `--cat-6` and the two new categories to `--cat-7` and `--cat-8`. Confirming a discard in the expense dialog now leaves it closed (`askConfirmation` takes a `stayClosed` argument) instead of re-opening it first.
 
 ### 3.3.3 note
 

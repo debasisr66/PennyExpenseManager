@@ -1,5 +1,13 @@
 # Changelog
 
+## V3.3.4 — 2026-11-19
+
+- **New categories: Utilities and Staff salary.** The list has 9 names, with the two new ones before "Other"; the form still starts on "Food & groceries". Both import and export through CSV and JSON with no format change. A backup that uses a new category does not import into 3.3.3 or older. Past entries are not moved: to move a bill, edit its last entry's category (a bill marked recurring under Housing becomes a new bill when logged under Utilities, and the old one shows "Stopped?" then hides). See [the spec, section 11](docs/specs/THEME-TOGGLE-3.3.3-SPEC.md).
+- **Voice.** English: electricity, water, gas, utilities, broadband, wifi, internet, recharge and DTH map to Utilities (they left Housing); salary, maid, cook, driver, nanny and staff map to Staff salary. These two rules run last, so "taxi driver" and "staff lunch" keep their older category. Hindi keywords were added the same way; 20 Hindi-corpus phrases (15 Devanagari and 5 Hinglish) now expect Utilities instead of Housing. Spanish keywords were added in `translation.js` and produce the English draft that `core.js` then categorises. The Hindi entries added to `translation.js` are not reached (Hindi drafts use `hindi.js`).
+- **Chart.** Tokens `--cat-7` and `--cat-8` for the new categories, checked for contrast in both themes (light `#4f6fa8` and `#a8506e`, dark `#9DB4E8` and `#E89BB5`). "Other" keeps its grey.
+- **Fix (PR #23, best effort):** confirming Discard in the expense dialog no longer re-opens the dialog only to close it again. It was reported to leave the page zoomed on a phone. It could not be reproduced in a desktop browser, so it is not verified on a phone.
+- Tests: 792 pass. Schema 4, CSV and JSON formats, the F02 and detect goldens and the CSP are unchanged.
+
 ## V3.3.3 — 2026-11-19
 
 - **New: dark and light theme.** The ◐ button in the header cycles System (default), Light and Dark. System follows the phone or computer setting live with no script. The choice is one `localStorage` key, `penny-theme`, on this device only: it is not in the expense data, backups, CSV, JSON or schema 4. A new `theme.js` in `<head>` applies a saved choice before first paint and sets the browser bar colour (`theme-color`). The CSP is unchanged. See [the spec](docs/specs/THEME-TOGGLE-3.3.3-SPEC.md).
