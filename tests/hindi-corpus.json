@@ -42,7 +42,7 @@
       "kind": "devanagari",
       "text": "मैंने आज बिजली पर 105 रुपये खर्च किए यूपीआई से",
       "amountPaise": 10500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D007",
@@ -112,7 +112,7 @@
       "kind": "devanagari",
       "text": "आज बिजली के लिए 115 रुपये नकद दिए",
       "amountPaise": 11500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D017",
@@ -182,7 +182,7 @@
       "kind": "devanagari",
       "text": "आज क्रेडिट कार्ड से 125 रुपये का बिजली खरीदा",
       "amountPaise": 12500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D027",
@@ -252,7 +252,7 @@
       "kind": "devanagari",
       "text": "आज डेबिट कार्ड से बिजली पर 135 रुपये दिए",
       "amountPaise": 13500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D037",
@@ -322,7 +322,7 @@
       "kind": "devanagari",
       "text": "बैंक ट्रांसफर से आज बिजली के लिए 145 रुपये दिए",
       "amountPaise": 14500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D047",
@@ -392,7 +392,7 @@
       "kind": "devanagari",
       "text": "आज बिजली पर कुल 155 रुपये खर्च किए",
       "amountPaise": 15500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D057",
@@ -462,7 +462,7 @@
       "kind": "devanagari",
       "text": "मैंने 165 रुपये में बिजली खरीदा",
       "amountPaise": 16500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D067",
@@ -532,7 +532,7 @@
       "kind": "devanagari",
       "text": "आज नकद 175 रुपये का बिजली खरीदा",
       "amountPaise": 17500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D077",
@@ -602,7 +602,7 @@
       "kind": "devanagari",
       "text": "बिजली के लिए आज 185 रुपये खर्च किए वॉलेट से",
       "amountPaise": 18500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D087",
@@ -672,7 +672,7 @@
       "kind": "devanagari",
       "text": "मैंने आज बिजली के लिए 195 रुपये भुगतान किया",
       "amountPaise": 19500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D097",
@@ -742,7 +742,7 @@
       "kind": "devanagari",
       "text": "आज बिजली पर 205 रुपये खर्च हुए",
       "amountPaise": 20500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D107",
@@ -812,7 +812,7 @@
       "kind": "devanagari",
       "text": "आज 215 रुपये का बिजली यूपीआई से खरीदा",
       "amountPaise": 21500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D117",
@@ -882,7 +882,7 @@
       "kind": "devanagari",
       "text": "आज बिजली के लिए 225 रुपये दिये",
       "amountPaise": 22500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D127",
@@ -952,7 +952,7 @@
       "kind": "devanagari",
       "text": "आज बिजली पर 235 रुपये खर्च किये",
       "amountPaise": 23500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D137",
@@ -1022,7 +1022,7 @@
       "kind": "devanagari",
       "text": "आज बिजली पर 245 रुपये खर्च किए #family",
       "amountPaise": 24500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "D147",
@@ -1092,7 +1092,7 @@
       "kind": "hinglish",
       "text": "aaj bijli par 505 rupaye kharch kiye upi se",
       "amountPaise": 50500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "R007",
@@ -1162,7 +1162,7 @@
       "kind": "hinglish",
       "text": "maine aaj bijli ke liye 515 rupaye diye cash se",
       "amountPaise": 51500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "R017",
@@ -1232,7 +1232,7 @@
       "kind": "hinglish",
       "text": "aaj 525 rupaye ka bijli kharida",
       "amountPaise": 52500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "R027",
@@ -1302,7 +1302,7 @@
       "kind": "hinglish",
       "text": "aaj bijli par 535 rupaye credit card se diye",
       "amountPaise": 53500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "R037",
@@ -1372,7 +1372,7 @@
       "kind": "hinglish",
       "text": "aaj bijli ke liye 545 rupaye bank transfer se diye",
       "amountPaise": 54500,
-      "category": "Housing"
+      "category": "Utilities"
     },
     {
       "id": "R047",

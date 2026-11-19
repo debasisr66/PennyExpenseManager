@@ -11,6 +11,8 @@
     'Shopping',
     'Health',
     'Entertainment',
+    'Utilities',
+    'Staff salary',
     'Other',
   ];
   const MAX_AMOUNT = 999999999;
@@ -437,7 +439,12 @@
       .replace(/\s+/g, ' ')
       .trim();
     const categorySignals = [
-      ['Housing', /\b(rent|housing|maintenance|electricity|utilities)\b/i],
+      ['Housing', /\b(rent|housing|maintenance)\b/i],
+      [
+        'Utilities',
+        /\b(electricity|water|gas|utilities|broadband|wifi|internet|recharge|dth)\b/i,
+      ],
+      ['Staff salary', /\b(salary|maid|cook|driver|nanny|staff)\b/i],
       ['Food & groceries', /\b(food|groceries|grocery|coffee|lunch|dinner|produce|restaurant)\b/i],
       ['Transport', /\b(transport|petrol|fuel|taxi|train|bus|uber|travel)\b/i],
       ['Health', /\b(health|medical|medicine|pharmacy|doctor)\b/i],

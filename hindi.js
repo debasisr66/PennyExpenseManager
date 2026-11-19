@@ -207,11 +207,29 @@
       {
         किराया: 'rent',
         किराये: 'rent',
-        बिजली: 'electricity',
-        पानी: 'utilities',
         मेंटेनेंस: 'maintenance',
         रखरखाव: 'maintenance',
         सोसायटी: 'maintenance',
+      },
+    ],
+    [
+      'Utilities',
+      {
+        बिजली: 'electricity',
+        पानी: 'water utilities',
+        गैस: 'gas utilities',
+        रिचार्ज: 'recharge',
+      },
+    ],
+    [
+      'Staff salary',
+      {
+        तनख्वाह: 'salary',
+        वेतन: 'salary',
+        पगार: 'salary',
+        बाई: 'maid',
+        कामवाली: 'maid',
+        ड्राइवर: 'driver',
       },
     ],
     [
@@ -242,7 +260,6 @@
         स्कूल: 'school',
         पढ़ाई: 'education',
         सदस्यता: 'subscription',
-        रिचार्ज: 'recharge',
       },
     ],
   ];

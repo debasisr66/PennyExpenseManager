@@ -110,6 +110,7 @@ const NEW = { tap: '#21665333' };
 const FIXED = {
   field: '#7f8f86', focus: '#9a6b00', 'cat-1': '#6f8a4a', 'cat-2': '#a2741a', 'cat-3': '#3d8389',
   'cat-4': '#7d68a3', 'cat-5': '#b0613a', 'cat-6': '#6f7768',
+  'cat-7': '#4f6fa8', 'cat-8': '#a8506e',
 };
 const TINTS = ['#eef3e8', '#edf2e9', '#eef3ea', '#edf2ed', '#efefeb', '#edf0e9', '#edf2eb'];
 test('TC-TH-C04 light pin', () => {
@@ -139,7 +140,7 @@ const PAIRS = [
   ['focus', 'bg', 3], ['focus', 'surface', 3], ['focus', 'surface-2', 3],
   ['field', 'surface', 3], ['green', 'track', 3], ['red', 'track', 3],
   ['red', 'warn-bg', 4.5], ['ink', 'locked-bg', 4.5], ['green', 'surface-2', 4.5],
-  ...[0, 1, 2, 3, 4, 5, 6].map((n) => ['cat-' + n, 'bar-track', 3]),
+  ...[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => ['cat-' + n, 'bar-track', 3]),
 ];
 for (const [name, tokens] of [['light', light], ['dark', dark]]) {
   test('TC-TH-C03 contrast pairs, ' + name, () => {
