@@ -16,6 +16,16 @@ Frame: Penny is mainly a **showcase** product. The most real pain is **recurring
 
 Each step aims to stay inside the constraints: new records are ordinary expenses, and nothing new is stored. Idea 2's "tick several and add together" would be a **new write path**, so it needs its own impact check (reuse the import preview and undo, or not) before it is specified.
 
+### Roadmap after 3.3.1 (approved 19 November 2026)
+
+| Release | Scope | Spec |
+|---|---|---|
+| **3.3.2** | Bills you mark as recurring: "Recurring bill" checkbox and "Repeats every 1, 2, 3 or 12 months" (stored as tags, no schema change); type inferred (fixed or varies); status Paid, Due soon, Overdue, Stopped?. Built for Indian utility bills that vary in amount, date and cadence (owner observation) | [RECURRING-BILLS-3.3.2-SPEC](specs/RECURRING-BILLS-3.3.2-SPEC.md) |
+| **3.3.3** | Dark and light theme toggle with Studio lineage (own small release) | To write |
+| **3.4** | Month-end forecast and the true cost of commitments (idea 3) | To write |
+
+Deferred from 3.3.2 as good-to-haves: "Log it" pre-fill (needs a new pre-fill path), bulk "add all due", a "Mark as recurring?" button on inferred rows (writes to past entries), search token `is:due`. This supersedes the "recurring" checkbox row below, which is now in 3.3.2 without a schema change.
+
 ### Considered and set aside (not now)
 
 | Idea | Why set aside | Revisit when |
