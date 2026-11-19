@@ -9,7 +9,7 @@
     R = PennyRecurring,
     $ = (id) => document.getElementById(id),
     KEY = 'penny-expenses-v1';
-  const colors = ['#28745b', '#9aac80', '#dab06c', '#91b9bc', '#ad9cc2', '#d39170', '#adb4a2'];
+  const catColor = (category) => `var(--cat-${Math.max(0, C.categories.indexOf(category))})`;
   const today = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -350,7 +350,7 @@
       ? s.byCategory
           .map(
             (x) =>
-              `<div class="chart-row"><div class="chart-label"><span>${x.category}</span><strong>${money(x.cents)} · ${Math.round((x.cents / s.total) * 100)}%</strong></div><div class="bar"><span style="width:${(x.cents / s.total) * 100}%;background:${colors[C.categories.indexOf(x.category)]}"></span></div></div>`,
+              `<div class="chart-row"><div class="chart-label"><span>${x.category}</span><strong>${money(x.cents)} · ${Math.round((x.cents / s.total) * 100)}%</strong></div><div class="bar"><span style="width:${(x.cents / s.total) * 100}%;background:${catColor(x.category)}"></span></div></div>`,
           )
           .join('')
       : '<p class="empty">No spending this month.</p>';
@@ -1243,6 +1243,29 @@
   }
   const exportDate = () => today();
   $('whats-new-button').onclick = () => $('whats-new-dialog').showModal();
+  if (window.PennyTheme) {
+    const themeStore = (() => {
+      try {
+        return window.localStorage;
+      } catch (error) {
+        return null;
+      }
+    })();
+    let themeMode = PennyTheme.load(themeStore);
+    const showTheme = () => {
+      const name = PennyTheme.ariaLabel(themeMode);
+      $('theme-toggle').setAttribute('aria-label', name);
+      $('theme-toggle').title = name;
+    };
+    showTheme();
+    $('theme-toggle').onclick = () => {
+      themeMode = PennyTheme.next(themeMode);
+      PennyTheme.apply(document, themeMode);
+      const result = PennyTheme.save(themeStore, themeMode);
+      showTheme();
+      notify(PennyTheme.label(themeMode, result.saved));
+    };
+  } else $('theme-toggle').hidden = true;
   $('data-manager').onclick = () => {
     $('data-error').hidden = true;
     storeStatus(

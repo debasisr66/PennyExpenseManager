@@ -8,18 +8,31 @@
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.frankfurter.dev; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f7f3" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0D0F" />
     <title>Penny — Personal expenses</title>
+    <script src="theme.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="shell">
       <header>
         <div class="brand">
-          <span class="logo" aria-hidden="true">p</span>penny<span style="color: #9fae9d">.</span>
+          <span class="logo" aria-hidden="true">p</span>penny<span style="color: var(--brand-dot)"
+            >.</span
+          >
         </div>
         <div class="header-actions">
-          <span class="preview">V3.3.2 · INR</span
+          <span class="preview">V3.3.3 · INR</span
           ><button id="whats-new-button" class="quiet" type="button">What’s New</button
+          ><button
+            id="theme-toggle"
+            class="secondary"
+            type="button"
+            aria-label="Theme: System. Change theme"
+            title="Theme: System. Change theme"
+          >
+            <span aria-hidden="true">◐</span></button
           ><button id="settings-button" class="secondary" type="button">Settings</button
           ><button id="data-manager" class="secondary" type="button">Data & backups</button>
         </div>
@@ -251,7 +264,177 @@
           <span
             ><span id="storage-status" role="status">Opening local data store…</span> · INR
             (₹)</span
-          ><span>Small habits. Clearer finances.</span>
+          ><span class="studio-note"
+            >Small habits. Clearer finances.
+            <a
+              class="studio-link"
+              href="https://debasisr66.github.io/studio/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Part of Studio (opens in a new tab)"
+            >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 128 128"
+              width="16"
+              height="16"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <rect
+                width="128"
+                height="128"
+                rx="28"
+                fill="#15131F"
+              />
+              <rect
+                x="-7.75"
+                y="-7.75"
+                width="15.50"
+                height="15.50"
+                rx="3.67"
+                fill="#4B35A8"
+                transform="translate(26.50 26.50) rotate(22.5)"
+              />
+              <rect
+                x="-8.83"
+                y="-8.83"
+                width="17.67"
+                height="17.67"
+                rx="3.97"
+                fill="#6E56CF"
+                transform="translate(51.50 26.50) rotate(30.0)"
+              />
+              <rect
+                x="-9.92"
+                y="-9.92"
+                width="19.83"
+                height="19.83"
+                rx="4.28"
+                fill="#8470E0"
+                transform="translate(76.50 26.50) rotate(37.5)"
+              />
+              <rect
+                x="-11.00"
+                y="-11.00"
+                width="22.00"
+                height="22.00"
+                rx="4.58"
+                fill="#F5B544"
+                transform="translate(101.50 26.50) rotate(45.0)"
+              />
+              <rect
+                x="-6.67"
+                y="-6.67"
+                width="13.33"
+                height="13.33"
+                rx="3.37"
+                fill="#3A2E78"
+                transform="translate(26.50 51.50) rotate(15.0)"
+              />
+              <rect
+                x="-7.75"
+                y="-7.75"
+                width="15.50"
+                height="15.50"
+                rx="3.67"
+                fill="#4B35A8"
+                transform="translate(51.50 51.50) rotate(22.5)"
+              />
+              <rect
+                x="-8.83"
+                y="-8.83"
+                width="17.67"
+                height="17.67"
+                rx="3.97"
+                fill="#6E56CF"
+                transform="translate(76.50 51.50) rotate(30.0)"
+              />
+              <rect
+                x="-9.92"
+                y="-9.92"
+                width="19.83"
+                height="19.83"
+                rx="4.28"
+                fill="#8470E0"
+                transform="translate(101.50 51.50) rotate(37.5)"
+              />
+              <rect
+                x="-5.58"
+                y="-5.58"
+                width="11.17"
+                height="11.17"
+                rx="3.06"
+                fill="#2A2250"
+                transform="translate(26.50 76.50) rotate(7.5)"
+              />
+              <rect
+                x="-6.67"
+                y="-6.67"
+                width="13.33"
+                height="13.33"
+                rx="3.37"
+                fill="#3A2E78"
+                transform="translate(51.50 76.50) rotate(15.0)"
+              />
+              <rect
+                x="-7.75"
+                y="-7.75"
+                width="15.50"
+                height="15.50"
+                rx="3.67"
+                fill="#4B35A8"
+                transform="translate(76.50 76.50) rotate(22.5)"
+              />
+              <rect
+                x="-8.83"
+                y="-8.83"
+                width="17.67"
+                height="17.67"
+                rx="3.97"
+                fill="#6E56CF"
+                transform="translate(101.50 76.50) rotate(30.0)"
+              />
+              <rect
+                x="-4.50"
+                y="-4.50"
+                width="9.00"
+                height="9.00"
+                rx="2.76"
+                fill="#2A2250"
+                transform="translate(26.50 101.50) rotate(0.0)"
+              />
+              <rect
+                x="-5.58"
+                y="-5.58"
+                width="11.17"
+                height="11.17"
+                rx="3.06"
+                fill="#2A2250"
+                transform="translate(51.50 101.50) rotate(7.5)"
+              />
+              <rect
+                x="-6.67"
+                y="-6.67"
+                width="13.33"
+                height="13.33"
+                rx="3.37"
+                fill="#3A2E78"
+                transform="translate(76.50 101.50) rotate(15.0)"
+              />
+              <rect
+                x="-7.75"
+                y="-7.75"
+                width="15.50"
+                height="15.50"
+                rx="3.67"
+                fill="#4B35A8"
+                transform="translate(101.50 101.50) rotate(22.5)"
+              />
+            </svg>
+              Part of Studio <span aria-hidden="true">↗</span></a
+            ></span
+          >
         </footer>
         <p class="error" id="storage-error" role="alert" hidden></p>
       </main>
@@ -520,10 +703,16 @@
       <div class="whats-new">
         <div class="panel-head">
           <h2 id="whats-new-title">What’s New</h2>
-          <span class="version-badge">V3.3.2</span>
+          <span class="version-badge">V3.3.3</span>
         </div>
         <p class="small release-date">19 November 2026</p>
         <ul>
+          <li>
+            <strong>Dark and light theme.</strong> The ◐ button in the header switches between
+            System, Light and Dark. System follows your phone or computer. Your choice stays on this
+            device and is not part of your backups. Colours were also made easier to read, and the
+            header now fits a phone in two short rows.
+          </li>
           <li>
             <strong>Recurring bills.</strong> Tick “Recurring bill” when you add or edit an
             expense, and choose how often it repeats. The new Bills panel shows each bill as Paid,
@@ -648,7 +837,7 @@
       </section>
       <section class="data-section">
         <h3>About Penny</h3>
-        <p>Version 3.3.2 · INR · Stored on this device</p>
+        <p>Version 3.3.3 · INR · Stored on this device</p>
       </section>
       <p id="settings-error" class="error" role="alert"></p>
       <div class="form-actions">
