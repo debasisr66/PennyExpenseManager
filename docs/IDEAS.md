@@ -56,3 +56,12 @@ Logged, not built. Each needs its own spec (architecture, design mock, impact, p
 - Does detection hold up on real, messy descriptions? Idea 1's spike (D2) answers this before any UI is built.
 - For idea 2: should bulk add go through the import preview, or through a new, lighter confirmation?
 - For idea 3: should forecast pace use calendar days or a typical spending curve?
+
+### Deferred from the 3.3.2 build (19 November 2026)
+
+| Idea | Why it waits | Revisit when |
+|---|---|---|
+| Strip a typed `#recurring` before the 12-tag check | Today 12 typed tags plus `#recurring` show the generic "Use up to 12 tags" message, even though `#recurring` would be stripped. Rare; fixing it means changing `core.js` tag parsing (frozen this round) | If anyone hits it |
+| Hide `#recurring` from the Settings saved-tag list | It is a real tag and harmless there | With the next Settings change |
+| DOM test harness for the form | The × and inline-form refusals, the draft preview and the edit round trip are checked in the browser, not in Node | If form logic grows again |
+| Show a count of hidden (long-stopped) marked bills | They are findable by searching `#recurring`; the empty state says so | If the owner misses them |

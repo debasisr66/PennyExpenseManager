@@ -1,5 +1,11 @@
 # Changelog
 
+## V3.3.2 — 2026-11-19
+
+- **New: recurring bills.** Tick "Recurring bill" in the expense form and choose "Repeats every" 1, 2, 3 or 12 months. The sidebar panel is now "Bills". "Your recurring bills" shows Paid, Due soon, Overdue or “Stopped?” for the current month, found by the new `detectMarked` in `recurring.js`. "Looks recurring" stays below it for bills Penny noticed but you have not marked.
+- **No new storage.** A marked bill carries the tags `recurring` and, for 2, 3 or 12 months, `every-N-months`. The form is the only writer: it strips these tags from anything typed and rebuilds them on save. They show as one locked label in the list and cannot be removed or added as separate tags. Search `#recurring` to find them. CSV, JSON and schema 4 are unchanged.
+- **Sample data:** the sample Rent rows are marked as recurring. The sample still has 24 expenses.
+
 ## V3.3.1 — 2026-11-18
 
 - **New: "Looks recurring" panel.** A read-only sidebar list of the bills you pay every month, found from your own entries by the new `recurring.js`. Strict rules: the same expense at about the same amount (within 10%) and day in at least 4 of the last 6 months, once a month. It shows the usual amount, usual day and evidence, and "paid this month". Nothing is saved, changed or sent, and no data format changes.

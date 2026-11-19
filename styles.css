@@ -1137,3 +1137,60 @@ dialog {
 .recurring-list span {
   display: block;
 }
+.recurring-field .check-label {
+  margin-top: 0;
+  font-weight: 600;
+}
+.recurring-field .check-label .small {
+  margin-top: 2px;
+}
+.repeat-every {
+  border: 0;
+  margin: 10px 0 0;
+  padding: 0;
+  min-width: 0;
+}
+.repeat-every[hidden] {
+  display: none;
+}
+.repeat-every legend {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0;
+}
+.repeat-every .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 8px;
+}
+.repeat-every .check-label {
+  align-items: center;
+  font-weight: 400;
+  margin-top: 0;
+}
+.recurring-field input[type='checkbox'],
+.repeat-every input[type='radio'] {
+  width: auto;
+  margin: 0;
+}
+.tag-chip.locked {
+  background: #eef3fb;
+  border-color: #c4d3ea;
+  padding: 3px 8px;
+  white-space: normal;
+}
+.bill-status {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.bill-status.status-overdue {
+  color: var(--red);
+}
+#marked-title,
+#noticed-title {
+  font-size: 13px;
+  margin: 14px 0 6px;
+}

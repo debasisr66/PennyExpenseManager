@@ -6,6 +6,7 @@
   }
   const C = PennyCore,
     D = PennyData,
+    R = PennyRecurring,
     $ = (id) => document.getElementById(id),
     KEY = 'penny-expenses-v1';
   const colors = ['#28745b', '#9aac80', '#dab06c', '#91b9bc', '#ad9cc2', '#d39170', '#adb4a2'];
@@ -65,6 +66,7 @@
     voiceAction = null,
     importGeneration = 0,
     expenseBaseline = '';
+  const repeatStep = () => $('repeat-every').querySelector('input:checked')?.value || '1';
   const expenseDraft = () =>
     JSON.stringify(
       [
@@ -77,7 +79,9 @@
         'voice-language',
         'voice-english',
         'phone-dictation',
-      ].map((id) => $(id).value),
+      ]
+        .map((id) => $(id).value)
+        .concat([$('recurring-bill').checked && repeatStep()]),
     );
   let confirmationPending = false;
   function askConfirmation(message, owner, label = 'Confirm', irreversible = false) {
@@ -256,6 +260,19 @@
   function chip(tag, id, editable = true) {
     return `<span class="tag-chip" style="--tag-hue:${tagHue(tag)}">${editable ? `<button type="button" data-search-tag="${escape(tag)}" aria-label="Search tag ${escape(tag)}">#${escape(tag)}</button><button type="button" class="tag-remove" data-remove-tag="${escape(tag)}" data-expense="${escape(id)}" aria-label="Remove tag ${escape(tag)} from ${escape(state.expenses.find((x) => x.id === id)?.description || '')}">×</button>` : `<span>#${escape(tag)}</span>`}</span>`;
   }
+  function tagChips(x) {
+    const { marked, step, rest } = R.readMarking(x.tags);
+    const label = step === 1 ? 'monthly' : `every ${step} months`;
+    const locked = marked
+      ? `<span class="tag-chip locked">Recurring · ${escape(label)}</span>`
+      : '';
+    const stray = marked ? [] : x.tags.filter(R.isRecurringTag);
+    return (
+      locked +
+      stray.map((t) => chip(t, x.id, false)).join('') +
+      rest.map((tag) => chip(tag, x.id)).join('')
+    );
+  }
   function renderList() {
     const query = $('search').value.trim(),
       result = C.searchExpenses(state.expenses, query, today());
@@ -273,7 +290,7 @@
       .slice(0, visibleLimit)
       .map(
         (x) =>
-          `<tr><td class="description"><span class="expense-name">${escape(x.description)}</span><span class="method-label">${escape(D.rails.find((r) => r[0] === x.paymentMethod)?.[1] || 'Not specified')}</span>${x.legacyRailConflict ? '<span class="legacy-warning">Review payment method</span>' : ''}<div class="tag-list">${x.tags.map((tag) => chip(tag, x.id)).join('')}<button type="button" class="add-tag" data-add-tag="${escape(x.id)}" aria-label="Add tag to ${escape(x.description)}">＋ Tag</button></div>${tagEditing === x.id ? `<form class="inline-tag-form" data-tag-form="${escape(x.id)}"><label class="sr-only" for="inline-tag">Tag name</label><input id="inline-tag" placeholder="#tag" maxlength="34" list="known-tags" required autocomplete="off"><button type="submit">Add</button><button type="button" class="quiet" data-cancel-tag>Cancel</button><span class="error" id="inline-tag-error" role="alert" hidden></span></form>` : ''}</td><td>${dateName(x.date)}</td><td><span class="category">${escape(x.category)}</span></td><td class="amount">${money(x.cents)}</td><td class="actions"><button type="button" class="quiet" data-edit="${escape(x.id)}" aria-label="Edit ${escape(x.description)}">Edit</button><button type="button" class="quiet delete" data-delete="${escape(x.id)}" aria-label="Delete ${escape(x.description)}">Delete</button></td></tr>`,
+          `<tr><td class="description"><span class="expense-name">${escape(x.description)}</span><span class="method-label">${escape(D.rails.find((r) => r[0] === x.paymentMethod)?.[1] || 'Not specified')}</span>${x.legacyRailConflict ? '<span class="legacy-warning">Review payment method</span>' : ''}<div class="tag-list">${tagChips(x)}<button type="button" class="add-tag" data-add-tag="${escape(x.id)}" aria-label="Add tag to ${escape(x.description)}">＋ Tag</button></div>${tagEditing === x.id ? `<form class="inline-tag-form" data-tag-form="${escape(x.id)}"><label class="sr-only" for="inline-tag">Tag name</label><input id="inline-tag" placeholder="#tag" maxlength="34" list="known-tags" required autocomplete="off"><button type="submit">Add</button><button type="button" class="quiet" data-cancel-tag>Cancel</button><span class="error" id="inline-tag-error" role="alert" hidden></span></form>` : ''}</td><td>${dateName(x.date)}</td><td><span class="category">${escape(x.category)}</span></td><td class="amount">${money(x.cents)}</td><td class="actions"><button type="button" class="quiet" data-edit="${escape(x.id)}" aria-label="Edit ${escape(x.description)}">Edit</button><button type="button" class="quiet delete" data-delete="${escape(x.id)}" aria-label="Delete ${escape(x.description)}">Delete</button></td></tr>`,
       )
       .join('');
     $('empty').hidden = all.length > 0;
@@ -288,6 +305,7 @@
       : `${all.length} expenses · All months shown`;
     const tags = state.tagCatalog || [...new Set(state.expenses.flatMap((x) => x.tags))].sort();
     $('known-tags').innerHTML = tags
+      .filter((tag) => !R.isRecurringTag(tag))
       .map((tag) => `<option value="#${escape(tag)}"></option>`)
       .join('');
   }
@@ -374,6 +392,60 @@
     li.append(name, ' ', detail);
     return li;
   }
+  let markedMemo = { expenses: null, day: null, result: null };
+  function markedBills() {
+    const day = today();
+    if (markedMemo.expenses !== state.expenses || markedMemo.day !== day)
+      markedMemo = { expenses: state.expenses, day, result: R.detectMarked(state.expenses, day) };
+    return markedMemo.result.bills;
+  }
+  const shortDate = (date) =>
+    new Date(`${date}T12:00:00`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  function billAmount(b) {
+    if (b.type === 'fixed') return money(b.cents);
+    if (b.type === 'varies') return `${money(b.min)}–${money(b.max)}`;
+    return `last ${money(b.lastCents)}`;
+  }
+  function billStatus(b) {
+    const next = shortDate(b.nextDate);
+    if (b.status === 'paid') return `Paid ${shortDate(b.lastDate)} · next ~${next}`;
+    if (b.status === 'due-soon') return `Due soon (~${next})`;
+    if (b.status === 'overdue') return `Overdue (due ~${next})`;
+    return 'Stopped? Untick Recurring bill if it has ended';
+  }
+  function markedRow(bill) {
+    const li = document.createElement('li'),
+      name = document.createElement('strong'),
+      detail = document.createElement('span'),
+      status = document.createElement('span');
+    name.textContent = bill.description;
+    detail.className = 'small';
+    const cadence = bill.step === 1 ? 'monthly' : `every ${bill.step} months`;
+    const last = bill.type === 'varies' ? ` · last ${money(bill.lastCents)}` : '';
+    detail.textContent = `${billAmount(bill)} · ${cadence}${last}`;
+    status.className = `bill-status status-${bill.status}`;
+    status.textContent = billStatus(bill);
+    li.append(name, ' ', detail, ' ', status);
+    return li;
+  }
+  function renderMarked(month) {
+    const note = (text, cls) =>
+      Object.assign(document.createElement('li'), { textContent: text, className: cls });
+    const max = R.MARKED.maxRows;
+    let rows;
+    if (month !== current) rows = [note('Bill status shows for the current month.', 'empty')];
+    else {
+      const bills = markedBills();
+      rows = bills.slice(0, max).map(markedRow);
+      const any = state.expenses.some((x) => x.tags.includes(R.MARKED.tag));
+      const empty = any
+        ? 'No recurring bills due now. Search #recurring to see them all.'
+        : "Tick 'Recurring bill' when you add a bill, and Penny tracks when it is next due.";
+      if (!bills.length) rows.push(note(empty, 'empty'));
+      if (bills.length > max) rows.push(note(`and ${bills.length - max} more`, 'small'));
+    }
+    $('marked-list').replaceChildren(...rows);
+  }
   function renderRecurring(month) {
     const bills = recurringBills(month),
       max = PennyRecurring.RULES.maxRows,
@@ -391,10 +463,12 @@
       );
     if (bills.length > max) rows.push(note(`and ${bills.length - max} more`, 'small'));
     list.replaceChildren(...rows);
+    renderMarked(month);
   }
   function draftTags() {
     try {
-      const tags = C.extractTags($('description').value, $('expense-tags').value).tags;
+      const all = C.extractTags($('description').value, $('expense-tags').value).tags;
+      const tags = all.filter((tag) => !R.isRecurringTag(tag));
       $('draft-tags').innerHTML = tags.map((tag) => chip(tag, '', false)).join('');
     } catch (e) {
       $('draft-tags').textContent = e.message;
@@ -694,6 +768,19 @@
       }
     }
   };
+  function setRecurring(marked, step) {
+    $('recurring-bill').checked = marked;
+    for (const r of $('repeat-every').querySelectorAll('input'))
+      r.checked = r.value === String(step);
+    syncRecurring();
+  }
+  function syncRecurring() {
+    const on = $('recurring-bill').checked;
+    $('repeat-every').hidden = !on;
+    $('repeat-every').disabled = !on;
+    $('recurring-hint').hidden = !on;
+    $('recurring-bill').setAttribute('aria-expanded', String(on));
+  }
   function openExpense(id = null) {
     editing = id;
     const expense = state.expenses.find((x) => x.id === id);
@@ -714,7 +801,9 @@
     $('category').value = expense ? expense.category : C.categories[0];
     $('payment-method').value = expense ? expense.paymentMethod : 'unspecified';
     $('description').value = expense ? expense.description : '';
-    $('expense-tags').value = expense ? expense.tags.map((tag) => `#${tag}`).join(' ') : '';
+    const mark = R.readMarking(expense ? expense.tags : []);
+    $('expense-tags').value = mark.rest.map((tag) => `#${tag}`).join(' ');
+    setRecurring(mark.marked, mark.step);
     draftTags();
     expenseBaseline = expenseDraft();
     $('expense-dialog').showModal();
@@ -753,22 +842,31 @@
   $('add').onclick = () => openExpense();
   $('description').oninput = draftTags;
   $('expense-tags').oninput = draftTags;
+  $('recurring-bill').onchange = syncRecurring;
+  function buildExpense(typed, tags) {
+    return D.validateExpense({
+      id:
+        editing ||
+        (window.crypto?.randomUUID
+          ? crypto.randomUUID()
+          : `expense-${Date.now()}-${Math.random().toString(36).slice(2)}`),
+      date: $('date').value,
+      amount: $('amount').value,
+      category: $('category').value,
+      description: typed.description,
+      tags,
+      paymentMethod: $('payment-method').value,
+    });
+  }
+  function expenseFromForm() {
+    const typed = C.extractTags($('description').value, $('expense-tags').value);
+    const build = (tags) => buildExpense(typed, tags);
+    return R.withMarking(build, typed.tags, $('recurring-bill').checked, Number(repeatStep()));
+  }
   $('expense-form').onsubmit = async (event) => {
     event.preventDefault();
     try {
-      const expense = D.validateExpense({
-        id:
-          editing ||
-          (window.crypto?.randomUUID
-            ? crypto.randomUUID()
-            : `expense-${Date.now()}-${Math.random().toString(36).slice(2)}`),
-        date: $('date').value,
-        amount: $('amount').value,
-        category: $('category').value,
-        description: $('description').value,
-        tags: $('expense-tags').value,
-        paymentMethod: $('payment-method').value,
-      });
+      const expense = expenseFromForm();
       if (editing && !state.expenses.some((x) => x.id === editing))
         throw Error('This expense was removed in another tab.');
       const next = D.clone(state);
@@ -805,6 +903,7 @@
         tagEditing = null;
         renderList();
       }
+      if (button.dataset.removeTag && R.isRecurringTag(button.dataset.removeTag)) return;
       if (button.dataset.removeTag) {
         const expense = state.expenses.find((x) => x.id === button.dataset.expense);
         const next = D.clone(state);
@@ -839,6 +938,7 @@
     try {
       const tags = C.parseTags($('inline-tag').value);
       if (tags.length !== 1) throw Error('Enter one tag at a time.');
+      if (R.isRecurringTag(tags[0])) throw Error('Use Edit → Recurring bill');
       const expense = state.expenses.find((x) => x.id === form.dataset.tagForm);
       if (expense.tags.includes(tags[0])) {
         notify('This expense already has that tag');

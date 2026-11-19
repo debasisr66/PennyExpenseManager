@@ -1,3 +1,5 @@
+> **3.3.2 (19 November 2026):** no new surface. Recurring bills use the existing tags field. There are no network calls, no new storage, no schema change and no third-party code. The CSP is unchanged and the Bills panel renders with `textContent`.
+>
 > **3.3.1 (18 November 2026):** no new surface. The "Looks recurring" panel adds no network calls, no storage writes and no third-party code; the CSP is unchanged and the panel renders with `textContent`.
 >
 > **3.3.0 update (17 November 2026):** Excel `.xlsx` import and export and the vendored SheetJS library were removed. Penny now contains no third-party runtime code and creates no web workers. Rows below marked "3.3.0" replace the earlier wording; the rest of this review is historical.

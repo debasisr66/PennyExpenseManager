@@ -51,8 +51,8 @@ flowchart LR
 | **Marked** | Any entry in the group carries `#recurring` |
 | **Step (occurrence)** | From the **latest marked** entry (ties broken by `id`): no cadence tag = 1 month, `#every-2-months` = 2, `#every-3-months` = 3, `#every-12-months` = 12 |
 | **Last** | The latest entry in the group (marked or not), dated on or before today. Ties broken by `id` |
-| **Next due** | Month of last + step; day = day of last, clamped to that month's length (31 Oct + 1 month = 30 Nov; 29 Feb + 12 months = 28 Feb) |
-| **Status** | today < next − 7 days → **Paid {last date} · next ~{next}**. next − 7 ≤ today < next → **Due soon (~{next})**. next ≤ today < next + step → **Overdue (due ~{next})**. next + step ≤ today < next + 2 × step → **Stopped?** with the hint "Untick Recurring bill if it has ended". Later → hidden (still findable by searching `#recurring`) |
+| **Next due** | Month of last + step; day = day of last, clamped to that month's length (31 Oct + 1 month = 30 Nov; 29 Feb + 12 months = 28 Feb). Every boundary (next, last + 2 × step, last + 3 × step) is clamped from the day of last, so a month-end clamp never drifts |
+| **Status** | today < next − 7 days → **Paid {last date} · next ~{next}**. next − 7 ≤ today < next → **Due soon (~{next})**. next ≤ today < last + 2 × step → **Overdue (due ~{next})**. last + 2 × step ≤ today < last + 3 × step → **Stopped?** with the hint "Untick Recurring bill if it has ended". Later → hidden (still findable by searching `#recurring`) |
 | **Type and amount** | Fewer than 3 entries: "last ₹X". 3 or more: if the last 3 amounts pass 3.3.1's integer ±10% test (`inBand`), show **fixed "₹median"**; otherwise **varies "₹min–₹max"** over the last 6 entries, plus "last ₹X" |
 | **Early, late or several payments in a cycle** | Only the latest entry counts: an early payment moves next due forward; a correction in the same cycle replaces the amount shown |
 | **As-of** | Track E is shown only when the month picker is the current month; for other months: "Bill status shows for the current month." Track I follows the picker, as in 3.3.1 |
@@ -168,6 +168,8 @@ One feature branch and one PR, built in a **fresh session** (practice 19), Sonne
 | 2026-11-19 | Draft v1: the owner's observation on variable Indian utility bills (type, occurrence, checkbox) |
 | 2026-11-19 | Draft v2: independent review folded in; "Log it" cut; rules made exact |
 | 2026-11-19 | Approved by the owner: D1–D8 as recommended. Build in a fresh session, Groups A → B → C |
+| 2026-11-19 | Group A built (Sonnet), reviewed (Opus): no Blocker or High. Status boundaries clarified as last + k × step, each clamped from the day of last |
+| 2026-11-19 | Group B built (Sonnet), reviewed (Opus): no Blocker or High. Fixed: only the 3 cadence tags the form writes are reserved; the 12-tag message is shared code and tested; dirty check ignores the step when unticked; hint shows when ticked. Browser checks at 375 px and 1280 px, keyboard and screen reader names: pass |
 
 ## 11. Independent review (Sonnet 5.5, 19 Nov 2026): disposition
 
