@@ -1,6 +1,6 @@
 # 3.3.3: Dark and light theme, with Studio lineage. Architecture, design, mock, impact, plan
 
-Status: **DRAFT v2, awaiting owner decisions D1–D6.** Independent review folded in (§11). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
+Status: **DRAFT v3 (mobile first), awaiting owner decisions D1–D7.** Independent review folded in (§11). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
 Owner requests (18 November 2026): "dark and light toggle is not in penny - it should be" and "It should also carry the Studio product lineage". Prior work: [IDEAS](../IDEAS.md) (rows "Dark and light theme toggle" and "Studio product lineage").
 
 ## 1. Bottom line
@@ -13,13 +13,14 @@ Owner requests (18 November 2026): "dark and light toggle is not in penny - it s
   - the dark theme uses Studio's own dark neutral tokens (background, surfaces, borders, text);
   - Penny keeps its green accent and its light palette, so it stays recognisably Penny.
 - **WCAG AA in both themes.** Text is at least 4.5:1. Focus rings, input borders, chart bars and the budget bar are at least 3:1. The audit found **4 kinds of existing light-theme gap, covering 11 colour pairs** (§3.4). The recommendation is to fix them in this release (D6).
+- **Mobile first (owner, 19 November 2026).** The phone is the primary design target. Penny's header is designed at 320 px first: the brand and ◐ (44 × 44 px) sit on row 1 and the three actions on row 2, so the header drops from 181 px to at most 112 px tall at 320 px. The phone's address and status bar match the theme (`theme-color`). Hover effects apply only on devices that can hover. Real-phone checks on iPhone Safari and Android Chrome are part of the release. The audit also found 3 existing mobile gaps. D7 recommends fixing the worst one now: form fields go to 16 px on phones, so iPhone Safari stops zooming on focus. The other two go to a 3.3.4 mobile pass (§3.5).
 - **Nothing Studio reads changes.** Studio's sync reads repository metadata and the latest release (tag, name, notes, assets). The release keeps the `PennyExpenseManager-*.zip` asset name.
 
-**Cut as good-to-haves:** a separate theme for printing, a `theme-color` meta tag, theme in Settings as well as the header, a visible text label beside ◐, live sync between open tabs, self-hosting Studio's fonts, and a Studio-side change.
+**Cut as good-to-haves:** a separate theme for printing, theme in Settings as well as the header, a visible text label beside ◐, live sync between open tabs, self-hosting Studio's fonts, and a Studio-side change.
 
 **Defaults, not decisions:** the Studio link opens in a new tab (it protects an unsaved expense form), and the version is 3.3.3, a patch release of its own.
 
-**Estimate:** about **13 build hours (range 11–15)** plus about **1 hour of owner gate time** over 3 gates (§8).
+**Estimate:** about **16 build hours (range 14–18)** plus about **1 hour of owner gate time** over 3 gates (§8).
 
 ## 2. Architecture
 
@@ -55,7 +56,7 @@ flowchart LR
 |---|---|
 | Modes | **System** (no key saved, no `data-theme`), **Light** (`penny-theme=light`), **Dark** (`penny-theme=dark`). Any other stored value counts as System |
 | Default | System, for new and existing users |
-| Control | One header button `#theme-toggle`, after "What's New", showing ◐ (`aria-hidden`), as on Studio. At least 36 × 36 px through an id selector, because `.header-actions button` sets its own padding (styles.css:874, :1022); the AA minimum is 24 px. The header already wraps (`flex-wrap`); at 375 px the actions may take a second line, which B02 records with a screenshot. `title` repeats the name for mouse users |
+| Control | One header button `#theme-toggle` showing ◐ (`aria-hidden`), as on Studio. **44 × 44 px at every width** (set through the id selector, because `.header-actions button` sets its own padding, styles.css:874 and :1022). Placement is mobile first (§3.5): top right of row 1 on phones; after "What's New" on wide screens. `title` repeats the name for mouse users |
 | Cycle | System → Light → Dark → System. Enter and Space both work (it is a native `<button>`) |
 | Name | `aria-label="Theme: {mode}. Change theme"`, updated in the same handler as the press. This label is the accessible source of truth; screen readers re-read the focused button's new name. No `aria-pressed` (three states). The existing notice also shows "Theme: Dark. Saved on this device." (or "Theme: System. Follows your device setting.") as a visual confirmation only: today's notice is `hidden` until set and auto-hides after 3.2 s (app.js:254-258), so it is not relied on for announcement |
 | Storage blocked | The choice still applies for this page view; the notice says "Theme: Dark for now. This browser is not saving settings." |
@@ -75,7 +76,7 @@ The builder replaces each colour literal in `styles.css` with one of these token
 | `--line-2` | Version badge border (`.preview`, decorative) | `#d5dfd1` | `#26262E` |
 | `--field` | Input, select, textarea and search borders | **fix** `#7f8f86` (was `#d4ded4` and `#cbd8ce`) | `#6E6E7C` (Studio `--field`) |
 | `--ink` | Body text | `#193c36` | `#EDEDF0` (Studio `--text`) |
-| `--muted` | Secondary text and input placeholders (new `::placeholder` rule; today the browser default, about 3.95:1 on a dark surface) | `#5d7069` | `#8B8B97` (Studio `--muted`) |
+| `--muted` | Secondary text and input placeholders (new `::placeholder` rule; phone header layout (M1); hover rules inside `@media (hover: hover)` (M4); today the browser default, about 3.95:1 on a dark surface) | `#5d7069` | `#8B8B97` (Studio `--muted`) |
 | `--brand-dot` | The "." after "penny" (inline style in index.html:18 today; decorative) | `#9fae9d` (unchanged) | `#8B8B97` |
 | `--green` | Primary fill, links, accents | `#216653` | `#4FC59A` |
 | `--on-accent` | Text on green or red fills (`white` today) | `#ffffff` | `#0D0D0F` |
@@ -122,7 +123,36 @@ The builder replaces each colour literal in `styles.css` with one of these token
 
 The fixes keep each colour's hue and make it darker. Apart from these fixes and the `--surface-2` tint merge, the light theme keeps its exact values (TC-TH-C04 pins this). The brand dot (`#9fae9d`) is decorative and exempt; it keeps its light value through `--brand-dot`.
 
-### 3.5 Studio lineage (D5)
+### 3.5 Mobile first
+
+**Baseline measured on 3.3.2** (19 November 2026, Chromium phone emulation, sample data):
+
+| Check | 320 px | 375 px |
+|---|---|---|
+| Horizontal overflow | None | None |
+| Header height | **181 px** (brand plus 3 rows of buttons: 28% of a 640 px screen) | **131 px** (2 rows of buttons beside the brand) |
+| Header buttons | 44 px tall | 44 px tall |
+| Expense dialog | Fits (288 px wide); scrolls inside | Fits |
+| Visible controls under 44 px in one dimension | — | 54 of 227 (tag chip buttons about 34 px wide, Edit about 37 px wide) |
+| Controls under 24 px (fails AA 2.5.8) | — | 1: "Enter rate manually" (18 px tall) |
+| Form field text | 13 px (rate 12 px) | Same. **iPhone Safari zooms the page when a field under 16 px gets focus** |
+| Hover rules on touch | 2 `:hover` rules, no `(hover: hover)` guard: a tapped button can stay in its hover state | Same |
+
+**In 3.3.3 (part of the theme work):**
+
+| ID | Rule |
+|---|---|
+| M1 | **Header, phone (700 px and below):** row 1 has the brand on the left and ◐ on the right; row 2 has What's New, Settings and Data & backups, each sized to its label (`flex: 1 1 auto`, `white-space: nowrap`, 10 px side padding, `min-height: 44px`, never a fixed height), allowed to wrap at large text sizes rather than clip. Measured at 11 px, as today: label widths 66, 46 and 86 px, so the row needs 270 of the 288 px available at 320 px. Equal widths would not fit ("Data & backups" needs 106 px including padding, an equal share is 92 px). Header padding on phones drops from 26 px to 8 px, with a 6 px row gap: 8 + 44 + 6 + 44 + 8 = **110 px**, target **at most 112 px** (today 181 px at 320 px, 131 px at 375 px). **Wide screens:** one row as today, with ◐ after What's New |
+| M2 | ◐ is 44 × 44 px at every width (Apple's 44 pt guideline; above AA's 24 px) |
+| M3 | **Phone browser bar follows the theme.** Two `<meta name="theme-color">` tags with `media="(prefers-color-scheme: light)"` and `(dark)` (`#f5f7f3` and `#0D0D0F`) cover System. For an explicit choice, `theme.js` sets both tags' `content` to the chosen theme's colour. A meta tag needs no CSP change. This reverses the earlier cut: on a phone, a dark page under a light browser bar is the most visible flaw |
+| M4 | The 2 `:hover` rules in `styles.css` (button brightness, tag chip hover) move inside `@media (hover: hover)`, so taps leave no stuck state. `:active` feedback stays. `-webkit-tap-highlight-color` is set from a token (a translucent `--green`), so the default grey flash does not show on dark surfaces |
+| M5 | The notice and dialogs stay inside the visible area. Penny does not set `viewport-fit=cover`, so the browser keeps content clear of the notch and home indicator; no safe-area change is needed. If a later release adds `viewport-fit=cover`, it must add the safe-area insets |
+| M6 | **Form fields 16 px on phones (D7):** `@media (max-width: 700px) { input, select, textarea { font-size: 16px } }`. iPhone Safari stops zooming the page on focus. One rule; its layout effect is checked at 320 px in B11 and pinned in TC-TH-M01 |
+| M7 | The "p" logo uses `--on-accent` (today `white`: on dark `--green` it would be about 1.9:1); it is in the C03 pairs |
+
+**Existing mobile gaps (D7):** 13 px form fields (zoom on focus in iPhone Safari: recommended for 3.3.3 as M6), Edit, Delete and tag-chip buttons under 44 px wide, and the 18 px "Enter rate manually" control (recommended for a 3.3.4 mobile pass with a full audit of every screen and dialog on real phones, because they change the table and chip layout everywhere).
+
+### 3.6 Studio lineage (D5)
 
 | Element | Rule |
 |---|---|
@@ -142,7 +172,14 @@ The fixes keep each colour's hue and make it darker. Apart from these fixes and 
  bg #0D0D0F · text #EDEDF0 · green #4FC59A          (dark, Studio neutrals)
 ```
 
-**Header, 375 px:** `[p] penny.   What's New [◐] [Settings] [Data & backups]` (the version badge is already hidden below 700 px).
+**Header, 320 px and 375 px (designed first):**
+```
+ ┌──────────────────────────────────────┐
+ │ [p] penny.                      [◐]  │  row 1: brand, theme (44 × 44)
+ │ [What's New] [Settings] [Data & backups] │  row 2: sized to labels, 44 px tall
+ └──────────────────────────────────────┘  at most 112 px tall (today 181 px at 320 px)
+```
+The version badge stays hidden below 700 px, as today. The browser's address and status bar take the page colour in both themes (M3).
 
 **After a press:** the notice at the bottom shows `Theme: Dark. Saved on this device.`
 
@@ -167,8 +204,8 @@ Status is always text as well as colour, as in 3.3.2.
 
 | Area | Change | Risk and control |
 |---|---|---|
-| `theme.js` (new) | About 20 lines, UMD, no DOM writes other than one `data-theme` attribute | Unit tests; security checks TC-TH-S03 |
-| `index.html` | `<script src="theme.js">` in `<head>` before `styles.css`; header button; footer link and mark; brand dot uses `var(--brand-dot)`; version text 3.3.3 | Deploy-list test; CSP byte-identical test |
+| `theme.js` (new) | About 25 lines, UMD. Its only DOM writes are the `data-theme` attribute and the `content` of the two `theme-color` meta tags | Unit tests; security checks TC-TH-S03 |
+| `index.html` | `<script src="theme.js">` in `<head>` before `styles.css`; two `theme-color` meta tags; header markup for the two-row phone layout; header button; footer link and mark; brand dot uses `var(--brand-dot)`; version text 3.3.3 | Deploy-list test; CSP byte-identical test |
 | `styles.css` | About 40 literals become tokens; new `::placeholder` rule; one light block, two identical dark blocks; `color-scheme`; button styles | Literal ratchet (C01); light pin (C04); contrast (C03) |
 | `app.js` | Button handler (about 15 lines); chart uses `var(--cat-N)`; budget fill keeps `var(--green)` and `var(--red)` | Browser checks; no change to data paths |
 | `Dockerfile`, `.github/workflows/pages.yml` | Add `theme.js` to the `Dockerfile` `COPY` list and to **both** places in `pages.yml` (trigger `paths` and the assemble `cp`) | **Freeze-list change: needs D4 approval.** `tests/no-excel.test.cjs` derives the list from every root `.js` file, so it forces all three to agree |
@@ -185,17 +222,17 @@ One feature branch `feat/theme-3.3.3` from `origin/main`, one PR. Sonnet 5.5 bui
 
 | Step | Work | Gate |
 |---|---|---|
-| 0 | Owner decides D1–D6 on this PR; merge the spec | **Owner** |
+| 0 | Owner decides D1–D7 on this PR; merge the spec | **Owner** |
 | 1 | `theme.js` and its unit tests (U01–U04) | |
 | 2 | Tokenise `styles.css` with light values unchanged; prove with C01, C02 and C04 before any dark value or fix | |
 | 3 | Dark blocks, light fixes (D6), contrast tests (C03, C05, C06) | |
 | 4 | Header button, notice, chart tokens in `app.js`; footer lineage link | |
 | 5 | Deploy lists, version 3.3.3, security tests (S01–S03), freeze check (F01) | |
-| 6 | Browser checks B01–B09 in both themes at 375 px and 1280 px | |
+| 6 | Browser checks B01–B11 in both themes, phone widths first (320–412 px), then 1280 px; B12 in the iOS Simulator | |
 | 7 | Independent review (Opus 5.5); fix Blocker and High; push; open the PR; CI `verify` | |
 | 8 | Merge with `--match-head-commit` | **Owner approves merge** |
 | 9 | Post-merge: CI, Pages deploy, live site shows V3.3.3 and `theme.js` loads | |
-| 10 | Owner smoke test in both themes on a phone; then "publish" | **Owner** |
+| 10 | Owner smoke test in both themes on an iPhone and an Android phone (B12); then "publish" | **Owner** |
 | 11 | Release `v3.3.3` with a zip and its SHA-256; confirm the Studio sync (B10) | |
 | 12 | Docs close-out (practice 26): spec RELEASED with log rows, traceability, ARCHITECTURE, SECURITY-REVIEW, README, CHANGELOG, IDEAS | |
 
@@ -208,7 +245,7 @@ One feature branch `feat/theme-3.3.3` from `origin/main`, one PR. Sonnet 5.5 bui
 | TC-TH-U01 | `resolve`: `light` → light; `dark` → dark; absent, empty, `DARK`, `system`, other strings, `null` → system |
 | TC-TH-U02 | `next`: System → Light → Dark → System; `label` gives the three exact notice texts |
 | TC-TH-U03 | `save`: System removes the key; Light and Dark set it; a storage object that throws on `getItem`, `setItem` or `removeItem` never throws and reports `saved: false` |
-| TC-TH-U04 | `apply`: System removes `data-theme`; Light and Dark set it (fake element) |
+| TC-TH-U04 | `apply`: System removes `data-theme` and restores both `theme-color` tags to their light and dark values; Light and Dark set `data-theme` and both tags to that theme's colour (fake elements) |
 | TC-TH-C01 | Outside the token blocks, `styles.css` has no hex, `rgb(`, `hsl(` with literal numbers, or named colours (`white`, `black`); `app.js` has no hex colour literals; inline `style=` attributes in `index.html` use only `var(--…)` colours |
 | TC-TH-C02 | The light block and each dark block define the same token set; the two dark blocks are identical |
 | TC-TH-C03 | Every pair in §3.3 meets its threshold in both themes (data-driven table in the test) |
@@ -218,7 +255,8 @@ One feature branch `feat/theme-3.3.3` from `origin/main`, one PR. Sonnet 5.5 bui
 | TC-TH-C07 | Dark pin: the 5 Studio neutrals (`--bg`, `--surface`, `--surface-2`, `--line`, `--ink`, `--muted` map) equal the values copied from Studio `8faaf62` |
 | TC-TH-S01 | CSP in `index.html` and `nginx.conf` is byte-identical to 3.3.2 (pinned strings) |
 | TC-TH-S02 | `theme.js` is the only script in `<head>`, before the stylesheet link, without `async`, `defer` or `type=module` (that the deploy lists include it is already enforced by `no-excel.test.cjs`) |
-| TC-TH-S03 | `theme.js` uses no `innerHTML`, `eval`, `Function`, `fetch`, `XMLHttpRequest` or `document.write`, and touches only the key `penny-theme` |
+| TC-TH-S03 | `theme.js` uses no `innerHTML`, `eval`, `Function`, `fetch`, `XMLHttpRequest` or `document.write`, and touches only the key `penny-theme`, the `data-theme` attribute and `meta[name=theme-color]` |
+| TC-TH-M01 | Markup and CSS: two `theme-color` tags with the right `media`, each equal to that theme's `--bg`; `#theme-toggle` has a 44 px minimum width and height; every `:hover` rule is inside `@media (hover: hover)`; the phone rule sets fields to 16 px; `.logo` uses `var(--on-accent)` |
 | TC-TH-L01 | Footer link: exact `href`, `target="_blank"`, `rel="noopener noreferrer"`, accessible name, and the SVG is `aria-hidden="true"` |
 | TC-TH-F01 | Freeze: the existing tests (F02 golden, `detect` and `detectMarked` goldens, schema 4, CSV and JSON, version) pass unedited; only `ui-colours.test.cjs` (rewritten, its 7 original checks kept) and the `line-length` baselines change |
 
@@ -235,6 +273,8 @@ One feature branch `feat/theme-3.3.3` from `origin/main`, one PR. Sonnet 5.5 bui
 | B07 | Native date, month and select controls, scrollbars and the dialog backdrop follow the theme |
 | B08 | Data untouched: export JSON before and after changing the theme: byte-identical; "Start fresh" and full reset keep the theme |
 | B09 | Footer link opens the Studio hub in a new tab; an unsaved expense form in Penny is unaffected |
+| B11 | Phone header at 320, 360, 375, 390 and 412 px, landscape 812 × 375, and 200% text size: at most 112 px tall in portrait at default text size, ◐ top right, labels never clipped (row 2 may wrap at 200%), all header targets 44 px, no horizontal overflow. Every form and dialog at 320 px with 16 px fields: no overflow |
+| B12 | **Real phones, both themes:** iPhone Safari (iOS Simulator on this Mac by the builder, then the owner's phone at the smoke test) and Android Chrome (the owner's phone): no flash on a cold load; the browser bar matches the theme in all 3 modes on Android Chrome; on iPhone Safari the pass criterion is no regression and the bar tint is best effort, because Safari decides its own tinting (recorded as seen); switching the phone to dark in System mode follows live; tapping ◐ leaves no stuck hover; focusing a field does not zoom the page; the Studio link opens a new tab and Penny's form is intact on return |
 | B10 | After release: Studio's cache and hub show v3.3.3 with the zip asset |
 
 ### 7.3 Traceability
@@ -252,6 +292,7 @@ One feature branch `feat/theme-3.3.3` from `origin/main`, one PR. Sonnet 5.5 bui
 | R9 | Freeze list intact (except the approved deploy-list addition) | F01, S01, S02 |
 | R10 | Studio sync unaffected | B10 |
 | R11 | Native controls and dialogs follow the theme | C06, B07 |
+| R13 | Mobile first: phone header at most 112 px tall, 44 px theme target, 16 px fields (no iPhone zoom), browser bar follows the theme, no stuck hover, verified on real phones | M01, U04, B11, B12 |
 | R12 | `theme.js` is safe, small and never throws | S03, U03, B06 |
 
 ## 8. Estimate
@@ -264,17 +305,18 @@ Build hours are AI-session hours (Sonnet builds, Opus verifies), from the 3.3.2 
 | Tokenise `styles.css` (about 40 literals, 1,196 lines) and prove light unchanged | 3.5 |
 | Dark blocks, light fixes, placeholder and hover, contrast tests | 2 |
 | Header button, notice, chart tokens, footer link | 1.5 |
+| Phone header layout, `theme-color`, hover and tap guard, 16 px fields, logo (M1–M7) | 2.5 |
 | Deploy lists, version, line-length baselines, security and freeze tests | 1 |
-| Browser checks B01–B09 | 1.5 |
+| Browser checks B01–B11 and iOS Simulator (B12) | 2 |
 | Independent review and fixes | 1.5 |
 | Release and docs close-out | 0.5 |
-| **Total** | **13 (range 11–15)** |
+| **Total** | **16 (range 14–18)** |
 
 | Owner gate | Owner time |
 |---|---|
-| Decide D1–D6 on this PR | 20–30 min |
+| Decide D1–D7 on this PR | 20–30 min |
 | Approve the merge | 10–15 min |
-| Smoke test on a phone in both themes, then "publish" | 15–20 min |
+| Smoke test on an iPhone and an Android phone in both themes, then "publish" | 20–25 min |
 | **Total** | **about 1 hour** |
 
 The elapsed time is mostly waiting for the gates.
@@ -285,10 +327,12 @@ The elapsed time is mostly waiting for the gates.
 |---|---|---|---|
 | **D1** | Where the choice is saved | (a) `localStorage` key `penny-theme` on this device; (b) a `settings` field in schema 4 (changes JSON export and import, the F02 golden, and travels with backups); (c) not saved | **(a).** Lightest; keeps every freeze; a display preference belongs to the device |
 | **D2** | Modes | (a) System, Light, Dark, default System; (b) Light and Dark only, starting from the OS (Studio's behaviour) | **(a).** Lets a user return to "follow my phone"; System needs no script |
-| **D3** | Where the control sits | (a) one header button ◐ cycling the 3 modes; (b) a radio group in Settings; (c) both | **(a).** You asked for a toggle; one tap, visible, and the same control as Studio's |
+| **D3** | Where the control sits | (a) one header button ◐ cycling the 3 modes, top right on phones (M1); (b) a radio group in Settings; (c) both | **(a).** You asked for a toggle; one thumb tap, visible, and the same control as Studio's |
 | **D4** | How to avoid the flash on load | (a) new `theme.js` in `<head>`: CSP unchanged, **adds 1 file to the frozen deploy lists**; (b) apply from `app.js` at the end of `<body>`: no new file, but users whose choice differs from the OS may see a flash; (c) inline script with a CSP hash: changes the CSP | **(a).** Approve the deploy-list addition; the CSP stays byte-identical |
 | **D5** | What "Studio lineage" means | (a) "Part of Studio" footer link with the Studio mark, **and** Studio's dark neutral tokens; Penny keeps its green accent and light palette; (b) the link and mark only, with Penny's own dark neutrals; (c) Studio's dark neutrals only, no link | **(a).** Visible lineage plus a shared look in dark mode, without losing Penny's identity. Please confirm this is what you meant |
 | **D6** | The 4 existing light-theme contrast gaps (§3.4) | (a) fix all 4 in 3.3.3; (b) fix the text, focus ring and input borders, and defer the chart colours to IDEAS (saves about 1 build hour); (c) defer all to IDEAS | **(a).** You asked for AA "including chart" colours; both themes go through one contrast pass; colours only get darker within the same hues |
+
+| **D7** | The 3 existing mobile gaps (§3.5) | (a) **fix the 16 px fields in 3.3.3** (M6: one rule, stops iPhone zoom, the most visible mobile defect) and put the 44 px Edit, Delete and chip targets and the 18 px rate control in a **3.3.4 mobile-first pass** straight after, with its own spec and a full audit on real phones (about 6–8 build hours); (b) all 3 in 3.3.4; (c) all 3 in 3.3.3 (about +4 hours; the table and chip layout change in the same release as the theme) | **(a).** The worst phone defect is fixed now at almost no cost; the layout-changing items get a thorough pass of their own |
 
 ## 10. Status log
 
@@ -297,8 +341,11 @@ The elapsed time is mostly waiting for the gates.
 | 2026-11-18 | Owner requests: a dark and light toggle, and Studio product lineage. Logged in IDEAS |
 | 2026-11-19 | Draft v1 (Opus 5.5): architecture, tokens, contrast measured for both themes, 4 existing light gaps found, Studio sync read paths checked (`sync-products.js` reads repository metadata and latest release only) |
 | 2026-11-19 | Draft v2: independent review (Sonnet 5.5) folded in (§11): placeholder, chip hover and 4 missed literals tokenised; notice no longer relied on for announcement; tests C07 and B10 added; estimate raised to 13 h; D7 and D8 made defaults. Docs-only PR opened; owner asked to decide D1–D6 |
+| 2026-11-19 | Draft v3: owner said Penny should be mobile first and asked for a thorough check. Baseline measured at 320 px and 375 px (§3.5); phone header redesigned (M1), 44 px toggle, `theme-color` restored, hover guard, real-phone checks B11 and B12; D7 added for 3 existing mobile gaps; estimate 15 h. Mobile changes reviewed independently (§11.2): equal-width row 2 replaced by label-sized buttons (measured), header target corrected to 112 px, 16 px fields moved into 3.3.3 (M6), logo contrast (M7), tap highlight, text-zoom and landscape checks, iPhone bar tint made best effort; estimate 16 h |
 
-## 11. Independent review (Sonnet 5.5, 19 Nov 2026): disposition
+## 11. Independent reviews: disposition
+
+### 11.1 Spec review (Sonnet 5.5, 19 Nov 2026)
 
 Verdict: core architecture sound (synchronous external `theme.js` is allowed by `script-src 'self'`; dual-block CSS works; Studio sync reads only repository metadata and `releases/latest`; Studio hub URL and neutral tokens match). Most contrast numbers reproduced independently.
 
@@ -317,3 +364,16 @@ Verdict: core architecture sound (synchronous external `theme.js` is allowed by 
 | Cut System mode (doubles tests) | Suggestion | **Kept**: your brief lists it, it is CSS-only, and it is the default most users want. It is D2 for you to decide |
 | Reduce the footer mark to text only | Suggestion | **Offered** as part of D5 for you to decide |
 
+### 11.2 Mobile-first review (Sonnet 5.5, 19 Nov 2026): disposition
+
+| Finding | Severity | Disposition |
+|---|---|---|
+| Row 2 equal-width buttons cannot fit "Data & backups" at 320 px | High | **Fixed** (M1): label-sized buttons. Measured in the browser at 11 px: 66 + 46 + 86 px of text, 270 of 288 px with padding and gaps |
+| "100 px" target was asserted, not computed | Medium | **Fixed**: phone padding 8 px, gap 6 px, 110 px computed; target 112 px |
+| `theme-color` on iPhone Safari is not guaranteed | Medium | **Fixed**: Android must match; iPhone is no-regression and best effort; tag values pinned to `--bg` |
+| 16 px fields belong in 3.3.3 for a mobile-first owner | Medium | **Accepted** as the D7 recommendation (M6) |
+| White "p" logo on dark green is about 1.9:1 | Medium | **Fixed** (M7) |
+| No 200% text-size or landscape check | Medium | **Fixed** in B11; `min-height`, wrapping allowed |
+| No tap-highlight colour | Low | **Fixed** in M4 |
+| Safe-area claim | Low | Confirmed; guard added to M5 |
+| Hover guard covers both rules; reduced motion already global; OS sunset switch in B12 | Low | No change |

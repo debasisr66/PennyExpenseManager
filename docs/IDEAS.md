@@ -21,7 +21,7 @@ Each step aims to stay inside the constraints: new records are ordinary expenses
 | Release | Scope | Spec |
 |---|---|---|
 | **3.3.2** ✅ released 19 Nov | Bills you mark as recurring: "Recurring bill" checkbox and "Repeats every 1, 2, 3 or 12 months" (stored as tags, no schema change); type inferred (fixed or varies); status Paid, Due soon, Overdue, Stopped?. Built for Indian utility bills that vary in amount, date and cadence (owner observation) | [RECURRING-BILLS-3.3.2-SPEC](specs/RECURRING-BILLS-3.3.2-SPEC.md) |
-| **3.3.3** | Dark and light theme toggle with Studio lineage (own small release) | [Spec](specs/THEME-TOGGLE-3.3.3-SPEC.md) awaiting owner decisions D1–D6 |
+| **3.3.3** | Dark and light theme toggle with Studio lineage (own small release) | [Spec](specs/THEME-TOGGLE-3.3.3-SPEC.md) awaiting owner decisions D1–D7 |
 | **3.4** | Month-end forecast and the true cost of commitments (idea 3) | To write |
 
 Deferred from 3.3.2 as good-to-haves: "Log it" pre-fill (needs a new pre-fill path), bulk "add all due", a "Mark as recurring?" button on inferred rows (writes to past entries), search token `is:due`. This supersedes the "recurring" checkbox row below, which is now in 3.3.2 without a schema change.
