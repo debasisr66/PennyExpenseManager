@@ -23,7 +23,7 @@ Each step aims to stay inside the constraints: new records are ordinary expenses
 | **3.3.2** ✅ released 19 Nov | Bills you mark as recurring: "Recurring bill" checkbox and "Repeats every 1, 2, 3 or 12 months" (stored as tags, no schema change); type inferred (fixed or varies); status Paid, Due soon, Overdue, Stopped?. Built for Indian utility bills that vary in amount, date and cadence (owner observation) | [RECURRING-BILLS-3.3.2-SPEC](specs/RECURRING-BILLS-3.3.2-SPEC.md) |
 | **3.3.3** | Dark and light theme toggle with Studio lineage, mobile first (own small release) | [Spec](specs/THEME-TOGGLE-3.3.3-SPEC.md) approved (D1–D10 as recommended) |
 | **3.3.4** | New categories: Utilities and Staff salary (owner, 19 Nov; [spec §11](specs/THEME-TOGGLE-3.3.3-SPEC.md)) | Approved |
-| **3.3.5** | Mobile-first pass: 44 px Edit, Delete and chip targets; 18 px rate control; full real-phone audit | To write |
+| **3.3.5** | Mobile-first pass: 44 px Edit and chip targets (Delete is already 52 px), 44 px rate control, large-text reflow, full audit; owner phone check as the release gate | [Spec](specs/MOBILE-FIRST-3.3.5-SPEC.md) drafted 19 Nov, owner decides D1–D9 |
 | **3.4** | Month-end forecast and the true cost of commitments (idea 3) | To write |
 
 Deferred from 3.3.2 as good-to-haves: "Log it" pre-fill (needs a new pre-fill path), bulk "add all due", a "Mark as recurring?" button on inferred rows (writes to past entries), search token `is:due`. This supersedes the "recurring" checkbox row below, which is now in 3.3.2 without a schema change.
