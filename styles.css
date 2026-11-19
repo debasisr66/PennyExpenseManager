@@ -33,6 +33,8 @@
   --cat-4: #7d68a3;
   --cat-5: #b0613a;
   --cat-6: #6f7768;
+  --cat-7: #4f6fa8;
+  --cat-8: #a8506e;
   --tap: #21665333;
 }
 /* Dark neutrals (bg, surface, surface-2, line, field, ink, muted) are Studio's, copied from
@@ -74,6 +76,8 @@
     --cat-4: #b9a6d6;
     --cat-5: #e39a74;
     --cat-6: #a4ab99;
+    --cat-7: #9DB4E8;
+    --cat-8: #E89BB5;
     --tap: #4fc59a33;
   }
 }
@@ -112,6 +116,8 @@
   --cat-4: #b9a6d6;
   --cat-5: #e39a74;
   --cat-6: #a4ab99;
+  --cat-7: #9DB4E8;
+  --cat-8: #E89BB5;
   --tap: #4fc59a33;
 }
 * {

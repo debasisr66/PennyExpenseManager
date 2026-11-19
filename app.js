@@ -9,7 +9,12 @@
     R = PennyRecurring,
     $ = (id) => document.getElementById(id),
     KEY = 'penny-expenses-v1';
-  const catColor = (category) => `var(--cat-${Math.max(0, C.categories.indexOf(category))})`;
+  // --cat-6 is the grey kept for "Other"; Utilities and Staff salary take --cat-7 and --cat-8.
+  const catColor = (category) => {
+    const i = Math.max(0, C.categories.indexOf(category));
+    const slot = category === 'Other' ? 6 : i >= 6 ? i + 1 : i;
+    return `var(--cat-${slot})`;
+  };
   const today = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
