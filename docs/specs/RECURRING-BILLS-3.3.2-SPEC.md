@@ -1,6 +1,6 @@
 # 3.3.2: Bills you mark as recurring (type, occurrence, checkbox). Architecture, design, mock, impact, plan
 
-Status: **APPROVED 19 November 2026: D1–D8 all as recommended** (owner). Independent review folded in (§11). Date 19 November 2026. Baseline: Penny 3.3.1 (`1f622fd`).
+Status: **RELEASED 19 November 2026 as [v3.3.2](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.2)** (PR #16, merge `605e602`). Approved 19 November 2026: D1–D8 all as recommended (owner). Independent review folded in (§11). Date 19 November 2026. Baseline: Penny 3.3.1 (`1f622fd`).
 Prior work: [RECURRING-DETECTOR-SPEC](RECURRING-DETECTOR-SPEC.md) (3.3.1, inferred bills); [IDEAS](../IDEAS.md).
 
 ## 1. Bottom line
@@ -135,6 +135,23 @@ One feature branch and one PR, built in a **fresh session** (practice 19), Sonne
 | Description drift | A renamed marked bill becomes a new group (documented limit) |
 | Browser | both sections; as-of note on a past month; locked label; 375 px; keyboard and screen reader |
 
+**Traceability (as built).** Every row above maps to named tests. All 762 tests pass in CI on `605e602` (0 failures, 0 skipped).
+
+| Group | Where | IDs |
+|---|---|---|
+| Marking | `tests/marked.test.cjs` | TC-RM-M01…M09 |
+| Next due | `tests/marked.test.cjs` | TC-RM-N01…N04 |
+| Status boundaries | `tests/marked.test.cjs` | TC-RM-S01…S11 |
+| Type | `tests/marked.test.cjs` | TC-RM-T01…T10 |
+| Order and the split from `detect` (track I excludes marked keys) | `tests/marked.test.cjs` | TC-RM-O01…O03, TC-RM-I01…I04 |
+| Purity and freeze | `tests/marked.test.cjs`; `tests/recurring.test.cjs` | TC-RM-F01…F11; TC-RD-F02 (golden `tests/fixtures/freeze-3.3.0.json`), TC-RD-F03 (CSP), TC-RM-F02 (golden `tests/fixtures/detect-3.3.1.json`) |
+| Description drift | `tests/marked.test.cjs` | TC-RM-D01…D03 |
+| Performance | `tests/marked.test.cjs` | TC-RM-P01 (10,000 rows under 50 ms) |
+| Form and tags | `tests/marked-form.test.cjs` | TC-RF-01…10, TC-RF-13, TC-RF-14 |
+| Round trip | `tests/marked-form.test.cjs` | TC-RF-11, TC-RF-12 |
+| Sample data (D7) | `tests/recurring.test.cjs` | TC-RD-S01 (updated: Rent is marked) |
+| Browser | manual, recorded in §10 | 375 px and 1280 px, keyboard, screen reader names (Group B); owner smoke (Group C) |
+
 ## 8. Estimate
 
 | # | Item | Effort |
@@ -170,6 +187,9 @@ One feature branch and one PR, built in a **fresh session** (practice 19), Sonne
 | 2026-11-19 | Approved by the owner: D1–D8 as recommended. Build in a fresh session, Groups A → B → C |
 | 2026-11-19 | Group A built (Sonnet), reviewed (Opus): no Blocker or High. Status boundaries clarified as last + k × step, each clamped from the day of last |
 | 2026-11-19 | Group B built (Sonnet), reviewed (Opus): no Blocker or High. Fixed: only the 3 cadence tags the form writes are reserved; the 12-tag message is shared code and tested; dirty check ignores the step when unticked; hint shows when ticked. Browser checks at 375 px and 1280 px, keyboard and screen reader names: pass |
+| 2026-11-19 | PR #16 merged to `main` as `605e602` after `verify` passed (merge pinned to the tested head `d890783`). Post-merge Verify, Pages deploy and Studio notify: success. Live app shows V3.3.2 and `recurring.js` loads |
+| 2026-11-19 | **Group C: owner smoke passed, then "publish".** Released [v3.3.2](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.2) on `605e602` with a source zip and SHA-256. Studio sync refreshed its cache (`72be894`) |
+| 2026-11-19 | **Actual vs estimate:** about 3 hours elapsed from spec merge to release, against 4.75 person-days in §8. Person-day estimates overstate AI-session builds about tenfold; estimate the next release in build hours plus owner gate time |
 
 ## 11. Independent review (Sonnet 5.5, 19 Nov 2026): disposition
 

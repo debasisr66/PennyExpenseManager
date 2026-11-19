@@ -11,7 +11,7 @@ Frame: Penny is mainly a **showcase** product. The most real pain is **recurring
 | # | Idea | Release | Status | What it does | Depends on |
 |---|---|---|---|---|---|
 | 1 | **Recurring detector** | 3.3.1 | **Released 18 Nov 2026** ([v3.3.1](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.1)). Spec: [RECURRING-DETECTOR-SPEC](specs/RECURRING-DETECTOR-SPEC.md) | Penny infers monthly bills from history and lists them with their evidence. Read only | — |
-| 2 | **Due and not logged, then one-tap add** | 3.3.2 | Backlog | "3 bills you usually log by now aren't logged this month." Tap to open a pre-filled normal expense, or tick several and add them together through the existing preview and undo | Idea 1 (and its D7 "paid this month" flag) |
+| 2 | **Due and not logged, then one-tap add** | 3.3.2 | **Reshaped and released 19 Nov 2026** as bills you mark as recurring ([v3.3.2](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.2), [spec](specs/RECURRING-BILLS-3.3.2-SPEC.md)): Paid, Due soon, Overdue, Stopped?. One-tap add and bulk add were deferred (see the roadmap) | "3 bills you usually log by now aren't logged this month." Tap to open a pre-filled normal expense, or tick several and add them together through the existing preview and undo | Idea 1 (and its D7 "paid this month" flag) |
 | 3 | **Month-end forecast and the true cost of commitments** | 3.4 | Backlog | "At this pace you'll end at ₹X against ₹Y, including ₹Z in bills still to come." A commitments view: fixed monthly total, annual cost, price rises | Idea 1; idea 2 makes it more accurate |
 
 Each step aims to stay inside the constraints: new records are ordinary expenses, and nothing new is stored. Idea 2's "tick several and add together" would be a **new write path**, so it needs its own impact check (reuse the import preview and undo, or not) before it is specified.
@@ -20,7 +20,7 @@ Each step aims to stay inside the constraints: new records are ordinary expenses
 
 | Release | Scope | Spec |
 |---|---|---|
-| **3.3.2** | Bills you mark as recurring: "Recurring bill" checkbox and "Repeats every 1, 2, 3 or 12 months" (stored as tags, no schema change); type inferred (fixed or varies); status Paid, Due soon, Overdue, Stopped?. Built for Indian utility bills that vary in amount, date and cadence (owner observation) | [RECURRING-BILLS-3.3.2-SPEC](specs/RECURRING-BILLS-3.3.2-SPEC.md) |
+| **3.3.2** ✅ released 19 Nov | Bills you mark as recurring: "Recurring bill" checkbox and "Repeats every 1, 2, 3 or 12 months" (stored as tags, no schema change); type inferred (fixed or varies); status Paid, Due soon, Overdue, Stopped?. Built for Indian utility bills that vary in amount, date and cadence (owner observation) | [RECURRING-BILLS-3.3.2-SPEC](specs/RECURRING-BILLS-3.3.2-SPEC.md) |
 | **3.3.3** | Dark and light theme toggle with Studio lineage (own small release) | To write |
 | **3.4** | Month-end forecast and the true cost of commitments (idea 3) | To write |
 
@@ -35,7 +35,7 @@ Deferred from 3.3.2 as good-to-haves: "Log it" pre-fill (needs a new pre-fill pa
 | Bill calendar | A presentation of idea 3's data | Fold into idea 3 if the commitments view needs a visual |
 | Quarterly and yearly bills | Outside strict monthly rules | After idea 1's spike shows monthly detection is reliable |
 | "Not recurring" dismiss button | Needs stored state, which breaks the no-data-model-change constraint | If the constraint is relaxed (a `settings` field would be the smallest change) |
-| "Recurring" checkbox on an expense (owner, spike feedback 18 Nov) | Tick when first entering a bill, untick when it stops. Makes recurring explicit instead of inferred, but adds a field to each expense: a schema 4 → 5 change touching storage, CSV and JSON formats and import. Pairs with the dismiss button above (the opposite signal) | Decide after the 3.3.1 spike gate; strongest candidate to merge into idea 2 (3.3.2) with its own impact check |
+| "Recurring" checkbox on an expense (owner, spike feedback 18 Nov) | Tick when first entering a bill, untick when it stops. Makes recurring explicit instead of inferred, but adds a field to each expense: a schema 4 → 5 change touching storage, CSV and JSON formats and import. Pairs with the dismiss button above (the opposite signal) | **Done in 3.3.2 without a schema change:** stored as tags, with the form as the only writer (3.3.2 spec D1) |
 | Reminders or notifications | Needs a background service and permissions; a large surface for a static app | Not planned |
 
 ### Owner requests for the next few rounds (18 November 2026, at the 3.3.1 release)
