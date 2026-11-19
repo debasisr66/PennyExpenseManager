@@ -1,6 +1,6 @@
 # 3.3.3: Dark and light theme, with Studio lineage. Architecture, design, mock, impact, plan
 
-Status: **DRAFT v4 (mobile first, new categories), awaiting owner decisions D1–D10.** Independent review folded in (§12). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
+Status: **APPROVED 19 November 2026: D1–D10 all as recommended (owner: "All as recommended").** Build 3.3.3 next; 3.3.4 (new categories, §11) and 3.3.5 (mobile pass) follow. Independent review folded in (§12). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
 Owner requests (18 November 2026): "dark and light toggle is not in penny - it should be" and "It should also carry the Studio product lineage". Prior work: [IDEAS](../IDEAS.md) (rows "Dark and light theme toggle" and "Studio product lineage").
 
 ## 1. Bottom line
@@ -322,7 +322,7 @@ Build hours are AI-session hours (Sonnet builds, Opus verifies), from the 3.3.2 
 
 The elapsed time is mostly waiting for the gates.
 
-## 9. Decisions (for the owner)
+## 9. Decisions (approved 19 November 2026: all as recommended)
 
 | # | Decision | Options | Recommendation |
 |---|---|---|---|
@@ -348,6 +348,7 @@ The elapsed time is mostly waiting for the gates.
 | 2026-11-19 | Draft v2: independent review (Sonnet 5.5) folded in (§12): placeholder, chip hover and 4 missed literals tokenised; notice no longer relied on for announcement; tests C07 and B10 added; estimate raised to 13 h; D7 and D8 made defaults. Docs-only PR opened; owner asked to decide D1–D6 |
 | 2026-11-19 | Draft v3: owner said Penny should be mobile first and asked for a thorough check. Baseline measured at 320 px and 375 px (§3.5); phone header redesigned (M1), 44 px toggle, `theme-color` restored, hover guard, real-phone checks B11 and B12; D7 added for 3 existing mobile gaps; estimate 15 h. Mobile changes reviewed independently (§12.2): equal-width row 2 replaced by label-sized buttons (measured), header target corrected to 112 px, 16 px fields moved into 3.3.3 (M6), logo contrast (M7), tap highlight, text-zoom and landscape checks, iPhone bar tint made best effort; estimate 16 h |
 | 2026-11-19 | Draft v4: owner asked for Utility, Entertainment and Staff Salary in the category list. Entertainment already exists; impact of the other two analysed (§11) and offered as 3.3.4 (D8–D10). 3.3.3 scope unchanged |
+| 2026-11-19 | **Approved by the owner: D1–D10 all as recommended.** 3.3.3 = theme, Studio lineage, mobile first (M1–M7, including 16 px fields). 3.3.4 = Utilities and Staff salary. 3.3.5 = mobile-first pass (44 px Edit, Delete and chip targets; rate control) |
 
 ## 11. New categories: Utilities and Staff salary (D8–D10)
 
