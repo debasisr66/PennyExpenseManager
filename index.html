@@ -8,14 +8,19 @@
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.frankfurter.dev; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f7f3" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0D0F" />
     <title>Penny — Personal expenses</title>
+    <script src="theme.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="shell">
       <header>
         <div class="brand">
-          <span class="logo" aria-hidden="true">p</span>penny<span style="color: #9fae9d">.</span>
+          <span class="logo" aria-hidden="true">p</span>penny<span style="color: var(--brand-dot)"
+            >.</span
+          >
         </div>
         <div class="header-actions">
           <span class="preview">V3.3.2 · INR</span
