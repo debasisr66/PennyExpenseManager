@@ -10,7 +10,7 @@ Frame: Penny is mainly a **showcase** product. The most real pain is **recurring
 
 | # | Idea | Release | Status | What it does | Depends on |
 |---|---|---|---|---|---|
-| 1 | **Recurring detector** | 3.3.1 | **Spec approved**: [RECURRING-DETECTOR-SPEC](specs/RECURRING-DETECTOR-SPEC.md) | Penny infers monthly bills from history and lists them with their evidence. Read only | — |
+| 1 | **Recurring detector** | 3.3.1 | **Released 18 Nov 2026** ([v3.3.1](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.1)). Spec: [RECURRING-DETECTOR-SPEC](specs/RECURRING-DETECTOR-SPEC.md) | Penny infers monthly bills from history and lists them with their evidence. Read only | — |
 | 2 | **Due and not logged, then one-tap add** | 3.3.2 | Backlog | "3 bills you usually log by now aren't logged this month." Tap to open a pre-filled normal expense, or tick several and add them together through the existing preview and undo | Idea 1 (and its D7 "paid this month" flag) |
 | 3 | **Month-end forecast and the true cost of commitments** | 3.4 | Backlog | "At this pace you'll end at ₹X against ₹Y, including ₹Z in bills still to come." A commitments view: fixed monthly total, annual cost, price rises | Idea 1; idea 2 makes it more accurate |
 
@@ -27,6 +27,15 @@ Each step aims to stay inside the constraints: new records are ordinary expenses
 | "Not recurring" dismiss button | Needs stored state, which breaks the no-data-model-change constraint | If the constraint is relaxed (a `settings` field would be the smallest change) |
 | "Recurring" checkbox on an expense (owner, spike feedback 18 Nov) | Tick when first entering a bill, untick when it stops. Makes recurring explicit instead of inferred, but adds a field to each expense: a schema 4 → 5 change touching storage, CSV and JSON formats and import. Pairs with the dismiss button above (the opposite signal) | Decide after the 3.3.1 spike gate; strongest candidate to merge into idea 2 (3.3.2) with its own impact check |
 | Reminders or notifications | Needs a background service and permissions; a large surface for a static app | Not planned |
+
+### Owner requests for the next few rounds (18 November 2026, at the 3.3.1 release)
+
+Logged, not built. Each needs its own spec (architecture, design mock, impact, plan) before any code.
+
+| Idea | Owner's words | Notes for the spec | Revisit when |
+|---|---|---|---|
+| **Dark and light theme toggle** | "dark and light toggle is not in penny - it should be" | Penny has no dark theme today: no `prefers-color-scheme` rule and no toggle. Likely shape: colour tokens on `:root`, dark values under `prefers-color-scheme`, and a toggle (light, dark, system). Open questions: is the choice saved (a `settings` field changes the data model and the F02 freeze, so `localStorage` is the lighter option); colour contrast in both themes; the chart and budget colours (`tests/ui-colours.test.cjs`) | Within the next few rounds (owner) |
+| **Studio product lineage** | "It should also carry the Studio product lineage" | Meaning to confirm with the owner at spec time: for example, Penny showing that it is a Studio product (a link or credit back to the Studio hub), and Studio's listing tracing Penny's releases. Check how Studio reads Penny's API and assets before changing anything Studio depends on | Within the next few rounds (owner) |
 
 ### Owner note (18 November 2026)
 
