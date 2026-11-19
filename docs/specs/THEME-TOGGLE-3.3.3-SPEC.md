@@ -1,6 +1,6 @@
 # 3.3.3: Dark and light theme, with Studio lineage. Architecture, design, mock, impact, plan
 
-Status: **RELEASED 19 November 2026 as [v3.3.3](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.3)** (PR #19, merge `03078f3`). Approved earlier the same day: D1–D10 all as recommended (owner: "All as recommended"). Release notes record what was and was not checked.  3.3.4 (new categories, §11) and 3.3.5 (mobile pass) follow. Independent review folded in (§12). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
+Status: **RELEASED 19 November 2026 as [v3.3.3](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.3)** (PR #19, merge `03078f3`). Approved earlier the same day: D1–D10 all as recommended (owner: "All as recommended"). Release notes record what was and was not checked.  3.3.4 (new categories, §11) is [released as v3.3.4](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.4) (PR #22, merge `22a2c4c`); 3.3.5 (mobile pass) follows, see its own spec. Independent review folded in (§12). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
 Owner requests (18 November 2026): "dark and light toggle is not in penny - it should be" and "It should also carry the Studio product lineage". Prior work: [IDEAS](../IDEAS.md) (rows "Dark and light theme toggle" and "Studio product lineage").
 
 ## 1. Bottom line
@@ -351,6 +351,8 @@ The elapsed time is mostly waiting for the gates.
 | 2026-11-19 | **Approved by the owner: D1–D10 all as recommended.** 3.3.3 = theme, Studio lineage, mobile first (M1–M7, including 16 px fields). 3.3.4 = Utilities and Staff salary. 3.3.5 = mobile-first pass (44 px Edit, Delete and chip targets; rate control) |
 | 2026-11-19 | **Built** (Sonnet 5.5) and reviewed independently (Opus 5.5: no Blocker or High; 2 Medium and 4 Low fixed, the rest recorded in the PR). PR #19 merged at `03078f3`; 783 tests; header 111 px at 320–412 px. Deviations: extra tokens `--tag-line-s` and `--tap`; notice text uses `--surface`; a `dialog` background token and a `PennyTheme` guard were added after review |
 | 2026-11-19 | **Released v3.3.3** on the owner's "publish" (zip `PennyExpenseManager-v3.3.3.zip`, SHA-256 `f973f50a…eb76`; the asset keeps the `-v3.3.x` naming of earlier releases). Pages deploy, live `V3.3.3` and `theme.js` 200 confirmed. Not run: B04 (VoiceOver), B12 (iOS Simulator needs full Xcode; owner phone smoke test), true 200% text size, B10 (Studio cache) |
+| 2026-11-19 | **3.3.4 built** (Sonnet 5.5) from §11 and reviewed independently (Opus 5.5: no Blocker or High; the Medium, new English rules overriding Transport and Food words, was fixed by moving the two rules last). PR #22 merged at `22a2c4c`; 792 tests. Deviations: 20 corpus phrases changed, not 15; the Hindi additions in `translation.js` are not reached by the draft path (Spanish ones are); uppercase hex kept in the dark chart tokens |
+| 2026-11-19 | **Released v3.3.4** on the owner's "publish 3.3.4" (zip SHA-256 `54cad778…93d1`). Pages deploy and live `V3.3.4` confirmed. Includes PR #23 (best-effort fix for the phone zoom after Cancel then Discard, unverified on a phone). Not run: real phone, VoiceOver, iOS Simulator, B10 (Studio cache) |
 
 ## 11. New categories: Utilities and Staff salary (D8–D10)
 
@@ -367,7 +369,7 @@ Owner request, 19 November 2026: "Utility, Entertainment, Staff Salary should be
 | Goldens | F02, `detect` and `detectMarked` | Unchanged: sample data uses neither new category, and the detect corpus has its own category list | Pinned by the existing tests, unedited |
 | Search, filters, budgets | Category filter built from the list (`app.js:817`) | New names appear automatically | Browser check |
 
-**Tests (3.3.4):** TC-CAT-01 the list is the 9 names in order; TC-CAT-02 each new category round-trips through CSV and JSON; TC-CAT-03 English, Hindi and Spanish keywords map to the new categories; TC-CAT-04 the declared corpus changes are exactly the 15 Housing → Utilities phrases; TC-CAT-05 F02 and the detect goldens are unchanged; TC-CAT-06 the chart tokens for 9 categories pass contrast in both themes; browser check at 320 px that the 9-row chart and the longer dropdown fit.
+**Tests (3.3.4):** TC-CAT-01 the list is the 9 names in order; TC-CAT-02 each new category round-trips through CSV and JSON; TC-CAT-03 English, Hindi and Spanish keywords map to the new categories; TC-CAT-04 the declared corpus changes are exactly the Housing → Utilities phrases (**built as 20**: 15 Devanagari and 5 Hinglish; this spec said 15); TC-CAT-05 F02 and the detect goldens are unchanged; TC-CAT-06 the chart tokens for 9 categories pass contrast in both themes; browser check at 320 px that the 9-row chart and the longer dropdown fit.
 
 **Estimate (3.3.4):** about 4 build hours plus about 30 minutes of owner gate time.
 
