@@ -87,7 +87,22 @@ test('TC-CAT-05 goldens exist; sample data uses neither new category', () => {
   assert.ok(fs.existsSync(path.join(__dirname, 'fixtures', 'detect-3.3.1.json')));
 });
 // TC-CAT-06 is in ui-colours.test.cjs (C03 now covers --cat-0..--cat-8 in both themes).
-test('TC-CAT-06 the chart colour mapping gives every category a distinct token, Other grey', () => {
-  const app = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-  assert.match(app, /category === 'Other' \? 6 : i >= 6 \? i \+ 1 : i/);
+test('TC-CAT-03 older categories win when a phrase has two keywords', () => {
+  const cases = {
+    'taxi driver': 'Transport', 'staff lunch': 'Food & groceries', 'petrol gas': 'Transport',
+    'mineral water at restaurant': 'Food & groceries', 'rent and electricity': 'Housing',
+  };
+  for (const [text, category] of Object.entries(cases))
+    assert.equal(C.parseVoice(`spent 200 on ${text}`, DATE).category, category, text);
+});
+
+test('TC-CAT-06 every category gets a distinct chart token and Other keeps the grey', () => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+  const body = src.match(/const catColor = [\s\S]*?\n  \};/)[0];
+  const catColor = new Function('C', body + '; return catColor;')({ categories: C.categories });
+  const tokens = C.categories.map(catColor);
+  assert.equal(new Set(tokens).size, 9);
+  assert.equal(catColor('Other'), 'var(--cat-6)');
+  assert.equal(catColor('Utilities'), 'var(--cat-7)');
+  assert.equal(catColor('Staff salary'), 'var(--cat-8)');
 });

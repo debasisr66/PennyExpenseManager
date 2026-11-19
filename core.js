@@ -440,16 +440,17 @@
       .trim();
     const categorySignals = [
       ['Housing', /\b(rent|housing|maintenance)\b/i],
-      [
-        'Utilities',
-        /\b(electricity|water|gas|utilities|broadband|wifi|internet|recharge|dth)\b/i,
-      ],
-      ['Staff salary', /\b(salary|maid|cook|driver|nanny|staff)\b/i],
       ['Food & groceries', /\b(food|groceries|grocery|coffee|lunch|dinner|produce|restaurant)\b/i],
       ['Transport', /\b(transport|petrol|fuel|taxi|train|bus|uber|travel)\b/i],
       ['Health', /\b(health|medical|medicine|pharmacy|doctor)\b/i],
       ['Entertainment', /\b(entertainment|movie|cinema|concert)\b/i],
       ['Shopping', /\b(shopping|clothes|sneakers|shoes)\b/i],
+      // Last, so a phrase such as "taxi driver" or "staff lunch" keeps its older category.
+      [
+        'Utilities',
+        /\b(electricity|water|gas|utilities|broadband|wifi|internet|recharge|dth)\b/i,
+      ],
+      ['Staff salary', /\b(salary|maid|cook|driver|nanny|staff)\b/i],
     ];
     if (
       /\b(dollars?|usd|euros?|eur|pounds?|gbp|pesos?|yen|yuan|francs?|rubles?)\b/i.test(raw) ||
