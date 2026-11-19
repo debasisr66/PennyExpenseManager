@@ -1,6 +1,6 @@
-# Penny architecture (current: 3.3.2)
+# Penny architecture (current: 3.3.3)
 
-Updated 19 November 2026 for 3.3.2; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
+Updated 19 November 2026 for 3.3.3; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
 
 ```mermaid
 flowchart LR
@@ -18,6 +18,10 @@ flowchart LR
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.3 note
+
+`theme.js` (global `PennyTheme`, UMD like `core.js`) is a synchronous script in `<head>` before `styles.css`. It reads the `penny-theme` key (`light` or `dark`; anything else is System), sets `data-theme` on `<html>` and both `theme-color` metas, and never throws. System mode is pure CSS: the dark token block sits under `@media (prefers-color-scheme: dark)` with `:root:not([data-theme='light'])`, and an identical `:root[data-theme='dark']` block serves the explicit choice. `app.js` owns the ◐ button handler and writes chart bars as `var(--cat-N)`. The preference is outside the IndexedDB document, so backups, import, undo and reset neither read nor clear it. Outside the token blocks `styles.css` has no colour literals (test C01). See [the spec](specs/THEME-TOGGLE-3.3.3-SPEC.md).
 
 ### 3.3.2 note
 
@@ -214,7 +218,7 @@ Local operation was reported working by the user. A full recorded Docker securit
 
 ## Sources and ownership
 
-- Application: `app.js`, `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `hindi.js`, `diagnostics.js`, `index.html` and `styles.css`.
+- Application: `app.js`, `core.js`, `data.js`, `storage.js`, `voice.js`, `translation.js`, `hindi.js`, `diagnostics.js`, `theme.js`, `index.html` and `styles.css`.
 - Local serving: `Dockerfile`, `compose.yaml`, `nginx.conf` and `scripts/penny`.
 - Product source: https://github.com/debasisr66/PennyExpenseManager
 - Release evidence: https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TEST-RESULTS.md

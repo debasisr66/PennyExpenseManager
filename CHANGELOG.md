@@ -1,5 +1,13 @@
 # Changelog
 
+## V3.3.3 — 2026-11-19
+
+- **New: dark and light theme.** The ◐ button in the header cycles System (default), Light and Dark. System follows the phone or computer setting live with no script. The choice is one `localStorage` key, `penny-theme`, on this device only: it is not in the expense data, backups, CSV, JSON or schema 4. A new `theme.js` in `<head>` applies a saved choice before first paint and sets the browser bar colour (`theme-color`). The CSP is unchanged. See [the spec](docs/specs/THEME-TOGGLE-3.3.3-SPEC.md).
+- **Tokens and contrast.** Every colour in `styles.css` is now a custom property, with one light block and two identical dark blocks. The dark neutrals are Studio's (commit `8faaf62`); Penny keeps its green. Four existing light-theme gaps were fixed: focus ring, input borders, six chart colours and the "+ Tag" text. Tests cover contrast in both themes, tag chips in 360 hue steps and the light values.
+- **Mobile first.** The phone header is two rows (about 111 px at 320–412 px, was 181 px at 320 px) with a 44 × 44 px theme button. Form fields are 16 px on phones, so iPhone Safari no longer zooms on focus. Hover rules apply only where the device can hover. Edit, Delete and chip targets are unchanged and move to 3.3.5.
+- **Studio lineage.** The footer has a "Part of Studio" link with the Studio mark, opening the hub in a new tab.
+- **Deploy lists.** `theme.js` joins the Dockerfile and both places in `pages.yml`. The version is 3.3.3.
+
 ## V3.3.2 — 2026-11-19
 
 - **New: recurring bills.** Tick "Recurring bill" in the expense form and choose "Repeats every" 1, 2, 3 or 12 months. The sidebar panel is now "Bills". "Your recurring bills" shows Paid, Due soon, Overdue or “Stopped?” for the current month, found by the new `detectMarked` in `recurring.js`. "Looks recurring" stays below it for bills Penny noticed but you have not marked.

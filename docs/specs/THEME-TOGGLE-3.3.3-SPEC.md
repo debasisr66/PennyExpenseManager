@@ -1,6 +1,6 @@
 # 3.3.3: Dark and light theme, with Studio lineage. Architecture, design, mock, impact, plan
 
-Status: **APPROVED 19 November 2026: D1–D10 all as recommended (owner: "All as recommended").** Build 3.3.3 next; 3.3.4 (new categories, §11) and 3.3.5 (mobile pass) follow. Independent review folded in (§12). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
+Status: **RELEASED 19 November 2026 as [v3.3.3](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.3)** (PR #19, merge `03078f3`). Approved earlier the same day: D1–D10 all as recommended (owner: "All as recommended"). Release notes record what was and was not checked.  3.3.4 (new categories, §11) and 3.3.5 (mobile pass) follow. Independent review folded in (§12). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
 Owner requests (18 November 2026): "dark and light toggle is not in penny - it should be" and "It should also carry the Studio product lineage". Prior work: [IDEAS](../IDEAS.md) (rows "Dark and light theme toggle" and "Studio product lineage").
 
 ## 1. Bottom line
@@ -349,6 +349,8 @@ The elapsed time is mostly waiting for the gates.
 | 2026-11-19 | Draft v3: owner said Penny should be mobile first and asked for a thorough check. Baseline measured at 320 px and 375 px (§3.5); phone header redesigned (M1), 44 px toggle, `theme-color` restored, hover guard, real-phone checks B11 and B12; D7 added for 3 existing mobile gaps; estimate 15 h. Mobile changes reviewed independently (§12.2): equal-width row 2 replaced by label-sized buttons (measured), header target corrected to 112 px, 16 px fields moved into 3.3.3 (M6), logo contrast (M7), tap highlight, text-zoom and landscape checks, iPhone bar tint made best effort; estimate 16 h |
 | 2026-11-19 | Draft v4: owner asked for Utility, Entertainment and Staff Salary in the category list. Entertainment already exists; impact of the other two analysed (§11) and offered as 3.3.4 (D8–D10). 3.3.3 scope unchanged |
 | 2026-11-19 | **Approved by the owner: D1–D10 all as recommended.** 3.3.3 = theme, Studio lineage, mobile first (M1–M7, including 16 px fields). 3.3.4 = Utilities and Staff salary. 3.3.5 = mobile-first pass (44 px Edit, Delete and chip targets; rate control) |
+| 2026-11-19 | **Built** (Sonnet 5.5) and reviewed independently (Opus 5.5: no Blocker or High; 2 Medium and 4 Low fixed, the rest recorded in the PR). PR #19 merged at `03078f3`; 783 tests; header 111 px at 320–412 px. Deviations: extra tokens `--tag-line-s` and `--tap`; notice text uses `--surface`; a `dialog` background token and a `PennyTheme` guard were added after review |
+| 2026-11-19 | **Released v3.3.3** on the owner's "publish" (zip `PennyExpenseManager-v3.3.3.zip`, SHA-256 `f973f50a…eb76`; the asset keeps the `-v3.3.x` naming of earlier releases). Pages deploy, live `V3.3.3` and `theme.js` 200 confirmed. Not run: B04 (VoiceOver), B12 (iOS Simulator needs full Xcode; owner phone smoke test), true 200% text size, B10 (Studio cache) |
 
 ## 11. New categories: Utilities and Staff salary (D8–D10)
 
