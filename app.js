@@ -84,7 +84,13 @@
         .concat([$('recurring-bill').checked && repeatStep()]),
     );
   let confirmationPending = false;
-  function askConfirmation(message, owner, label = 'Confirm', irreversible = false) {
+  function askConfirmation(
+    message,
+    owner,
+    label = 'Confirm',
+    irreversible = false,
+    stayClosed = false,
+  ) {
     if (confirmationPending) return Promise.resolve(false);
     confirmationPending = true;
     const wasVoice = owner.id === 'expense-dialog' && !$('voice-panel').hidden;
@@ -101,8 +107,10 @@
         decided = true;
         confirmationPending = false;
         $('confirmation-dialog').close();
-        owner.showModal();
-        if (wasVoice) {
+        // A confirmed discard leaves the owner closed: re-opening it only to close it again
+        // moved focus into a field and could leave the page zoomed on phones.
+        if (!(value && stayClosed)) owner.showModal();
+        if (wasVoice && !(value && stayClosed)) {
           $('voice-panel').hidden = false;
           $('use-voice').setAttribute('aria-expanded', 'true');
         }
@@ -130,6 +138,8 @@
         'Discard the unsaved expense draft? Your saved expenses will stay unchanged.',
         dialog,
         'Discard draft',
+        false,
+        true,
       ))
     );
   }
