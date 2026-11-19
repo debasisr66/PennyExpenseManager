@@ -1,6 +1,6 @@
 # Idea 1: Recurring detector. Impact, architecture, design, estimate and plan
 
-Status: **APPROVED 18 November 2026: D1–D7 all (a), as recommended; D8 (a) added by the owner; D8 moved to 3.3.2 after the Group A spike** (owner). Next: Group A on a feature branch. Date 18 November 2026. Baseline: Penny 3.3.0 (`cb84ff7`), 644 automated tests passing.
+Status: **APPROVED 18 November 2026: D1–D7 all (a), as recommended; D8 (a) added by the owner; D8 moved to 3.3.2 after the Group A spike** (owner). **RELEASED 18 November 2026 as [v3.3.1](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.1)**; see §13. Superseded in part by [3.3.2](RECURRING-BILLS-3.3.2-SPEC.md) (marked bills). Date 18 November 2026. Baseline: Penny 3.3.0 (`cb84ff7`), 644 automated tests passing.
 Target release: **3.3.1**, the first step of the recurring-bills arc that rolls up to 3.4 (see [IDEAS.md](../IDEAS.md)).
 
 ## 1. Bottom line
@@ -183,6 +183,8 @@ One-off purchases (for example "New sneakers") can appear here. That is why the 
 | TC-RD-S01 | With D3 = a: detection on `D.defaults(date)` returns exactly the 3 sample bills and never "Weekly groceries" |
 | TC-RD-P01 | 10,000 expenses detected in under 50 ms in Node |
 | TC-RD-B01…B04 | Browser (manual, recorded): panel on sample data; month picker changes the result; empty state; 375 px width (position noted), keyboard and screen reader |
+
+**Traceability (as built).** All automated IDs above live in `tests/recurring.test.cjs` (46 tests): U01–U12, R01–R18, W01–W05, O01–O05, F01–F04, S01, P01. The runtime-file check is `tests/no-excel.test.cjs`. B01–B04 are recorded in §13. TC-RD-L01…L06 moved to 3.3.2 and were replaced there by marked bills. In 3.3.2, TC-RD-S01 changed: the sample Rent is now marked, so "Looks recurring" lists the 2 unmarked sample bills. 692 tests passed at the 3.3.1 release.
 
 **Honest limit of the freeze proof.** F02 and F03 prove that data, formats and security headers are frozen. That existing screens behave the same is proven by the 644 existing tests (only the D3 count assertions are edited, each named in the PR and checked in review) and by browser check B01. There is no automated DOM snapshot, so that part is checked by human review.
 
