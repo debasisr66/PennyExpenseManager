@@ -104,15 +104,16 @@ const OLD = {
   red: '#ad3e35', track: '#d8e2d3', 'bar-track': '#f0f3ed', 'warn-bg': '#fff2ed',
   'locked-bg': '#eef3fb', 'locked-line': '#c4d3ea', 'tag-l': '96%', 'tag-line-l': '81%',
   'tag-s': '65%', 'tag-line-s': '48%', 'chip-hover': '#ffffff77', shadow: '#173a3526',
-  'shadow-soft': '#193c3605', backdrop: '#14372f65', 'cat-0': '#28745b', tap: '#21665333',
+  'shadow-soft': '#193c3605', backdrop: '#14372f65', 'cat-0': '#28745b',
 };
+const NEW = { tap: '#21665333' };
 const FIXED = {
   field: '#7f8f86', focus: '#9a6b00', 'cat-1': '#6f8a4a', 'cat-2': '#a2741a', 'cat-3': '#3d8389',
   'cat-4': '#7d68a3', 'cat-5': '#b0613a', 'cat-6': '#6f7768',
 };
 const TINTS = ['#eef3e8', '#edf2e9', '#eef3ea', '#edf2ed', '#efefeb', '#edf0e9', '#edf2eb'];
 test('TC-TH-C04 light pin', () => {
-  for (const [k, v] of Object.entries({ ...OLD, ...FIXED })) assert.equal(light[k], v, k);
+  for (const [k, v] of Object.entries({ ...OLD, ...NEW, ...FIXED })) assert.equal(light[k], v, k);
   const s2 = hex(light['surface-2']);
   for (const t of TINTS) {
     const o = hex(t);
@@ -189,4 +190,11 @@ test('TC-TH-C07 dark neutrals equal Studio 8faaf62', () => {
     field: '#6e6e7c', ink: '#ededf0', muted: '#8b8b97',
   };
   for (const [k, v] of Object.entries(studio)) assert.equal(dark[k].toLowerCase(), v, k);
+});
+
+test('TC-TH-C08 theme.js bar colours equal --bg, and dialogs use --surface', () => {
+  const T = require('../theme.js');
+  assert.equal(T.BAR.light.toLowerCase(), light.bg);
+  assert.equal(T.BAR.dark.toLowerCase(), dark.bg);
+  assert.match(css, /\ndialog\s*\{\s*background:\s*var\(--surface\)/);
 });

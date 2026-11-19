@@ -3,7 +3,13 @@
   if (typeof module === 'object' && module.exports) module.exports = factory();
   else {
     root.PennyTheme = factory();
-    root.PennyTheme.boot(root.document, root.localStorage);
+    let store = null;
+    try {
+      store = root.localStorage;
+    } catch (error) {
+      /* Blocked storage means System mode. */
+    }
+    root.PennyTheme.boot(root.document, store);
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';

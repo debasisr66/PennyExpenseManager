@@ -437,6 +437,7 @@ footer {
   gap: 15px;
 }
 dialog {
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 18px;
   padding: 28px;
@@ -1355,11 +1356,12 @@ footer .studio-note {
   }
   .brand {
     order: 0;
-    flex: 1 1 calc(100% - 50px);
+    flex: 1 1 calc(100% - 52px);
     min-width: 0;
   }
   #theme-toggle {
     order: 1;
+    margin-left: auto;
   }
   .header-actions > button:not(#theme-toggle) {
     order: 2;

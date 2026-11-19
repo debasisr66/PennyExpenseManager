@@ -196,3 +196,15 @@ test('TC-TH-F01 the theme preference is not part of the data model', () => {
   }
   assert.equal(/schemaVersion\s*>\s*4/.test(read('data.js')), true);
 });
+
+test('TC-TH-S04 loading theme.js never throws when reading localStorage throws', () => {
+  const root = { document: fakeDoc() };
+  Object.defineProperty(root, 'localStorage', {
+    get() {
+      throw new Error('SecurityError');
+    },
+  });
+  const src = fs.readFileSync(path.join(__dirname, '..', 'theme.js'), 'utf8');
+  const script = new (require('node:vm').Script)(src);
+  assert.doesNotThrow(() => script.runInNewContext({ globalThis: root }));
+});
