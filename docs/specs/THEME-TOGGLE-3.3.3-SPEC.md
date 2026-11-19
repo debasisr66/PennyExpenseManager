@@ -1,6 +1,6 @@
 # 3.3.3: Dark and light theme, with Studio lineage. Architecture, design, mock, impact, plan
 
-Status: **DRAFT v3 (mobile first), awaiting owner decisions D1–D7.** Independent review folded in (§11). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
+Status: **DRAFT v4 (mobile first, new categories), awaiting owner decisions D1–D10.** Independent review folded in (§12). Date 19 November 2026. Baseline: Penny 3.3.2 on `main` (`ae701eb`, 762 tests).
 Owner requests (18 November 2026): "dark and light toggle is not in penny - it should be" and "It should also carry the Studio product lineage". Prior work: [IDEAS](../IDEAS.md) (rows "Dark and light theme toggle" and "Studio product lineage").
 
 ## 1. Bottom line
@@ -13,7 +13,8 @@ Owner requests (18 November 2026): "dark and light toggle is not in penny - it s
   - the dark theme uses Studio's own dark neutral tokens (background, surfaces, borders, text);
   - Penny keeps its green accent and its light palette, so it stays recognisably Penny.
 - **WCAG AA in both themes.** Text is at least 4.5:1. Focus rings, input borders, chart bars and the budget bar are at least 3:1. The audit found **4 kinds of existing light-theme gap, covering 11 colour pairs** (§3.4). The recommendation is to fix them in this release (D6).
-- **Mobile first (owner, 19 November 2026).** The phone is the primary design target. Penny's header is designed at 320 px first: the brand and ◐ (44 × 44 px) sit on row 1 and the three actions on row 2, so the header drops from 181 px to at most 112 px tall at 320 px. The phone's address and status bar match the theme (`theme-color`). Hover effects apply only on devices that can hover. Real-phone checks on iPhone Safari and Android Chrome are part of the release. The audit also found 3 existing mobile gaps. D7 recommends fixing the worst one now: form fields go to 16 px on phones, so iPhone Safari stops zooming on focus. The other two go to a 3.3.4 mobile pass (§3.5).
+- **Mobile first (owner, 19 November 2026).** The phone is the primary design target. Penny's header is designed at 320 px first: the brand and ◐ (44 × 44 px) sit on row 1 and the three actions on row 2, so the header drops from 181 px to at most 112 px tall at 320 px. The phone's address and status bar match the theme (`theme-color`). Hover effects apply only on devices that can hover. Real-phone checks on iPhone Safari and Android Chrome are part of the release. The audit also found 3 existing mobile gaps. D7 recommends fixing the worst one now: form fields go to 16 px on phones, so iPhone Safari stops zooming on focus. The other two go to a follow-up mobile pass (§3.5).
+- **New categories (owner, 19 November 2026): Utilities and Staff salary.** Entertainment is already in the list. Adding the two is small, but it is a data and voice change, not a theme change. D8 recommends shipping it as its own release, 3.3.4, straight after 3.3.3. §11 has the impact.
 - **Nothing Studio reads changes.** Studio's sync reads repository metadata and the latest release (tag, name, notes, assets). The release keeps the `PennyExpenseManager-*.zip` asset name.
 
 **Cut as good-to-haves:** a separate theme for printing, theme in Settings as well as the header, a visible text label beside ◐, live sync between open tabs, self-hosting Studio's fonts, and a Studio-side change.
@@ -150,7 +151,7 @@ The fixes keep each colour's hue and make it darker. Apart from these fixes and 
 | M6 | **Form fields 16 px on phones (D7):** `@media (max-width: 700px) { input, select, textarea { font-size: 16px } }`. iPhone Safari stops zooming the page on focus. One rule; its layout effect is checked at 320 px in B11 and pinned in TC-TH-M01 |
 | M7 | The "p" logo uses `--on-accent` (today `white`: on dark `--green` it would be about 1.9:1); it is in the C03 pairs |
 
-**Existing mobile gaps (D7):** 13 px form fields (zoom on focus in iPhone Safari: recommended for 3.3.3 as M6), Edit, Delete and tag-chip buttons under 44 px wide, and the 18 px "Enter rate manually" control (recommended for a 3.3.4 mobile pass with a full audit of every screen and dialog on real phones, because they change the table and chip layout everywhere).
+**Existing mobile gaps (D7):** 13 px form fields (zoom on focus in iPhone Safari: recommended for 3.3.3 as M6), Edit, Delete and tag-chip buttons under 44 px wide, and the 18 px "Enter rate manually" control (recommended for a follow-up mobile pass with a full audit of every screen and dialog on real phones, because they change the table and chip layout everywhere).
 
 ### 3.6 Studio lineage (D5)
 
@@ -222,7 +223,7 @@ One feature branch `feat/theme-3.3.3` from `origin/main`, one PR. Sonnet 5.5 bui
 
 | Step | Work | Gate |
 |---|---|---|
-| 0 | Owner decides D1–D7 on this PR; merge the spec | **Owner** |
+| 0 | Owner decides D1–D10 on this PR; merge the spec | **Owner** |
 | 1 | `theme.js` and its unit tests (U01–U04) | |
 | 2 | Tokenise `styles.css` with light values unchanged; prove with C01, C02 and C04 before any dark value or fix | |
 | 3 | Dark blocks, light fixes (D6), contrast tests (C03, C05, C06) | |
@@ -314,7 +315,7 @@ Build hours are AI-session hours (Sonnet builds, Opus verifies), from the 3.3.2 
 
 | Owner gate | Owner time |
 |---|---|
-| Decide D1–D7 on this PR | 20–30 min |
+| Decide D1–D10 on this PR | 25–35 min |
 | Approve the merge | 10–15 min |
 | Smoke test on an iPhone and an Android phone in both themes, then "publish" | 20–25 min |
 | **Total** | **about 1 hour** |
@@ -332,7 +333,11 @@ The elapsed time is mostly waiting for the gates.
 | **D5** | What "Studio lineage" means | (a) "Part of Studio" footer link with the Studio mark, **and** Studio's dark neutral tokens; Penny keeps its green accent and light palette; (b) the link and mark only, with Penny's own dark neutrals; (c) Studio's dark neutrals only, no link | **(a).** Visible lineage plus a shared look in dark mode, without losing Penny's identity. Please confirm this is what you meant |
 | **D6** | The 4 existing light-theme contrast gaps (§3.4) | (a) fix all 4 in 3.3.3; (b) fix the text, focus ring and input borders, and defer the chart colours to IDEAS (saves about 1 build hour); (c) defer all to IDEAS | **(a).** You asked for AA "including chart" colours; both themes go through one contrast pass; colours only get darker within the same hues |
 
-| **D7** | The 3 existing mobile gaps (§3.5) | (a) **fix the 16 px fields in 3.3.3** (M6: one rule, stops iPhone zoom, the most visible mobile defect) and put the 44 px Edit, Delete and chip targets and the 18 px rate control in a **3.3.4 mobile-first pass** straight after, with its own spec and a full audit on real phones (about 6–8 build hours); (b) all 3 in 3.3.4; (c) all 3 in 3.3.3 (about +4 hours; the table and chip layout change in the same release as the theme) | **(a).** The worst phone defect is fixed now at almost no cost; the layout-changing items get a thorough pass of their own |
+| **D7** | The 3 existing mobile gaps (§3.5) | (a) **fix the 16 px fields in 3.3.3** (M6: one rule, stops iPhone zoom, the most visible mobile defect) and put the 44 px Edit, Delete and chip targets and the 18 px rate control in a **follow-up mobile-first pass** (3.3.5 if D8 is (a), else 3.3.4) straight after, with its own spec and a full audit on real phones (about 6–8 build hours); (b) all 3 in the follow-up pass; (c) all 3 in 3.3.3 (about +4 hours; the table and chip layout change in the same release as the theme) | **(a).** The worst phone defect is fixed now at almost no cost; the layout-changing items get a thorough pass of their own |
+
+| **D8** | The new categories (§11) | (a) **own release 3.3.4** straight after 3.3.3 (about 4 build hours; the mobile pass becomes 3.3.5); (b) include in 3.3.3 as a second commit group in the same PR (about +4 hours; one release changes look, phone layout and data rules together); (c) defer | **(a).** Each release stays single-purpose and easy to roll back. The theme release already defines the chart colour tokens, so 3.3.4 only adds two |
+| **D9** | Names in the list | (a) **"Utilities"** and **"Staff salary"**, in sentence case like "Food & groceries"; (b) "Utility" and "Staff Salary" as written | **(a).** Matches the existing list and common Indian usage ("utility bills") |
+| **D10** | Electricity and water spoken or typed by voice | (a) **move them from Housing to Utilities**, plus gas, broadband, Wi-Fi, recharge and DTH; update the 15 Hindi-corpus phrases that expect Housing, as a declared test change; (b) leave voice as is (Utilities only chosen by hand) | **(a).** Otherwise "बिजली 2,400" keeps landing in Housing and the new category is half done |
 
 ## 10. Status log
 
@@ -340,12 +345,32 @@ The elapsed time is mostly waiting for the gates.
 |---|---|
 | 2026-11-18 | Owner requests: a dark and light toggle, and Studio product lineage. Logged in IDEAS |
 | 2026-11-19 | Draft v1 (Opus 5.5): architecture, tokens, contrast measured for both themes, 4 existing light gaps found, Studio sync read paths checked (`sync-products.js` reads repository metadata and latest release only) |
-| 2026-11-19 | Draft v2: independent review (Sonnet 5.5) folded in (§11): placeholder, chip hover and 4 missed literals tokenised; notice no longer relied on for announcement; tests C07 and B10 added; estimate raised to 13 h; D7 and D8 made defaults. Docs-only PR opened; owner asked to decide D1–D6 |
-| 2026-11-19 | Draft v3: owner said Penny should be mobile first and asked for a thorough check. Baseline measured at 320 px and 375 px (§3.5); phone header redesigned (M1), 44 px toggle, `theme-color` restored, hover guard, real-phone checks B11 and B12; D7 added for 3 existing mobile gaps; estimate 15 h. Mobile changes reviewed independently (§11.2): equal-width row 2 replaced by label-sized buttons (measured), header target corrected to 112 px, 16 px fields moved into 3.3.3 (M6), logo contrast (M7), tap highlight, text-zoom and landscape checks, iPhone bar tint made best effort; estimate 16 h |
+| 2026-11-19 | Draft v2: independent review (Sonnet 5.5) folded in (§12): placeholder, chip hover and 4 missed literals tokenised; notice no longer relied on for announcement; tests C07 and B10 added; estimate raised to 13 h; D7 and D8 made defaults. Docs-only PR opened; owner asked to decide D1–D6 |
+| 2026-11-19 | Draft v3: owner said Penny should be mobile first and asked for a thorough check. Baseline measured at 320 px and 375 px (§3.5); phone header redesigned (M1), 44 px toggle, `theme-color` restored, hover guard, real-phone checks B11 and B12; D7 added for 3 existing mobile gaps; estimate 15 h. Mobile changes reviewed independently (§12.2): equal-width row 2 replaced by label-sized buttons (measured), header target corrected to 112 px, 16 px fields moved into 3.3.3 (M6), logo contrast (M7), tap highlight, text-zoom and landscape checks, iPhone bar tint made best effort; estimate 16 h |
+| 2026-11-19 | Draft v4: owner asked for Utility, Entertainment and Staff Salary in the category list. Entertainment already exists; impact of the other two analysed (§11) and offered as 3.3.4 (D8–D10). 3.3.3 scope unchanged |
 
-## 11. Independent reviews: disposition
+## 11. New categories: Utilities and Staff salary (D8–D10)
 
-### 11.1 Spec review (Sonnet 5.5, 19 Nov 2026)
+Owner request, 19 November 2026: "Utility, Entertainment, Staff Salary should be added in the list of category drop down". **Entertainment already exists** (`core.js:13`). Two categories are new.
+
+| Area | Today | Change | Freeze and risk |
+|---|---|---|---|
+| Category list | `core.js:7`, 7 items, "Other" last | Add "Utilities" and "Staff salary" before "Other" (9 items). The form default stays "Food & groceries" | No schema change: `category` is already a validated string |
+| Chart colours | `--cat-0`…`--cat-6` (3.3.3) | `--cat-7`, `--cat-8`; "Other" keeps its grey by being mapped last. Light `#4f6fa8` (4.49:1 on the bar track) and `#a8506e` (4.64); dark `#9DB4E8` (7.24) and `#E89BB5` (7.00) | Contrast test C03 extended |
+| CSV and JSON | Import rejects unknown categories (`core.js:78`, `data.js:428`) | Both new names import and export. File format unchanged | A 3.3.4 backup that uses a new category does not import into 3.3.3 or older (one-way, like any new value). Stated in the release notes |
+| English voice | `core.js:440`: "electricity" and "utilities" → Housing | Utilities: electricity, water, gas, utilities, broadband, wifi, internet, recharge, DTH. Staff salary: salary, maid, cook, driver, nanny, staff | Existing English tests for those words updated as a declared change |
+| Hindi (`hindi.js:210`) and Spanish (`translation.js`) | बिजली, पानी → Housing | Utilities: बिजली, पानी, गैस, रिचार्ज; electricidad, agua, gas, internet. Staff salary: तनख्वाह, वेतन, पगार, बाई, कामवाली, ड्राइवर; salario, sueldo, empleada | **15 Hindi-corpus phrases** change from Housing to Utilities (declared, in the same commit). Offline-language coverage (at least 6 categories) still holds |
+| Existing entries | Electricity logged under Housing | **Not moved.** Penny never rewrites past data | **Bills panel:** a bill marked recurring under Housing becomes a new bill if you log it under Utilities (the 3.3.2 rule: category + description). The old one shows "Stopped?", then hides. Release notes say: "To move a bill, edit its last entry's category" |
+| Goldens | F02, `detect` and `detectMarked` | Unchanged: sample data uses neither new category, and the detect corpus has its own category list | Pinned by the existing tests, unedited |
+| Search, filters, budgets | Category filter built from the list (`app.js:817`) | New names appear automatically | Browser check |
+
+**Tests (3.3.4):** TC-CAT-01 the list is the 9 names in order; TC-CAT-02 each new category round-trips through CSV and JSON; TC-CAT-03 English, Hindi and Spanish keywords map to the new categories; TC-CAT-04 the declared corpus changes are exactly the 15 Housing → Utilities phrases; TC-CAT-05 F02 and the detect goldens are unchanged; TC-CAT-06 the chart tokens for 9 categories pass contrast in both themes; browser check at 320 px that the 9-row chart and the longer dropdown fit.
+
+**Estimate (3.3.4):** about 4 build hours plus about 30 minutes of owner gate time.
+
+## 12. Independent reviews: disposition
+
+### 12.1 Spec review (Sonnet 5.5, 19 Nov 2026)
 
 Verdict: core architecture sound (synchronous external `theme.js` is allowed by `script-src 'self'`; dual-block CSS works; Studio sync reads only repository metadata and `releases/latest`; Studio hub URL and neutral tokens match). Most contrast numbers reproduced independently.
 
@@ -364,7 +389,7 @@ Verdict: core architecture sound (synchronous external `theme.js` is allowed by 
 | Cut System mode (doubles tests) | Suggestion | **Kept**: your brief lists it, it is CSS-only, and it is the default most users want. It is D2 for you to decide |
 | Reduce the footer mark to text only | Suggestion | **Offered** as part of D5 for you to decide |
 
-### 11.2 Mobile-first review (Sonnet 5.5, 19 Nov 2026): disposition
+### 12.2 Mobile-first review (Sonnet 5.5, 19 Nov 2026): disposition
 
 | Finding | Severity | Disposition |
 |---|---|---|
