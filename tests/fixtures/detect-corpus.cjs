@@ -1,6 +1,7 @@
 'use strict';
 /* Deterministic corpus for the 3.3.1 detect() freeze (TC-RM-F02).
    No #recurring tags, so 3.3.2 must return byte-identical output.
+   Independent of data.js: sample data changes in 3.3.2 (D7) and is covered by TC-RD-S01.
    Regenerate the golden ONLY from a 3.3.1 checkout:
    node tests/fixtures/detect-corpus.cjs --write */
 const fs = require('node:fs');
@@ -45,13 +46,11 @@ function corpus() {
 }
 const REFS = ['2025-06', '2025-12', '2026-01', '2026-07', '2026-11', '2027-02'];
 function outputs(R) {
-  const D = require('../../data.js');
   const rows = corpus();
   const chunks = [rows.slice(0, 200), rows];
   const out = {};
   for (const ref of REFS) {
     out[ref] = chunks.map((c) => R.detect(c, ref));
-    out['sample-' + ref] = R.detect(D.defaults(ref + '-20').expenses, ref);
   }
   return out;
 }

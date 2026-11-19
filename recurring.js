@@ -27,6 +27,21 @@
   const REF_MONTH = /^[1-9]\d{3}-(0[1-9]|1[0-2])$/;
   const DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
+  const MARKED = Object.freeze({
+    tag: 'recurring',
+    soonDays: 7,
+    minForType: 3,
+    rangeEntries: 6,
+    maxRows: 8,
+  });
+  const CADENCE = Object.freeze({
+    __proto__: null,
+    'every-2-months': 2,
+    'every-3-months': 3,
+    'every-12-months': 12,
+  });
+  const STATUS_RANK = Object.freeze({ overdue: 0, 'due-soon': 1, stopped: 2, paid: 3 });
+  const tagsOf = (x) => (Array.isArray(x.tags) ? x.tags : []);
   const keep = (t) => !MONTHS.has(t) && !YEAR.test(t);
   function normalizeKey(description) {
     const text = String(description).normalize('NFKC').toLowerCase();
@@ -166,6 +181,139 @@
       paidThisMonth: cur.some(paid),
     };
   }
+  // ---------- marked bills (3.3.2) ----------
+  const DAY_MS = 86400000;
+  function parseDate(text) {
+    const y = Number(text.slice(0, 4));
+    const m = Number(text.slice(5, 7));
+    const d = Number(text.slice(8, 10));
+    return { y, m, d };
+  }
+  const isoOf = (ms) => new Date(ms).toISOString().slice(0, 10);
+  function isRealDate(text) {
+    if (typeof text !== 'string' || !DATE.test(text)) {
+      return false;
+    }
+    const { y, m, d } = parseDate(text);
+    return isoOf(Date.UTC(y, m - 1, d)) === text;
+  }
+  function shiftMonths(date, delta) {
+    const { y, m, d } = parseDate(date);
+    const index = y * 12 + (m - 1) + delta;
+    const year = Math.floor(index / 12);
+    const mon = index % 12;
+    const length = new Date(Date.UTC(year, mon + 1, 0)).getUTCDate();
+    return isoOf(Date.UTC(year, mon, Math.min(d, length)));
+  }
+  function shiftDays(date, delta) {
+    const { y, m, d } = parseDate(date);
+    return isoOf(Date.UTC(y, m - 1, d) + delta * DAY_MS);
+  }
+  function markedRow(x) {
+    const { id, description, category, cents, date } = x;
+    const tags = tagsOf(x);
+    return { id: id == null ? '' : String(id), description, category, cents, date, tags };
+  }
+  const byOrder = (a, b) => cmp(a.date, b.date) || cmp(a.id, b.id);
+  function markedGroups(expenses) {
+    const groups = new Map();
+    for (const x of expenses) {
+      const key = isValidRow(x) ? keyOf(x) : '';
+      if (!key) {
+        continue;
+      }
+      if (!groups.has(key)) {
+        groups.set(key, []);
+      }
+      groups.get(key).push(markedRow(x));
+    }
+    return groups;
+  }
+  const isMarkedRow = (r) => r.tags.includes(MARKED.tag);
+  function cadenceOf(row) {
+    const tag = row.tags.find((t) => typeof t === 'string' && t in CADENCE);
+    return tag === undefined ? 1 : CADENCE[tag];
+  }
+  function stepOf(entries) {
+    return cadenceOf(entries.filter(isMarkedRow).sort(byOrder).pop());
+  }
+  function statusOf(today, last, step) {
+    const next = shiftMonths(last, step);
+    if (today < shiftDays(next, -MARKED.soonDays)) {
+      return 'paid';
+    }
+    if (today < next) {
+      return 'due-soon';
+    }
+    if (today < shiftMonths(last, 2 * step)) {
+      return 'overdue';
+    }
+    return today < shiftMonths(last, 3 * step) ? 'stopped' : '';
+  }
+  function typeOf(entries) {
+    if (entries.length < MARKED.minForType) {
+      return { type: 'last' };
+    }
+    const recent = entries.slice(-MARKED.minForType).map(centsOf);
+    const median = lowerMedian(recent);
+    if (recent.every((c) => inBand(c, median))) {
+      return { type: 'fixed', cents: median };
+    }
+    const range = entries.slice(-MARKED.rangeEntries).map(centsOf);
+    return { type: 'varies', min: Math.min(...range), max: Math.max(...range) };
+  }
+  function markedBill(entries, today) {
+    const step = stepOf(entries);
+    const used = entries.filter((r) => r.date <= today).sort(byOrder);
+    if (!used.length) {
+      return null;
+    }
+    const last = used[used.length - 1];
+    const status = statusOf(today, last.date, step);
+    if (!status) {
+      return null;
+    }
+    return {
+      description: last.description,
+      category: last.category,
+      status,
+      step,
+      lastDate: last.date,
+      lastCents: last.cents,
+      nextDate: shiftMonths(last.date, step),
+      ...typeOf(used),
+      count: used.length,
+    };
+  }
+  function byStatus(a, b) {
+    const rank = STATUS_RANK[a.status] - STATUS_RANK[b.status];
+    const d = rank || cmp(a.nextDate, b.nextDate);
+    return d || cmp(a.description, b.description) || cmp(a.category, b.category);
+  }
+  function detectMarked(expenses, today) {
+    if (!isRealDate(today)) {
+      throw TypeError('Invalid date.');
+    }
+    const rows = Array.isArray(expenses) ? expenses : [];
+    const bills = [];
+    for (const entries of markedGroups(rows).values()) {
+      const bill = entries.some(isMarkedRow) ? markedBill(entries, today) : null;
+      if (bill) {
+        bills.push(bill);
+      }
+    }
+    return { bills: bills.sort(byStatus) };
+  }
+  const hasTag = (x, tag) => tagsOf(x).includes(tag);
+  function markedKeys(rows) {
+    const keys = new Set();
+    for (const x of rows) {
+      if (isValidRow(x) && hasTag(x, MARKED.tag)) {
+        keys.add(keyOf(x));
+      }
+    }
+    return keys;
+  }
   function detect(expenses, ref) {
     if (!REF_MONTH.test(ref)) {
       throw TypeError('Invalid reference month.');
@@ -175,8 +323,12 @@
     const recent = addMonths(ref, -RULES.recentMonths);
     const rows = Array.isArray(expenses) ? expenses : [];
     const groups = groupRows(rows, from, ref);
+    const marked = markedKeys(rows);
     const bills = [];
-    for (const { win, cur } of groups.values()) {
+    for (const [key, { win, cur }] of groups) {
+      if (marked.has(key)) {
+        continue;
+      }
       const counts = monthCounts(win);
       if (!isRecurring(win, counts, recent)) {
         continue;
@@ -188,5 +340,5 @@
       window: { from, to },
     };
   }
-  return { RULES, normalizeKey, detect };
+  return { RULES, MARKED, normalizeKey, detect, detectMarked };
 });
