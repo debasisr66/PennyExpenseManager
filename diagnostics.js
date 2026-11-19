@@ -107,7 +107,7 @@
       }
       const e = {
         schemaVersion: 1,
-        appVersion: '3.3.1',
+        appVersion: '3.3.2',
         eventId: D.freshId(),
         sessionId,
         sequence: ++sequence,
@@ -224,7 +224,7 @@
         return {
           format: 'penny-diagnostics',
           schemaVersion: 1,
-          appVersion: '3.3.1',
+          appVersion: '3.3.2',
           events: await list(),
           dropped: memory.dropped,
           memoryOnly: unavailable,

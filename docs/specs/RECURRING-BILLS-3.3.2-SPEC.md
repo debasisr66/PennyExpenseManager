@@ -169,6 +169,7 @@ One feature branch and one PR, built in a **fresh session** (practice 19), Sonne
 | 2026-11-19 | Draft v2: independent review folded in; "Log it" cut; rules made exact |
 | 2026-11-19 | Approved by the owner: D1–D8 as recommended. Build in a fresh session, Groups A → B → C |
 | 2026-11-19 | Group A built (Sonnet), reviewed (Opus): no Blocker or High. Status boundaries clarified as last + k × step, each clamped from the day of last |
+| 2026-11-19 | Group B built (Sonnet), reviewed (Opus): no Blocker or High. Fixed: only the 3 cadence tags the form writes are reserved; the 12-tag message is shared code and tested; dirty check ignores the step when unticked; hint shows when ticked. Browser checks at 375 px and 1280 px, keyboard and screen reader names: pass |
 
 ## 11. Independent review (Sonnet 5.5, 19 Nov 2026): disposition
 

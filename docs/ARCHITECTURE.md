@@ -13,11 +13,15 @@ flowchart LR
   Events[Sanitized session action events] --> Logs[Local bounded diagnostics]
   Store --> Export[CSV and JSON]
   Store -. read only .-> Recurring[recurring.js PennyRecurring]
-  Recurring --> Panel[Looks recurring panel]
+  Recurring --> Panel[Bills panel]
   GitHub[GitHub Pages or local Docker] --> Input
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.2 note
+
+`PennyRecurring.detectMarked(expenses, today)` is a second pure track beside `detect`. It groups entries by category and normalised description. A group counts as marked when any entry carries the `recurring` tag. The step comes from the latest marked entry (`every-2-months`, `every-3-months`, `every-12-months`, else 1). It returns each bill's status, step, last and next dates and amount type. Tags are the storage: no schema change. The expense form is the only writer. On save it strips recurring tags from everything typed, then adds `markingTags(marked, step)` before validation. `app.js` calls `detectMarked` only for the current month and renders the Bills panel with `textContent`. See [the spec](specs/RECURRING-BILLS-3.3.2-SPEC.md).
 
 ### 3.3.1 note
 

@@ -340,5 +340,62 @@
       window: { from, to },
     };
   }
-  return { RULES, MARKED, normalizeKey, detect, detectMarked };
+  // Form helpers: the form is the only writer of recurring tags.
+  // Only the tags the form writes are reserved; a user's own every-6-months stays theirs.
+  const isRecurringTag = (tag) =>
+    tag === MARKED.tag || (typeof tag === 'string' && tag in CADENCE);
+  function readMarking(tags) {
+    const list = Array.isArray(tags) ? tags : [];
+    const found = list.find((t) => typeof t === 'string' && t in CADENCE);
+    return {
+      marked: list.includes(MARKED.tag),
+      step: found === undefined ? 1 : CADENCE[found],
+      rest: list.filter((t) => !isRecurringTag(t)),
+    };
+  }
+  function markingTags(marked, step) {
+    const tag = Object.keys(CADENCE).find((t) => CADENCE[t] === step);
+    if (step !== 1 && tag === undefined) {
+      throw TypeError('Invalid repeat step.');
+    }
+    if (!marked) {
+      return [];
+    }
+    return tag === undefined ? [MARKED.tag] : [MARKED.tag, tag];
+  }
+  function applyMarking(tags, marked, step) {
+    return [...tags.filter((t) => !isRecurringTag(t)), ...markingTags(marked, step)];
+  }
+  const TOO_MANY_TAGS =
+    'Too many tags. Recurring bill uses 1 or 2 of the 12 tags, so remove a tag to save.';
+  // build(tags) validates and returns the expense. When the marking alone pushes the
+  // tag count over 12, say so; otherwise keep the original error.
+  function withMarking(build, tags, marked, step) {
+    try {
+      return build(applyMarking(tags, marked, step));
+    } catch (e) {
+      if (!marked || !/12 tags/.test(e.message)) {
+        throw e;
+      }
+      try {
+        build(applyMarking(tags, false, 1));
+      } catch {
+        throw e;
+      }
+      throw Error(TOO_MANY_TAGS);
+    }
+  }
+  return {
+    RULES,
+    MARKED,
+    normalizeKey,
+    detect,
+    detectMarked,
+    isRecurringTag,
+    readMarking,
+    markingTags,
+    applyMarking,
+    withMarking,
+    TOO_MANY_TAGS,
+  };
 });

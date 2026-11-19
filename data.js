@@ -171,7 +171,7 @@
     if (!C.validDate(date)) throw Error('Invalid reference date.');
     const month = date.slice(0, 7);
     const rows = [
-      ['Rent', 1050000, 'Housing', 1, 'bank-transfer', ['housing']],
+      ['Rent', 1050000, 'Housing', 1, 'bank-transfer', ['housing', 'recurring']],
       ['Weekly groceries', 86400, 'Food & groceries', 3, 'upi', ['groceries', 'family']],
       ['Train pass', 45000, 'Transport', 4, 'upi', ['travel']],
       ['Coffee with a friend', 12500, 'Food & groceries', 5, 'cash', ['weekend']],
@@ -206,7 +206,7 @@
         ])
         .concat(
           pastBills(month, [
-            ['rent', 'Rent', 1050000, 'Housing', 1, 'bank-transfer', ['housing'], 6],
+            ['rent', 'Rent', 1050000, 'Housing', 1, 'bank-transfer', ['housing', 'recurring'], 6],
             ['train', 'Train pass', 45000, 'Transport', 4, 'upi', ['travel'], 5],
             ['music', 'Music subscription', 11900, 'Entertainment', 12, 'upi', ['subscription'], 4],
           ]),

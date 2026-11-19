@@ -18,7 +18,7 @@
           <span class="logo" aria-hidden="true">p</span>penny<span style="color: #9fae9d">.</span>
         </div>
         <div class="header-actions">
-          <span class="preview">V3.3.1 · INR</span
+          <span class="preview">V3.3.2 · INR</span
           ><button id="whats-new-button" class="quiet" type="button">What’s New</button
           ><button id="settings-button" class="secondary" type="button">Settings</button
           ><button id="data-manager" class="secondary" type="button">Data & backups</button>
@@ -86,7 +86,8 @@
               <code>groceries #family</code>. Use quotes for a phrase. Filter with
               <code>category:transport</code>, <code>min:100</code>, <code>max:500</code>,
               <code>after:2026-10-01</code>, <code>before:2026-10-31</code>, or
-              <code>month:2026-10</code>. Natural phrases like “this month”, “last month”, “over
+              <code>month:2026-10</code>. Find your marked bills with <code>#recurring</code>.
+              Natural phrases like “this month”, “last month”, “over
               100” and “under 500” work too.
             </p>
           </div>
@@ -234,9 +235,15 @@
               <div id="chart" role="img" aria-label="Monthly spending by category"></div>
             </section>
             <section class="panel" aria-labelledby="recurring-title">
-              <h2 id="recurring-title">Looks recurring</h2>
-              <p class="small">Bills Penny has seen most months. Nothing is saved or changed.</p>
-              <ul id="recurring-list" class="recurring-list"></ul>
+              <h2 id="recurring-title">Bills</h2>
+              <p class="small">When your bills are due. Nothing here is saved or sent.</p>
+              <h3 id="marked-title">Your recurring bills</h3>
+              <ul id="marked-list" class="recurring-list" aria-labelledby="marked-title"></ul>
+              <h3 id="noticed-title">Looks recurring</h3>
+              <p class="small">
+                Penny noticed these. Tick “Recurring bill” when you next add one.
+              </p>
+              <ul id="recurring-list" class="recurring-list" aria-labelledby="noticed-title"></ul>
             </section>
           </aside>
         </div>
@@ -349,7 +356,39 @@
             >Payment method<select id="payment-method">
               <option value="" disabled>Choose a payment method</option>
             </select></label
-          ><label class="field full"
+          >
+          <div class="field full recurring-field">
+            <label class="check-label"
+              ><input
+                id="recurring-bill"
+                type="checkbox"
+                aria-labelledby="recurring-label"
+                aria-describedby="recurring-hint"
+                aria-controls="repeat-every"
+                aria-expanded="false" />
+              <span
+                ><span id="recurring-label">Recurring bill</span>
+                <span class="small" id="recurring-hint" hidden
+                  >Use the same description and category each time.</span
+                ></span
+              ></label
+            >
+            <fieldset id="repeat-every" class="repeat-every" hidden disabled>
+              <legend>Repeats every</legend>
+              <div class="options">
+                <label class="check-label"
+                  ><input type="radio" name="repeat-step" value="1" checked />1 month</label
+                ><label class="check-label"
+                  ><input type="radio" name="repeat-step" value="2" />2 months</label
+                ><label class="check-label"
+                  ><input type="radio" name="repeat-step" value="3" />3 months</label
+                ><label class="check-label"
+                  ><input type="radio" name="repeat-step" value="12" />12 months</label
+                >
+              </div>
+            </fieldset>
+          </div>
+          <label class="field full"
             >Description<input
               id="description"
               maxlength="100"
@@ -481,14 +520,19 @@
       <div class="whats-new">
         <div class="panel-head">
           <h2 id="whats-new-title">What’s New</h2>
-          <span class="version-badge">V3.3.1</span>
+          <span class="version-badge">V3.3.2</span>
         </div>
-        <p class="small release-date">18 November 2026</p>
+        <p class="small release-date">19 November 2026</p>
         <ul>
           <li>
-            <strong>Looks recurring.</strong> A sidebar list of the bills you pay every month,
-            found from your own entries. Strict: about the same amount and day in at least 4 of
-            the last 6 months. Read-only; nothing is saved or sent.
+            <strong>Recurring bills.</strong> Tick “Recurring bill” when you add or edit an
+            expense, and choose how often it repeats. The new Bills panel shows each bill as Paid,
+            Due soon, Overdue or “Stopped?”. Nothing new is stored: it uses a tag you can search
+            with <code>#recurring</code>.
+          </li>
+          <li>
+            <strong>Looks recurring.</strong> Penny still notices bills you pay most months. Tick
+            “Recurring bill” next time you add one to track when it is due.
           </li>
           <li>
             <strong>Excel import and export removed.</strong> Use CSV, or a full JSON backup, which
@@ -604,7 +648,7 @@
       </section>
       <section class="data-section">
         <h3>About Penny</h3>
-        <p>Version 3.3.1 · INR · Stored on this device</p>
+        <p>Version 3.3.2 · INR · Stored on this device</p>
       </section>
       <p id="settings-error" class="error" role="alert"></p>
       <div class="form-actions">

@@ -1,11 +1,12 @@
-# Penny Expense Manager 3.3.1
+# Penny Expense Manager 3.3.2
 
 Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
 
-**Current release: [3.3.1](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.1) · 18 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
+**Current release: [3.3.2](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.2) · 19 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
 
 | Release | What changed |
 |---|---|
+| **3.3.2** | Tick "Recurring bill" when you add or edit an expense and choose how often it repeats (1, 2, 3 or 12 months). The renamed Bills panel shows each bill as Paid, Due soon, Overdue or “Stopped?”. It uses a tag, so no data format changes. |
 | **3.3.1** | New read-only "Looks recurring" sidebar panel lists the bills you pay every month, found from your own entries (about the same amount and day in at least 4 of the last 6 months). Sample data now includes past-month bills so the panel works on first visit. |
 | **3.3.0** | Excel import and export removed. Penny now runs no third-party code. Use CSV, or a full JSON backup, which also carries budgets, saved tags and preferences. CSV files and older JSON backups can no longer reset preferences on import. The security policy blocks web workers. |
 | **3.2.1** | Source formatting only, with no behaviour change. One `VERSION` file. Documentation trimmed; v3.2 records stay at tag `v3.2`. |
@@ -33,7 +34,8 @@ See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
-- **Looks recurring (3.3.1):** a sidebar panel lists bills Penny has seen most months, with the usual amount, usual day and how many of the last 6 months it was seen. It is strict, so it would rather miss a bill than guess. It is read-only: nothing is saved, changed or sent.
+- **Recurring bills (3.3.2):** tick "Recurring bill" in the expense form and choose "Repeats every". The Bills panel lists your recurring bills with the usual amount and a status: Paid, Due soon, Overdue, or “Stopped?”. Status shows for the current month. Penny keeps the same description and category as the key, so use them each time. Marked bills are stored as the `#recurring` tag (plus `#every-2-months`, `#every-3-months` or `#every-12-months`). Search `#recurring` to find them. The form is the only place these tags are set.
+- **Looks recurring (3.3.1):** a section of the Bills panel lists bills Penny has seen most months, with the usual amount, usual day and how many of the last 6 months it was seen. It is strict, so it would rather miss a bill than guess. It is read-only: nothing is saved, changed or sent.
 
 ### Features from V3.2 (still current)
 
