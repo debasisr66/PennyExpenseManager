@@ -2,7 +2,7 @@ services:
   penny:
     build:
       context: .
-    image: penny-expense-manager:3.3.4
+    image: penny-expense-manager:3.3.5
     container_name: penny-expense-manager
     init: true
     ports:
