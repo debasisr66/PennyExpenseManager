@@ -65,6 +65,9 @@ const find = (rules, sel, prop) =>
 test('TC-MB-T02 the 3.3.5 block exists, is last, and sets button and summary minimums', () => {
   assert.ok(markerAt > 0, `styles.css must contain the marker ${MARKER}`);
   assert.equal(css.indexOf(MARKER, markerAt + 1), -1, 'marker appears once');
+  assert.equal(find(blockRules, 'button', 'min-width').length, 1, 'one button min-width rule');
+  assert.equal(find(blockRules, 'summary', 'min-height').length, 1, 'one summary rule');
+  assert.equal(css.indexOf('/*', markerAt + MARKER.length), -1, 'the 3.3.5 block is last');
   const [b] = find(blockRules, 'button', 'min-width');
   assert.ok(b, 'button { min-width } inside @media (max-width: 700px) in the 3.3.5 block');
   assert.ok(px(b.decl['min-width']) >= 44, 'button min-width >= 44px');
@@ -118,14 +121,13 @@ test('TC-MB-T04 no phone width above 288px; nowrap allowlisted', () => {
 
 test('TC-MB-T05 no effective font-size below 11px', () => {
   const small = allRules.filter((r) => px(r.decl['font-size']) < 11 && !blockRules.includes(r));
-  assert.ok(small.length > 0 || markerAt > 0);
   for (const r of blockRules)
     if ('font-size' in r.decl)
       assert.ok(px(r.decl['font-size']) >= 11 || isNaN(px(r.decl['font-size'])), `${r.sel}`);
   for (const r of small) {
     const fixed = blockRules.some(
       (o) =>
-        inPhone(o) &&
+        o.media.some((m) => m.includes('max-width: 700px')) &&
         o.decl['font-size'] &&
         px(o.decl['font-size']) >= 11 &&
         o.sel.split(',').some((s) =>
