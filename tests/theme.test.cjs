@@ -174,7 +174,7 @@ test('TC-TH-M01 mobile-first markup and CSS', () => {
   }
   assert.ok(css.includes('@media (hover: hover)'));
   assert.equal(stripHoverBlocks(css).includes(':hover'), false);
-  const phone = css.slice(css.lastIndexOf('@media (max-width: 700px)'));
+  const phone = css.slice(css.indexOf('/* 3.3.3: theme toggle'));
   assert.match(phone, /input,\s*select,\s*textarea[^{]*\{\s*font-size:\s*16px/);
   assert.match(css, /\.logo\s*\{[^}]*color:\s*var\(--on-accent\)/);
   assert.match(css, /-webkit-tap-highlight-color:\s*var\(--tap\)/);
