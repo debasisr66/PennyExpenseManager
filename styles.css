@@ -1398,7 +1398,9 @@ footer .studio-note {
     align-items: center;
   }
   input[type='checkbox'],
-  input[type='radio'] {
+  input[type='radio'],
+  .recurring-field input[type='checkbox'],
+  .repeat-every input[type='radio'] {
     width: 24px;
     height: 24px;
     min-height: 24px;
@@ -1411,10 +1413,23 @@ footer .studio-note {
     font-size: 11px;
   }
   .stats {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.5rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+  }
+  .stat {
+    min-width: 0;
+  }
+  .stat .value {
+    overflow-wrap: anywhere;
   }
   .conversion-controls {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+  }
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  td.actions button + button,
+  .tag-chip .tag-remove {
+    margin-left: 4px;
   }
   .description .expense-name,
   .tag-chip,

@@ -1,8 +1,9 @@
-/* Paste into the browser console (not deployed; not part of the test run).
+/* Browser audit (not deployed; not part of the test run). Load with a script tag from the
+   test server, or paste into the console, then call pennyAudit().
    Reports, for what is visible now: sideways overflow, controls under 44 px,
    and text under 11 px. Checkbox and radio boxes are checked at 24 px; their
    labels are checked as controls. Run once per width, theme and open dialog. */
-(() => {
+window.pennyAudit = () => {
   const visible = (el) => {
     const r = el.getBoundingClientRect();
     const s = getComputedStyle(el);
@@ -33,14 +34,20 @@
     if (own && px < 11) tiny.add(`${el.tagName.toLowerCase()}.${el.className} ${px}px`);
   }
   const doc = document.documentElement;
+  const wide = (w) =>
+    [...document.querySelectorAll('body *')]
+      .filter((el) => visible(el) && inOpenDialog(el) && el.getBoundingClientRect().right > w + 0.5)
+      .slice(0, 8)
+      .map((el) => `${el.tagName}#${el.id} ${el.getBoundingClientRect().right | 0}`);
   const dialogs = [...document.querySelectorAll('dialog[open]')];
   return {
-    width: innerWidth,
+    width: doc.clientWidth,
     pageScrollWidth: doc.scrollWidth,
-    pageOverflow: doc.scrollWidth > innerWidth,
+    pageOverflow: doc.scrollWidth > doc.clientWidth,
+    wide: wide(doc.clientWidth),
     dialogOverflow: dialogs.map((d) => [d.id, d.scrollWidth > d.clientWidth]),
     headerHeight: Math.round(document.querySelector('header').getBoundingClientRect().height),
     controlsUnderMin: small,
     textUnder11: [...tiny],
   };
-})();
+};

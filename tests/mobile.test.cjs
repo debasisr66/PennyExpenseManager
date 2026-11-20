@@ -78,6 +78,13 @@ test('TC-MB-T02 the 3.3.5 block exists, is last, and sets button and summary min
   assert.equal(s.decl['align-items'], 'center');
 });
 
+test('TC-MB-T02b adjacent targets keep 4px between them (MB6)', () => {
+  for (const sel of ['td.actions button + button', '.tag-chip .tag-remove']) {
+    const r = find(blockRules, sel, 'margin-left')[0];
+    assert.ok(r && px(r.decl['margin-left']) >= 4, `${sel} needs margin-left >= 4px`);
+  }
+});
+
 test('TC-MB-T03 checkbox and radio boxes are drawn at least 24 x 24 px on phones', () => {
   const rules = blockRules.filter(
     (r) => inPhone(r) && /input\[type=['"]?(checkbox|radio)['"]?\]/.test(r.sel) && r.decl.width,
@@ -139,7 +146,18 @@ test('TC-MB-T06 stat tiles wrap and the converter controls wrap (large-text refl
   const stats = find(blockRules, '.stats', 'grid-template-columns')[0];
   assert.ok(
     stats && /auto-fit|auto-fill/.test(stats.decl['grid-template-columns']),
-    '.stats uses auto-fit',
+    '.stats auto-fit',
+  );
+  assert.equal(
+    find(blockRules, '.stat', 'min-width')[0]?.decl['min-width'],
+    '0',
+    'tiles can shrink',
+  );
+  const form = find(blockRules, '.form-grid', 'grid-template-columns')[0];
+  assert.equal(
+    form?.decl['grid-template-columns'],
+    'minmax(0, 1fr)',
+    'dialog form column can shrink',
   );
   const conv = blockRules.find(
     (r) =>
