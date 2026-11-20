@@ -1,11 +1,12 @@
-# Penny Expense Manager 3.3.4
+# Penny Expense Manager 3.3.5
 
 Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
 
-**Current release: [3.3.4](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.4) · 19 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
+**Current release: [3.3.5](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.5) · 20 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
 
 | Release | What changed |
 |---|---|
+| **3.3.5** | Mobile-first pass: on phones, buttons, Edit, Delete, tag chips and headings are at least 44 px tall, checkboxes are larger, small text is bigger, and large text no longer scrolls the page sideways. Landscape phones are not covered yet. |
 | **3.3.4** | New categories: Utilities and Staff salary, in the list, filters, chart and voice entry (electricity and water now go to Utilities). Past entries are not moved. A backup that uses a new category does not import into 3.3.3 or older. Also a best-effort fix for the page zoom after Cancel then Discard on a phone. |
 | **3.3.3** | Dark and light theme: the ◐ button in the header cycles System, Light and Dark. The choice stays on this device and is not part of your data or backups. Phone header in two short rows, 16 px fields on phones, easier-to-read colours in both themes, and a "Part of Studio" footer link. |
 | **3.3.2** | Tick "Recurring bill" when you add or edit an expense and choose how often it repeats (1, 2, 3 or 12 months). The renamed Bills panel shows each bill as Paid, Due soon, Overdue or “Stopped?”. It uses a tag, so no data format changes. |
@@ -36,6 +37,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the product and integration history.
 
 ## Features in simple English
 
+- **Phone-friendly targets (3.3.5):** on screens up to 700 px wide every button and link is at least 44 px tall and has a small gap from its neighbours.
 - **Categories (3.3.4):** Food & groceries, Housing, Transport, Shopping, Health, Entertainment, Utilities, Staff salary and Other. Voice entry maps electricity, water, gas, broadband, recharge and similar words to Utilities, and salary, maid, cook, driver and similar words to Staff salary.
 - **Dark and light theme (3.3.3):** the ◐ button in the header switches between System (follows your device), Light and Dark. Your choice is saved on this device only. Colours meet WCAG AA contrast in both themes.
 - **Recurring bills (3.3.2):** tick "Recurring bill" in the expense form and choose "Repeats every". The Bills panel lists your recurring bills with the usual amount and a status: Paid, Due soon, Overdue, or “Stopped?”. Status shows for the current month. Penny keeps the same description and category as the key, so use them each time. Marked bills are stored as the `#recurring` tag (plus `#every-2-months`, `#every-3-months` or `#every-12-months`). Search `#recurring` to find them. The form is the only place these tags are set.
