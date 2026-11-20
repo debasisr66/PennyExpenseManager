@@ -1,6 +1,6 @@
 # 3.3.5: Mobile-first pass. 44 px targets, large-text reflow, audit. Architecture, design, mock, impact, plan
 
-Status: **DRAFT 19 November 2026, for owner decisions D1–D9.** Docs only; no code is built until the owner decides. Baseline: Penny 3.3.3 on `main` (`03078f3`, 783 tests). Prior work: [THEME-TOGGLE-3.3.3-SPEC §3.5 and D7](THEME-TOGGLE-3.3.3-SPEC.md) (the deferral that created this release), [IDEAS](../IDEAS.md) (roadmap row 3.3.5).
+Status: **RELEASED 20 November 2026 as v3.3.5** (D1–D9 taken as recommended; see section 10). Originally a draft of 19 November 2026. Baseline: Penny 3.3.3 on `main` (`03078f3`, 783 tests). Prior work: [THEME-TOGGLE-3.3.3-SPEC §3.5 and D7](THEME-TOGGLE-3.3.3-SPEC.md) (the deferral that created this release), [IDEAS](../IDEAS.md) (roadmap row 3.3.5).
 Owner direction (19 November 2026): "Penny must be mobile first." D7 of the 3.3.3 spec promised this pass its own spec and "a full audit on real phones".
 
 ## 1. Bottom line
@@ -299,6 +299,8 @@ D1 B adds about 4 hours; D1 C adds about 8 (new sheet, focus handling, tests). B
 | 2026-11-19 | 3.3.3 spec D7: 44 px Edit, Delete, chips and the rate control deferred to this pass. IDEAS roadmap row "3.3.5" added: "To write" |
 | 2026-11-19 | 3.3.3 merged (`03078f3`, PR #19): phone header 111 px, 44 px ◐, 16 px fields, hover guard |
 | 2026-11-19 | Draft v1 (Sonnet 5.5): baseline re-measured on 3.3.3 at 320, 360, 375, 390, 412 px and landscape, light and dark, 100–200% text; **Delete is already 52 px wide; Edit (37 px) and short chips (38 px) fail width; two summaries fail height; 200% text overflows 38 px at 320 px; checkbox boxes are small**. A three-rule CSS prototype cleared every control with no overflow and no change to the header. Options for the phone list (§3.3), tests (TC-MB-nn), real-phone and Xcode limits stated. Docs-only PR opened; owner asked to decide D1–D9. Independent review requested before the build |
+| 2026-11-20 | Build (Sonnet 5.5, PR #25), D1–D9 as recommended: one CSS block, 44 px targets, 24 px boxes, 11 px floor, wrapping tiles. 800 tests. Audit at 320-412 px, both themes, 150-200% text: 0 small controls, no overflow. Opus 5.5 review: 2 High fixed (amounts breaking mid-number, rate arrow). Stat tiles use 10.4rem, not 9.5rem; card at 320 px grows 256 to 290 px |
+| 2026-11-20 | PR #25 merged (`dfb1ca0`); released as v3.3.5. **B-MB10 owner phone test not run before release; landscape (B-MB01 at 812 × 375) not met** — follow-up needed |
 
 ## 11. Limits of this evidence
 

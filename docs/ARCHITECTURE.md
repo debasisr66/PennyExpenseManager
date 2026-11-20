@@ -1,6 +1,6 @@
-# Penny architecture (current: 3.3.4)
+# Penny architecture (current: 3.3.5)
 
-Updated 19 November 2026 for 3.3.4; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
+Updated 20 November 2026 for 3.3.5; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
 
 ```mermaid
 flowchart LR
@@ -18,6 +18,10 @@ flowchart LR
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.5 note
+
+One appended block `/* 3.3.5 mobile-first */` at the end of `styles.css`, all inside `@media (max-width: 700px)`: 44 px minimum size for buttons and summaries, 24 px checkbox and radio boxes, an 11 px text floor, 4 px between adjacent targets, and wrapping stat tiles (`auto-fit`, 10.4rem) and converter controls. Nothing before the block changed. `tests/mobile.test.cjs` checks the rules and a registry of control kinds, not computed layout; `tests/mobile-audit.js` is the in-browser measurement script. See [the spec](specs/MOBILE-FIRST-3.3.5-SPEC.md).
 
 ### 3.3.4 note
 

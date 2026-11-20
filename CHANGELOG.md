@@ -1,5 +1,12 @@
 # Changelog
 
+## V3.3.5 — 2026-11-20
+
+- **New: mobile-first pass (CSS only).** On screens up to 700 px wide, buttons, Edit, Delete, tag chips and expandable headings are at least 44 px; checkbox and radio boxes are 24 px; adjacent targets have 4 px between them; the 9 and 10 px text is 11 px. Stat tiles and the converter wrap, so 200% text no longer scrolls sideways at 320 px. One appended block in `styles.css`; no change to `app.js`, markup, data, schema 4, CSV and JSON formats, the CSP or the deploy list. See [the spec](docs/specs/MOBILE-FIRST-3.3.5-SPEC.md).
+- **Layout changes on phones at normal text size:** stat tiles go from 3 across to 2 + 1 at about 375-412 px and one per row at 360 px and below; at 320 px an average expense card is about 290 px tall (was 256) because tags wrap one per line.
+- **Not covered:** landscape phones (812 × 375) keep the old small controls (Edit 38 px); this needs a follow-up. No real-phone, iOS Simulator or VoiceOver check was run; text scaling was script-based. The owner phone smoke test (B-MB10) is still due.
+- Tests: 800 pass (new `tests/mobile.test.cjs`; `tests/mobile-audit.js` is a browser audit script, not deployed). `TC-TH-M01` now finds the 3.3.3 phone block by its marker.
+
 ## V3.3.4 — 2026-11-19
 
 - **New categories: Utilities and Staff salary.** The list has 9 names, with the two new ones before "Other"; the form still starts on "Food & groceries". Both import and export through CSV and JSON with no format change. A backup that uses a new category does not import into 3.3.3 or older. Past entries are not moved: to move a bill, edit its last entry's category (a bill marked recurring under Housing becomes a new bill when logged under Utilities, and the old one shows "Stopped?" then hides). See [the spec, section 11](docs/specs/THEME-TOGGLE-3.3.3-SPEC.md).
