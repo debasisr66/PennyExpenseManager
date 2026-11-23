@@ -22,6 +22,7 @@
     const listenTimeoutMs = options.listenTimeoutMs || 25000;
     const schedule = options.setTimeout || setTimeout;
     const unschedule = options.clearTimeout || clearTimeout;
+    const now = options.now || Date.now;
     let recognition = null,
       session = 0,
       active = false,
@@ -63,9 +64,11 @@
         recognition = null;
       }
 
+      const startedAt = now();
       let finalText = '',
         partialText = '',
         delivered = false,
+        deliveredWords = 0,
         failed = false;
       const isCurrent = () => token === session;
       const bestText = () =>
@@ -76,6 +79,7 @@
           .trim();
         if (!clean || delivered || failed || !isCurrent()) return false;
         delivered = true;
+        deliveredWords = clean.split(' ').length;
         handlers.transcript?.(clean);
         update('processing', 'Speech captured. Preparing the English draft…');
         return true;
@@ -93,7 +97,7 @@
         current.lang = language;
         current.continuous = false;
         current.interimResults = true;
-        current.maxAlternatives = 1;
+        current.maxAlternatives = 3;
 
         current.onstart = () => {
           if (!isCurrent()) return;
@@ -121,6 +125,8 @@
               text = transcriptFrom(result);
             if (!text) continue;
             if (result.isFinal !== false) {
+              // Measured only: transcriptFrom still uses the top guess (result[0]).
+              handlers.alternatives?.(result.length || 1);
               finalText = [finalText, text].filter(Boolean).join(' ');
               partialText = '';
               sawFinal = true;
@@ -147,6 +153,7 @@
           recognition = null;
           if (failed) return;
           const captured = delivered || deliver(bestText());
+          handlers.end?.({ count: deliveredWords, durationMs: Math.max(0, now() - startedAt) });
           update(
             captured ? 'complete' : 'idle',
             captured

@@ -13,10 +13,10 @@ const read = (f) => fs.readFileSync(path.join(base, f), 'utf8');
 const LIMIT = JSON.parse(read('.prettierrc.json')).printWidth;
 
 const BASELINE = {
-  'app.js': 24,
+  'app.js': 23,
   'core.js': 4,
   'data.js': 1,
-  'hindi.js': 5,
+  'hindi.js': 4,
   'translation.js': 2,
   'voice.js': 6,
   'index.html': 1,

@@ -601,5 +601,22 @@
     }
     return fallback(text, language);
   }
-  return { fallback, prepare, translate };
+  // Plain sentences for the issue codes shown on a phone. The codes themselves are unchanged.
+  function plainIssues(issues) {
+    const list = Array.isArray(issues) ? issues.map(String) : [];
+    const is = (re) => list.some((x) => re.test(x));
+    const known = /^(?:amount|multiple|foreign currency|category|expense type|date|payment method)/;
+    const words = list.filter((x) => !known.test(x));
+    return [
+      is(/^(?:amount|multiple|foreign currency)/) &&
+        'Amount not clear. Tap Correct heard words, or type the amount below.',
+      is(/^(?:category|expense type)/) && 'Category not clear. Choose it below.',
+      is(/^date/) && 'Date not clear. Choose the date below.',
+      is(/^payment method/) && 'Payment method not clear. Choose it below.',
+      words.length && 'Not understood: ' + words.join(', ') + '.',
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }
+  return { fallback, prepare, translate, plainIssues };
 });

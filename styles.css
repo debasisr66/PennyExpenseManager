@@ -849,6 +849,18 @@ label.field {
 .dictation-option .secondary {
   margin-top: 8px;
 }
+/* 3.3.6: keyboard microphone is one button while browser speech works. */
+.dictation-option.collapsed {
+  margin: 4px 0;
+  padding-top: 8px;
+}
+.dictation-option.collapsed > p {
+  display: none;
+}
+#correct-transcript {
+  margin: 8px 0 0;
+  border: 1px solid var(--line);
+}
 .voice-transcript {
   padding: 10px;
   margin: 10px 0;

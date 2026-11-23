@@ -14,6 +14,21 @@
       .replace(/[।!?]/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+  // JavaScript \b does not work for Devanagari: a word is bounded by anything that is not a
+  // letter, mark (vowel sign) or digit.
+  // A digit counts as a boundary, so "लगभग500" still counts as the word लगभग.
+  const W0 = '(?<![\\p{L}\\p{M}])',
+    W1 = '(?![\\p{L}\\p{M}])';
+  const whole = (words, flags = 'u') => new RegExp(W0 + '(?:' + words + ')' + W1, flags);
+  const RUPEE_SPOKEN = whole('रुपी|रूपी|रुपीज|रूपीज|रुपीस|रूपीस', 'gu');
+  // Short, ambiguous words match whole (कम is inside कमल, कमरे). Longer words match as
+  // prefixes so inflected forms still block: करीबन, वापसी, रिफंडेड, ज्यादातर.
+  const UNCERTAIN = new RegExp(
+    W0 + '(?:नहीं|नही|नहीँ|कम|कमी|कमती|कमसेकम)' + W1 + '|' +
+      W0 + '(?:लगभग|तकरीबन|करीब|ज्यादा|अधिक|न्यूनतम|अधिकतम|वापस|रिफंड)',
+    'u',
+  );
+  const PAISE = whole('पैसे|पैसा|पैसों');
   const names =
     'शून्य एक दो तीन चार पांच छह सात आठ नौ दस ग्यारह बारह तेरह चौदह पंद्रह सोलह सत्रह अठारह उन्नीस बीस इक्कीस बाईस तेईस चौबीस पच्चीस छब्बीस सत्ताईस अट्ठाईस उनतीस तीस इकतीस बत्तीस तैंतीस चौंतीस पैंतीस छत्तीस सैंतीस अड़तीस उनतालीस चालीस इकतालीस बयालीस तैंतालीस चवालीस पैंतालीस छियालीस सैंतालीस अड़तालीस उनचास पचास इक्यावन बावन तिरपन चौवन पचपन छप्पन सत्तावन अट्ठावन उनसठ साठ इकसठ बासठ तिरसठ चौंसठ पैंसठ छियासठ सड़सठ अड़सठ उनहत्तर सत्तर इकहत्तर बहत्तर तिहत्तर चौहत्तर पचहत्तर छिहत्तर सतहत्तर अठहत्तर उनासी अस्सी इक्यासी बयासी तिरासी चौरासी पचासी छियासी सत्तासी अट्ठासी नवासी नब्बे इक्यानवे बानवे तिरानवे चौरानवे पंचानवे छियानवे सत्तानवे अट्ठानवे निन्यानवे'.split(
       ' ',
@@ -77,6 +92,8 @@
     rupaye: 'रुपये',
     rupay: 'रुपये',
     rupees: 'रुपये',
+    rupee: 'रुपये',
+    rupiya: 'रुपये',
     rs: 'रुपये',
     rupaiye: 'रुपये',
     nakad: 'नकद',
@@ -263,6 +280,16 @@
       },
     ],
   ];
+  // Words that are known but set no category: they join the English description only.
+  const neutral = new Map(
+    Object.entries({
+      एडवांस: 'advance',
+      बिल: 'bill',
+      पेमेंट: 'payment',
+      बकाया: 'dues',
+      किस्त: 'instalment',
+    }).map(([word, english]) => [norm(word), english]),
+  );
   const items = new Map();
   for (const [category, list] of groups)
     for (const [word, english] of Object.entries(list))
@@ -343,6 +370,7 @@
       .replace(/(?:^|\s)(?:rs\.?|inr|rupees?)\s*(?=\d)/gi, (m) => (m.startsWith(' ') ? ' ₹' : '₹'))
       .replace(/(?:^|\s)(?:रू\.?|रु\.?)\s*(?=\d)/gu, (m) => (m.startsWith(' ') ? ' ₹' : '₹'))
       .replace(/रूपये|रूपए|रुपयों|रू(?=\s|$|[.,])/gu, 'रुपये')
+      .replace(RUPEE_SPOKEN, 'रुपये')
       .replace(/[a-z]+/g, (w) => (latin[w] ? norm(latin[w]) : w));
     const issues = [],
       unknown = [],
@@ -404,9 +432,8 @@
       issues.push('foreign currency: enter INR');
     }
     if (
-      /(?:नहीं|नही|लगभग|करीब|ज्यादा|अधिक|कम|न्यूनतम|अधिकतम|वापस|रिफंड|नहीँ|नहीं बल्कि)|(?:\bapproximately\b)/u.test(
-        text,
-      ) ||
+      UNCERTAIN.test(text) ||
+      /\bapproximately\b/u.test(text) ||
       text.includes('दशमलव') ||
       /(?:^|\s)[+-]\s*\d/.test(text)
     ) {
@@ -421,7 +448,7 @@
       amountPaise = null;
       issues.push('multiple numbers: verify amount');
     }
-    if (/(?:पैसे|पैसा|पैसों)/u.test(text)) {
+    if (PAISE.test(text)) {
       amountPaise = null;
       issues.push('amount: rupees and paise need explicit correction');
     }
@@ -470,6 +497,7 @@
     if (rails.length > 1) issues.push('payment method');
     const tags = (raw.match(/#[\p{L}\p{M}\p{N}_-]+/gu) || []).map((x) => x.slice(1));
     let knownItems = [],
+      neutralWords = [],
       categories = new Set();
     for (const t of text
       .replace(/\b\d{4}-\d{2}-\d{2}\b/g, ' ')
@@ -477,7 +505,9 @@
       .replace(/[\d,.₹]+/g, ' ')
       .split(/\s+/u)
       .filter(Boolean)) {
-      if (items.has(t)) {
+      if (neutral.has(t)) {
+        if (!neutralWords.includes(neutral.get(t))) neutralWords.push(neutral.get(t));
+      } else if (items.has(t)) {
         const it = items.get(t);
         if (!knownItems.includes(it.english)) knownItems.push(it.english);
         if (it.category) categories.add(it.category);
@@ -492,14 +522,14 @@
       )
         unknown.push(t);
     }
-    if (!knownItems.length) issues.push('expense type');
+    if (!knownItems.length && !neutralWords.length) issues.push('expense type');
     if (categories.size > 1) issues.push('category');
     const category = categories.size === 1 ? [...categories][0] : null;
     if (/(?:^|\s)न(?:\s|$)/u.test(text)) {
       amountPaise = null;
       issues.push('amount needs explicit correction');
     }
-    const description = knownItems.join(' and ');
+    const description = [knownItems.join(' and '), ...neutralWords].filter(Boolean).join(' ');
     const uniq = [...new Set([...issues, ...unknown])];
     const englishDraft =
       (amountPaise !== null ? 'Spent ' + amountPaise / 100 + ' rupees' : 'Spent an amount') +
@@ -516,7 +546,7 @@
         date: dateValue,
         category,
         paymentMethod,
-        descriptionItems: knownItems,
+        descriptionItems: [...knownItems, ...neutralWords],
         tags,
       },
       evidence,

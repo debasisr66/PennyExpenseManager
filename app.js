@@ -489,6 +489,22 @@
       $('draft-tags').textContent = e.message;
     }
   }
+  // On a phone the review sits below the fold. Bring it into view and focus the button
+  // (not the textarea, so the keyboard stays closed).
+  let movedAfterCapture = false;
+  const markCapture = () => (movedAfterCapture = false);
+  $('expense-dialog').addEventListener('focusin', (event) => {
+    if (!event.target.closest('#voice-panel')) movedAfterCapture = true;
+  });
+  function revealReview() {
+    // Skip only if the user moved into another field after capture began. The autofocused Date
+    // alone must not block this: iOS taps do not move focus to buttons.
+    if (movedAfterCapture) return;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const behavior = reduced ? 'auto' : 'smooth';
+    $('correct-transcript').scrollIntoView({ block: 'start', behavior });
+    $('correct-transcript').focus({ preventScroll: true });
+  }
   async function processVoiceText(text) {
     if (!$('expense-dialog').open || $('voice-panel').hidden) return;
     const generation = ++voiceGeneration;
@@ -547,14 +563,13 @@
               : 'English draft · ' + result.source + '. Check it before using it.';
         else
           $('translation-status').textContent =
-            (result.source === 'on-device translation'
-              ? 'Translation needs correction: '
-              : 'Transcript captured. The offline expense parser needs help with: ') +
-            result.unknown.join(', ') +
-            '. Review the draft; unresolved fields will be left empty for you to correct in the form.';
+            (result.source === 'on-device translation' ? 'Translation needs correction. ' : '') +
+            PennyTranslation.plainIssues(result.unknown) +
+            ' Unresolved fields are left empty for you to correct in the form.';
         if (voiceSource === 'hi' && /कल/.test(text))
           $('translation-status').textContent +=
             ' कल can mean yesterday or tomorrow; choose the expense date yourself.';
+        revealReview();
       }
     } catch (error) {
       if (generation === voiceGeneration) {
@@ -576,7 +591,11 @@
       })
       .catch(() => null);
   }
+  function expandPhoneDictation() {
+    $('use-phone-dictation').closest('.dictation-option').classList.remove('collapsed');
+  }
   function revealPhoneDictation() {
+    expandPhoneDictation();
     $('phone-dictation-label').hidden = false;
     $('prepare-dictation').hidden = false;
   }
@@ -608,7 +627,16 @@
       $('voice-transcript').textContent = 'Hearing: “' + text + '”';
     },
     transcript: processVoiceText,
+    alternatives(count) {
+      logs.emit('voice', 'VOICE_ALTERNATIVES', 'debug', { count }, voiceAction);
+    },
+    end(info) {
+      logs.emit('voice', 'VOICE_END', 'debug', info, voiceAction);
+    },
   });
+  // While browser speech works the keyboard-microphone block is one button; it expands on failure.
+  if (voice.supported)
+    $('use-phone-dictation').closest('.dictation-option').classList.add('collapsed');
   function resetVoiceDraft() {
     $('correct-transcript').hidden = true;
     voiceStructured = null;
@@ -696,6 +724,7 @@
     $('phone-dictation').focus();
   };
   $('use-phone-dictation').onclick = () => {
+    expandPhoneDictation();
     voice.cancel();
     resetVoiceDraft();
     $('phone-dictation-label').hidden = false;
@@ -705,6 +734,7 @@
     $('phone-dictation').focus();
   };
   $('prepare-dictation').onclick = () => {
+    markCapture();
     voiceAction = logs.action();
     const text = $('phone-dictation').value.trim();
     if (!text) {
@@ -1021,6 +1051,7 @@
       : 'This mobile browser has no direct speech recognition. Use phone keyboard microphone below, or type the expense.';
   };
   $('start-voice').onclick = () => {
+    markCapture();
     voiceAction = logs.action();
     logs.emit(
       'voice',

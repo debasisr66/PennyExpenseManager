@@ -1,0 +1,32 @@
+{
+  "note": "Phrases the owner tested, with exactly what the phone wrote. Test data, not real expenses. A case is never edited to make a test pass.",
+  "cases": [
+    {
+      "id": "HR-01",
+      "said": "कामवाली के एडवांस 1000 रुपये",
+      "heard": "कमल कवन हज़ार रुपी",
+      "amountPaise": 100000,
+      "category": null,
+      "complete": false,
+      "note": "Owner capture on iPhone Chrome, 23 Nov 2026"
+    },
+    {
+      "id": "HR-02",
+      "said": "कामवाली के एडवांस 1000 रुपये",
+      "heard": "कामवाली के एडवांस 1000 रुपी",
+      "amountPaise": 100000,
+      "category": "Staff salary",
+      "complete": true,
+      "descriptionIncludes": "maid advance"
+    },
+    {
+      "id": "HR-03",
+      "said": "कमरे का किराया 5000 रुपये",
+      "heard": "कमरे का किराया 5000 रुपये",
+      "amountPaise": 500000,
+      "category": "Housing",
+      "complete": false,
+      "note": "कमरे is not a known expense word, so review stays required; the amount must land"
+    }
+  ]
+}
