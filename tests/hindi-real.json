@@ -25,7 +25,8 @@
       "heard": "कमरे का किराया 5000 रुपये",
       "amountPaise": 500000,
       "category": "Housing",
-      "complete": true
+      "complete": false,
+      "note": "कमरे is not a known expense word, so review stays required; the amount must land"
     }
   ]
 }

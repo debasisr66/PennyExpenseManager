@@ -6,6 +6,7 @@ const H = require('../hindi.js');
 const V = require('../voice.js');
 const T = require('../translation.js');
 const L = require('../diagnostics.js');
+const S = require('../storage.js');
 const real = require('./hindi-real.json');
 const DATE = '2026-11-23';
 const amount = (text) => H.parse(text, DATE).fields.amountPaise;
@@ -31,7 +32,13 @@ test('TC-HV-U01 Latin rupee and rupiya work; rupee forms inside longer words do 
   assert.equal(H.parse('दूध 1000 रुपीयाँ', DATE).normalizedTranscript.includes('रुपये'), false);
 });
 
-const NEUTRAL = { एडवांस: 'advance', बिल: 'bill', पेमेंट: 'payment', बकाया: 'dues', किस्त: 'instalment' };
+const NEUTRAL = {
+  एडवांस: 'advance',
+  बिल: 'bill',
+  पेमेंट: 'payment',
+  बकाया: 'dues',
+  किस्त: 'instalment',
+};
 for (const [word, english] of Object.entries(NEUTRAL))
   test('TC-HV-U02 neutral word ' + word, () => {
     const r = H.parse(word + ' 1000 रुपये', DATE);
@@ -145,7 +152,11 @@ test('TC-HV-S01 each uncertain word still blocks when it stands alone', () => {
 });
 
 test('TC-HV-S02 diagnostics keep only count, durationMs and language', async () => {
-  const log = L.create();
+  const log = L.create(),
+    values = new Map();
+  await log.attach(
+    S.fallbackAdapter({ getItem: (k) => values.get(k) || null, setItem: (k, v) => values.set(k, v) }),
+  );
   log.setDebug(true);
   await log.emit('voice', 'VOICE_ALTERNATIVES', 'debug', {
     count: 3,
@@ -154,7 +165,7 @@ test('TC-HV-S02 diagnostics keep only count, durationMs and language', async () 
     language: 'hi',
   });
   await log.emit('voice', 'VOICE_END', 'debug', { count: 3, durationMs: 2500, text: 'x' });
-  const events = await log.list();
+  const events = (await log.list()).reverse();
   assert.deepEqual(events.map((e) => e.code), ['VOICE_ALTERNATIVES', 'VOICE_END']);
   assert.deepEqual(events[0].metadata, { count: 3, language: 'hi' });
   assert.deepEqual(events[1].metadata, { count: 3, durationMs: 2500 });
