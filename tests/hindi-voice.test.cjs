@@ -155,7 +155,10 @@ test('TC-HV-S02 diagnostics keep only count, durationMs and language', async () 
   const log = L.create(),
     values = new Map();
   await log.attach(
-    S.fallbackAdapter({ getItem: (k) => values.get(k) || null, setItem: (k, v) => values.set(k, v) }),
+    S.fallbackAdapter({
+      getItem: (k) => values.get(k) || null,
+      setItem: (k, v) => values.set(k, v),
+    }),
   );
   log.setDebug(true);
   await log.emit('voice', 'VOICE_ALTERNATIVES', 'debug', {
