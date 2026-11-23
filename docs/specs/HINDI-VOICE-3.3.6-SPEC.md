@@ -1,6 +1,6 @@
 # 3.3.6: Hindi voice that lands, or is quick to correct. Architecture, design, mock, impact, plan
 
-Status: **DRAFT v2, awaiting owner decisions D1–D7.** Independent review folded in (§12). Date 23 November 2026. Baseline: Penny 3.3.5 on `main` (`ad558d9`, 800 tests). Gated Build Playbook stage: **Plan**.
+Status: **APPROVED 23 November 2026: D1–D7 all as recommended (owner: "All as recommended").** Independent review folded in (§12). Date 23 November 2026. Baseline: Penny 3.3.5 on `main` (`ad558d9`, 800 tests). Gated Build Playbook stage: **Plan**.
 Owner report (23 November 2026, 3.3.5 smoke test): "the hindi voice translation and capture is not working well. Rest are working fine." Then, with two screenshots: iPhone Chrome; said "kamwali ke advance 1000 rs"; "Penny showed an expense made no amount, for whom was not there. Correct the english box and button didnot appear. The problem is missing or wrong words. The problem is also - inconsistency - sometime it works, and suddenly is misses one."
 
 ## 1. Bottom line
@@ -190,7 +190,7 @@ One branch from `origin/main`, one PR. Sonnet 5.5 builds, Opus 5.5 reviews.
 | Live check on 3.3.6 (and optionally 3.3.5), smoke, "publish" | 20–25 min |
 | **Total** | **about 1 hour** |
 
-## 9. Decisions (for the owner)
+## 9. Decisions (approved 23 November 2026: all as recommended)
 
 | # | Decision | Options | Recommendation |
 |---|---|---|---|
@@ -209,6 +209,7 @@ One branch from `origin/main`, one PR. Sonnet 5.5 builds, Opus 5.5 reviews.
 | 2026-11-23 | Owner smoke of 3.3.5: Hindi voice not working well. Repro on iPhone Chrome with screenshots |
 | 2026-11-23 | Draft v1 (Opus 5.5): parser runs on `main`, voice harness at 390 × 750 px |
 | 2026-11-23 | Draft v2: independent review (Sonnet 5.5) found the real cause: "कम" matched inside "कमल". Verified by parser runs. Diagnosis, G1, tests, gate and estimate corrected (§12) |
+| 2026-11-23 | **Approved by the owner: D1–D7 all as recommended.** Next: merge this spec, then build on one branch (Sonnet builds, Opus reviews) |
 
 ## 11. Limits of this evidence
 
