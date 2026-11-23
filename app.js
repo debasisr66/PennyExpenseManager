@@ -491,10 +491,15 @@
   }
   // On a phone the review sits below the fold. Bring it into view and focus the button
   // (not the textarea, so the keyboard stays closed).
+  let movedAfterCapture = false;
+  const markCapture = () => (movedAfterCapture = false);
+  $('expense-dialog').addEventListener('focusin', (event) => {
+    if (!event.target.closest('#voice-panel')) movedAfterCapture = true;
+  });
   function revealReview() {
-    // Do not pull focus from a field the user has already moved into while the draft was prepared.
-    const active = document.activeElement;
-    if (active && active.closest?.('#expense-dialog') && !active.closest('#voice-panel')) return;
+    // Skip only if the user moved into another field after capture began. The autofocused Date
+    // alone must not block this: iOS taps do not move focus to buttons.
+    if (movedAfterCapture) return;
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const behavior = reduced ? 'auto' : 'smooth';
     $('correct-transcript').scrollIntoView({ block: 'start', behavior });
@@ -729,6 +734,7 @@
     $('phone-dictation').focus();
   };
   $('prepare-dictation').onclick = () => {
+    markCapture();
     voiceAction = logs.action();
     const text = $('phone-dictation').value.trim();
     if (!text) {
@@ -1045,6 +1051,7 @@
       : 'This mobile browser has no direct speech recognition. Use phone keyboard microphone below, or type the expense.';
   };
   $('start-voice').onclick = () => {
+    markCapture();
     voiceAction = logs.action();
     logs.emit(
       'voice',

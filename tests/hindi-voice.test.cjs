@@ -215,3 +215,14 @@ test('Audit: पैसेंजर (passenger) is not read as पैसे (pais
   assert.equal(amount('पैसेंजर ट्रेन 50 रुपये'), 5000);
   assert.equal(amount('50 पैसे'), null);
 });
+
+// iOS WebKit does not focus a tapped button, so the autofocused Date stays focused.
+// The review reveal may be skipped only after a focusin outside the voice panel during capture.
+test('G2 reveal is not blocked by the autofocused Date (WebKit taps)', () => {
+  const file = require('node:path').join(__dirname, '../app.js');
+  const src = require('node:fs').readFileSync(file, 'utf8');
+  assert.doesNotMatch(src, /document\.activeElement[^;]*closest\('#expense-dialog'\)/);
+  assert.match(src, /if \(movedAfterCapture\) return;/);
+  assert.match(src, /\$\('start-voice'\)\.onclick = \(\) => \{\s*markCapture\(\);/);
+  assert.match(src, /\$\('prepare-dictation'\)\.onclick = \(\) => \{\s*markCapture\(\);/);
+});
