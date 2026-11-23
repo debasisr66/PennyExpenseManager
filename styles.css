@@ -859,6 +859,7 @@ label.field {
 }
 #correct-transcript {
   margin: 8px 0 0;
+  border: 1px solid var(--line);
 }
 .voice-transcript {
   padding: 10px;
