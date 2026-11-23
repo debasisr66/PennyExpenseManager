@@ -23,6 +23,7 @@ test('TC-HV-U01 each rupee form behaves like रुपये before the amount',
     const a = H.parse(form + ' 1000 दूध', DATE),
       b = H.parse('रुपये 1000 दूध', DATE);
     assert.equal(a.fields.amountPaise, b.fields.amountPaise, form);
+    assert.match(a.normalizedTranscript, /^रुपये 1000/, form);
     assert.equal(a.normalizedTranscript, b.normalizedTranscript, form);
   }
 });
@@ -144,6 +145,24 @@ for (const text of [
   'करीब हज़ार रुपये',
 ])
   test('TC-HV-S01 uncertain phrase keeps the amount empty: ' + text, () => {
+    assert.equal(amount(text), null);
+  });
+for (const text of [
+  'करीबन 500 रुपये',
+  'तकरीबन 500 रुपये',
+  '500 रुपये वापसी',
+  'वापसी 500 रुपये',
+  'रिफंडेड 500 रुपये',
+  'लगभग500 रुपये',
+  'कम500 रुपये',
+  'कमसेकम 500 रुपये',
+  '500 रुपये कमी',
+  '500 रुपये से कमती',
+  'ज्यादातर 500 रुपये',
+  'नहीं, 500 रुपये',
+  'लगभग। 500 रुपये',
+])
+  test('TC-HV-S01 inflected or joined uncertain form: ' + text, () => {
     assert.equal(amount(text), null);
   });
 test('TC-HV-S01 each uncertain word still blocks when it stands alone', () => {

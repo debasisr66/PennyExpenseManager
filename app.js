@@ -492,6 +492,9 @@
   // On a phone the review sits below the fold. Bring it into view and focus the button
   // (not the textarea, so the keyboard stays closed).
   function revealReview() {
+    // Do not pull focus from a field the user has already moved into while the draft was prepared.
+    const active = document.activeElement;
+    if (active && active.closest?.('#expense-dialog') && !active.closest('#voice-panel')) return;
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const behavior = reduced ? 'auto' : 'smooth';
     $('correct-transcript').scrollIntoView({ block: 'start', behavior });

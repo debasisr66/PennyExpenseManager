@@ -16,12 +16,17 @@
       .trim();
   // JavaScript \b does not work for Devanagari: a word is bounded by anything that is not a
   // letter, mark (vowel sign) or digit.
-  const W0 = '(?<![\\p{L}\\p{M}\\p{N}])',
-    W1 = '(?![\\p{L}\\p{M}\\p{N}])';
+  // A digit counts as a boundary, so "लगभग500" still counts as the word लगभग.
+  const W0 = '(?<![\\p{L}\\p{M}])',
+    W1 = '(?![\\p{L}\\p{M}])';
   const whole = (words, flags = 'u') => new RegExp(W0 + '(?:' + words + ')' + W1, flags);
   const RUPEE_SPOKEN = whole('रुपी|रूपी|रुपीज|रूपीज|रुपीस|रूपीस', 'gu');
-  const UNCERTAIN = whole(
-    'नहीं|नही|लगभग|करीब|ज्यादा|अधिक|कम|न्यूनतम|अधिकतम|वापस|रिफंड|नहीँ|नहीं बल्कि',
+  // Short, ambiguous words match whole (कम is inside कमल, कमरे). Longer words match as
+  // prefixes so inflected forms still block: करीबन, वापसी, रिफंडेड, ज्यादातर.
+  const UNCERTAIN = new RegExp(
+    W0 + '(?:नहीं|नही|नहीँ|कम|कमी|कमती|कमसेकम)' + W1 + '|' +
+      W0 + '(?:लगभग|तकरीबन|करीब|ज्यादा|अधिक|न्यूनतम|अधिकतम|वापस|रिफंड)',
+    'u',
   );
   const PAISE = whole('पैसे|पैसा|पैसों');
   const names =
