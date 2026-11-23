@@ -24,6 +24,7 @@ Each step aims to stay inside the constraints: new records are ordinary expenses
 | **3.3.3** ✅ released 19 Nov | Dark and light theme toggle with Studio lineage, mobile first (own small release) ([v3.3.3](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.3)) | [Spec](specs/THEME-TOGGLE-3.3.3-SPEC.md), released |
 | **3.3.4** ✅ released 19 Nov | New categories: Utilities and Staff salary (owner, 19 Nov; [spec §11](specs/THEME-TOGGLE-3.3.3-SPEC.md)) ([v3.3.4](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.4)) | Released |
 | **3.3.5** ✅ released 20 Nov | Mobile-first pass: 44 px targets, 24 px checkbox boxes, 11 px text floor, large-text reflow ([v3.3.5](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.5)). Landscape phones and the owner phone check remain | [Spec](specs/MOBILE-FIRST-3.3.5-SPEC.md), released |
+| **3.3.6** | Hindi voice that lands or is quick to correct: fix "कम" matched inside words, spoken rupee forms, neutral words, phone review flow, real-phrase tests, measure alternatives (owner report, 23 Nov) | [Spec](specs/HINDI-VOICE-3.3.6-SPEC.md) awaiting owner decisions D1–D7 |
 | **3.4** | Month-end forecast and the true cost of commitments (idea 3) | To write |
 
 Deferred from 3.3.2 as good-to-haves: "Log it" pre-fill (needs a new pre-fill path), bulk "add all due", a "Mark as recurring?" button on inferred rows (writes to past entries), search token `is:due`. This supersedes the "recurring" checkbox row below, which is now in 3.3.2 without a schema change.
