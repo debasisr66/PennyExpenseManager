@@ -1,6 +1,6 @@
 # 3.3.6: Hindi voice that lands, or is quick to correct. Architecture, design, mock, impact, plan
 
-Status: **APPROVED 23 November 2026: D1–D7 all as recommended (owner: "All as recommended").** Independent review folded in (§12). Date 23 November 2026. Baseline: Penny 3.3.5 on `main` (`ad558d9`, 800 tests). Gated Build Playbook stage: **Plan**.
+Status: **RELEASED 23 November 2026 as [v3.3.6](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.6) (merge `5eb8030`, PR 29, 844 tests).** Approved 23 November 2026: D1–D7 all as recommended (owner: "All as recommended"). Independent review folded in (§12). Date 23 November 2026. Baseline: Penny 3.3.5 on `main` (`ad558d9`, 800 tests). Gated Build Playbook stage: **Released** (live check on the owner's phone reported separately; see [VOICE-GUARD-3.3.7-SPEC](VOICE-GUARD-3.3.7-SPEC.md)).
 Owner report (23 November 2026, 3.3.5 smoke test): "the hindi voice translation and capture is not working well. Rest are working fine." Then, with two screenshots: iPhone Chrome; said "kamwali ke advance 1000 rs"; "Penny showed an expense made no amount, for whom was not there. Correct the english box and button didnot appear. The problem is missing or wrong words. The problem is also - inconsistency - sometime it works, and suddenly is misses one."
 
 ## 1. Bottom line
@@ -210,6 +210,11 @@ One branch from `origin/main`, one PR. Sonnet 5.5 builds, Opus 5.5 reviews.
 | 2026-11-23 | Draft v1 (Opus 5.5): parser runs on `main`, voice harness at 390 × 750 px |
 | 2026-11-23 | Draft v2: independent review (Sonnet 5.5) found the real cause: "कम" matched inside "कमल". Verified by parser runs. Diagnosis, G1, tests, gate and estimate corrected (§12) |
 | 2026-11-23 | **Approved by the owner: D1–D7 all as recommended.** Next: merge this spec, then build on one branch (Sonnet builds, Opus reviews) |
+| 2026-11-23 | Built (Sonnet 5.5): G1, G2, G3, G4; 844 tests. Opus review found a Blocker (inflected "कम" forms could fill amounts): fixed with prefix matching and 13 tests. A second review finding (iOS keeps Date focused, so the reveal was skipped) fixed with a `focusin` guard |
+| 2026-11-23 | Merged (PR 29, `5eb8030`), Pages deployed, live site shows V3.3.6 |
+| 2026-11-23 | Released v3.3.6 (zip and SHA-256 `88ffbe70…2ec4`) after the owner's "publish 3.3.6" |
+| 2026-11-24 | Owner four-phrase check on iPhone Chrome: the safety phrase passes; three phrases failed at capture (no text from the phone). Follow-up: [VOICE-GUARD-3.3.7-SPEC](VOICE-GUARD-3.3.7-SPEC.md). The diagnostics show 2–3 alternatives per final result |
+| 2026-11-24 | Docs closed out (CHANGELOG, README, ARCHITECTURE, SECURITY-REVIEW, IDEAS). Actual-versus-estimate not recorded |
 
 ## 11. Limits of this evidence
 

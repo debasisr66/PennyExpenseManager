@@ -1,5 +1,14 @@
 # Changelog
 
+## V3.3.6 — 2026-11-23
+
+- **Fix: "कम" no longer blocks amounts.** The words that make an amount uncertain (कम, लगभग, नहीं, करीब and similar) now match as whole words, plus their inflected forms, so "कमरे का किराया 5000 रुपये" and "कमल कवन हज़ार रुपी" fill ₹5,000 and ₹1,000. "कम से कम 500 रुपये", "लगभग 500 रुपये" and "500 नहीं 600" still leave the amount empty.
+- **Spoken rupee forms:** रुपी, रूपी, रुपीज and रुपीस (and Latin `rupee`, `rupiya`) read as rupees. **Neutral words:** एडवांस, बिल, पेमेंट, बकाया and किस्त are known, add to the description ("maid advance") and set no category.
+- **Phone review:** after a Hindi or Spanish draft the review block scrolls into view (also on iPhone, where Date keeps focus), **Correct heard words** looks like a button, the keyboard microphone block collapses while speech works, and the status uses plain sentences ("Amount not clear. Tap Correct heard words, or type the amount below.").
+- **Measurement only:** the phone is asked for 3 guesses (`maxAlternatives = 3`); only the first is used. Two new debug-log codes, `VOICE_ALTERNATIVES` and `VOICE_END`, record numbers only (guesses returned, words captured, duration). No transcript is logged.
+- Tests: 844 pass (new `tests/hindi-voice.test.cjs`, real-phrase set `tests/hindi-real.json`). Schema 4, CSV and JSON formats, F02, `detect`, the CSP and the deploy lists are unchanged. See [the spec](docs/specs/HINDI-VOICE-3.3.6-SPEC.md).
+- **Not covered:** the phone's own speech service still mishears or returns nothing at times (the owner saw three capture failures in a row on 24 November). Other substring checks in `hindi.js`, "रुपी 1000" and Latin "about" are deferred. See [the 3.3.7 spec](docs/specs/VOICE-GUARD-3.3.7-SPEC.md).
+
 ## V3.3.5 — 2026-11-20
 
 - **New: mobile-first pass (CSS only).** On screens up to 700 px wide, buttons, Edit, Delete, tag chips and expandable headings are at least 44 px; checkbox and radio boxes are 24 px; adjacent targets have 4 px between them; the 9 and 10 px text is 11 px. Stat tiles and the converter wrap, so 200% text no longer scrolls sideways at 320 px. One appended block in `styles.css`; no change to `app.js`, markup, data, schema 4, CSV and JSON formats, the CSP or the deploy list. See [the spec](docs/specs/MOBILE-FIRST-3.3.5-SPEC.md).
