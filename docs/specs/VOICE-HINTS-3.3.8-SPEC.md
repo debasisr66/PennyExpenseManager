@@ -1,6 +1,6 @@
 # 3.3.8: Voice hints, three Hindi parser fixes, and a diagnosis of capture failures. Architecture, design, mock, impact, plan
 
-Status: **DRAFT v2 for owner decisions (D1–D8, §9). Not approved. No code written.** Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.7 on `main` (`602ce7d`, 861 tests, released as v3.3.7). Gated Build Playbook stage: **Plan** (Frame done in §1–§2).
+Status: **APPROVED 24 November 2026: D1–D8 all as recommended (owner: "all recommended"). No code written yet.** Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.7 on `main` (`602ce7d`, 861 tests, released as v3.3.7). Gated Build Playbook stage: **Plan** (Frame done in §1–§2).
 
 Inputs: the owner's 3.3.7 live check on iPhone Chrome (24 November 2026): the log and screenshot, plus these words: "last one had right amount, picked up well. 3rd one in english, I had to add rs. and then amount was picked. There was no voice-not-working message. Dictated using phone speaker worked." And the owner's thought: give the build to a higher-effort Sonnet 5.5 or a better model (§9, D8).
 
@@ -194,7 +194,7 @@ One branch from `origin/main`, one PR. Tests first, each proven to fail on 3.3.7
 
 Owner time: about 1 hour (decide D1–D8, the live check, smoke).
 
-## 9. Decisions
+## 9. Decisions (approved 24 November 2026: all as recommended)
 
 | # | Decision | Options | Recommendation |
 |---|---|---|---|
@@ -221,6 +221,7 @@ Owner time: about 1 hour (decide D1–D8, the live check, smoke).
 | 2026-11-24 | Owner four-phrase live check of 3.3.7: safety phrase left the amount empty; one clean capture; keyboard dictation worked; an English draft needed "rs."; the second-failure message was not seen; 3 of 3 failures `aborted` |
 | 2026-11-24 | Draft v1 (Sonnet 5.5): parser runs on `main` for E5–E10; simulated browser test of the failure ladder; no code written |
 | 2026-11-24 | Independent review (Opus 5.5): 0 Blocker, 4 High, 4 Medium, 2 Low, all accepted (§12). Draft v2 |
+| 2026-11-24 | **Approved by the owner: D1–D8 all as recommended** (builder Sonnet 5.5 at high effort, reviewer Opus 5.5 at high effort). Docs PR opened. Next: merge it, then build on one branch |
 
 ## 11. Limits of this evidence
 
