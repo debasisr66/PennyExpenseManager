@@ -478,12 +478,18 @@
     'stuff',
     'things',
     'misc',
+    'on',
+    'for',
   ]);
   function cleanVoiceDescription(text) {
     const trimmed = String(text || '')
       .replace(/^\s*an amount on\b\s*/i, '')
       .trim();
-    const words = trimmed.toLowerCase().split(/\s+/).filter(Boolean);
+    const words = trimmed
+      .toLowerCase()
+      .replace(/[\p{P}\p{S}\p{Cf}]/gu, ' ')
+      .split(/\s+/)
+      .filter(Boolean);
     return words.every((word) => FILLER_WORDS.has(word)) ? '' : trimmed;
   }
   function voiceFill(draft, today) {

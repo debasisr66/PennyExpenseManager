@@ -543,6 +543,7 @@
         applyVoiceFields(result.text);
         $('translation-status').textContent =
           'English transcript applied to the form. Check every field before saving.';
+        noteTodayDate();
       } else {
         $('voice-status').textContent =
           'Transcript captured. Check the English draft before using it.';
@@ -713,10 +714,16 @@
     $('form-error').textContent = draft.warnings.join(' ');
     draftTags();
     syncValidity();
-    $('voice-status').textContent =
-      'Voice fields filled. Check them and save when correct.' +
-      (fill.dateHeard || $('date').value === '' ? '' : ' No date was heard, so the date is today.');
+    voiceDateHeard = fill.dateHeard;
+    $('voice-status').textContent = 'Voice fields filled. Check them and save when correct.';
     return draft;
+  }
+  // Said after every override, in a line the recogniser's end event never rewrites.
+  let voiceDateHeard = true;
+  function noteTodayDate() {
+    const errorShown = !$('form-error').hidden && /date/i.test($('form-error').textContent);
+    if (voiceDateHeard || errorShown || $('date').value !== today()) return;
+    $('translation-status').textContent += ' No date was heard, so the date is today.';
   }
   $('voice-accept').onchange = () => {
     $('apply-voice').disabled = !$('voice-accept').checked;
@@ -835,6 +842,7 @@
       }
     }
     syncValidity();
+    noteTodayDate();
   };
   function setRecurring(marked, step) {
     $('recurring-bill').checked = marked;

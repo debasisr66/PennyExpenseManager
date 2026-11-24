@@ -190,7 +190,7 @@ The 844 existing tests pass unedited. A grep found no test that asserts 'Other' 
 
 ### 7.1 Traceability (built)
 
-All new tests are in `tests/voice-guard.test.cjs`. CI count: **858** (844 existing, unedited, plus 14 new). Proof column: result of running the new file against `origin/main` source (10 fail, 4 pass).
+All new tests are in `tests/voice-guard.test.cjs`. CI count: **861** (844 existing, unedited, plus 17 new). Proof column: result of running the new file against `origin/main` source (10 fail, 4 pass).
 
 | Spec item | Test IDs | On 3.3.6 (proven) | Code |
 |---|---|---|---|
@@ -205,7 +205,7 @@ All new tests are in `tests/voice-guard.test.cjs`. CI count: **858** (844 existi
 | Version 3.3.7 | `tests/version.test.cjs` | n/a | all copies |
 | Browser B01-B06 | scripted in the test harness page (`/voice-harness`), 320/375/390 px, light and dark | n/a | see status log |
 
-Deviation recorded: the spec listed VF03 as passing on 3.3.6; it cannot run without the helper, so it fails there for that reason only. Two small additions beyond the table: VF06 (untranslated Spanish words) and a 320 px style so "(assisted)" is not clipped in the language list.
+Deviation recorded: the spec listed VF03 as passing on 3.3.6; it cannot run without the helper, so it fails there for that reason only. Review follow-ups add VF07, VD03 and VD04. Two small additions beyond the table: VF06 (untranslated Spanish words) and a 320 px style so "(assisted)" is not clipped in the language list.
 
 ## 8. Estimate
 
@@ -241,8 +241,8 @@ Owner time: about 1 hour (decide D1–D7, run the four-phrase check, smoke).
 | 2026-11-24 | Draft v1 (Sonnet 5.5): save path read; amount ≤ 0 already refused on every path; two voice-fill gaps found (guessed "Other", filler description); no code written |
 | 2026-11-24 | Independent review (Opus 5.5): 4 High, 5 Medium, 3 Low, all accepted (§12). Draft v2 |
 | 2026-11-24 | **Approved by the owner: D1–D7 all as recommended.** Docs PR opened (spec plus 3.3.6 close-out). Next: merge it, then build on one branch (Sonnet builds, Opus reviews) |
-
 | 2026-11-24 | Built (Sonnet 5.5): tests first (new file run on `origin/main`: V01-V03 and VF04 pass, the other 10 fail), then H4, H1-H3, H5; 858 tests pass; browser checks B01-B06 at 320, 375 and 390 px in both themes, console clean (one flaky re-run of 390 dark was a script artefact of reopening the dialog quickly; a clean re-run passed). Independent review (Opus 5.5) and CI: see PR |
+| 2026-11-24 | Independent review (Opus 5.5, briefed with code): 0 Blocker, 0 High, 2 Medium, 7 Low. Fixed: M1 date note was overwritten by the recogniser end event (now in the translation line, shown only when true), M2 app wiring tests (VD04), L1 error after a delivered transcript no longer counts (VD03), L2 note suppressed when the date is invalid or cleared, L3 filler survives punctuation and on/for (VF07), L5 Tips wording, L7 table row. Not changed: L4 the failure count lives for the page (noted: it resets on a direct-speech success), L6 weak VF04 (kept as a labelled source guard) |
 
 ## 11. Limits of this evidence
 

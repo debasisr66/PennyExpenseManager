@@ -284,3 +284,31 @@ test('VF06 untranslated Spanish words never become the description', () => {
   assert.equal(fill.description, '');
   assert.ok(es.unknown.includes('algo'), 'the words are still reported for correction');
 });
+
+test('VF07 filler survives punctuation; real words stay', () => {
+  for (const f of ['expense, something', '"expense"', '-', '…', 'on expense', 'for expense'])
+    assert.equal(C.cleanVoiceDescription(f), '', f);
+  for (const keep of ['rent', 'on rent', 'maid advance', 'electricity bill'])
+    assert.notEqual(C.cleanVoiceDescription(keep), '', keep);
+});
+
+test('VD03 an error after a transcript was delivered is not a failure', () => {
+  const s = recogniser();
+  s.controller.start();
+  s.instances[0].onresult({
+    resultIndex: 0,
+    results: [Object.assign([{ transcript: 'Spent 5 rupees' }], { isFinal: true })],
+  });
+  s.instances[0].onerror({ error: 'no-speech' });
+  assert.deepEqual(s.failures, []);
+});
+
+test('VD04 app.js wiring: date note, ladder reset and strong message are connected', () => {
+  const app = read('app.js');
+  assert.ok(app.includes("$('date').value = fill.date;"));
+  assert.ok(!app.includes('if (draft.date) $(\'date\').value = draft.date'));
+  assert.match(app, /status === 'complete'\) voiceLadder\.reset\(\)/);
+  assert.match(app, /PennyVoice\.strongMessage/);
+  assert.match(app, /if \(step\.openKeyboard\) revealPhoneDictation\(\)/);
+  assert.match(app, /noteTodayDate\(\)/);
+});

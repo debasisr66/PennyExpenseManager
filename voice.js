@@ -113,7 +113,7 @@
         return true;
       };
       const fail = (message, reason) => {
-        if (!isCurrent() || failed) return;
+        if (!isCurrent() || failed || delivered) return;
         failed = true;
         clearTimers();
         update('error', message);
