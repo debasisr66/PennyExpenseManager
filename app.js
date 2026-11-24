@@ -600,10 +600,11 @@
     $('prepare-dictation').hidden = false;
   }
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const voiceLadder = PennyVoice.createLadder();
   const voice = PennyVoice.create(Recognition, {
     status(status, message) {
       const fallback = status === 'unsupported' || status === 'error';
-      if (status === 'error') logs.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', {}, voiceAction);
+      if (status === 'complete') voiceLadder.reset();
       if (fallback) {
         revealPhoneDictation();
         if (!/phone keyboard/i.test(message)) message += ' Use phone keyboard microphone below.';
@@ -627,6 +628,16 @@
       $('voice-transcript').textContent = 'Hearing: “' + text + '”';
     },
     transcript: processVoiceText,
+    failure(reason) {
+      logs.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', { reason }, voiceAction);
+      const step = voiceLadder.record(reason);
+      if (step.openKeyboard) revealPhoneDictation();
+      let message = $('voice-status').textContent;
+      if (!/phone keyboard/i.test(message)) message += ' Use phone keyboard microphone below.';
+      if (step.strong) message += ' ' + PennyVoice.strongMessage;
+      $('voice-status').textContent = message;
+      if (step.openTips) $('voice-tips').open = true;
+    },
     alternatives(count) {
       logs.emit('voice', 'VOICE_ALTERNATIVES', 'debug', { count }, voiceAction);
     },
@@ -637,6 +648,13 @@
   // While browser speech works the keyboard-microphone block is one button; it expands on failure.
   if (voice.supported)
     $('use-phone-dictation').closest('.dictation-option').classList.add('collapsed');
+  // Hindi and Spanish are assisted: show the caution and Tips only for them.
+  function syncVoiceCaution() {
+    const assisted = $('voice-language').value !== 'en';
+    $('voice-caution').hidden = !assisted;
+    $('voice-tips').hidden = !assisted;
+  }
+  $('voice-language').addEventListener('change', syncVoiceCaution);
   function resetVoiceDraft() {
     $('correct-transcript').hidden = true;
     voiceStructured = null;
@@ -677,14 +695,15 @@
   function applyVoiceFields(text) {
     const payment = paymentFromVoice(text),
       draft = C.parseVoice(payment.text, today());
+    const fill = C.voiceFill(draft, today());
     $('amount').value = draft.amount !== null ? draft.amount.toFixed(2) : '';
-    if (draft.date) $('date').value = draft.date;
+    $('date').value = fill.date;
     if (voiceSource === 'hi' && /कल/.test(voiceText)) {
       $('date').value = '';
       draft.warnings.push('Choose the date: कल can mean yesterday or tomorrow.');
     }
-    $('description').value = draft.description;
-    $('category').value = draft.category || 'Other';
+    $('description').value = fill.description;
+    $('category').value = fill.category;
     $('payment-method').value = payment.method;
     $('expense-tags').value = draft.tags
       .filter((tag) => !D.reserved.includes(tag))
@@ -693,7 +712,10 @@
     $('form-error').hidden = !draft.warnings.length;
     $('form-error').textContent = draft.warnings.join(' ');
     draftTags();
-    $('voice-status').textContent = 'Voice fields filled. Check them and save when correct.';
+    syncValidity();
+    $('voice-status').textContent =
+      'Voice fields filled. Check them and save when correct.' +
+      (fill.dateHeard || $('date').value === '' ? '' : ' No date was heard, so the date is today.');
     return draft;
   }
   $('voice-accept').onchange = () => {
@@ -812,6 +834,7 @@
           'This Spanish draft contains unresolved details. Enter the correct amount and category below before saving.';
       }
     }
+    syncValidity();
   };
   function setRecurring(marked, step) {
     $('recurring-bill').checked = marked;
@@ -851,6 +874,7 @@
     setRecurring(mark.marked, mark.step);
     draftTags();
     expenseBaseline = expenseDraft();
+    syncValidity();
     $('expense-dialog').showModal();
   }
   $('payment-method').innerHTML = D.rails
@@ -862,7 +886,18 @@
   $('filter-category').innerHTML += C.categories
     .map((value) => `<option>${value}</option>`)
     .join('');
-  $('category').innerHTML = C.categories.map((x) => `<option>${x}</option>`).join('');
+  $('category').innerHTML =
+    '<option value="" disabled>Choose a category</option>' +
+    C.categories.map((x) => `<option>${x}</option>`).join('');
+  // Voice never picks a category or description for the user: say what is missing in plain words.
+  function syncValidity() {
+    $('category').setCustomValidity($('category').value ? '' : 'Choose a category.');
+    $('description').setCustomValidity(
+      $('description').value.trim() ? '' : 'Describe the expense.',
+    );
+  }
+  $('category').addEventListener('change', syncValidity);
+  $('description').addEventListener('input', syncValidity);
   $('month').value = current;
   $('month').onchange = () => {
     if (!C.validMonth($('month').value)) $('month').value = current;
@@ -1043,6 +1078,7 @@
   };
   $('use-voice').onclick = () => {
     $('voice-panel').hidden = false;
+    syncVoiceCaution();
     $('use-voice').setAttribute('aria-expanded', 'true');
     $('start-voice').disabled = !voice.supported;
     if (!voice.supported) revealPhoneDictation();

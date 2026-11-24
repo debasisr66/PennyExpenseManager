@@ -17,6 +17,33 @@
     aborted: 'Listening stopped. You can try again.',
   };
 
+  // Fixed list of failure reasons: the only thing the log keeps about why capture failed.
+  const REASONS = [
+    'no-speech',
+    'not-allowed',
+    'service-not-allowed',
+    'audio-capture',
+    'network',
+    'aborted',
+    'language-not-supported',
+  ];
+  const strongMessage =
+    'Voice is not working well right now. Type or use your keyboard microphone.';
+  // Counts failures in a row (any kind). Every failure opens the keyboard microphone; the
+  // second in a row also gets the stronger message and opens the Tips.
+  function createLadder() {
+    let count = 0;
+    return {
+      record() {
+        count++;
+        return { count, openKeyboard: true, strong: count >= 2, openTips: count >= 2 };
+      },
+      reset() {
+        count = 0;
+      },
+    };
+  }
+
   function create(Recognition, handlers = {}, options = {}) {
     const startTimeoutMs = options.startTimeoutMs || 12000;
     const listenTimeoutMs = options.listenTimeoutMs || 25000;
@@ -43,6 +70,7 @@
       active = status === 'listening' || status === 'starting';
       handlers.status?.(status, message);
     };
+    const failure = (reason) => handlers.failure?.(reason);
     const transcriptFrom = (result) => result?.[0]?.transcript?.trim?.() || '';
 
     function start(language = 'en-IN') {
@@ -84,11 +112,12 @@
         update('processing', 'Speech captured. Preparing the English draft…');
         return true;
       };
-      const fail = (message) => {
+      const fail = (message, reason) => {
         if (!isCurrent() || failed) return;
         failed = true;
         clearTimers();
         update('error', message);
+        failure(reason);
       };
 
       try {
@@ -111,6 +140,7 @@
             } catch (error) {
               fail(
                 'Listening became stuck. Tap Try voice again, or use the phone keyboard microphone below.',
+                'stuck',
               );
             }
           }, listenTimeoutMs);
@@ -144,6 +174,7 @@
           fail(
             messages[event.error] ||
               'Voice entry failed. Tap Try voice again, or use the phone keyboard microphone below.',
+            REASONS.includes(event.error) ? event.error : 'other',
           );
         };
 
@@ -160,6 +191,7 @@
               ? 'English draft ready. Check it before using it.'
               : 'Nothing was captured. Tap Try voice again and speak after Listening appears.',
           );
+          if (!captured) failure('no-capture');
         };
 
         update('starting', 'Starting microphone…');
@@ -167,6 +199,7 @@
           if (!isCurrent() || delivered || failed) return;
           fail(
             'The microphone did not start. Tap Try voice again, or use the phone keyboard microphone below.',
+            'start-timeout',
           );
           try {
             current.abort();
@@ -178,6 +211,7 @@
         recognition = null;
         fail(
           'Voice entry could not start. Tap Try voice again, or use the phone keyboard microphone below.',
+          'could-not-start',
         );
         return false;
       }
@@ -197,6 +231,7 @@
           old.abort();
         } catch (abortError) {}
         update('error', 'Listening could not finish. Tap Try voice again.');
+        failure('stop-failed');
       }
     }
 
@@ -216,5 +251,5 @@
 
     return { start, stop, cancel, supported: !!Recognition, isActive: () => active };
   }
-  return { create, messages };
+  return { create, createLadder, messages, strongMessage };
 });

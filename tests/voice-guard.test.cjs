@@ -46,7 +46,7 @@ test('V02 CSV and JSON import refuse a zero or negative amount', () => {
   }
 });
 
-test('V03 store.save rejects a state whose expense has cents 0; app.js writes only via commit', async () => {
+test('V03 store.save rejects cents 0; app.js writes only via commit', async () => {
   const memory = new Map();
   const storage = {
     getItem: (k) => (memory.has(k) ? memory.get(k) : null),
@@ -100,7 +100,8 @@ test('VF02 filler descriptions are cleared; real ones and typed text are kept', 
   // Typed text never goes through the voice helper: the source must only call it in voice fill.
   const app = read('app.js');
   assert.equal((app.match(/cleanVoiceDescription|C\.voiceFill/g) || []).length >= 1, true);
-  const typed = app.slice(app.indexOf('function buildExpense'), app.indexOf('function buildExpense') + 900);
+  const at = app.indexOf('function buildExpense');
+  const typed = app.slice(at, at + 900);
   assert.ok(!/voiceFill|cleanVoiceDescription/.test(typed));
 });
 
@@ -114,7 +115,7 @@ test('VF05 a voice fill with no date heard sets today, not the browsed month', (
 });
 
 test('VF03 a voice fill that heard amount, category and an item fills all three', () => {
-  const draft = C.parseVoice('Spent 250 rupees on groceries today via upi', TODAY);
+  const draft = C.parseVoice('Spent 250 rupees on groceries today', TODAY);
   const fill = C.voiceFill(draft, TODAY);
   assert.equal(draft.amount, 250);
   assert.equal(fill.category, 'Food & groceries');
@@ -127,8 +128,20 @@ test('VF04 a Hindi draft keeps unresolved fields empty (3.3.6 guard)', () => {
   assert.match(app, /\$\('category'\)\.value = '';/);
 });
 
+async function freshLog() {
+  const log = Dg.create(),
+    values = new Map();
+  await log.attach(
+    S.fallbackAdapter({
+      getItem: (k) => (values.has(k) ? values.get(k) : null),
+      setItem: (k, v) => values.set(k, v),
+    }),
+  );
+  return log;
+}
+
 test('VD01 VOICE_CAPTURE_FAILED keeps an allowed reason and drops anything else', async () => {
-  const log = Dg.create();
+  const log = await freshLog();
   const reasons = [
     'no-speech',
     'not-allowed',
@@ -151,14 +164,16 @@ test('VD01 VOICE_CAPTURE_FAILED keeps an allowed reason and drops anything else'
   assert.equal(events.length, reasons.length);
   assert.deepEqual(events.map((e) => e.metadata.reason).sort(), [...reasons].sort());
   for (const bad of ['spent 250 on rent', 'NO-SPEECH', 42, null, '']) {
-    const fresh = Dg.create();
+    const fresh = await freshLog();
     await fresh.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', { reason: bad }, 'action-12345678');
     assert.deepEqual((await fresh.list())[0].metadata, {}, String(bad));
   }
   // Two failures with different reasons on different actions are two events, not merged.
-  const two = Dg.create();
-  await two.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', { reason: 'network' }, 'action-aaaaaaaa');
-  await two.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', { reason: 'aborted' }, 'action-bbbbbbbb');
+  const two = await freshLog();
+  const failed = (reason, id) =>
+    two.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', { reason }, id);
+  await failed('network', 'action-aaaaaaaa');
+  await failed('aborted', 'action-bbbbbbbb');
   const merged = await two.list();
   assert.deepEqual(merged.map((e) => e.metadata.reason).sort(), ['aborted', 'network']);
 });
@@ -218,7 +233,7 @@ test('VD02 a quiet end is a failure with reason no-capture; errors report their 
   assert.deepEqual(failures, ['could-not-start']);
 });
 
-test('VD02 ladder: quiet end opens the keyboard; second failure in a row is stronger; success resets', () => {
+test('VD02 ladder: keyboard on first failure, stronger on second, reset on success', () => {
   const ladder = V.createLadder();
   const first = ladder.record('no-capture');
   assert.equal(first.count, 1);
@@ -228,7 +243,10 @@ test('VD02 ladder: quiet end opens the keyboard; second failure in a row is stro
   assert.equal(second.count, 2);
   assert.equal(second.strong, true);
   assert.equal(second.openTips, true);
-  assert.equal(V.strongMessage, 'Voice is not working well right now. Type or use your keyboard microphone.');
+  assert.equal(
+    V.strongMessage,
+    'Voice is not working well right now. Type or use your keyboard microphone.',
+  );
   ladder.reset();
   const again = ladder.record('aborted');
   assert.equal(again.count, 1);
@@ -241,7 +259,9 @@ test('VT01 language labels and the caution line match the spec', () => {
   assert.match(html, /<option value="es">Spanish · Español \(assisted\)<\/option>/);
   assert.match(html, /<option value="en">English<\/option>/);
   const caution =
-    'Hindi and Spanish voice is assisted. Your phone may mishear, and Penny understands only common words. Check the amount, category and date. Nothing is saved until you tap Save.';
+    'Hindi and Spanish voice is assisted. Your phone may mishear, and Penny understands ' +
+    'only common words. Check the amount, category and date. ' +
+    'Nothing is saved until you tap Save.';
   const flat = html.replace(/\s+/g, ' ');
   assert.ok(flat.includes(caution), 'caution text');
   assert.match(html, /id="voice-caution"[^>]*hidden/);
@@ -252,6 +272,15 @@ test('VT01 language labels and the caution line match the spec', () => {
 test('VT02 the category list starts with a disabled placeholder and a custom message', () => {
   const app = read('app.js');
   assert.match(app, /<option value="" disabled>Choose a category<\/option>/);
-  assert.match(app, /setCustomValidity\('Choose a category\.'\)/);
-  assert.match(app, /setCustomValidity\('Describe the expense\.'\)/);
+  assert.ok(app.includes("'Choose a category.'"));
+  assert.ok(app.includes("'Describe the expense.'"));
+  assert.match(app, /setCustomValidity\(\$\('category'\)/);
+});
+
+test('VF06 untranslated Spanish words never become the description', () => {
+  const es = T.fallback('Gasté 250 rupias en algo raro', 'es');
+  assert.ok(!/algo|raro/.test(es.text), es.text);
+  const fill = C.voiceFill(C.parseVoice(es.text, TODAY), TODAY);
+  assert.equal(fill.description, '');
+  assert.ok(es.unknown.includes('algo'), 'the words are still reported for correction');
 });

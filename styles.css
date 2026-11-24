@@ -824,6 +824,17 @@ label.field {
   padding: 15px;
   margin-top: 12px;
 }
+.voice-tips[hidden] {
+  display: none;
+}
+.voice-tips summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
 .voice-privacy {
   font-size: 11px;
   margin-top: 10px;
