@@ -54,7 +54,8 @@
       session = 0,
       active = false,
       startTimer = null,
-      listenTimer = null;
+      listenTimer = null,
+      userStopped = false;
 
     const clearTimers = () => {
       if (startTimer !== null) unschedule(startTimer);
@@ -83,6 +84,7 @@
       }
       if (active) return false;
 
+      userStopped = false;
       clearTimers();
       const token = ++session;
       if (recognition) {
@@ -112,11 +114,14 @@
         update('processing', 'Speech captured. Preparing the English draft…');
         return true;
       };
+      const wordsHeard = () => bestText().split(' ').filter(Boolean).length;
       const fail = (message, reason) => {
         if (!isCurrent() || failed || delivered) return;
         failed = true;
         clearTimers();
         update('error', message);
+        // Numbers only: how many words were heard before the failure, and for how long.
+        handlers.end?.({ count: wordsHeard(), durationMs: Math.max(0, now() - startedAt) });
         failure(reason);
       };
 
@@ -174,7 +179,12 @@
           fail(
             messages[event.error] ||
               'Voice entry failed. Tap Try voice again, or use the phone keyboard microphone below.',
-            REASONS.includes(event.error) ? event.error : 'other',
+            // A phone may report a user's Stop as "aborted": name it, so the log can tell.
+            event.error === 'aborted' && userStopped
+              ? 'user-stop'
+              : REASONS.includes(event.error)
+                ? event.error
+                : 'other',
           );
         };
 
@@ -219,6 +229,7 @@
 
     function stop() {
       if (!recognition || !active) return;
+      userStopped = true;
       clearTimers();
       update('processing', 'Finishing this voice entry…');
       try {

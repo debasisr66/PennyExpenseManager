@@ -42,6 +42,7 @@
     'audio-capture',
     'network',
     'aborted',
+    'user-stop',
     'language-not-supported',
     'start-timeout',
     'stuck',
@@ -125,7 +126,7 @@
       }
       const e = {
         schemaVersion: 1,
-        appVersion: '3.3.7',
+        appVersion: '3.3.8',
         eventId: D.freshId(),
         sessionId,
         sequence: ++sequence,
@@ -242,7 +243,7 @@
         return {
           format: 'penny-diagnostics',
           schemaVersion: 1,
-          appVersion: '3.3.7',
+          appVersion: '3.3.8',
           events: await list(),
           dropped: memory.dropped,
           memoryOnly: unavailable,

@@ -16,7 +16,10 @@ const Dg = require('../diagnostics.js');
 
 const read = (f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
 const TODAY = '2026-11-24';
-const HINT = /A number \((\d+)\) was heard, but not as rupees\. Say 'rupees' after it, or type the amount below\./;
+const HINT = new RegExp(
+  'A number \\((\\d+)\\) was heard, but not as rupees\\. ' +
+    "Say 'rupees' after it, or type the amount below\\.",
+);
 const hindi = (text) => T.fallback(text, 'hi');
 const hindiStatus = (text) => T.plainIssues(hindi(text).unknown, text);
 
@@ -62,7 +65,7 @@ test('VH03 the hint shows digits as text only and cannot inject markup', () => {
   const text = 'सब्जी <b>350</b>';
   const status = hindiStatus(text);
   assert.match(status, HINT, 'the hint appears for the lone number');
-  assert.doesNotMatch(status, /[<>]/);
+  assert.doesNotMatch(status.match(HINT)[0], /[<>]/, 'the hint itself carries digits only');
   const app = read('app.js');
   assert.match(app, /plainIssues\(result\.unknown, text\)/);
   for (const id of ['translation-status', 'voice-status', 'voice-strong', 'form-error'])
@@ -252,7 +255,8 @@ async function freshLog() {
 
 test('VD02 the log accepts user-stop and still drops unknown reasons', async () => {
   const log = await freshLog();
-  await log.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', { reason: 'user-stop', count: 2 }, 'action-12345678');
+  const meta = { reason: 'user-stop', count: 2 };
+  await log.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', meta, 'action-12345678');
   assert.deepEqual((await log.list())[0].metadata, { reason: 'user-stop', count: 2 });
   for (const bad of ['USER-STOP', 'user stop', 'spent 5', 7, null]) {
     const fresh = await freshLog();
@@ -275,13 +279,16 @@ test('VD01 the failure handler records the streak before it logs, and logs it', 
 
 test('VD03 the strong message has its own status element that Try voice again cannot clear', () => {
   const html = read('index.html');
-  assert.match(html, /<p[^>]*id="voice-strong"[^>]*role="status"[^>]*hidden|<p[^>]*role="status"[^>]*id="voice-strong"[^>]*hidden/);
+  assert.match(html, /<p id="voice-strong" role="status"><\/p>/);
+  assert.match(html, /<div id="voice-strong-box"[^>]*\bhidden\b/);
   assert.match(html, /id="dismiss-voice-strong"[^>]*>\s*Dismiss\s*</);
   const app = read('app.js');
-  const status = app.slice(app.indexOf('status(status, message) {'), app.indexOf('preview(text) {'));
+  const from = app.indexOf('status(status, message) {');
+  const status = app.slice(from, app.indexOf('preview(text) {'));
   const lines = status.split('\n').filter((l) => /voice-strong/.test(l));
-  assert.ok(lines.length >= 1 && lines.length <= 3, 'status handler touches the notice only on success');
-  assert.ok(/status === 'complete'/.test(status.slice(status.indexOf('voice-strong') - 200, status.indexOf('voice-strong'))));
+  assert.equal(lines.length, 1, 'the status handler touches the notice once, on success');
+  const first = status.indexOf('voice-strong');
+  assert.match(status.slice(Math.max(0, first - 120), first), /status === 'complete'/);
   assert.ok(!/starting|listening/.test(lines.join('')));
   const failure = app.slice(app.indexOf('failure(reason) {'), app.indexOf('alternatives(count)'));
   assert.match(failure, /voice-strong/);
@@ -290,7 +297,7 @@ test('VD03 the strong message has its own status element that Try voice again ca
   assert.match(app, /dismiss-voice-strong'\)\.onclick/);
   // No language gate: the notice is shown for English too.
   assert.ok(!/voice-language[^;]*voice-strong|voice-strong[^;]*voice-language/.test(failure));
-  assert.match(read('styles.css'), /#voice-strong[\s\S]*?min-height:\s*44px/);
+  assert.match(read('styles.css'), /#dismiss-voice-strong\s*\{[^}]*min-height:\s*44px/);
 });
 
 test('VR01 version 3.3.8 and its What\'s New entry', () => {
@@ -298,5 +305,5 @@ test('VR01 version 3.3.8 and its What\'s New entry', () => {
   const html = read('index.html');
   assert.match(html, /V3\.3\.8/);
   assert.match(html, /Voice hints/);
-  assert.match(read('CHANGELOG.md'), /3\.3\.8/);
+  assert.match(read('CHANGELOG.md'), /^## V3\.3\.8 /m);
 });

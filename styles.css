@@ -938,6 +938,33 @@ dialog {
 #voice-status {
   color: var(--green);
 }
+/* 3.3.8: the "voice is not working" message keeps its own line until success or Dismiss. */
+.voice-strong {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--red);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.voice-strong[hidden] {
+  display: none;
+}
+.voice-strong p {
+  flex: 1 1 200px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink);
+}
+#dismiss-voice-strong {
+  min-height: 44px;
+  min-width: 44px;
+  font-size: 12px;
+}
 @media (max-width: 900px) {
   .conversion-controls {
     grid-template-columns: 1fr 1fr;

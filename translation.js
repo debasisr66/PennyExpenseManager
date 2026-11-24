@@ -602,13 +602,25 @@
     return fallback(text, language);
   }
   // Plain sentences for the issue codes shown on a phone. The codes themselves are unchanged.
-  function plainIssues(issues) {
+  // 3.3.8: when the only amount problem is "a number but no rupee word" and the transcript has
+  // exactly one number, name it (as text) instead of the generic sentence. Nothing is filled.
+  function loneNumber(list, transcript) {
+    const amountIssues = list.filter((x) => /^(?:amount|multiple|foreign currency)/.test(x));
+    const only = ['amount', 'amount: extra numeric evidence'];
+    if (amountIssues.length !== 2 || !only.every((x) => amountIssues.includes(x))) return null;
+    const runs = H.normalize(transcript).match(/\d[\d,]*(?:\.\d+)?/g) || [];
+    return runs.length === 1 ? runs[0] : null;
+  }
+  function plainIssues(issues, transcript) {
     const list = Array.isArray(issues) ? issues.map(String) : [];
     const is = (re) => list.some((x) => re.test(x));
+    const lone = transcript === undefined ? null : loneNumber(list, String(transcript));
     const known = /^(?:amount|multiple|foreign currency|category|expense type|date|payment method)/;
     const words = list.filter((x) => !known.test(x));
     return [
-      is(/^(?:amount|multiple|foreign currency)/) &&
+      lone !== null && C.numberWithoutRupees(lone),
+      lone === null &&
+        is(/^(?:amount|multiple|foreign currency)/) &&
         'Amount not clear. Tap Correct heard words, or type the amount below.',
       is(/^(?:category|expense type)/) && 'Category not clear. Choose it below.',
       is(/^date/) && 'Date not clear. Choose the date below.',

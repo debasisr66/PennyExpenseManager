@@ -23,7 +23,7 @@
           >
         </div>
         <div class="header-actions">
-          <span class="preview">V3.3.7 · INR</span
+          <span class="preview">V3.3.8 · INR</span
           ><button id="whats-new-button" class="quiet" type="button">What’s New</button
           ><button
             id="theme-toggle"
@@ -487,6 +487,10 @@
             ><button type="button" id="stop-voice" class="secondary" hidden>Stop listening</button
             ><button type="button" id="return-keyboard" class="quiet">Use keyboard</button>
           </div>
+          <div id="voice-strong-box" class="voice-strong" hidden>
+            <p id="voice-strong" role="status"></p>
+            <button type="button" id="dismiss-voice-strong" class="secondary">Dismiss</button>
+          </div>
           <div class="dictation-option">
             <button type="button" id="use-phone-dictation" class="quiet">
               Use phone keyboard microphone
@@ -710,10 +714,22 @@
       <div class="whats-new">
         <div class="panel-head">
           <h2 id="whats-new-title">What’s New</h2>
-          <span class="version-badge">V3.3.7</span>
+          <span class="version-badge">V3.3.8</span>
         </div>
         <p class="small release-date">24 November 2026</p>
         <ul>
+          <li>
+            <strong>Voice hints.</strong> If a voice entry heard one number but no rupee word,
+            Penny now says so (“A number (350) was heard, but not as rupees”) and leaves the
+            amount for you. English words such as “about” or “at least” before an amount also
+            leave it empty, as Hindi already did. The “voice is not working well” message now has
+            its own line with a Dismiss button, and stays until a capture works.
+          </li>
+          <li>
+            <strong>Hindi fixes.</strong> Words such as गुरु and शुरू no longer block an amount,
+            कल is read as a whole word (कलम no longer clears the date), and कैशबैक is treated as
+            money received, so it no longer fills an amount or sets cash.
+          </li>
           <li>
             <strong>Voice never saves a guess.</strong> A voice entry no longer picks “Other” for
             you or keeps a filler description such as “expense”. If Penny did not hear the
@@ -868,7 +884,7 @@
       </section>
       <section class="data-section">
         <h3>About Penny</h3>
-        <p>Version 3.3.7 · INR · Stored on this device</p>
+        <p>Version 3.3.8 · INR · Stored on this device</p>
       </section>
       <p id="settings-error" class="error" role="alert"></p>
       <div class="form-actions">
