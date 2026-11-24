@@ -272,3 +272,5 @@ All in `tests/voice-hints.test.cjs` (15 tests) unless stated. CI count: **876** 
 | B01–B05 | recorded in the PR | Hint and message at 320, 375, 390 px, both themes, console clean; failure-ladder run | n/a |
 
 **Limit, stated plainly:** Node cannot run `app.js`, so VD01 and VD03 check the wiring by source pattern. The behaviour (message survives the next **Try voice again** tap, shows for English, Dismiss, cleared on success, log shows `count` 1, 2, 3 with `user-stop`, 4) was shown in a real browser with a fake recogniser and is recorded in the PR.
+
+**Deviation noted (review L4a):** the English approximate-word list also includes "approximately" and "atleast" (one word), beyond the seven words in §3.4; both match Hindi's own rule and are covered by EN01.
