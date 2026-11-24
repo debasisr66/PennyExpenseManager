@@ -1,3 +1,5 @@
+> **3.3.6 (23 November 2026):** no new surface. Hindi rules are fixed regular expressions with no user-supplied patterns; the two new diagnostics codes carry only the existing numeric and language fields, so no transcript or amount enters a log. No network calls, no new storage, no schema change, no third-party code. The CSP is unchanged.
+>
 > **3.3.5 (20 November 2026):** no new surface. CSS and tests only; no script, markup, storage, network or CSP change, and no third-party code.
 >
 > **3.3.4 (19 November 2026):** no new surface. Two new category names are validated like the existing ones on import; new voice keywords are fixed regular expressions. No network calls, no new storage, no schema change, no third-party code. The CSP is unchanged.

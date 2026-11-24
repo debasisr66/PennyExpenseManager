@@ -1,6 +1,6 @@
-# Penny architecture (current: 3.3.5)
+# Penny architecture (current: 3.3.6)
 
-Updated 20 November 2026 for 3.3.5; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
+Updated 24 November 2026 for 3.3.6; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
 
 ```mermaid
 flowchart LR
@@ -18,6 +18,10 @@ flowchart LR
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.6 note
+
+Hindi parsing rules live only in `hindi.js`: Devanagari "whole word" checks use `(?<![\p{L}\p{M}])` and `(?![\p{L}\p{M}])` because `\b` does not work for Devanagari; uncertain words match whole (short ones) or as prefixes (long ones). `translation.js` gains the pure `plainIssues` helper (issue codes unchanged). `voice.js` asks for 3 alternatives but still reads only the first; `diagnostics.js` gains `VOICE_ALTERNATIVES` and `VOICE_END` (numbers only). The review reveal in `app.js` uses a `focusin` flag, not `activeElement`, because iOS leaves Date focused. No schema, storage, network or CSP change. See [the spec](specs/HINDI-VOICE-3.3.6-SPEC.md); the next step is [3.3.7](specs/VOICE-GUARD-3.3.7-SPEC.md).
 
 ### 3.3.5 note
 
