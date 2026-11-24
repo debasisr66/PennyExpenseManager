@@ -1,6 +1,6 @@
 # 3.3.7: Hindi and Spanish voice as an assisted feature, and nothing blank or guessed gets saved. Architecture, design, mock, impact, plan
 
-Status: **BUILT 24 November 2026 (PR open, awaiting owner approval, live check and "publish"). D1–D7 approved as recommended.** Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.6 on `main` (`5eb8030`, 844 tests, released as v3.3.6). Gated Build Playbook stage: **Build** done, **Verify** in progress. 
+Status: **RELEASED 24 November 2026 as [v3.3.7](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.7) (PR 31, merge `2d65c72`, 861 tests).** D1–D7 approved as recommended. Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.6 on `main` (`5eb8030`, 844 tests, released as v3.3.6). Gated Build Playbook stage: **Released**. 
 
 Owner request (24 November 2026, after the 3.3.6 live check): "I understand this has difficulties with offline parser and iphone. Let's find the best possible feature behaviour for the app. It would appear with user caution that Hindi and Spanish is a restricted feature with some hint, help, keyboard corrections and phone keyboard microphone use. One additional check: nothing blank, wrong should be saved. If amount is 0 nothing should be saved."
 
@@ -243,6 +243,9 @@ Owner time: about 1 hour (decide D1–D7, run the four-phrase check, smoke).
 | 2026-11-24 | **Approved by the owner: D1–D7 all as recommended.** Docs PR opened (spec plus 3.3.6 close-out). Next: merge it, then build on one branch (Sonnet builds, Opus reviews) |
 | 2026-11-24 | Built (Sonnet 5.5): tests first (new file run on `origin/main`: V01-V03 and VF04 pass, the other 10 fail), then H4, H1-H3, H5; 858 tests pass; browser checks B01-B06 at 320, 375 and 390 px in both themes, console clean (one flaky re-run of 390 dark was a script artefact of reopening the dialog quickly; a clean re-run passed). Independent review (Opus 5.5) and CI: see PR |
 | 2026-11-24 | Independent review (Opus 5.5, briefed with code): 0 Blocker, 0 High, 2 Medium, 7 Low. Fixed: M1 date note was overwritten by the recogniser end event (now in the translation line, shown only when true), M2 app wiring tests (VD04), L1 error after a delivered transcript no longer counts (VD03), L2 note suppressed when the date is invalid or cleared, L3 filler survives punctuation and on/for (VF07), L5 Tips wording, L7 table row. Not changed: L4 the failure count lives for the page (noted: it resets on a direct-speech success), L6 weak VF04 (kept as a labelled source guard) |
+| 2026-11-24 | Merged (PR 31, `2d65c72`, with `--match-head-commit 2d18725`); CI, Deploy Pages and Notify studio hub succeeded; 12 live runtime files matched `main`; live site V3.3.7 |
+| 2026-11-24 | Owner live check on iPhone Chrome (debug logging on): safety phrase left the amount empty, nothing saved; one clean capture (0 unresolved) and one keyboard-microphone dictation saved correctly; an English draft needed "rs." before the amount was read (by design); 3 of 3 capture failures were `aborted`; no `VOICE_ALTERNATIVES` events (text came from interim words); the second-failure message was not seen on the phone but shows in a simulated browser test (open item for 3.3.8) |
+| 2026-11-24 | Released v3.3.7 after the owner's "publish 3.3.7" (zip SHA-256 `0164e87f…61b2c`); Studio notify succeeded. Actual versus estimate: not recorded |
 
 ## 11. Limits of this evidence
 

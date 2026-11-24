@@ -2,7 +2,7 @@
 
 Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
 
-**Current release: [3.3.7](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.7) · 24 November 2026 (built, awaiting owner publish; 3.3.6 is the latest published release until then)** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
+**Current release: [3.3.7](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.7) · 24 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
 
 | Release | What changed |
 |---|---|

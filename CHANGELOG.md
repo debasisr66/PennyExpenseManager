@@ -1,6 +1,6 @@
 # Changelog
 
-## V3.3.7 — 2026-11-24 (built; awaiting owner live check and publish)
+## V3.3.7 — 2026-11-24
 
 - **Voice never saves a guess.** A voice fill no longer defaults the category to "Other": if none was heard the category stays empty, the list shows "Choose a category" and Save is refused with "Choose a category." This also covers a Hindi draft the user edited. Filler descriptions (`expense`, `an expense`, `something`, `it`, `the`, `of`, `stuff`, `things`, `misc`, and a leading "an amount on") are cleared and Save is refused with "Describe the expense." Untranslated Spanish words no longer become the description. If no date was heard the date is today (not the 1st of the month being browsed) and the status says so. Typed descriptions are never touched.
 - **Hindi and Spanish voice is labelled assisted.** The language list reads "(assisted)"; one caution line (shown only for Hindi and Spanish) replaces the old iPhone note, and a collapsed "Tips for speaking" block (44 px target) sits under it. The What's New, README and this file use the same wording.
@@ -8,7 +8,7 @@
 - **Diagnostics.** `VOICE_CAPTURE_FAILED` carries one new field, `reason`, from a fixed list of 13 values (`no-speech`, `not-allowed`, `service-not-allowed`, `audio-capture`, `network`, `aborted`, `language-not-supported`, `start-timeout`, `stuck`, `could-not-start`, `stop-failed`, `no-capture`, `other`). Anything else is dropped. No transcript, audio or free text.
 - **Already safe, now proven:** an amount of 0, 0.00, negative, blank or unreadable is refused on every path (form, `validateExpense`, CSV, JSON, `store.save`). Guard tests V01-V03.
 - Tests: 861 pass (844 existing unedited, 17 new in `tests/voice-guard.test.cjs`). Schema 4, CSV and JSON formats, F02, `detect`, `detectMarked`, the CSP, the deploy lists and `validateExpense` are unchanged. See [the spec](docs/specs/VOICE-GUARD-3.3.7-SPEC.md).
-- **Not covered:** the phone's speech service still mishears or fails; the phone's 2nd and 3rd guesses are not used (3.3.8 idea); the 3.3.6 carry-overs stay deferred. No real-phone check yet: the owner's four-phrase live check is the gate.
+- **Not covered:** the phone's speech service still mishears or fails; the phone's 2nd and 3rd guesses are not used (3.3.8 idea); the 3.3.6 carry-overs stay deferred. Owner live check on iPhone Chrome (24 November): the safety phrase left the amount empty and nothing saved; a clean capture and a keyboard-microphone dictation saved correctly; three of three capture failures were `aborted`; the "second failure in a row" message did not show on the phone (it shows in a simulated browser test), so it is still to be confirmed on a real phone.
 
 ## V3.3.6 — 2026-11-23
 
