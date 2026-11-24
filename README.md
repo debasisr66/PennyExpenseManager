@@ -6,6 +6,7 @@ Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, i
 
 | Release | What changed |
 |---|---|
+| **3.3.8** *(built, not yet released)* | Voice hints: when one number is heard without a rupee word Penny says so and leaves the amount for you; English "about 500 rupees" leaves the amount empty; the "voice is not working well" message stays on its own line until a capture works or you tap Dismiss; Hindi words such as गुरु and शुरू no longer block an amount, "कलम" no longer clears the date, and कैशबैक no longer fills an amount or sets cash. |
 | **3.3.7** | Hindi and Spanish voice is labelled **assisted** (the phone may mishear; Penny understands only common words), with a caution line, a Tips block and a failure ladder that opens the keyboard microphone. Voice never saves a guess: no category, filler description or guessed date is filled for you, and Save says what is missing. Zero amounts were already refused and still are. |
 | **3.3.6** | Hindi voice: words like कमरे and कमल no longer blank the amount, spoken rupee forms (रुपी) and words like एडवांस are understood, and on a phone the review block comes into view with a clear Correct heard words button. The phone's own speech service can still mishear or fail; check every field before saving. |
 | **3.3.5** | Mobile-first pass: on phones, buttons, Edit, Delete, tag chips and headings are at least 44 px tall, checkboxes are larger, small text is bigger, and large text no longer scrolls the page sideways. Landscape phones are not covered yet. |
