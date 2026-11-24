@@ -1,6 +1,6 @@
 # 3.3.7: Hindi and Spanish voice as an assisted feature, and nothing blank or guessed gets saved. Architecture, design, mock, impact, plan
 
-Status: **APPROVED 24 November 2026: D1–D7 all as recommended (owner: "All recommended, commit and open the docs PR"). No code written yet.** Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.6 on `main` (`5eb8030`, 844 tests, released as v3.3.6). Gated Build Playbook stage: **Plan** (Frame done in §1–§2). 
+Status: **BUILT 24 November 2026 (PR open, awaiting owner approval, live check and "publish"). D1–D7 approved as recommended.** Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.6 on `main` (`5eb8030`, 844 tests, released as v3.3.6). Gated Build Playbook stage: **Build** done, **Verify** in progress. 
 
 Owner request (24 November 2026, after the 3.3.6 live check): "I understand this has difficulties with offline parser and iphone. Let's find the best possible feature behaviour for the app. It would appear with user caution that Hindi and Spanish is a restricted feature with some hint, help, keyboard corrections and phone keyboard microphone use. One additional check: nothing blank, wrong should be saved. If amount is 0 nothing should be saved."
 
@@ -188,6 +188,25 @@ One branch from `origin/main`, one PR for the build; this spec goes in its own d
 
 The 844 existing tests pass unedited. A grep found no test that asserts 'Other' after a voice fill, nor the language labels or caution text (review L1), so no test needs changing first.
 
+### 7.1 Traceability (built)
+
+All new tests are in `tests/voice-guard.test.cjs`. CI count: **858** (844 existing, unedited, plus 14 new). Proof column: result of running the new file against `origin/main` source (10 fail, 4 pass).
+
+| Spec item | Test IDs | On 3.3.6 (proven) | Code |
+|---|---|---|---|
+| H4a amount above zero | V01, V02, V03 | pass (characterisation) | none (`validateExpense`, `migrateState`) |
+| H4b category never defaulted, placeholder, message | VF01, VF03, VF04, VT02 | VF01, VT02 fail; VF03 fails only because `C.voiceFill` did not exist; VF04 passes | `core.js` `voiceFill`; `app.js` `applyVoiceFields`, `syncValidity`, placeholder option |
+| H4c filler description cleared | VF02, VF06 | fail | `core.js` `cleanVoiceDescription`; `translation.js` safeDescription |
+| H4d voice date today | VF05 | fail | `core.js` `voiceFill`; `app.js` |
+| H4e payment method | unchanged (VF04 source guard) | pass | none |
+| H5 reason enum | VD01 | fail | `diagnostics.js`, `voice.js` |
+| H3 ladder, quiet end | VD02 (two tests) | fail | `voice.js` `failure`, `createLadder`; `app.js` |
+| H1 labels, caution, H2 Tips | VT01 | fail | `index.html`, `app.js` `syncVoiceCaution`, `styles.css` |
+| Version 3.3.7 | `tests/version.test.cjs` | n/a | all copies |
+| Browser B01-B06 | scripted in the test harness page (`/voice-harness`), 320/375/390 px, light and dark | n/a | see status log |
+
+Deviation recorded: the spec listed VF03 as passing on 3.3.6; it cannot run without the helper, so it fails there for that reason only. Two small additions beyond the table: VF06 (untranslated Spanish words) and a 320 px style so "(assisted)" is not clipped in the language list.
+
 ## 8. Estimate
 
 | Part | Hours |
@@ -222,6 +241,8 @@ Owner time: about 1 hour (decide D1–D7, run the four-phrase check, smoke).
 | 2026-11-24 | Draft v1 (Sonnet 5.5): save path read; amount ≤ 0 already refused on every path; two voice-fill gaps found (guessed "Other", filler description); no code written |
 | 2026-11-24 | Independent review (Opus 5.5): 4 High, 5 Medium, 3 Low, all accepted (§12). Draft v2 |
 | 2026-11-24 | **Approved by the owner: D1–D7 all as recommended.** Docs PR opened (spec plus 3.3.6 close-out). Next: merge it, then build on one branch (Sonnet builds, Opus reviews) |
+
+| 2026-11-24 | Built (Sonnet 5.5): tests first (new file run on `origin/main`: V01-V03 and VF04 pass, the other 10 fail), then H4, H1-H3, H5; 858 tests pass; browser checks B01-B06 at 320, 375 and 390 px in both themes, console clean (one flaky re-run of 390 dark was a script artefact of reopening the dialog quickly; a clean re-run passed). Independent review (Opus 5.5) and CI: see PR |
 
 ## 11. Limits of this evidence
 

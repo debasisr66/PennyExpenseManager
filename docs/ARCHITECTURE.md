@@ -1,6 +1,6 @@
-# Penny architecture (current: 3.3.6)
+# Penny architecture (current: 3.3.7)
 
-Updated 24 November 2026 for 3.3.6; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
+Updated 24 November 2026 for 3.3.7; first written 19 October 2026 for 3.2. This is Penny's one design document. Per-release design, test traceability and decisions for 3.3.1 onwards live in [docs/specs](specs/) (each spec has a traceability table and a status log); the notes below summarise what changed in the architecture. Historical 3.2 design, traceability and release notes: [design](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/design.md), [traceability](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/TRACEABILITY.md), [release notes](https://github.com/debasisr66/PennyExpenseManager/blob/v3.2/RELEASE-NOTES-v3.2.md) (all at tag v3.2).
 
 ```mermaid
 flowchart LR
@@ -18,6 +18,10 @@ flowchart LR
 ```
 
 Schema 4 adds saved tags and default-budget preferences. IndexedDB uses separate main, recovery and diagnostics keys in its existing store. Full reset changes state and log epoch together and disconnects the optional file. Logs are excluded from financial backups. An explicitly corrected numeric INR amount in the reviewed draft can resolve a missing source amount; unchanged guesses cannot.
+
+### 3.3.7 note
+
+`core.js` gains two pure helpers beside `parseVoice`: `cleanVoiceDescription` (strips a leading "an amount on", clears a description made only of filler words) and `voiceFill` (category empty unless heard, filler cleared, date today when none was heard). `applyVoiceFields` in `app.js` is the only caller, so typed text never passes through them. The category select gets a disabled "Choose a category" placeholder and `syncValidity()` sets `setCustomValidity` messages for category and description. `voice.js` passes a `failure(reason)` callback (fixed reason list, quiet end = `no-capture`) and exports `createLadder`, a pure failure counter; `app.js` wires both to the keyboard block, the stronger message and the Tips. `diagnostics.js` allows `reason` as an enum. `translation.js` no longer copies untranslated words into the draft description. `validateExpense`, `store.save`, schema 4 and the import paths are unchanged.
 
 ### 3.3.6 note
 

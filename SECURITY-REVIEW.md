@@ -1,3 +1,5 @@
+> **3.3.7 (24 November 2026):** no new surface. No network call, storage key, schema change, permission or third-party code; the CSP is unchanged. One new diagnostics field, `reason`, is an enum of 13 fixed values checked against an allowlist in `diagnostics.js`; any other value (including free text) is dropped, so no transcript, amount or audio enters a log. New text is set with `textContent` or is static HTML. The save guard only makes Save stricter for voice-filled forms; `validateExpense` and every import path are unchanged.
+>
 > **3.3.6 (23 November 2026):** no new surface. Hindi rules are fixed regular expressions with no user-supplied patterns; the two new diagnostics codes carry only the existing numeric and language fields, so no transcript or amount enters a log. No network calls, no new storage, no schema change, no third-party code. The CSP is unchanged.
 >
 > **3.3.5 (20 November 2026):** no new surface. CSS and tests only; no script, markup, storage, network or CSP change, and no third-party code.

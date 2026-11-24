@@ -1,5 +1,15 @@
 # Changelog
 
+## V3.3.7 — 2026-11-24 (built; awaiting owner live check and publish)
+
+- **Voice never saves a guess.** A voice fill no longer defaults the category to "Other": if none was heard the category stays empty, the list shows "Choose a category" and Save is refused with "Choose a category." This also covers a Hindi draft the user edited. Filler descriptions (`expense`, `an expense`, `something`, `it`, `the`, `of`, `stuff`, `things`, `misc`, and a leading "an amount on") are cleared and Save is refused with "Describe the expense." Untranslated Spanish words no longer become the description. If no date was heard the date is today (not the 1st of the month being browsed) and the status says so. Typed descriptions are never touched.
+- **Hindi and Spanish voice is labelled assisted.** The language list reads "(assisted)"; one caution line (shown only for Hindi and Spanish) replaces the old iPhone note, and a collapsed "Tips for speaking" block (44 px target) sits under it. The What's New, README and this file use the same wording.
+- **Failure ladder.** A quiet end (nothing captured) now counts as a failure: it is logged and opens the keyboard microphone block. A second failure in a row adds "Voice is not working well right now. Type or use your keyboard microphone." and opens the Tips. A success resets the count. Today's first-error fallback is unchanged.
+- **Diagnostics.** `VOICE_CAPTURE_FAILED` carries one new field, `reason`, from a fixed list of 13 values (`no-speech`, `not-allowed`, `service-not-allowed`, `audio-capture`, `network`, `aborted`, `language-not-supported`, `start-timeout`, `stuck`, `could-not-start`, `stop-failed`, `no-capture`, `other`). Anything else is dropped. No transcript, audio or free text.
+- **Already safe, now proven:** an amount of 0, 0.00, negative, blank or unreadable is refused on every path (form, `validateExpense`, CSV, JSON, `store.save`). Guard tests V01-V03.
+- Tests: 858 pass (844 existing unedited, 14 new in `tests/voice-guard.test.cjs`). Schema 4, CSV and JSON formats, F02, `detect`, `detectMarked`, the CSP, the deploy lists and `validateExpense` are unchanged. See [the spec](docs/specs/VOICE-GUARD-3.3.7-SPEC.md).
+- **Not covered:** the phone's speech service still mishears or fails; the phone's 2nd and 3rd guesses are not used (3.3.8 idea); the 3.3.6 carry-overs stay deferred. No real-phone check yet: the owner's four-phrase live check is the gate.
+
 ## V3.3.6 — 2026-11-23
 
 - **Fix: "कम" no longer blocks amounts.** The words that make an amount uncertain (कम, लगभग, नहीं, करीब and similar) now match as whole words, plus their inflected forms, so "कमरे का किराया 5000 रुपये" and "कमल कवन हज़ार रुपी" fill ₹5,000 and ₹1,000. "कम से कम 500 रुपये", "लगभग 500 रुपये" and "500 नहीं 600" still leave the amount empty.
