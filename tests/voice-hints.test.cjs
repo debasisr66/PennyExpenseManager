@@ -40,6 +40,9 @@ test('VH04 no hint when the number may be a quantity, a foreign amount or a pais
   // Control: the hint does appear for a lone number, so this test cannot pass by accident.
   assert.match(hindiStatus('सब्जी 350'), HINT);
   for (const text of [
+    'सब्जी 500 रुपये दो किलो',
+    'डेढ सौ रुपये सब्जी 2 किलो',
+    'पांच सौ रुपये सब्जी 2',
     '500 रुपये 2 किलो',
     '50 डॉलर सब्जी',
     'लगभग 500 रुपये',
@@ -48,7 +51,13 @@ test('VH04 no hint when the number may be a quantity, a foreign amount or a pais
     'कम से कम 500 रुपए',
   ])
     assert.doesNotMatch(hindiStatus(text), /A number/, text);
-  for (const text of ['Spent about 2 kg rice 500 rupees', 'chai 50 and 60', 'Spent 500 rupees'])
+  for (const text of [
+    'Spent about 2 kg rice 500 rupees',
+    'chai 50 and 60',
+    'Spent 500 rupees',
+    'coffee 50 dollars',
+    'coffee 50 $',
+  ])
     assert.doesNotMatch(C.parseVoice(text, TODAY).warnings.join(' '), /A number/, text);
   // Without a transcript the old sentence is unchanged.
   assert.match(T.plainIssues(['amount: extra numeric evidence', 'amount']), /Amount not clear/);
@@ -65,7 +74,7 @@ test('VH03 the hint shows digits as text only and cannot inject markup', () => {
   const text = 'सब्जी <b>350</b>';
   const status = hindiStatus(text);
   assert.match(status, HINT, 'the hint appears for the lone number');
-  assert.doesNotMatch(status.match(HINT)[0], /[<>]/, 'the hint itself carries digits only');
+  assert.equal(status.indexOf(C.numberWithoutRupees('350')), 0, 'digits only, built by core');
   const app = read('app.js');
   assert.match(app, /plainIssues\(result\.unknown, text\)/);
   for (const id of ['translation-status', 'voice-status', 'voice-strong', 'form-error'])
@@ -295,6 +304,8 @@ test('VD03 the strong message has its own status element that Try voice again ca
   assert.match(failure, /step\.strong/);
   assert.ok(!/\$\('voice-status'\)[^;]*strongMessage/.test(failure), 'not in the status line');
   assert.match(app, /dismiss-voice-strong'\)\.onclick/);
+  const hides = app.match(/voice-strong-box'\)\.hidden = true/g) || [];
+  assert.equal(hides.length, 2, 'only a success and Dismiss hide the notice');
   // No language gate: the notice is shown for English too.
   assert.ok(!/voice-language[^;]*voice-strong|voice-strong[^;]*voice-language/.test(failure));
   assert.match(read('styles.css'), /#dismiss-voice-strong\s*\{[^}]*min-height:\s*44px/);

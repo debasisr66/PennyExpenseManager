@@ -371,9 +371,11 @@
   const numberWithoutRupees = (digits) =>
     `A number (${digits}) was heard, but not as rupees. ` +
     "Say 'rupees' after it, or type the amount below.";
+  const FOREIGN_WORDS =
+    /\b(dollars?|usd|euros?|eur|pounds?|gbp|pesos?|yen|yuan|francs?|rubles?)\b/i;
   // An approximate word directly before the amount: "about 500 rupees", "at least ₹500".
   const APPROXIMATE_BEFORE =
-    /(?:^|\s)(?:about|approx\.?|approximately|around|roughly|at\s+least|over|under)\s*$/i;
+    /(?:^|\s)(?:about|approx\.?|approximately|around|roughly|at\s*least|over|under)\s*$/i;
   function parseVoice(transcript, referenceDate) {
     const raw = String(transcript).trim();
     let text = raw,
@@ -444,7 +446,8 @@
       }
       text = text.replace(amountMatch[0], ' ');
     } else {
-      const digits = text.match(/\d[\d,]*(?:\.\d+)?/g) || [];
+      const foreign = FOREIGN_WORDS.test(raw) || /[$€£¥]/.test(raw);
+      const digits = foreign ? [] : text.match(/\d[\d,]*(?:\.\d+)?/g) || [];
       warnings.push(
         digits.length === 1
           ? numberWithoutRupees(digits[0])
@@ -473,7 +476,7 @@
       ['Staff salary', /\b(salary|maid|cook|driver|nanny|staff)\b/i],
     ];
     if (
-      /\b(dollars?|usd|euros?|eur|pounds?|gbp|pesos?|yen|yuan|francs?|rubles?)\b/i.test(raw) ||
+      FOREIGN_WORDS.test(raw) ||
       /[$€£¥]/.test(raw)
     ) {
       amount = null;

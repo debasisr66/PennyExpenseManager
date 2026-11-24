@@ -35,6 +35,13 @@
   // कल means both yesterday and tomorrow; match the whole word, with or without punctuation.
   const KAL = whole('कल');
   const hasKal = (text) => KAL.test(norm(text));
+  // True when the transcript already says a rupee word (so "say rupees" would be wrong advice).
+  const RUPEE_WORD = new RegExp(
+    '₹|रुपये|रुपए|रुपया|रूपये|रूपए|रुपयों|' +
+      W0 + '(?:रु|रू)' + W1 + '|' + '(?<![a-z])(?:rs|inr|rupees?)(?![a-z])',
+    'u',
+  );
+  const hasRupeeWord = (text) => RUPEE_WORD.test(norm(text));
   const names =
     'शून्य एक दो तीन चार पांच छह सात आठ नौ दस ग्यारह बारह तेरह चौदह पंद्रह सोलह सत्रह अठारह उन्नीस बीस इक्कीस बाईस तेईस चौबीस पच्चीस छब्बीस सत्ताईस अट्ठाईस उनतीस तीस इकतीस बत्तीस तैंतीस चौंतीस पैंतीस छत्तीस सैंतीस अड़तीस उनतालीस चालीस इकतालीस बयालीस तैंतालीस चवालीस पैंतालीस छियालीस सैंतालीस अड़तालीस उनचास पचास इक्यावन बावन तिरपन चौवन पचपन छप्पन सत्तावन अट्ठावन उनसठ साठ इकसठ बासठ तिरसठ चौंसठ पैंसठ छियासठ सड़सठ अड़सठ उनहत्तर सत्तर इकहत्तर बहत्तर तिहत्तर चौहत्तर पचहत्तर छिहत्तर सतहत्तर अठहत्तर उनासी अस्सी इक्यासी बयासी तिरासी चौरासी पचासी छियासी सत्तासी अट्ठासी नवासी नब्बे इक्यानवे बानवे तिरानवे चौरानवे पंचानवे छियानवे सत्तानवे अट्ठानवे निन्यानवे'.split(
       ' ',
@@ -611,5 +618,14 @@
     return amount;
   }
 
-  return { parse, numeric, wordsNumber, draftAmount, reviewedAmount, hasKal, normalize: norm };
+  return {
+    parse,
+    numeric,
+    wordsNumber,
+    draftAmount,
+    reviewedAmount,
+    hasKal,
+    hasRupeeWord,
+    normalize: norm,
+  };
 });

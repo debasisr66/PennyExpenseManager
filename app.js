@@ -640,8 +640,10 @@
       $('voice-status').textContent = message;
       // Own line, for every language. Try voice again does not clear it; a success or Dismiss does.
       if (step.strong) {
-        $('voice-strong').textContent = PennyVoice.strongMessage;
+        // Show first, clear, then set: a repeat of the same text is still announced.
         $('voice-strong-box').hidden = false;
+        $('voice-strong').textContent = '';
+        $('voice-strong').textContent = PennyVoice.strongMessage;
       }
       if (step.openTips) $('voice-tips').open = true;
     },
@@ -654,7 +656,7 @@
   });
   $('dismiss-voice-strong').onclick = () => {
     $('voice-strong-box').hidden = true;
-    $('start-voice').focus();
+    ($('start-voice').hidden ? $('stop-voice') : $('start-voice')).focus();
   };
   // While browser speech works the keyboard-microphone block is one button; it expands on failure.
   if (voice.supported)

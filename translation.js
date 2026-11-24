@@ -608,6 +608,7 @@
     const amountIssues = list.filter((x) => /^(?:amount|multiple|foreign currency)/.test(x));
     const only = ['amount', 'amount: extra numeric evidence'];
     if (amountIssues.length !== 2 || !only.every((x) => amountIssues.includes(x))) return null;
+    if (H.hasRupeeWord(transcript)) return null;
     const runs = H.normalize(transcript).match(/\d[\d,]*(?:\.\d+)?/g) || [];
     return runs.length === 1 ? runs[0] : null;
   }
