@@ -565,9 +565,9 @@
         else
           $('translation-status').textContent =
             (result.source === 'on-device translation' ? 'Translation needs correction. ' : '') +
-            PennyTranslation.plainIssues(result.unknown) +
+            PennyTranslation.plainIssues(result.unknown, text) +
             ' Unresolved fields are left empty for you to correct in the form.';
-        if (voiceSource === 'hi' && /कल/.test(text))
+        if (voiceSource === 'hi' && PennyHindi.hasKal(text))
           $('translation-status').textContent +=
             ' कल can mean yesterday or tomorrow; choose the expense date yourself.';
         revealReview();
@@ -606,6 +606,7 @@
     status(status, message) {
       const fallback = status === 'unsupported' || status === 'error';
       if (status === 'complete') voiceLadder.reset();
+      if (status === 'complete') $('voice-strong-box').hidden = true;
       if (fallback) {
         revealPhoneDictation();
         if (!/phone keyboard/i.test(message)) message += ' Use phone keyboard microphone below.';
@@ -630,13 +631,20 @@
     },
     transcript: processVoiceText,
     failure(reason) {
-      logs.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', { reason }, voiceAction);
       const step = voiceLadder.record(reason);
+      const failed = { reason, count: step.count };
+      logs.emit('voice', 'VOICE_CAPTURE_FAILED', 'error', failed, voiceAction);
       if (step.openKeyboard) revealPhoneDictation();
       let message = $('voice-status').textContent;
       if (!/phone keyboard/i.test(message)) message += ' Use phone keyboard microphone below.';
-      if (step.strong) message += ' ' + PennyVoice.strongMessage;
       $('voice-status').textContent = message;
+      // Own line, for every language. Try voice again does not clear it; a success or Dismiss does.
+      if (step.strong) {
+        // Show first, clear, then set: a repeat of the same text is still announced.
+        $('voice-strong-box').hidden = false;
+        $('voice-strong').textContent = '';
+        $('voice-strong').textContent = PennyVoice.strongMessage;
+      }
       if (step.openTips) $('voice-tips').open = true;
     },
     alternatives(count) {
@@ -646,6 +654,10 @@
       logs.emit('voice', 'VOICE_END', 'debug', info, voiceAction);
     },
   });
+  $('dismiss-voice-strong').onclick = () => {
+    $('voice-strong-box').hidden = true;
+    ($('start-voice').hidden ? $('stop-voice') : $('start-voice')).focus();
+  };
   // While browser speech works the keyboard-microphone block is one button; it expands on failure.
   if (voice.supported)
     $('use-phone-dictation').closest('.dictation-option').classList.add('collapsed');
@@ -699,7 +711,7 @@
     const fill = C.voiceFill(draft, today());
     $('amount').value = draft.amount !== null ? draft.amount.toFixed(2) : '';
     $('date').value = fill.date;
-    if (voiceSource === 'hi' && /कल/.test(voiceText)) {
+    if (voiceSource === 'hi' && PennyHindi.hasKal(voiceText)) {
       $('date').value = '';
       draft.warnings.push('Choose the date: कल can mean yesterday or tomorrow.');
     }

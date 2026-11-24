@@ -26,7 +26,7 @@ Each step aims to stay inside the constraints: new records are ordinary expenses
 | **3.3.5** ✅ released 20 Nov | Mobile-first pass: 44 px targets, 24 px checkbox boxes, 11 px text floor, large-text reflow ([v3.3.5](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.5)). Landscape phones and the owner phone check remain | [Spec](specs/MOBILE-FIRST-3.3.5-SPEC.md), released |
 | **3.3.6** ✅ released 23 Nov | Hindi voice that lands or is quick to correct: fix "कम" matched inside words, spoken rupee forms, neutral words, phone review flow, real-phrase tests, measure alternatives ([v3.3.6](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.6)) | [Spec](specs/HINDI-VOICE-3.3.6-SPEC.md), released |
 | **3.3.7** ✅ released 24 Nov | Hindi and Spanish voice as an assisted feature (label, tips, failure ladder, failure reason) and a save guard: a voice fill never defaults the category or keeps a filler description; zero amounts proven refused on every path (owner, 24 Nov) | [v3.3.7](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.7), [spec](specs/VOICE-GUARD-3.3.7-SPEC.md) released |
-| **3.3.8** | Voice hints and Hindi fixes: the failure message made durable and observable, a "number heard, not as rupees" hint, three Hindi false refusals (गुरु/शुरू, "कल,", कैशबैक), English "about" leaves the amount empty. The phone's 2nd and 3rd guesses are gated on 20 debug-mode captures (owner live check, 24 Nov) | [Spec](specs/VOICE-HINTS-3.3.8-SPEC.md) approved (D1–D8 as recommended) |
+| **3.3.8** 🔨 built, PR open, owner live check and publish pending | Voice hints and Hindi fixes: the failure message made durable and observable, a "number heard, not as rupees" hint, three Hindi false refusals (गुरु/शुरू, "कल,", कैशबैक), English "about" leaves the amount empty. The phone's 2nd and 3rd guesses are gated on 20 debug-mode captures (owner live check, 24 Nov) | [Spec](specs/VOICE-HINTS-3.3.8-SPEC.md) approved (D1–D8 as recommended) |
 | **3.4** | Month-end forecast and the true cost of commitments (idea 3) | To write |
 
 Deferred from 3.3.2 as good-to-haves: "Log it" pre-fill (needs a new pre-fill path), bulk "add all due", a "Mark as recurring?" button on inferred rows (writes to past entries), search token `is:due`. This supersedes the "recurring" checkbox row below, which is now in 3.3.2 without a schema change.
@@ -70,3 +70,15 @@ Logged, not built. Each needs its own spec (architecture, design mock, impact, p
 | Hide `#recurring` from the Settings saved-tag list | It is a real tag and harmless there | With the next Settings change |
 | DOM test harness for the form | The × and inline-form refusals, the draft preview and the edit round trip are checked in the browser, not in Node | If form logic grows again |
 | Show a count of hidden (long-stopped) marked bills | They are findable by searching `#recurring`; the empty state says so | If the owner misses them |
+
+### Deferred from the 3.3.8 build (24 November 2026)
+
+| Idea | Why it waits | Revisit when |
+|---|---|---|
+| Spanish "number heard, not as rupees" hint | Spanish issue codes cannot tell "verdura 350" from "verdura 350 rupias" apart; the hint would be wrong | If a Spanish issue code for "number without a rupee word" is added |
+| A user Stop with nothing heard stops counting as a failure | Needs the `user-stop` share from the log first (spec D7) | 3.3.9, with the numbers from the owner live check |
+| The phone's 2nd and 3rd guesses | Gate in spec §3.5: 20 debug-mode captures, at least half with 2 or more guesses; closed if not reached by 31 January 2027 | At 20 captures or 31 January 2027 |
+| "यूरोप" as a place name, "रुपी 1000" (marker before the number), number-word variants ("दौ हजार") | No evidence of frequency yet | When the log or the owner shows them |
+| DOM test harness for `app.js` | The persistent failure message is tested by source patterns and a recorded browser run (fake recogniser), not by running `app.js` in Node | If form or voice wiring logic grows again |
+| English "atleast", "over" in "hand over 500 rupees", "about 500 for lunch" | "over" gives a safe false refusal; "about 500 for lunch" gets the number hint, not the approximate warning (3.3.8 review L4) | When the owner reports it |
+| Rupee forms the parser does not accept ("500rs", "500/- रु", "रुपी 1000"), Latin "cashback", "कैश-बैक" | The new hint then says "not as rupees" although a rupee token was spoken; the amount is empty as before (3.3.8 review L5, L6) | With the number-word and marker-form work |

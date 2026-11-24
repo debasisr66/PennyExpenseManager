@@ -25,10 +25,23 @@
   // prefixes so inflected forms still block: करीबन, वापसी, रिफंडेड, ज्यादातर.
   const UNCERTAIN = new RegExp(
     W0 + '(?:नहीं|नही|नहीँ|कम|कमी|कमती|कमसेकम)' + W1 + '|' +
-      W0 + '(?:लगभग|तकरीबन|करीब|ज्यादा|अधिक|न्यूनतम|अधिकतम|वापस|रिफंड)',
+      W0 + '(?:लगभग|तकरीबन|करीब|ज्यादा|अधिक|न्यूनतम|अधिकतम|वापस|रिफंड|कैशबैक|कैश\\s+बैक)',
     'u',
   );
   const PAISE = whole('पैसे|पैसा|पैसों');
+  // A rupee marker is a word of its own: "गुरु" and "शुरू" end in रु but are not rupees.
+  const RUPEE_MARKER = new RegExp('₹|' + W0 + '(?:रुपये|रुपए|रुपया|रु)(?=\\s|$|[.,])', 'gu');
+  const RUPEE_END = new RegExp(W0 + '(?:रुपये|रुपए|रुपया|रु)(?=\\s|$)', 'u');
+  // कल means both yesterday and tomorrow; match the whole word, with or without punctuation.
+  const KAL = whole('कल');
+  const hasKal = (text) => KAL.test(norm(text));
+  // True when the transcript already says a rupee word (so "say rupees" would be wrong advice).
+  const RUPEE_WORD = new RegExp(
+    '₹|रुपये|रुपए|रुपया|रूपये|रूपए|रुपयों|' +
+      W0 + '(?:रु|रू)' + W1 + '|' + '(?<![a-z])(?:rs|inr|rupees?)(?![a-z])',
+    'u',
+  );
+  const hasRupeeWord = (text) => RUPEE_WORD.test(norm(text));
   const names =
     'शून्य एक दो तीन चार पांच छह सात आठ नौ दस ग्यारह बारह तेरह चौदह पंद्रह सोलह सत्रह अठारह उन्नीस बीस इक्कीस बाईस तेईस चौबीस पच्चीस छब्बीस सत्ताईस अट्ठाईस उनतीस तीस इकतीस बत्तीस तैंतीस चौंतीस पैंतीस छत्तीस सैंतीस अड़तीस उनतालीस चालीस इकतालीस बयालीस तैंतालीस चवालीस पैंतालीस छियालीस सैंतालीस अड़तालीस उनचास पचास इक्यावन बावन तिरपन चौवन पचपन छप्पन सत्तावन अट्ठावन उनसठ साठ इकसठ बासठ तिरसठ चौंसठ पैंसठ छियासठ सड़सठ अड़सठ उनहत्तर सत्तर इकहत्तर बहत्तर तिहत्तर चौहत्तर पचहत्तर छिहत्तर सतहत्तर अठहत्तर उनासी अस्सी इक्यासी बयासी तिरासी चौरासी पचासी छियासी सत्तासी अट्ठासी नवासी नब्बे इक्यानवे बानवे तिरानवे चौरानवे पंचानवे छियानवे सत्तानवे अट्ठानवे निन्यानवे'.split(
       ' ',
@@ -369,7 +382,7 @@
     let text = norm(raw)
       .replace(/(?:^|\s)(?:rs\.?|inr|rupees?)\s*(?=\d)/gi, (m) => (m.startsWith(' ') ? ' ₹' : '₹'))
       .replace(/(?:^|\s)(?:रू\.?|रु\.?)\s*(?=\d)/gu, (m) => (m.startsWith(' ') ? ' ₹' : '₹'))
-      .replace(/रूपये|रूपए|रुपयों|रू(?=\s|$|[.,])/gu, 'रुपये')
+      .replace(/रूपये|रूपए|रुपयों|(?<![\p{L}\p{M}])रू(?=\s|$|[.,])/gu, 'रुपये')
       .replace(RUPEE_SPOKEN, 'रुपये')
       .replace(/[a-z]+/g, (w) => (latin[w] ? norm(latin[w]) : w));
     const issues = [],
@@ -387,9 +400,9 @@
       else amountPaise = numeric(m[1] || m[2]);
       evidence.push(m[0]);
     } else if (matches.length > 1) issues.push('multiple amounts');
-    const markers = [...text.matchAll(/₹|(?:रुपये|रुपए|रुपया|रु)(?=\s|$|[.,])/gu)];
+    const markers = [...text.matchAll(RUPEE_MARKER)];
     if (markers.length > 1) issues.push('multiple amounts');
-    const end = text.search(/(?:रुपये|रुपए|रुपया|रु)(?=\s|$)/u);
+    const end = text.search(RUPEE_END);
     let used = new Set(),
       wordPhrase = [];
     if (end >= 0 && matches.length === 0) {
@@ -472,7 +485,7 @@
     }
     if (amountPaise === null) issues.push('amount');
     let dateValue = null;
-    if (/(?:^|\s)कल(?:\s|$)/u.test(text)) issues.push('date: choose yesterday or tomorrow');
+    if (KAL.test(text)) issues.push('date: choose yesterday or tomorrow');
     else if (/(?:^|\s)आज(?:\s|$)/u.test(text)) dateValue = date || null;
     const dates = text.match(/\b\d{4}-\d{2}-\d{2}\b/g) || [];
     const iso = dates.length === 1 ? [dates[0]] : null;
@@ -491,7 +504,7 @@
     if (/डेबिट\s+कार्ड/u.test(text)) rails.push('debit-card');
     if (/बैंक\s+ट्रांसफर/u.test(text)) rails.push('bank-transfer');
     if (/यूपीआई/u.test(text)) rails.push('upi');
-    if (/(?:नकद|नगद|कैश)/u.test(text)) rails.push('cash');
+    if (/(?:नकद|नगद|कैश(?!\s*बैक))/u.test(text)) rails.push('cash');
     if (/वॉलेट/u.test(text)) rails.push('wallet');
     const paymentMethod = rails.length === 1 ? rails[0] : 'unspecified';
     if (rails.length > 1) issues.push('payment method');
@@ -605,5 +618,14 @@
     return amount;
   }
 
-  return { parse, numeric, wordsNumber, draftAmount, reviewedAmount, normalize: norm };
+  return {
+    parse,
+    numeric,
+    wordsNumber,
+    draftAmount,
+    reviewedAmount,
+    hasKal,
+    hasRupeeWord,
+    normalize: norm,
+  };
 });

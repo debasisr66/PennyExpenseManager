@@ -367,6 +367,15 @@
     }
     return hasNumber ? total + group + (decimal ? Number('0.' + decimal) : 0) : null;
   }
+  // The same sentence is shown for Hindi (translation.js): one lone number, no rupee word.
+  const numberWithoutRupees = (digits) =>
+    `A number (${digits}) was heard, but not as rupees. ` +
+    "Say 'rupees' after it, or type the amount below.";
+  const FOREIGN_WORDS =
+    /\b(dollars?|usd|euros?|eur|pounds?|gbp|pesos?|yen|yuan|francs?|rubles?)\b/i;
+  // An approximate word directly before the amount: "about 500 rupees", "at least ₹500".
+  const APPROXIMATE_BEFORE =
+    /(?:^|\s)(?:about|approx\.?|approximately|around|roughly|at\s*least|over|under)\s*$/i;
   function parseVoice(transcript, referenceDate) {
     const raw = String(transcript).trim();
     let text = raw,
@@ -421,7 +430,13 @@
         new RegExp(`\\b(?:spent|paid|amount)\\s+(${numberPattern})(?=\\s|[,!.]|$)`, 'i'),
       ) ||
       text.match(new RegExp(`^\\s*(${numberPattern})\\s+(?:on|for)\\b`, 'i'));
-    if (amountMatch) {
+    const approximate = amountMatch && text.slice(0, amountMatch.index).match(APPROXIMATE_BEFORE);
+    if (approximate) {
+      // "About 500 rupees" is not an exact amount: leave it for the user (same as Hindi).
+      warnings.push('The spoken amount is approximate; enter the exact amount below.');
+      const after = amountMatch.index + amountMatch[0].length;
+      text = text.slice(0, approximate.index) + ' ' + text.slice(after);
+    } else if (amountMatch) {
       const captured = amountMatch.slice(1).find(Boolean),
         number = spokenNumber(captured);
       try {
@@ -430,7 +445,15 @@
         warnings.push('The spoken amount is invalid; enter the correct amount below.');
       }
       text = text.replace(amountMatch[0], ' ');
-    } else warnings.push('No amount was recognised; enter it below.');
+    } else {
+      const foreign = FOREIGN_WORDS.test(raw) || /[$€£¥]/.test(raw);
+      const digits = foreign ? [] : text.match(/\d[\d,]*(?:\.\d+)?/g) || [];
+      warnings.push(
+        digits.length === 1
+          ? numberWithoutRupees(digits[0])
+          : 'No amount was recognised; enter it below.',
+      );
+    }
     text = text
       .replace(/^\s*(?:i\s+)?(?:spent|paid|add an? expense|expense|amount)\b\s*/i, '')
       .replace(/^\s*(?:on|for)\b\s*/i, '')
@@ -453,7 +476,7 @@
       ['Staff salary', /\b(salary|maid|cook|driver|nanny|staff)\b/i],
     ];
     if (
-      /\b(dollars?|usd|euros?|eur|pounds?|gbp|pesos?|yen|yuan|francs?|rubles?)\b/i.test(raw) ||
+      FOREIGN_WORDS.test(raw) ||
       /[$€£¥]/.test(raw)
     ) {
       amount = null;
@@ -546,6 +569,7 @@
     searchExpenses,
     spokenNumber,
     parseVoice,
+    numberWithoutRupees,
     cleanVoiceDescription,
     voiceFill,
     convert,

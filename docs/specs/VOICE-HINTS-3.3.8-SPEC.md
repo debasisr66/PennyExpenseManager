@@ -1,6 +1,6 @@
 # 3.3.8: Voice hints, three Hindi parser fixes, and a diagnosis of capture failures. Architecture, design, mock, impact, plan
 
-Status: **APPROVED 24 November 2026: D1–D8 all as recommended (owner: "all recommended"). No code written yet.** Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.7 on `main` (`602ce7d`, 861 tests, released as v3.3.7). Gated Build Playbook stage: **Plan** (Frame done in §1–§2).
+Status: **BUILT 24 November 2026 (PR open, not merged, not released).** Approved 24 November 2026: D1–D8 all as recommended (owner: "all recommended"). Independent review (Opus 5.5) folded in (§12). Date 24 November 2026. Baseline: Penny 3.3.7 on `main` (`602ce7d`, 861 tests, released as v3.3.7). Gated Build Playbook stage: **Build** (Plan approved; see §13 for the traceability table).
 
 Inputs: the owner's 3.3.7 live check on iPhone Chrome (24 November 2026): the log and screenshot, plus these words: "last one had right amount, picked up well. 3rd one in english, I had to add rs. and then amount was picked. There was no voice-not-working message. Dictated using phone speaker worked." And the owner's thought: give the build to a higher-effort Sonnet 5.5 or a better model (§9, D8).
 
@@ -222,6 +222,7 @@ Owner time: about 1 hour (decide D1–D8, the live check, smoke).
 | 2026-11-24 | Draft v1 (Sonnet 5.5): parser runs on `main` for E5–E10; simulated browser test of the failure ladder; no code written |
 | 2026-11-24 | Independent review (Opus 5.5): 0 Blocker, 4 High, 4 Medium, 2 Low, all accepted (§12). Draft v2 |
 | 2026-11-24 | **Approved by the owner: D1–D8 all as recommended** (builder Sonnet 5.5 at high effort, reviewer Opus 5.5 at high effort). Docs PR opened. Next: merge it, then build on one branch |
+| 2026-11-24 | Built on branch `claude/build-3-3-8` by Sonnet 5.5 at **high** effort (D8): tests first (14 of 15 new tests shown failing on 3.3.7, one regression guard), then G3/G4, G2, G1, version 3.3.8. 876 tests pass (861 unedited). Browser checks B01–B05 and a failure-ladder run with a fake recogniser: see the PR. Independent review (Opus 5.5, high effort): 0 Blocker, 0 High, 3 Medium, 6 Low; M1-M3, L1-L3 and L4a fixed, L4b-d, L5, L6 logged in IDEAS; full text in the PR comment. Next: owner approves the merge, runs the live check, says "publish" |
 
 ## 11. Limits of this evidence
 
@@ -248,3 +249,28 @@ Owner time: about 1 hour (decide D1–D8, the live check, smoke).
 | Also found: "कैशबैक" sets payment method to cash | (extra) | **Accepted and verified**: E8, G3c, HG03 |
 
 Verified true by the reviewer: 861 tests pass; E5–E10 reproduce; G3a–G3c prototyped on a scratch copy keep all 861 passing including the 250 corpus; "500रु" still works; "कैश 500 रुपये" unchanged; status text is set with `textContent`.
+
+## 13. Traceability (spec §7 to tests, 3.3.8 build)
+
+All in `tests/voice-hints.test.cjs` (15 tests) unless stated. CI count: **876** (861 existing, unedited, plus 15). "Fails on 3.3.7" was checked by running the new file against `origin/main` code before any change (14 failed, VH02 passed as the regression guard).
+
+| Spec ID | Test name (prefix) | Covers | Fails on 3.3.7 |
+|---|---|---|---|
+| VH01 | `VH01 a lone number…` | Hindi "सब्जी 350" and English "chai 50": amount empty, hint with the digits | yes |
+| VH04 | `VH04 no hint when…` | Five Hindi no-hint phrases plus English; positive control inside the test | yes (control) |
+| VH02 | `VH02 uncertain wording…` | "कम से कम 500 रुपए" keeps its own message | no (guard) |
+| VH03 | `VH03 the hint shows digits…` | `<b>` transcript, digits only; `textContent` source checks | yes |
+| HG01 | `HG01 words ending in रु or रू…` | गुरु/गुरू/शुरू/शुरु; "500 रु", "500रु", "रु 500", "रू 500" still work | yes |
+| HG02 | `HG02 कल is a whole word…` | "कल,", "कल.", "कलम", "आज"; `hasKal`; no `/कल/` left in `app.js` | yes |
+| HG03 | `HG03 कैशबैक is money received…` | amount empty, method not cash; "कैश 500 रुपये" and "नकद" unchanged | yes |
+| EN01 | `EN01 an approximate word…`, `EN01 a Spanish translation…` | 8 cue words x 3 phrasings; "about 2 kg … 500 rupees" fills; Spanish `complete: false` | yes |
+| VD01 | `VD01 the failure handler records the streak…` | `record()` before the log call; `count: step.count` (source order) | yes |
+| VD02 | `VD02 aborted after a Stop tap…`, `…words already heard…`, `…log accepts user-stop…` | user-stop, plain aborted, 25 s timer, flag reset, other errors; `VOICE_END` on failure once; allowlist | yes |
+| VD03 | `VD03 the strong message has its own status element…` | own `role="status"` element, Dismiss, status handler touches it only on success, not language-gated, 44 px rule | yes |
+| (release) | `VR01 version 3.3.8…` | `VERSION`, header badge, What's New "Voice hints", CHANGELOG heading (copies checked by `tests/version.test.cjs`) | yes |
+| F01 | whole suite | 861 existing tests unedited | passes |
+| B01–B05 | recorded in the PR | Hint and message at 320, 375, 390 px, both themes, console clean; failure-ladder run | n/a |
+
+**Limit, stated plainly:** Node cannot run `app.js`, so VD01 and VD03 check the wiring by source pattern. The behaviour (message survives the next **Try voice again** tap, shows for English, Dismiss, cleared on success, log shows `count` 1, 2, 3 with `user-stop`, 4) was shown in a real browser with a fake recogniser and is recorded in the PR.
+
+**Deviation noted (review L4a):** the English approximate-word list also includes "approximately" and "atleast" (one word), beyond the seven words in §3.4; both match Hindi's own rule and are covered by EN01.
