@@ -222,7 +222,7 @@ Owner time: about 1 hour (decide D1–D8, the live check, smoke).
 | 2026-11-24 | Draft v1 (Sonnet 5.5): parser runs on `main` for E5–E10; simulated browser test of the failure ladder; no code written |
 | 2026-11-24 | Independent review (Opus 5.5): 0 Blocker, 4 High, 4 Medium, 2 Low, all accepted (§12). Draft v2 |
 | 2026-11-24 | **Approved by the owner: D1–D8 all as recommended** (builder Sonnet 5.5 at high effort, reviewer Opus 5.5 at high effort). Docs PR opened. Next: merge it, then build on one branch |
-| 2026-11-24 | Built on branch `claude/build-3-3-8` by Sonnet 5.5 at **high** effort (D8): tests first (14 of 15 new tests shown failing on 3.3.7, one regression guard), then G3/G4, G2, G1, version 3.3.8. 876 tests pass (861 unedited). Browser checks B01–B05 and a failure-ladder run with a fake recogniser: see the PR. Independent review (Opus 5.5, high effort): see the PR comment. Next: owner approves the merge, runs the live check, says "publish" |
+| 2026-11-24 | Built on branch `claude/build-3-3-8` by Sonnet 5.5 at **high** effort (D8): tests first (14 of 15 new tests shown failing on 3.3.7, one regression guard), then G3/G4, G2, G1, version 3.3.8. 876 tests pass (861 unedited). Browser checks B01–B05 and a failure-ladder run with a fake recogniser: see the PR. Independent review (Opus 5.5, high effort): 0 Blocker, 0 High, 3 Medium, 6 Low; M1-M3, L1-L3 and L4a fixed, L4b-d, L5, L6 logged in IDEAS; full text in the PR comment. Next: owner approves the merge, runs the live check, says "publish" |
 
 ## 11. Limits of this evidence
 
