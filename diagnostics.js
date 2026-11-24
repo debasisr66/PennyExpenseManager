@@ -35,6 +35,21 @@
     'reset',
     'currency',
   ]);
+  const REASONS = [
+    'no-speech',
+    'not-allowed',
+    'service-not-allowed',
+    'audio-capture',
+    'network',
+    'aborted',
+    'language-not-supported',
+    'start-timeout',
+    'stuck',
+    'could-not-start',
+    'stop-failed',
+    'no-capture',
+    'other',
+  ];
   const bytes = (x) => new TextEncoder().encode(JSON.stringify(x)).length;
   function prune(value, now) {
     let removed = 0,
@@ -105,11 +120,12 @@
         )
           safe[key] = val;
         if (key === 'language' && ['en', 'hi', 'es'].includes(val)) safe[key] = val;
+        if (key === 'reason' && REASONS.includes(val)) safe[key] = val;
         if (key === 'scope' && ['month', 'all', 'reset', 'undo'].includes(val)) safe[key] = val;
       }
       const e = {
         schemaVersion: 1,
-        appVersion: '3.3.6',
+        appVersion: '3.3.7',
         eventId: D.freshId(),
         sessionId,
         sequence: ++sequence,
@@ -226,7 +242,7 @@
         return {
           format: 'penny-diagnostics',
           schemaVersion: 1,
-          appVersion: '3.3.6',
+          appVersion: '3.3.7',
           events: await list(),
           dropped: memory.dropped,
           memoryOnly: unavailable,

@@ -551,7 +551,7 @@
         unknown: [...new Set(unknown)],
         source: 'offline expense parser',
       };
-    const safeDescription = description || tokenResult.unknown.join(' ') || 'expense';
+    const safeDescription = description || 'expense';
     const draft =
       (amount === null ? 'Spent an amount' : 'Spent ' + amount + ' rupees') +
       ' on ' +

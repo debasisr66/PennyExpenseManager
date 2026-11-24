@@ -23,7 +23,7 @@
           >
         </div>
         <div class="header-actions">
-          <span class="preview">V3.3.6 · INR</span
+          <span class="preview">V3.3.7 · INR</span
           ><button id="whats-new-button" class="quiet" type="button">What’s New</button
           ><button
             id="theme-toggle"
@@ -459,18 +459,25 @@
           <label class="field"
             >Spoken language<select id="voice-language">
               <option value="en">English</option>
-              <option value="hi">Hindi · हिन्दी</option>
-              <option value="es">Spanish · Español</option>
+              <option value="hi">Hindi · हिन्दी (assisted)</option>
+              <option value="es">Spanish · Español (assisted)</option>
             </select></label
           >
-          <p class="small">
-            On iPhone, Penny uses its small offline expense parser for Hindi and Spanish. It
-            recognizes common amounts, expense types and payment methods, and flags unfamiliar words
-            for correction.
+          <p class="small" id="voice-caution" hidden>
+            Hindi and Spanish voice is assisted. Your phone may mishear, and Penny understands only
+            common words. Check the amount, category and date. Nothing is saved until you tap Save.
           </p>
           <p class="small" id="voice-example">
             Try: “Spent 250 rupees on groceries today via UPI.”
           </p>
+          <details id="voice-tips" class="voice-tips" hidden>
+            <summary>Tips for speaking</summary>
+            <p class="small">
+              Say the amount in digits or common number words. Say one expense, name the thing you
+              bought, then pause when you are done. If the phone mishears, use Correct heard words
+              or your keyboard microphone.
+            </p>
+          </details>
           <p class="small voice-privacy">
             Your browser’s speech service may send audio to its provider. Listening starts only when
             you choose Start listening.
@@ -703,10 +710,22 @@
       <div class="whats-new">
         <div class="panel-head">
           <h2 id="whats-new-title">What’s New</h2>
-          <span class="version-badge">V3.3.6</span>
+          <span class="version-badge">V3.3.7</span>
         </div>
-        <p class="small release-date">20 November 2026</p>
+        <p class="small release-date">24 November 2026</p>
         <ul>
+          <li>
+            <strong>Voice never saves a guess.</strong> A voice entry no longer picks “Other” for
+            you or keeps a filler description such as “expense”. If Penny did not hear the
+            category or the item, the field stays empty and you choose it. If no date was heard,
+            the date is today. Zero or negative amounts were already refused and still are.
+          </li>
+          <li>
+            <strong>Hindi and Spanish voice is assisted.</strong> Your phone may mishear, and Penny
+            understands only common words. Check the amount, category and date. Nothing is saved
+            until you tap Save. After a failed capture Penny opens the keyboard microphone, and
+            after two in a row it says so plainly and opens the Tips.
+          </li>
           <li>
             <strong>Easier to tap on a phone.</strong> Buttons such as Edit, short tags and the
             exchange-rate rows are now at least 44 px wide and tall, and check boxes are bigger.
@@ -752,9 +771,9 @@
             are checked before wording. Unresolved fields stay empty for correction.
           </li>
           <li>
-            <strong>Offline Hindi and Spanish expense parsing.</strong> Penny extracts amounts,
-            dates, categories and payment methods on the device, then creates a controlled English
-            draft.
+            <strong>Offline Hindi and Spanish expense parsing (assisted).</strong> Hindi and
+            Spanish voice is assisted: Penny extracts common amounts, dates, categories and payment
+            methods on the device, then creates a controlled English draft. Check it before saving.
           </li>
           <li>
             <strong>Clearer voice diagnostics.</strong> Capture failures, unfamiliar vocabulary and
@@ -849,7 +868,7 @@
       </section>
       <section class="data-section">
         <h3>About Penny</h3>
-        <p>Version 3.3.6 · INR · Stored on this device</p>
+        <p>Version 3.3.7 · INR · Stored on this device</p>
       </section>
       <p id="settings-error" class="error" role="alert"></p>
       <div class="form-actions">

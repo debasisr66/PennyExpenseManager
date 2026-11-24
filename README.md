@@ -1,11 +1,12 @@
-# Penny Expense Manager 3.3.6
+# Penny Expense Manager 3.3.7
 
 Penny is a simple, mobile-friendly personal expense manager. Amounts, budgets, imports and exports use **Indian rupees (INR / ₹)**.
 
-**Current release: [3.3.6](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.6) · 23 November 2026** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
+**Current release: [3.3.7](https://github.com/debasisr66/PennyExpenseManager/releases/tag/v3.3.7) · 24 November 2026 (built, awaiting owner publish; 3.3.6 is the latest published release until then)** · [Open the app](https://debasisr66.github.io/PennyExpenseManager/) · [Changelog](CHANGELOG.md)
 
 | Release | What changed |
 |---|---|
+| **3.3.7** | Hindi and Spanish voice is labelled **assisted** (the phone may mishear; Penny understands only common words), with a caution line, a Tips block and a failure ladder that opens the keyboard microphone. Voice never saves a guess: no category, filler description or guessed date is filled for you, and Save says what is missing. Zero amounts were already refused and still are. |
 | **3.3.6** | Hindi voice: words like कमरे and कमल no longer blank the amount, spoken rupee forms (रुपी) and words like एडवांस are understood, and on a phone the review block comes into view with a clear Correct heard words button. The phone's own speech service can still mishear or fail; check every field before saving. |
 | **3.3.5** | Mobile-first pass: on phones, buttons, Edit, Delete, tag chips and headings are at least 44 px tall, checkboxes are larger, small text is bigger, and large text no longer scrolls the page sideways. Landscape phones are not covered yet. |
 | **3.3.4** | New categories: Utilities and Staff salary, in the list, filters, chart and voice entry (electricity and water now go to Utilities). Past entries are not moved. A backup that uses a new category does not import into 3.3.3 or older. Also a best-effort fix for the page zoom after Cancel then Discard on a phone. |

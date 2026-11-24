@@ -464,6 +464,42 @@
     const category = (categorySignals.find(([, pattern]) => pattern.test(text)) || [null])[0];
     return { amount, date, description: text.slice(0, 100), category, tags, warnings };
   }
+  // 3.3.7 voice guard: what a voice fill may put in the form. Nothing is defaulted on the user's
+  // behalf: no category unless heard, no filler description, today when no date was heard.
+  const FILLER_WORDS = new Set([
+    'expense',
+    'expenses',
+    'an',
+    'a',
+    'something',
+    'it',
+    'the',
+    'of',
+    'stuff',
+    'things',
+    'misc',
+    'on',
+    'for',
+  ]);
+  function cleanVoiceDescription(text) {
+    const trimmed = String(text || '')
+      .replace(/^\s*an amount on\b\s*/i, '')
+      .trim();
+    const words = trimmed
+      .toLowerCase()
+      .replace(/[\p{P}\p{S}\p{Cf}]/gu, ' ')
+      .split(/\s+/)
+      .filter(Boolean);
+    return words.every((word) => FILLER_WORDS.has(word)) ? '' : trimmed;
+  }
+  function voiceFill(draft, today) {
+    return {
+      description: cleanVoiceDescription(draft.description),
+      category: draft.category || '',
+      date: draft.date || today,
+      dateHeard: !!draft.date,
+    };
+  }
   function convert(amount, rate) {
     const value = Number(amount),
       multiplier = Number(rate);
@@ -510,6 +546,8 @@
     searchExpenses,
     spokenNumber,
     parseVoice,
+    cleanVoiceDescription,
+    voiceFill,
     convert,
     validateRate,
   };
